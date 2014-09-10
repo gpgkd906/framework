@@ -1,0 +1,17 @@
+<?php
+   $this->register_css("bootstrap.min.css", "font-awesome.css", "sb-admin.css", "domain/manager.css", "plugins/dataTables/dataTables.bootstrap.css", "blueimp-gallery.min.css", "jquery.fileupload.css", "jquery.fileupload-ui.css");
+$this->register_js("jquery-1.10.2.js", "jquery.ui.widget.js", "bootstrap.min.js", "plugins/metisMenu/jquery.metisMenu.js", "sb-admin.js", "tmpl.min.js", "load-image.min.js", "canvas-to-blob.min.js", "jquery.blueimp-gallery.min.js", "jquery.fileupload.js", "jquery.fileupload-process.js", "jquery.fileupload-image.js", "jquery.fileupload-ui.js", "jquery.fileupload-validate.js", "jquery.tinymce.min.js","domain/config.js", "domain/admin.js", "domain/editor.js", "domain/twinkle.js");
+   ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title><?php echo $this->name; ?> |Penseur Manager</title>
+
+    <?php $this->load_css(); ?>
+
+</head>
+<body class="<?php echo $this->body_class ?>">

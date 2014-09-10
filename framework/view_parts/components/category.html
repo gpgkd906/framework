@@ -1,0 +1,25 @@
+                            <div class="panel-group" id="accordion">
+			      <?php foreach($category as $key => $cates) { ?>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                          <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo md5($key) ?>"><?php echo $key ?></a>
+                                        </h4>
+                                    </div>
+                                    <div id="<?php echo md5($key) ?>" class="panel-collapse collapse">
+                                        <div class="panel-body">
+					  <div class="list-group">
+					    <?php foreach($cates as $cate) { ?>
+					    <?php if($cate["label"] === "全て") { continue; } ?>
+					    <a href="<?php $this->link("admin/category", $cate["id"]) ?>" class="list-group-item">
+					      <?php echo $cate["label"] ?>
+					      <span class="pull-right text-muted small"><em>投稿数：<?php echo $cate["count"] ?></em>
+					      </span>
+					    </a>
+					    <?php } ?>
+					  </div>
+                                        </div>
+                                    </div>
+                                </div>
+				<?php } ?>
+                            </div>

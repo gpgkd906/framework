@@ -1,0 +1,169 @@
+body { 
+       font-family: Helvetica, メイリオ, Meiryo, Osaka, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro" ;
+ }
+
+body.register_wall { 
+                     background-color: #CA9FC9;                     
+                     }
+.bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+
+
+.bs-callout-info {
+  background-color: #f4f8fa;
+  border-color: #bce8f1;
+}
+.bs-callout-info h4 {
+  color: #34789a;
+}
+
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #eed3d7;
+}
+.bs-callout-danger h4 {
+  color: #b94a48;
+}
+.bs-callout-warning {
+  background-color: #faf8f0;
+  border-color: #faebcc;
+}
+.bs-callout-warning h4 {
+  color: #8a6d3b;
+}
+
+.bs-callout-success {
+  background-color: #B5F0DD;
+  border-color: #70DA91;
+}
+.bs-callout-info h4 {
+  color: #349A40;
+}
+
+.form_label { 
+              margin: 0px 10px;
+              font-weight: lighter;
+ }
+
+.myform_error {  
+                display: block;
+                padding: 0px;
+                margin-bottom: 0px;
+                border: 1px solid transparent;
+                color: #a94442;
+                background-color: #f2dede;
+                border-color: #ebccd1;
+                }
+
+.panel .list-group h4 { 
+                         margin-top: 0px;
+                         margin-bottom: 0px;
+                         }
+
+.panel .list-group p {
+                       margin-bottom: 0px;
+                         }
+
+.myform-inline .form_label { 
+                           margin-right: 10px;
+                           }
+
+.myform-inline .form_label input { 
+                                 margin-right: 5px;
+                                 }
+
+
+.view-tooltip { 
+                color: #538091;
+                margin-left: 5px;
+                margin-right: 5px;
+                } 
+
+.view-tooltip + .tooltip > .tooltip-inner { 
+                                            background-color: #538091;
+                                            }
+
+.view-tooltip + .tooltip.right > .tooltip-arrow { 
+                                                  border-right-color: #538091;
+                                                  }
+
+.view-tooltip + .tooltip.left > .tooltip-arrow { 
+                                                 border-left-color: #538091;
+                                                 }
+
+.view-tooltip + .tooltip.top > .tooltip-arrow { 
+                                                border-top-color: #538091;
+                                                }
+
+.view-tooltip + .tooltip.bottom > .tooltip-arrow { 
+                                                   border-bottom-color: #538091;
+                                                   }
+
+.panel-primary > .panel-heading .view-tooltip { 
+                                                color: #FFFFFF;
+                                                }
+
+.panel-primary > .panel-heading .view-tooltip + .tooltip > .tooltip-inner { 
+                                                                            background-color: #FFFFFF;
+                                                                            color: #000000;
+                                                                            }
+
+.panel-primary > .panel-heading .view-tooltip + .tooltip.right > .tooltip-arrow { 
+                                                                                  border-right-color: #FFFFFF;                                                                                  
+                                                                                  }
+
+.panel-primary > .panel-heading .view-tooltip + .tooltip.left > .tooltip-arrow { 
+                                                                                 border-left-color: #FFFFFF;
+                                                                                 }
+
+.panel-primary > .panel-heading .view-tooltip + .tooltip.top > .tooltip-arrow { 
+                                                                                border-top-color: #FFFFFF;
+                                                                                }
+
+.panel-primary > .panel-heading .view-tooltip + .tooltip.bottom > .tooltip-arrow { 
+                                                                                   border-bottom-color: #FFFFFF;
+                                                                                   }
+
+li.active.view_nav_side { 
+                          background-color: #eee;
+                          }
+
+.media_list { 
+              height: 160px;
+              }
+
+.media_list img { 
+                  height: 75px;
+                  }
+
+.register {
+            position: absolute;
+            width: inherit;
+            margin: auto;
+            top : 30%;
+}
+
+.glass { 
+         padding: 20px 10px;
+         line-height: 20px;
+         background: rgba(0,0,0,0.3);
+         border: none;
+         outline: none;
+         border: 1px solid rgba(0,0,0,0.2);
+         border-radius: 4px;
+         color: rgba(255,255,255,0.9);
+         box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2),0 1px 1px rgba(255,255,255,0.2);
+         webkit-transition: box-shadow 0.4s ease;
+         moz-transition: box-shadow 0.4s ease;
+         transition: box-shadow 0.4s ease;
+         }
