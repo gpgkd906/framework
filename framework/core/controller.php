@@ -1,4 +1,26 @@
 <?php
+/**
+ * controller.php
+ *
+ * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
+ *
+ * Copyright 2014 Chen Han
+ *
+ * Licensed under The MIT License
+ *
+ * @copyright Copyright 2014 Chen Han
+ * @link
+ * @since
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * controller
+ * フレームワークコントローラースーパークラス
+ *
+ * @author 2014 Chen Han 
+ * @package framework.core
+ * @link 
+ */
 class controller {
 	use base_core;
 
@@ -11,9 +33,13 @@ class controller {
 
 /**
  * 使用するベンダー名のリスト
+ *
  * ベンダーとヘルパーは構造上同じだけど、
+ *
  * 基本的にヘルパーはフレームワークの拡張と位置づけられる
+ *
  * ベンダーはアプリケーションの拡張と位置づけられる。
+ *
  * @var array 
  * @link http://
  */
@@ -63,13 +89,19 @@ class controller {
 
   /**
    * rest用パラメタストック
+   * @var array
+   * @link
    */  
   protected $param = array();
 
 /**
  * 構造器
+ * 
  * ヘルパーインスタンス、ベンダーインスタンスを自動生成
- * @param array $include_path
+ * @param String $name コントローラー名
+ * @param String $class コントローラークラス名(継承・パフォーマンス対策)
+ * @param Object $route ルーターインスタンス
+ * @param Array $request リクエストパラメタ
  * @return
  */
   public function __construct($name, $class, $route, $request) {
@@ -91,9 +123,11 @@ class controller {
 
 /**
  * ヘルパーインスタンス取得
+ *
  * ベンダーも同じ方法で取得
- * @param string $helper ヘルパー・ベンダー名
- * @return object ヘルパー・ベンダーインスタンス名
+ *
+ * @param String $helper ヘルパー・ベンダー名
+ * @return Object ヘルパー・ベンダーインスタンス名
  */
   public function get_helper($helper) {
       return $this->{$helper} = App::helper($helper);
@@ -101,7 +135,7 @@ class controller {
   
 /**
  * モジュールのインスタンス取得
- * @param string $name モジュール名
+ * @param String $name モジュール名
  * @return
  */
   public function get_module($name) {
@@ -110,7 +144,7 @@ class controller {
   
 /**
  * モジュールを読み込む
- * @param string $name モジュール名
+ * @param String $module モジュール名
  * @return
  */
   public function import_module($module) {
@@ -119,7 +153,7 @@ class controller {
   
 /**
  * レスポンスタイプを設定する
- * @param string $type
+ * @param String $type html/json/xml
  * @return
  */
   protected function set_response_type($type) {
@@ -136,7 +170,15 @@ class controller {
   
 /**
  * コントローラネームを取得する
- * index_controllerの場合、コントローラネームはindexとなる
+ *
+ *###://framework/account/loginの場合
+ *
+ *     echo $controller->get_name(); // "account"
+ * 
+ *###://framework/product/indexの場合
+ *
+ *     echo $controller->get_name(); // "product"
+ *
  * @return
  */
   public function get_name() {
@@ -157,8 +199,9 @@ class controller {
   
 /**
  * 各種類パースを取得
+ *
  * e.g.: model_path, helper_path..etc..
- * @param string 種類名
+ * @param string $cate 種類名
  * @return
  */
   public function get_path($cate) {
@@ -167,8 +210,19 @@ class controller {
 
 /**
  * コントローラアクションを取得する
+ *
  * ウェブサイトの場合、ひとリクエストに対して、一つの方法が呼ばれる
+ *
  * 呼ばれる方法はコントローラアクションとなる
+ *
+ *###://framework/account/loginの場合
+ *
+ *     echo $controller->get_action(); // "login"
+ * 
+ *###://framework/product/indexの場合
+ *
+ *     echo $controller->get_action(); // "index"
+ *
  * @return
  */
   public function get_action() {
@@ -203,20 +257,50 @@ class controller {
   
 /**
  * リクエストページを取得する
+ *###://framework/account/loginの場合
+ *
+ *     echo $controller->get_action(); // "account/login"
+ * 
+ *###://framework/product/indexの場合
+ *
+ *     echo $controller->get_action(); // "product/index"
+ *
  * @return
  */
   public function get_page() {
 	  return $this->get_name() . "/" . $this->get_action();
   }
-  
+    
+/**
+ * 継承による混乱を避けるため、クラス名を明示的に設定する
+ * 
+ * @api
+ * @param String $class クラス名
+ * @return
+ * @link
+ */
   public function set_class($class) {
 	  $this->inner_info["class_name"] = $class;
   }
   
+/**
+ * クラス名を取得 
+ * @api
+ * @return String クラス名
+ * @link
+ */
   public function get_class() {
 	  return $this->inner_info["class_name"];
   }
   
+/**
+ * 設定したテンプレート用パラメタ配列から指定するデータを削除
+ * @api
+ * @param String $name パラメタ名  
+ * @param Array $keys サブパラメタ名
+ * @return
+ * @link
+ */
   protected function remove($name, $keys = array()) {
 	  if(isset($this->tpl_vars[$name])) {
 		  if(empty($keys)) {
@@ -235,8 +319,8 @@ class controller {
   
 /**
  * テンプレートに渡す変数を設定する
- * @param string $name 変数名
- * @param mix $value 変数値
+ * @param String $name 変数名
+ * @param Mixed $value 変数値
  * @return
  */
   public function set($name, $value) {
@@ -245,7 +329,7 @@ class controller {
   
 /**
  * テンプレートに渡した変数を取得する
- * @param string $name 変数名
+ * @param String $name 変数名
  * @return
  */
   public function get($name) {
@@ -253,8 +337,8 @@ class controller {
   }
   
 /**
- * テンプレートに渡す変数をまとめて設定
- * @param array 
+ * テンプレートに渡す変数を展開して設定
+ * @param Array $array テンプレートに渡す変数
  * @return
  */
   public function assign($array) {
@@ -267,7 +351,9 @@ class controller {
   
 /**
  * ルーターに呼ばれる方法、実際の処理方法を定義する
- * @param object $route ルーターインスタンス
+ *
+ * @param Object $route ルーターインスタンス
+ * @param Array $request ルーターがパース済みのリクエストパラメタ
  * @return
  */
   private function process($route, $request) {
@@ -313,8 +399,8 @@ class controller {
   
 /**
  * 実際のアクションを起こす
- * @param string  
- * @param string
+ * @param string $action urlから呼ばれたaction
+ * @param string $rest_action http_method補正後呼ばれたaction
  * @return
  */
   private function call_action($action, $rest_action) {
@@ -397,7 +483,8 @@ class controller {
   }
 
 /**
- * テンプレートに渡した変数のなか、シリアライズができない変数を除いて返す
+ * テンプレートに渡した変数のなか、json_encodeができない変数を除いて返す
+ *
  * @return array
  */
   protected function fetch_vars() {

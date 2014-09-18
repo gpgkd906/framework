@@ -1,27 +1,86 @@
 <?php
 /**
- *   Licensed under the MIT license:
- *   http://www.opensource.org/licenses/mit-license.php
+ * application.php
+ * 
  *
- *   author: chenhan,gpgkd906@gmail.com
- *   website: http://dev.gpgkd906.com/MyProject/
+ * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
+ * Copyright 2014 Chen Han
+ *
+ * Licensed under The MIT License
+ *
+ * @copyright Copyright 2014 Chen Han
+ * @link
+ * @since
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * application
+ * 
+ * web applicationコントローラー親クラス
+ *
+ *
+ * @author 2014 Chen Han 
+ * @package framework.controller
+ * @link 
  */
 class application extends controller {
 
-  protected $route;
-  
-  public $helpers = array(
+	/**
+	 * ルーターインスタンス、古いバージョンとの互換性のため保留
+	 *
+	 * ルーターインスタンスはurlリダイレクトの時だけ利用する。
+	 *
+	 * @var
+	 * @link
+	 */
+	protected $route;
 
-	  "view", "auth",
+	/**
+	 * コントローラーが初期化する時一緒に初期化するヘルパー
+	 * @api
+	 * @var array
+	 * @link
+	 */
+	public $helpers = array(
 
-                          );
+		"view", "auth",
 
-  protected function before_action(){}
+	);
 
-  protected function after_action(){}
+	/**
+	 * アクション前処理
+	 *
+	 * 各コントローラーの共通処理はbefore_actionで設定できる
+	 * @api
+	 * @return
+	 * @link
+	 */
+	protected function before_action(){}
 
-  protected function before_render(){}
+	/**
+	 * アクション後処理
+	 *
+	 * 一時データのクリーンアップ処理など
+	 * @api
+	 * @return
+	 * @link
+	 */
+	protected function after_action(){}
 
-  protected function after_render(){}
-  
+	/**
+	 * レンダリング前処理
+	 * @api
+	 * @return
+	 * @link
+	 */
+	protected function before_render(){}
+
+	/**
+	 * レンダリング後処理
+	 * @api
+	 * @return
+	 * @link
+	 */
+	protected function after_render(){}
+
 }

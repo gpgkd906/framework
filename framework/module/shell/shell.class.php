@@ -37,14 +37,27 @@ class shell {
 		self::exec("cp -R {$from} {$to}");
 	}
 	
-	public static function ls($dir, $func) {
+	public static function ls($dir, $func, $pass = array()) {
+		$_check = preg_replace("/\/$/", "", $dir);
+		if(in_array($_check, $pass)) {
+			return false;
+		}
 		if(is_dir($dir)) {
 			$handler = opendir($dir);
 			while($file = readdir($handler)) {
 				if($file === "." || $file === ".." || preg_match("/~$/", $file)) {
 					continue;
 				}
-				call_user_func($func, $file, $dir . $file);
+				$_file = str_replace("//", "/", $dir . "/" . $file);
+				if(is_dir($_file)) {
+					call_user_func("self::ls", $_file, $func, $pass);
+				} else {
+					if(in_array($_file, $pass)) {
+						//skip the file
+						continue;
+					}
+					call_user_func($func, $file, $_file);
+				}
 			}
 		}
 	}

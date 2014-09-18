@@ -1,27 +1,49 @@
 <?php
+if(php_sapi_name() !== "cli") {
+	trigger_error("この処理はコンソール専用です", E_USER_ERROR);
+	die();
+}
 /**
  * config for framework cmd;
  */
 if(!isset($config)) {
 	$config = array();
-	$config["tab"] = "    ";
-	$config["dir"] = dirname(dirname(__FILE__));
-	$config["core_dir"] = $config["dir"] . "/core/";
-	$config["model_dir"] = $config["dir"] . "/model/";
-	$config["application_file"] = $config["dir"] . "/controller/application.php";
-	$config["entry_dir"] = dirname($config["dir"]);
-	$config["setup"] = file_get_contents($config["entry_dir"] . "/index.php");
 }
+$config["tab"] = "    ";
+$config["dir"] = dirname(dirname(__FILE__));
+$config["core_dir"] = $config["dir"] . "/core";
+$config["model_dir"] = $config["dir"] . "/model";
+$config["controller_dir"] = $config["dir"] . "/controller";
+$config["helper_dir"] = $config["dir"] . "/helper";
+$config["vendor_dir"] = $config["dir"] . "/vendor";
+$config["view_dir"] = $config["dir"] . "/view";
+$config["view_parts_dir"] = $config["dir"] . "/view_parts";
+$config["module_dir"] = $config["dir"] . "/module";
+$config["bin_dir"] = $config["dir"] . "/bin";
+$config["application_file"] = $config["dir"] . "/controller/application.php";
+$config["entry_dir"] = dirname($config["dir"]);
+$config["setup"] = file_get_contents($config["entry_dir"] . "/index.php");
+preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", $config["setup"], $m);
+eval("\$DSN={$m[1]};");
+if(empty($DSN)){
+	echo "no DSN defined", PHP_EOL, "exited!", PHP_EOL;
+	die();
+}
+$config["DSN"] = $DSN;
+require $config["core_dir"] . "/base.php";
+require $config["core_dir"] . "/model_driver/{$DSN['type']}.php";
+require $config["core_dir"] . "/model.php";
+require $config["dir"] . "/module/shell/shell.class.php";
 
-/* 
-   function for framework cmd;
-*/
+/** 
+ * define function for framework console cmd;
+ */
 
 function generate_model($from, $default_method = null) {
 	global $config;
 	$model = model_core::select_model($from);
 	$model_name = $from . "_model";
-	$model_file = $config["model_dir"] . $from . ".model.php";
+	$model_file = $config["model_dir"] . "/" . $from . ".model.php";
 	if(is_file($model_file)) {
 		return regenerate_model($from);
 	}
@@ -31,9 +53,45 @@ function generate_model($from, $default_method = null) {
 	$index_define = index_define($model, $tab);
 	$class_array = array(
 		"<?php",
+		"/**",
+		"* {$from}.model.php",
+		"*",
+		"*",
+		"* myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework",
+		"* Copyright " . date("Y") . " Chen Han",
+		"*",
+		"* Licensed under The MIT License",
+		"*",
+		"* @copyright Copyright " . date("Y") . " Chen Han",
+		"* @link",
+		"* @since",
+		"* @license http://www.opensource.org/licenses/mit-license.php MIT License",
+		"*/",
+		"/**",
+		"* {$model_name}",
+		"*",
+		"* ",
+		"*",
+		"* @author " . date("Y") . " Chen Han ",
+		"* @package framework.model",
+		"* @link ",
+		"*/",
 		"class {$model_name} extends model_core {",
 		$columns_define,
 		$index_define,
+		"/**",
+		"* 対応するActiveRecordクラス名",
+		"* @api",
+		"* @var String",
+		"* @link",
+		"*/",
+		"public \$active_record_name = '{$active_name}';",
+		"/**",
+		"* 結合情報",
+		"* @api",
+		"* @var Array",
+		"* @link",
+		"*/",
 		"public \$relation = array();",
 	);
 	if(!empty($default_method) && is_array($default_method)) {
@@ -42,7 +100,17 @@ function generate_model($from, $default_method = null) {
 	$class_array[] = "";
 	$class_array[] = "}";
 	$class_array[] = "";
+	$class_array[] = "/**";
+	$class_array[] = " * {$active_name}";
+	$class_array[] = " * ";
+	$class_array[] = " * ";
+	$class_array[] = " *";
+	$class_array[] = " * @author " . date("Y") . " Chen Han ";
+	$class_array[] = " * @package framework.model";
+	$class_array[] = " * @link ";
+	$class_array[] = " */";
 	$class_array[] = "class {$active_name} extends active_record_core {";
+	$class_array[] = active_define($from, $model);
 	$class_array[] = "";
 	$class_array[] = "}";
 	$class_define = join(PHP_EOL, $class_array);
@@ -54,7 +122,7 @@ function regenerate_model($from) {
 	global $config;
 	$model = model_core::select_model($from);
 	$model_name = $from . "_model";
-	$model_file = $config["model_dir"] . $from . ".model.php";
+	$model_file = $config["model_dir"] . "/" . $from . ".model.php";
 	$exists = file_get_contents($model_file);
 	$tab = $config["tab"];
 	//columns define
@@ -70,8 +138,85 @@ function regenerate_model($from) {
 	//relation define
 	/* $reg_relate = "/##relation##[\s\S]*?##relation##/"; */
 	/* preg_match($reg_relate, $exists, $relate_context); */
+	//active define
+	$active_define = active_define($from, $model);
+	$reg_active = "/###active_define###[\s\S]*?###active_define###/";
+	preg_match($reg_active, $exists, $active_context);
+	$exists = str_replace($active_context[0], $active_define, $exists);
 	file_put_contents($model_file, $exists);
 	echo "{$from}.model.php was regenerated", PHP_EOL;
+}
+
+function active_define($from, $model) {
+	$active_name = $from . "_active_record";
+	$store_schema = array_flip($model->columns(true));
+	$indexes = $model->indexes(true);
+	$primary = array();
+	foreach($indexes as $index) {
+		if(strtolower($index["Key_name"]) === "primary") {
+			$primary[] = $index['Column_name'];
+		}
+	}
+	$primary_key = join(",", $primary);
+	$active_array = array(
+		"###active_define###",
+		"/**",
+		"*",
+		"* テーブル名",
+		"* @api",
+		"* @var ",
+		"* @link",
+		"*/",
+		"protected static \$from = '{$from}';",
+		"/**",
+		"*",
+		"* プライマリキー",
+		"* @api",
+		"* @var ",
+		"* @link",
+		"*/",
+		"protected static \$primary_key = '{$primary_key}';",
+		"/**",
+		"* モデルのカラムの反転配列。",
+		"* ",
+		"* 反転後issetが働ける、パフォーマンス的にいい",
+		"*",
+		"* 反転は自動生成するので，実行時に影響はありません",
+		"* @api",
+		"* @var ",
+		"* @link",
+		"*/",
+		"protected static \$store_schema = " . var_export($store_schema, true) . ";",
+		"/**",
+		"* 遅延静的束縛：現在のActiveRecordのカラムにあるかどか",
+		"* @api",
+		"* @param String \$col チェックするカラム名",
+		"* @return",
+		"* @link",
+		"*/",
+		"public static function has_column(\$col) {",
+		"	return isset(self::\$store_schema[\$col]);",
+		"}",
+		"/**",
+		"* 遅延静的束縛：ActiveRecordのテーブル名を取得",
+		"* @api",
+		"* @return",
+		"* @link",
+		"*/",
+		"public static function get_from() {",
+		"	return self::\$from;",
+		"}",
+		"/**",
+		"* 遅延静的束縛：ActiveRecordのプライマリーキーを取得",
+		"* @api",
+		"* @return",
+		"* @link",
+		"*/",
+		"public static function get_primary_key() {",
+		"	return self::\$primary_key;",
+		"}",
+		"###active_define###");
+	return join(PHP_EOL, $active_array);
 }
 
 function methods_define($method_infos) {
@@ -92,12 +237,13 @@ function methods_define($method_infos) {
 		$method_define[] = "";
 		$method_define[] = join(PHP_EOL, array("/**",
 				"*", 
+				"* @api",
 				"* @param string", 
 				"* @param integer", 
 				"* @param array",
-				"* @param resource",
-				"* @param object", 
-				"* @param mix", 
+				"* @example ",
+				"* @author Chen Han <gpgkd906@gmail.com>",
+				"* @copyright 2010-" . date("Y") . " Chen Han",
 				"* @return",
 				"*/"));
 		$method_define[] = $dm["accessPermission"] . " function " . $dm["name"] . " () {";
@@ -111,9 +257,21 @@ function columns_define($model, $tab) {
 	$sfc = var_export($fc, true);
 	return join(PHP_EOL . $tab, array(
 			"##columns##",
+			"/**",
+			"* カラム",
+			"* @api",
+			"* @var array",
+			"* @link",
+			"*/",
 			"public \$columns = array(",
 			$tab . "'" . join("','", $model->columns(true)) . "'",
 			");",
+			"/**",
+			"* カラム定義",
+			"* @api",
+			"* @var array",
+			"* @link",
+			"*/",
 			"public \$alter_columns = " . $sfc . ";", 
 			"##columns##"
 	));
@@ -160,7 +318,19 @@ function index_define($model, $tab) {
 	$sfi = var_export($fi, true);
 	$index_set = array(
 		"##indexes##",
-		"public \$alter_indexes = " . $sfi . ";"
+		"/**",
+		"* インデックス定義",
+		"* @api",
+		"* @var array",
+		"* @link",
+		"*/",
+		"public \$alter_indexes = " . $sfi . ";",
+		"/**",
+		"* プライマリーキー",
+		"* @api",
+		"* @var array",
+		"* @link",
+		"*/",
 	);
 	$primary = array();
 	foreach($indexes as $index) {
@@ -345,3 +515,102 @@ function drop_database_table($table, $confirm = true) {
 	echo "TABLE {$table} HAS BE DROPED", PHP_EOL;
 }
 
+function generate_add_comment($package) {
+	//カリー関数
+	return function($fname, $file) use ($package) {
+		$content = file_get_contents($file);
+		//クラス定義
+		$content = preg_replace_callback("/(?:final\s+|abstract\s+)?class\s+(\S+)/", function($matchs) use($package, $fname) {
+				list($origin, $name) = $matchs;
+				$replace = array(
+					"/**",
+					"* {$fname}",
+					"*",
+					"* myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework",
+					"* Copyright " . date("Y") . " Chen Han",
+					"*",
+					"* Licensed under The MIT License",
+					"*",
+					"* @copyright Copyright " . date("Y") . " Chen Han",
+					"* @link ",
+					"* @since ",
+					"* @license http://www.opensource.org/licenses/mit-license.php MIT License",
+					"*/",
+					"",
+					"/**",
+					"* {$name}",
+					"*",
+					"*",
+					"* @author " . date("Y") . " Chen Han", 
+					"* @package framework.{$package}",
+					"* @link ",
+					"*/",
+					$origin
+				);
+				$replace = join(PHP_EOL, $replace);
+				return $replace;
+			}, $content);
+		//プロパーティ
+		$content = preg_replace_callback("/(?:static\s+)?(?:private|protected|public)\s+(?:static\s+)?\\\$([^;]+)/", function($matchs) use($package) {
+				list($origin, $define) = $matchs;
+				@list($name, $val_string) = explode(" = ", $define); 
+				$type = "";
+				if(!empty($val_string)) {
+					//ここはデータのタイプを取得ための処理、データタイプの取得が失敗しても問題がありませんので、エラーを出さないようにする
+					@eval("\$var =" . $val_string . ";");
+					$type = @gettype($var);
+				}
+				$replace = array(
+					"/**",
+					"*",
+					"*",
+					"* @var {$type}",
+					"* @link ",
+					"*/",
+					$origin
+				);
+				$replace = join(PHP_EOL, $replace);
+				return $replace;
+			}, $content);
+		//メソッド
+		$content = preg_replace_callback("/(?:static\s+)?(?:private|protected|public)\s+(?:static\s+)?function\s+([^{]+)/", function($matchs) use($package) {
+				$param = "*";
+				list($origin, $define) = $matchs;
+				$define = str_replace(")", "", trim($define));
+				list($name, $args) = explode("(", $define);
+				if(!empty($args)) {
+					$args = explode(",", $args);
+					foreach($args as $arg) {
+						@list($aname, $aval) = explode("=", $arg);
+						if(empty($aval)) {
+							$param .= PHP_EOL . "* @param  {$aname}";
+						} else {
+							eval("\$_var =" . $aval . ";");
+							$_type = gettype($_var);
+							if($_type === "NULL") {
+								$_type = " ";
+							}
+							$param .= PHP_EOL . "* @param {$_type} {$aname}";							
+						}
+					}
+				} 
+				$replace = array(
+					"/**",
+					"*@api",
+					$param,
+					"* @return ",
+					"* @link ",
+					"*/",
+					$origin
+				);
+				$replace = join(PHP_EOL, $replace);
+				return $replace;
+			}, $content);
+		//clean $content
+		$lines = array_map(function($line) {
+				return rtrim($line);
+			}, explode(PHP_EOL, $content));
+		$content = join(PHP_EOL, $lines);
+		file_put_contents($file, $content);
+	};
+}

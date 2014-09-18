@@ -1,11 +1,25 @@
 <?php
 /**
+ * mysql.php
  *
- *   Licensed under the MIT license:
- *   http://www.opensource.org/licenses/mit-license.php
+ * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  *
- *   author: chenhan,gpgkd906@gmail.com
- *   website: http://dev.gpgkd906.com/MyProject/
+ * Copyright 2014 Chen Han
+ *
+ * Licensed under The MIT License
+ *
+ * @copyright Copyright 2014 Chen Han
+ * @link
+ * @since
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * model_driver
+ * 
+ *
+ * @author 2014 Chen Han 
+ * @package framework.core
+ * @link 
  */
 class model_driver {
 	use base_core;
@@ -272,6 +286,24 @@ class model_driver {
 		}
 	}
 
+/**                                                                                                   
+ * DB接続切断する                                                                                     
+ * @return void                                                                                       
+ */
+	public static function disconnect() {
+		return self::$conn = null;
+	}
+
+
+/**                                                                                                   
+ * 強制DB接続する(既に接続されている場合でも再接続する)                                               
+ * マルチプロセスの場合はプロセスごとに接続が必要                                                     
+ * @param array $DSN
+ */
+	public static function connect($DSN) {
+		self::$conn = new PDO("mysql:host={$DSN['host']};dbname={$DSN['dbname']}", $DSN["user"], $DSN["password"]);
+		self::$conn->exec("SET NAMES {$DSN['charset']}");
+	}
 
 /**
  * モデルバインド
@@ -287,9 +319,6 @@ class model_driver {
 		return $this;
 	}
 
-	/**
-	 * a "find" is just a flash, but a filter will live long...unless u remove them
-	 */
 /**
  * 持続的な検索条件を設定する
  * @param string $key フィルタ名
@@ -302,9 +331,6 @@ class model_driver {
 		$this->filter[$key] = array($where, $bind, $opera);
 	}
 
-	/**
-	 * the only way u can remove a filter
-	 */
 /**
  * 設定した持続的な検索条件を削除する
  * @param string $key フィルタ名
@@ -332,6 +358,9 @@ class model_driver {
  * @return void
  */
 	public function skip_filter($key = "all") {
+		if(empty($key)) {
+			return false;
+		}
 		if($key === "all") {
 			$this->skip_filter = $this->filter;
 		} else {
@@ -373,6 +402,9 @@ class model_driver {
 
 /**
  * 結合情報を追加する
+ * @api 
+ * @return
+ * @link
  */
 	public function add_relation() {
 		$args = func_get_args();
@@ -393,12 +425,7 @@ class model_driver {
 
 /**
  * 設定した結合情報を全て削除する
- * @param string 
- * @param integer 
- * @param array 
- * @param resource 
- * @param object 
- * @param mix 
+ * @api
  * @return
  */
 	public function clear_relation() {
@@ -407,6 +434,7 @@ class model_driver {
 
 /**
  * 結合のスキップ情報を設定する
+ * @api
  * @param string $key 結合情報名
  * @return void
  */
@@ -444,6 +472,7 @@ class model_driver {
 
 /**
  * モデル名を取得
+ * @api
  * @return string 
  */
 	public function get_from(){
@@ -452,6 +481,7 @@ class model_driver {
 
 /**
  * モデルのテーブル名を取得
+ * @api
  * @return string 
  */
 	public function get_table(){
@@ -460,6 +490,7 @@ class model_driver {
 
 /**
  * 検索条件を設定する
+ * @api
  * @param max 　　$where 検索カラム名(集)
  * @param mix 　　$bind  検索値(集)
  * @param string $opera 検索方法
@@ -473,6 +504,7 @@ class model_driver {
 
 /**
  * 設定した検索条件を取得し、全ての検索条件を解除する
+ * @api
  * @return array
  */
 	public function fetch_find() {
@@ -986,7 +1018,7 @@ class model_driver {
 /**
  * 出力カラムを`テーブル`.`カラム`という形式に整形する
  * @param string $from テーブル名
- * @param string $col カラム名
+ * @param string $cols カラム名
  * @param boolean $use_alias 別名をしようするかしないか
  * @return
  */
@@ -1163,7 +1195,7 @@ class model_driver {
 	 */
 /**
  * 多量なアクティブレコードを一つのSQL文で更新する
- * @param array アクティブレコード集 
+ * @param array $records アクティブレコード集 
  * @return
  */
 	public function multi_update($records) {
@@ -1228,6 +1260,11 @@ class model_driver {
 		return $this->reset();
 	}
 
+    /**
+	 * handlersocketから削除を試す
+	 * @return
+	 * @link
+	 */
 	private function handlersocket_try_delete() {
 		$filter = $this->get_all_filter();
 		$primary = $this->get_primary_key();
@@ -1301,8 +1338,7 @@ class model_driver {
 
 /**
  * 目標文字列に「`」で囲む
- * @param mix $val 目標文字列
- * @param string $str
+ * @param string $str 目標文字列
  * @return string
  */
 	public function quote($str) {
@@ -1311,8 +1347,8 @@ class model_driver {
 
 /**
  * SQL発行、デバッグ情報キャッシュ 
- * @param string SQL文
- * @param mix プリペア値
+ * @param string $sql SQL文
+ * @param mix $data プリペア値
  * @return $this
  */
 	public function query($sql, $data=null){
@@ -1325,8 +1361,8 @@ class model_driver {
 
 /**
  * SQL発行,prepare statement使用
- * @param string 構成したプリペアSQL
- * @param mix プリペア値
+ * @param string $sql 構成したプリペアSQL
+ * @param mix $data プリペア値
  * @return resource $res クエリ結果
  */
 	private function _query($sql, $data = null) {
@@ -1374,6 +1410,8 @@ class model_driver {
 /**
  * デバッグ情報をログにする、ログするsqlセットは最大10件にする
  * 10件を越える場合は古いほうから情報を廃棄する
+ * @param string $sql クエリーしたプリペアSQL
+ * @param mix $data プリペア値
  * @return array
  */
 	private function tracking($sql, $data) {
@@ -1412,10 +1450,10 @@ class model_driver {
  * 結果集からデータを一件抽出する
  * @return array
  */
-	public function fetch($type = 2){
+	public function fetch(){
 		$record = false;
 		if($this->stmt) {
-			$record = $this->stmt->fetch($type);
+			$record = $this->stmt->fetch(2);
 		}
 		if(!$record) {
 			$this->stmt = null;
@@ -1427,10 +1465,10 @@ class model_driver {
  * 結果集からデータを全件抽出する
  * @return array
  */
-	public function fetchall($type = 2){
+	public function fetchall(){
 		$res = array();
 		if($this->stmt) {
-			$res = $this->stmt->fetchAll($type);
+			$res = $this->stmt->fetchAll(2);
 			$this->stmt = null;
 		}
 		return $res;
@@ -1454,6 +1492,7 @@ class model_driver {
   
 /**
  * モデルのカラム情報を整形せずに全取得する
+ * @param Boolean $force 強制取得するかどか
  * @return array
  */
 	public function full_columns($force = false){
@@ -1465,6 +1504,8 @@ class model_driver {
 
 /**
  * カラム情報を再構成する
+ * @param String $name 構成するカラム名
+ * @param Closure $caller 構成時追加情報処理
  * @return array
  */
 	public function alter_column($name, $caller){
@@ -1513,6 +1554,7 @@ class model_driver {
  * handlersocket使用するかしないかの設定 ※handlersocketはmysqlだけ使える
  * handlersocketは実験的にライブラリの内部で使用する、現状はプライマリキーをメインで操作する
  * 将来的にuniqueキーでも対応したいのだが、とにかく実験的に運用する
+ * @param Array $DSN 
  * @return array
  */
 	public static function use_handlersocket($DSN) {
@@ -1528,6 +1570,8 @@ class model_driver {
 
 /**
  * handlersocketでの取得
+ * @param String $primary_key プライマリーキー
+ * @param String $opera 操作方法
  * @return array
  */
 	private function handlersocket_select($primary_key, $opera = "=") {
@@ -1556,6 +1600,8 @@ class model_driver {
 
 /**
  * handlersocketでの挿入
+ * @param Array $data 
+ * @param Array $cols
  * @return array
  */
 	private function handlersocket_insert($data, $cols = null) {
@@ -1569,7 +1615,11 @@ class model_driver {
 
 /**
  * handlersocketでの更新
- * @return array
+ * @param String $primary_key
+ * @param Array $data
+ * @param String $opera
+ * @param Array $cols
+ * @return Array
  */
 	private function handlersocket_update($primary_key, $data, $opera = "=", $cols = null) {
 		if($cols === null) {
@@ -1582,6 +1632,8 @@ class model_driver {
 
 /**
  * handlersocketでの削除
+ * @param String $primary_key
+ * @param String $opera
  * @return array
  */
 	private function handlersocket_delete($primary_key, $opera = "=") {
@@ -1594,17 +1646,50 @@ class model_driver {
 
 }
 
+/**
+ * handlersocket_stmt
+ *  
+ * handlersocket用stmt、PDOカーソルのfetch/fetchallを模擬するもの
+ * @author 2014 Chen Han 
+ * @package framework.core
+ * @link 
+ */
 class handlersocket_stmt {
+	
+   /**
+	* 取得したデータセット
+	* @api
+	* @var Array
+	* @link
+	*/
 	private $result = array();
 	
+	/**
+	 * 構造機構
+	 * @param Array $result
+	 * @return
+	 * @link
+	 */
 	public function __construct($result) {
 		$this->result = array_reverse($result);
 	}
 	
+    /**
+	 * データを一件取得
+	 * @api
+	 * @return
+	 * @link
+	 */
 	public function fetch() {
 		return array_pop($this->result);
 	}
 	
+	/**
+	 * データを全件取得
+	 * @api
+	 * @return
+	 * @link
+	 */
 	public function fetchall() {
 		return array_reverse($this->result);
 	}

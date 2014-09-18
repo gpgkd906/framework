@@ -1,92 +1,180 @@
 <?php
+/**
+ * category.model.php
+ *
+ *
+ * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
+ * Copyright 2014 Chen Han
+ *
+ * Licensed under The MIT License
+ *
+ * @copyright Copyright 2014 Chen Han
+ * @link
+ * @since
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * category_model
+ * 
+ * カテゴリデータ構造
+ *
+ * @author 2014 Chen Han 
+ * @package framework.model
+ * @link 
+ */
 class category_model extends model_core {
 	##columns##
+    /**
+    * カラム
+    * @api
+    * @var array
+    * @link
+    */
     public $columns = array(
-        'id','cname','ctype','cparent'
+        'id','name'
     );
+    /**
+    * カラム定義
+    * @api
+    * @var array
+    * @link
+    */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'cname' => '`cname` varchar(255) NOT NULL',
-  'ctype' => '`ctype` enum(\'level1\',\'level2\') NOT NULL',
-  'cparent' => '`cparent` int(11) NOT NULL',
+  'name' => '`name` varchar(255) NOT NULL',
 );
     ##columns##
 	##indexes##
+    /**
+    * インデックス定義
+    * @api
+    * @var array
+    * @link
+    */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'cparent' => ' KEY `cparent` (`cparent`)',
+  'cname' => 'UNIQUE KEY `cname` (`name`)',
 );
+    /**
+    * プライマリーキー
+    * @api
+    * @var array
+    * @link
+    */
               public $primary_keys = array('`category`' => 'id');
     ##indexes##
-	##relation##
-	public $has_many = array();
-	public $belong_to = array();
-    ##relation##
+	/**
+	 * 対応するActiveRecordクラス名
+	 * @api
+	 * @var String
+	 * @link
+	 */
+	public $active_record_name = "category_active_record";
+	/**
+	 * 結合情報
+	 * @api
+	 * @var array
+	 * @link
+	 */
 	public $relation = array();
 
-	public function list_item($id = null) {
-		$parent = $this->find("id", $id)->get_as_array();
-		$childs = $this->find("cparent", $id)->getall_as_array();
-		$childs = $this->get_count($childs);
-		$parent["cname"] = "すべて";
-		$parent["count"] = 0;
-		foreach($childs as $child) {
-			$parent["count"] += $child["count"];
-		}
-		$childs[] = $parent;
-		return $childs;
-	}
+    /**
+	 * マッピングするカテゴリ名
+	 * @api 
+	 * @param Array $names マッピングするカテゴリ名
+	 * @return
+	 * @link
+	 */
+	public function map_category ($names) {
 
-	public function all_item() {
-		$all = $this->order("cparent asc, id asc")->getall_as_array();
-		$all = $this->get_count($all);
-		$parents = $labels = $cates = array();
-		foreach($all as $cate) {
-			if($cate["ctype"] === "level1" && !isset($cates[$cate["id"]])) {
-				$cates[$cate["id"]] = array();
-				$labels[$cate["id"]] = $cate["cname"];
-				$cate["count"] = 0;
-				$cate["label"] = "すべて";
-				$parents[$cate["id"]] = $cate;
-			} else {
-				$cate["label"] = $cate["cname"];
-				$cates[$cate["cparent"]][] = $cate;
-				$parents[$cate["cparent"]]["count"] += $cate["count"];
-			}
-		}
-		foreach($cates as $cparent => $childs) {
-			$cates[$cparent][] = $parents[$cparent];
-		}
-		return array_combine($labels, $cates);
-	}
+		$tmp = $this->find_all_by_name($names, true);
 
-	public function get_count($categorys, $all = false) {
-		$cates = array();
-		$res = array();
-		foreach($categorys as $category) {
-			if($all || $category["ctype"] === "level2") {
-				$cates[] = $category["id"];
-				$res[$category["id"]] = 0;
-			}
+		$ids = array_column($tmp, "id");
+
+		$_names = array_column($tmp, "name");
+
+		$diffs = array_diff($names, $_names);
+
+		foreach($diffs as $diff) {
+
+			$ids[] = $this->create_record(array("name" => $diff))->id;
+
 		}
-		$res = App::model("threads")->count_value_by_category($cates);
-		foreach($categorys as $key => $category) {
-			if($all || $category["ctype"] === "level2") {
-				$categorys[$key]["count"] = $res[$category["id"]];
-			}
-		}
-		return $categorys;
-	}
-	
-	public function get_posts($id, $limit = 10, $offset = null) {
-		$target = $this->find_by_id($id, true);
-		if($target["ctype"] === "level1") {
-			$tmp = $this->find_all_by_cparent($id, true);
-			$id = array();
-			foreach($tmp as $t) {
-				$id[] = $t["id"];
-			}
-		}
-		return App::model("threads")->list_by_category($id, $limit, $offset);
-	}
+
+		return $ids;
+    }
+
+
+}
+
+/**
+ * category_active_record
+ * 
+ * categoryデータベースのアクティブレコード
+ *
+ * @author 2014 Chen Han 
+ * @package framework.model
+ * @link 
+ */
+class category_active_record extends active_record_core {
+	###active_define###
+/**
+*
+* テーブル名
+* @api
+* @var 
+* @link
+*/
+protected static $from = 'category';
+/**
+*
+* プライマリキー
+* @api
+* @var 
+* @link
+*/
+protected static $primary_key = 'id';
+/**
+* モデルのカラムの反転配列。
+* 
+* 反転後issetが働ける、パフォーマンス的にいい
+*
+* 反転は自動生成するので，実行時に影響はありません
+* @api
+* @var 
+* @link
+*/
+protected static $store_schema = array (
+  'id' => 0,
+  'name' => 1,
+);
+/**
+* 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
+* @api
+* @param String $col チェックするカラム名
+* @return
+* @link
+*/
+public static function has_column($col) {
+	return isset(self::$store_schema[$col]);
+}
+/**
+* 遅延静的束縛：ActiveRecordのテーブル名を取得
+* @api
+* @return
+* @link
+*/
+public static function get_from() {
+	return self::$from;
+}
+/**
+* 遅延静的束縛：ActiveRecordのプライマリーキーを取得
+* @api
+* @return
+* @link
+*/
+public static function get_primary_key() {
+	return self::$primary_key;
+}
+###active_define###
 }

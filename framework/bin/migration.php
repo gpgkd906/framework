@@ -4,25 +4,14 @@
  *   データベースあるいはを自動生成・変更するスクリプト
  *   モデルクラスで定義した情報を利用して
  *   データベースを生成あるいは変更することができる。
- *   php migration [-s/-source=input/db/database/model/class] [-m/-mode=confirm/silent]
- *   target: gpgkd906's framework
- *   author: gpgkd906
- *   version: 1.0
+ *   @api $console: php migration [-s/-source=input/db/database/model/class] [-m/-mode=confirm/silent]
+ *   @target gpgkd906's framework
+ *   @author gpgkd906
+ *   @version 1.0
  */
 require "function.php";
-preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", $config["setup"], $m);
-eval("\$DSN={$m[1]};");
-if(empty($DSN)){
-	echo "no DSN defined", PHP_EOL, "exited!", PHP_EOL;
-	die();
-}
-require $config["core_dir"] . "base.php";
-require $config["core_dir"] . "model_driver/{$DSN['type']}.php";
-require $config["core_dir"] . "model.php";
-//$config["dir"] => ~/framework/
-require $config["dir"] . "/module/shell/shell.class.php";
 
-$model = model_core::select_model(null, $config["model_dir"], $DSN);
+$model = model_core::select_model(null, $config["model_dir"], $config["DSN"]);
 
 $tables = array();
 $res = $model->query("show tables")->fetchall_as_array();
@@ -31,17 +20,16 @@ foreach($res as $item) {
 }
 
 $config["argv"] = shell::get_args(
-	//default arguments
 	array("source" => "input", "mode" => "confirm"), 
-	//alias arguments key
-	array("s" => "source", "m" => "mode")
+	array("s" => "source", "m" => "mode"),
+	array("source" => array("input", "db/database", "class/model"), "mode" => array("confirm", "silent/skip"))
 );
 
 switch($config["argv"]["source"]) {
 	case "db":
 	case "database":
 		echo "GENERATE MODEL FROM DATABASE", PHP_EOL, PHP_EOL;
-	    shell::copy_dir($config["dir"] . "/model", $config["dir"] . "/bin/migration/model_" . $_SERVER["REQUEST_TIME"]);
+	    shell::copy_dir($config["dir"] . "/model", $config["dir"] . "/bin/migration/model_" . date("Ymd_His", $_SERVER["REQUEST_TIME"]));
 		foreach($res as $record) {
 			$name = array_pop($record);
 			generate_model($name);
@@ -80,19 +68,23 @@ switch($config["argv"]["source"]) {
 				echo "table {$tbl_name} was existed!";
 				continue;
 			}
-			$target = $model::select_model($tbl_name);
+			$target = model_core::select_model($tbl_name);
 			$target->alter_columns = array();
 			$target->alter_indexes = array();
 			$target->primary_keys = array();
 			#confirm primary key
-			if(shell::confirm("use primary key")) {
+			if(shell::confirm("auto generate primary key")) {
+				$primary_name = "id";
+				$primary_type = "int(11)";
+				$primary_ai = "AUTO_INCREMENT";
+			} else {
 				$primary_name = shell::read("input primary key name : ", false);
 				$primary_type = shell::read("input primary key type [etc. int(11)] : ", false);
 				$primary_ai = shell::confirm("is primary key auto increment") ? "AUTO_INCREMENT" : "";
-				$target->alter_columns[$primary_name] = join(" ", array($target->quote($primary_name), $primary_type, "NOT NULL", $primary_ai));
-				$target->alter_indexes["PRIMARY"] = "PRIMARY KEY (" . $target->quote($primary_name) . ")";
-				$target->primary_keys[$target->quote($tbl_name)] = $primary_name;
 			}
+			$target->alter_columns[$primary_name] = join(" ", array($target->quote($primary_name), $primary_type, "NOT NULL", $primary_ai));
+			$target->alter_indexes["PRIMARY"] = "PRIMARY KEY (" . $target->quote($primary_name) . ")";
+			$target->primary_keys[$target->quote($tbl_name)] = $primary_name;
 			#add columns
 			while(shell::confirm("continue add column")) {
 				$col_name = shell::read("input column name : ", false);
@@ -101,7 +93,7 @@ switch($config["argv"]["source"]) {
 				$col_default = ($default = shell::read("input column default : ")) ? "Default '{$default}'" : "";
 				$target->alter_columns[$col_name] = join(" ", array($target->quote($col_name), $col_type, $col_null, $col_default));
 			}
-			#confirm 
+			#confirm register_datetime/update_datetime => timestamp
 			if(shell::confirm("add timestamp column to track record")) {
 				$target->alter_columns["register_dt"] = '`register_dt` bigint(20) NOT NULL';
 				$target->alter_columns["update_dt"] = '`update_dt` bigint(20) NOT NULL';
@@ -125,12 +117,9 @@ switch($config["argv"]["source"]) {
 			#create model
 			if($migration_do_backup) {
 				$migration_do_backup = false;
-				shell::copy_dir($config["dir"] . "/model", $config["dir"] . "/bin/migration/model_" . $_SERVER["REQUEST_TIME"]);
+				shell::copy_dir($config["dir"] . "/model", $config["dir"] . "/bin/migration/model_" . date("Ymd_His", $_SERVER["REQUEST_TIME"]));
 			}
 			generate_model($tbl_name, $default_method);
 		}
 		break;
 }
-
-
-

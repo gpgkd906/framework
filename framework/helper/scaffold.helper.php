@@ -476,28 +476,28 @@ class scaffold_helper extends helper_core {
 								   <?php } ?>
 			<td style="width:33%">
 				 <?php if(in_array("view", $controls)) { ?>
-				 <a class="btn btn-info" href="?scaffold_action=view&scaffold_id=<?php echo $item->get_primary_key(); ?>"><?php echo $scaffold->label("view") ?></a>
+				 <a class="btn btn-info" href="?scaffold_action=view&scaffold_id=<?php echo $item->get_primary_value(); ?>"><?php echo $scaffold->label("view") ?></a>
 			<?php } ?>
 				 <?php if(in_array("edit", $controls)) { ?>
-				 <a class="btn btn-info" href="?scaffold_action=edit&scaffold_id=<?php echo $item->get_primary_key() ?>"><?php echo $scaffold->label("edit") ?></a>
+				 <a class="btn btn-info" href="?scaffold_action=edit&scaffold_id=<?php echo $item->get_primary_value() ?>"><?php echo $scaffold->label("edit") ?></a>
 			<?php } ?>
 				 <?php if(in_array("delete", $controls)) { ?>
-				 <a class="btn btn-info" href="?scaffold_action=delete&scaffold_id=<?php echo $item->get_primary_key() ?>"><?php echo $scaffold->label("delete") ?></a>
+				 <a class="btn btn-info" href="?scaffold_action=delete&scaffold_id=<?php echo $item->get_primary_value() ?>"><?php echo $scaffold->label("delete") ?></a>
 			<?php } ?>
 			<?php if($scaffold->has_ext_controls("list_ext1")) { ?>
-		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_key(), $scaffold->get_ext_controls_link("list_ext1")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext1") ?></a>		
+		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_value(), $scaffold->get_ext_controls_link("list_ext1")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext1") ?></a>		
 			<?php } ?>
 			<?php if($scaffold->has_ext_controls("list_ext2")) { ?>
-		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_key(), $scaffold->get_ext_controls_link("list_ext2")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext2") ?></a>		
+		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_value(), $scaffold->get_ext_controls_link("list_ext2")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext2") ?></a>		
 			<?php } ?>
 			<?php if($scaffold->has_ext_controls("list_ext3")) { ?>
-		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_key(), $scaffold->get_ext_controls_link("list_ext3")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext3") ?></a>		
+		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_value(), $scaffold->get_ext_controls_link("list_ext3")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext3") ?></a>		
 			<?php } ?>
 			<?php if($scaffold->has_ext_controls("list_ext4")) { ?>
-		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_key(), $scaffold->get_ext_controls_link("list_ext4")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext4") ?></a>		
+		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_value(), $scaffold->get_ext_controls_link("list_ext4")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext4") ?></a>		
 			<?php } ?>
 			<?php if($scaffold->has_ext_controls("list_ext5")) { ?>
-		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_key(), $scaffold->get_ext_controls_link("list_ext5")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext5") ?></a>		
+		<a class="btn btn-info" href="<?php echo str_replace("{scaffold_id}", $item->get_primary_value(), $scaffold->get_ext_controls_link("list_ext5")); ?>"><?php echo $scaffold->get_ext_controls_label("list_ext5") ?></a>		
 			<?php } ?>
 				 </td>
 				 </tr>
@@ -553,10 +553,10 @@ class scaffold_helper extends helper_core {
 				  <label><a class="btn btn-default" href="?scaffold_action=add"><?php echo $scaffold->label("new") ?></a></label>
 			<?php } ?>
 				 <?php if(in_array("edit", $controls)) { ?>
-				  <label><a class="btn btn-default" href="?scaffold_action=edit&scaffold_id=<?php echo $record->get_primary_key() ?>"><?php echo $scaffold->label("edit") ?></a></label>
+				  <label><a class="btn btn-default" href="?scaffold_action=edit&scaffold_id=<?php echo $record->get_primary_value() ?>"><?php echo $scaffold->label("edit") ?></a></label>
 			<?php } ?>
 				 <?php if(in_array("delete", $controls)) { ?>
-				  <label><a class="btn btn-default" href="?scaffold_action=delete&scaffold_id=<?php echo $record->get_primary_key() ?>" onclick="return confirm(\'本当に削除しますか？\')"><?php echo $scaffold->label("delete") ?></a></label>
+				  <label><a class="btn btn-default" href="?scaffold_action=delete&scaffold_id=<?php echo $record->get_primary_value() ?>" onclick="return confirm(\'本当に削除しますか？\')"><?php echo $scaffold->label("delete") ?></a></label>
 			<?php } ?>
 			</div>
 				  <!-- /.panel-body -->

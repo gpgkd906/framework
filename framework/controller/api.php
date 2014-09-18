@@ -1,44 +1,86 @@
 <?php
 /**
- *   Licensed under the MIT license:
- *   http://www.opensource.org/licenses/mit-license.php
+ * api.php
  *
- *   author: chenhan,gpgkd906@gmail.com
- *   website: http://dev.gpgkd906.com/MyProject/
+ * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
+ *
+ * Copyright 2014 Chen Han
+ *
+ * Licensed under The MIT License
+ *
+ * @copyright Copyright 2014 Chen Han
+ * @link
+ * @since
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+/**
+ * api
+ * 
+ * apiコントローラー親クラス
+ *
+ * apiの認証機構処理を定義している
+ *
+ *
+ * @author 2014 Chen Han 
+ * @package framework.controller
+ * @link 
  */
 class api extends controller {
-	
-	//このapiは認証機構を使うか使わないかを設定する
-	//RESTFUL APIはstatelessでなければなりませんので、基本的に認証機構は使うべきではありません
-	//しかし実際のサービスを構築する時、認証なしではうまくいかないときもあるので、調整可能に。
+
+	/**
+	 * このapiは認証機構を使うか使わないかを設定する
+	 *
+	 * RESTFUL APIはstatelessでなければなりませんので、基本的に認証機構は使うべきではありません
+	 *
+	 * しかし実際のサービスを構築する時、認証なしではうまくいかないときもあるので、調整可能に。
+	 * @api
+	 * @var boolean
+	 * @link
+	 */
 	public $authorization = false;
-	
-	//認証機構の個別調整、ここにあるメソッドは認証かけません
+
+	/**
+	 * 認証機構の個別調整、ここにあるメソッドは認証かけません
+	 * @api
+	 * @var array
+	 * @link
+	 */
 	public $out_of_authorization = array(
-		"register", 
-		"login", 
-		"authorized", 
-		"facebook_login_url", 
-		"reset_password", 
+		"register",
+		"login",
+		"authorized",
+		"facebook_login_url",
+		"reset_password",
 		"reset_password_request"
 	);
 
+	/**
+	 *apiの場合、デバッグ期間でもエラー表示をoffにしておこう
+	 *
+	 *表示しても、ブラウザのコンソールから確認しづらいから
+	 *
+	 *代わりに、デバッグはapiデータとしてクライアントに返すのがよろしい
+	 *
+	 *###リリース時はHTTPSを追加する場合以下のコードを追加
+	 * 
+	 *         if(!isset($_SERVER['HTTPS'])) { 
+	 *             $this->route->forbidden(); 
+	 *         }
+	 *
+	 * @api
+	 * @return
+	 * @link
+	 */
 	protected function before_action(){
-		//apiの場合、デバッグ期間でもエラー表示をoffにしておこう
-		//表示しても、ブラウザのコンソールから確認しづらいから
-		//代わりに、デバッグはapiデータとしてクライアントに返すのがよろしい
+
 		error_handler::off();
-		//リリース時はHTTPSを必要とする
-		/* if(!isset($_SERVER['HTTPS'])) { */
-		/* 	$this->route->forbidden(); */
-		/* } */
-		
+
 		if($this->authorization) {
 
 			$this->auth = App::helper("auth");
 
 			$this->auth->use_model(App::model("account"));
-			
+
 			if(!in_array($this->get_action(), $this->out_of_authorization)) {
 
 				$this->auth->token_authorization($this->param["token"]);
@@ -64,14 +106,38 @@ class api extends controller {
 		$this->set_response_type("json");
 
 	}
-	
+
+	/**
+	 * apiコントローラーのため、後処理はありません。
+	 * @api
+	 * @return
+	 * @link
+	 */
 	protected function after_action(){}
-	
+
+	/**
+	 * apiコントローラーのため、レンダリング前処理はありません。
+	 * @api
+	 * @return
+	 * @link
+	 */
 	protected function before_render(){}
-	
+
+	/**
+	 * apiコントローラーのため、レンダリング後処理はありません。
+	 * @api
+	 * @return
+	 * @link
+	 */
 	protected function after_render(){}
 
-	public function none_exist_call() {		
+	/**
+	 * 存在しないapiが呼び出される場合の処理
+	 * @api
+	 * @return null
+	 * @link
+	 */
+	public function none_exist_call() {
 
 		$status = false;
 
@@ -82,7 +148,13 @@ class api extends controller {
 		$this->assign(get_defined_vars());
 
 	}
-	
+
+	/**
+	 * restful api: postサンプル
+	 * @api
+	 * @return
+	 * @link
+	 */
 	public function post_test() {
 
 		if($this->authorization) {
@@ -101,6 +173,12 @@ class api extends controller {
 
 	}
 
+	/**
+	 * tokenによるapiで認証処理
+	 * @api
+	 * @return null
+	 * @link
+	 */
 	public function post_authorized() {
 
 		if($this->authorization) {
@@ -111,7 +189,7 @@ class api extends controller {
 
 			if($this->auth->is_valid()) {
 
-				$status = true;	
+				$status = true;
 
 				$profile = App::model("profiles")->find_by_account_id($this->auth->id, true);
 
@@ -126,7 +204,13 @@ class api extends controller {
 		}
 
 	}
-	
+
+	/**
+	 * apiでアカウントを登録する
+	 * @api
+	 * @return
+	 * @link
+	 */
 	public function post_register() {
 
 		if($this->authorization) {
@@ -166,7 +250,21 @@ class api extends controller {
 		}
 
 	}
-	
+
+	/**
+	 * apiでログインする
+	 *
+	 * tokenは絶対クライアントに返さないといけない
+	 *
+	 * ログインが失敗する場合、statusがfalseに、token,account_id,user,profileなどはすべてnullになる
+	 *
+	 * なので特に対処することはありません
+	 *
+	 * null値はどうするかはクライアント側に任せる
+	 * @api
+	 * @return null
+	 * @link
+	 */
 	public function post_login() {
 
 		if($this->authorization) {
@@ -175,12 +273,8 @@ class api extends controller {
 
 			$this->auth->login($this->param["account"], $this->param["password"]);
 
-			//＊tokenは絶対返さないといけない
-			//ログインが失敗する場合、statusがfalseに、token,account_id,user,profileなどはすべてnullになる
-			//なので特に対処することはありません
-			//null値はどうするかはクライアント側に任せる
 			$status = $this->auth->is_valid();
-			
+
 			$token = $this->auth->token;
 
 			$account_id = $this->auth->id;
@@ -198,14 +292,20 @@ class api extends controller {
 		}
 
 	}
-	
-    public function facebook_login_url() {
+
+    /**
+	 * facebook Oauthログイン用urlをクライアントに返す
+	 * @api
+	 * @return
+	 * @link
+	 */
+	public function facebook_login_url() {
 
 		if($this->authorization) {
 
 			$url = App::helper("facebook")->getLoginUrl(array(
 
-					"redirect_uri" => App::helper("view")->get_link("account/api_facebook_login"), 
+					"redirect_uri" => App::helper("view")->get_link("account/api_facebook_login"),
 
 					"scope" => "email"
 
@@ -220,7 +320,13 @@ class api extends controller {
 		}
 
 	}
-	
+
+	/**
+	 *　パスワード再発行リクエスト処理
+	 * @api
+	 * @return
+	 * @link
+	 */
 	public function post_reset_password_request() {
 
 		if($this->authorization) {
@@ -275,7 +381,7 @@ class api extends controller {
 
 			}
 
-			$this->assign(get_defined_vars());	
+			$this->assign(get_defined_vars());
 
 		} else {
 
@@ -284,7 +390,19 @@ class api extends controller {
 		}
 
 	}
-	
+
+	/**
+	 * パスワード再発行処理
+	 *
+	 * userデータは新しいパスワードを生成する前に取得する必要がある
+	 *
+	 * そしてuserが存在する場合だけリクエストを処理るす
+	 *
+	 * 新しいパスワードが更新すると、リクエストが廃棄される
+	 * @api
+	 * @return
+	 * @link
+	 */
 	public function post_reset_password() {
 
 		if($this->authorization) {
@@ -298,11 +416,7 @@ class api extends controller {
 			if($request && $user = App::helper("auth")->get_user_by_request($request)) {
 
 				$status = true;
-
-				//user取得は新しいパスワードを生成する前に取得する必要がある
-				//そしてuserが存在する場合だけリクエストを処理する
-				//新しいパスワードが生成すると、リクエストが廃棄されるのである
-
+				
 				$new_password = App::helper("auth")->reset_password_by_request($request);
 
 				App::helper("mail")->send(array(
