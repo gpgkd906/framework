@@ -15,7 +15,6 @@
  */
 /**
  * place_types_model
- * 
  * 場所の利用者タイプデータベース
  *
  * @author 2014 Chen Han 

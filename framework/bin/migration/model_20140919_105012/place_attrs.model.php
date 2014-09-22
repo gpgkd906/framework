@@ -15,6 +15,7 @@
  */
 /**
  * place_attrs_model
+ * 
  * 場所の評価データベース
  *
  * @author 2014 Chen Han 

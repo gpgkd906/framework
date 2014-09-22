@@ -15,7 +15,6 @@
  */
 /**
  * category_model
- * 
  * カテゴリデータ構造
  *
  * @author 2014 Chen Han 

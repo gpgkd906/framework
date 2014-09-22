@@ -16,7 +16,6 @@
  */
 /**
  * model_core
- * 
  * モデルスーパークラス
  *
  * @author 2014 Chen Han 
@@ -517,6 +516,7 @@ class model_core extends model_driver {
 	 * @return
 	 */
 	public function __call($name, $param){
+		
 		if(isset($param[0])) {
 			if(strpos($name, "find_by_") === 0) {
 				$name = str_replace("find_by_", "", $name);
@@ -873,7 +873,7 @@ class active_record_core {
 	 * @link
 	 */
 	public function __call($name, $param) {
-		return call_user_func(array(model_core::select_model(static::get_from()), $name), $param);
+		return call_user_func_array(array(model_core::select_model(static::get_from()), $name), $param);
 	}
 	
     /**

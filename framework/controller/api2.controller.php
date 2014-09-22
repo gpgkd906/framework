@@ -14,7 +14,8 @@
  */
 /**
  * api2_controller
- * 
+ * 公開用api 
+ *
  * $authorizationがfalseである、認証が必要としなく、公開apiを示しています。
  *
  * @author 2014 Chen Han 

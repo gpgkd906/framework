@@ -1,6 +1,6 @@
 <?php
 /**
- * files.model.php
+ * place_category.model.php
  *
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
@@ -14,14 +14,15 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * files_model
- * ファイルデータベース
+ * place_category_model
+ * 
+ * 場所のカテゴリデータベース
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_model extends model_core {
+class place_category_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -30,7 +31,7 @@ class files_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','file','filename','size','mime','path','link','register_dt','update_dt'
+        'id','place_id','category'
     );
     /**
     * カラム定義
@@ -40,14 +41,8 @@ class files_model extends model_core {
     */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'file' => '`file` varchar(255) NOT NULL',
-  'filename' => '`filename` varchar(255) NOT NULL',
-  'size' => '`size` int(11) NOT NULL',
-  'mime' => '`mime` varchar(255) NOT NULL',
-  'path' => '`path` varchar(255) NOT NULL',
-  'link' => '`link` varchar(255) NOT NULL',
-  'register_dt' => '`register_dt` bigint(20) NOT NULL',
-  'update_dt' => '`update_dt` bigint(20) NOT NULL',
+  'place_id' => '`place_id` varchar(128) NOT NULL',
+  'category' => '`category` int(11) NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -59,7 +54,7 @@ class files_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'mime' => ' KEY `mime` (`mime`)',
+  'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`category`)',
 );
     /**
     * プライマリーキー
@@ -67,7 +62,7 @@ class files_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`files`' => 'id');
+              public $primary_keys = array('`place_category`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -75,26 +70,41 @@ class files_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "files_active_record";
+	public $active_record_name = "place_category_active_record";
 	/**
 	 * 結合情報
-	 * @api
 	 * @var array
 	 * @link
 	 */
 	public $relation = array();
+
+
+    /**
+	 * 場所のカテゴリデータを保存
+	 * @api 
+	 * @param String $place_id Google Map用PlaceId
+	 * @param Array $cate_ids カテゴリid(配列・複数)
+	 * @return
+	 * @link
+	 */
+	public function bind_category ($place_id, $cate_ids) {
+		foreach($cate_ids as $category) {
+			$this->create_record(array("place_id" => $place_id, "category" => $category));
+		}
+    }
+
 }
 
 /**
- * files_active_record
+ * place_category_active_record
  * 
- * filesデータベースのアクティブレコード
+ * place_categoryデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_active_record extends active_record_core {
+class place_category_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -103,7 +113,7 @@ class files_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'files';
+protected static $from = 'place_category';
 /**
 *
 * プライマリキー
@@ -124,14 +134,8 @@ protected static $primary_key = 'id';
 */
 protected static $store_schema = array (
   'id' => 0,
-  'file' => 1,
-  'filename' => 2,
-  'size' => 3,
-  'mime' => 4,
-  'path' => 5,
-  'link' => 6,
-  'register_dt' => 7,
-  'update_dt' => 8,
+  'place_id' => 1,
+  'category' => 2,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

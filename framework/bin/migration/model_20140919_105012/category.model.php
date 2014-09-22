@@ -1,6 +1,6 @@
 <?php
 /**
- * files.model.php
+ * category.model.php
  *
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
@@ -14,14 +14,15 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * files_model
- * ファイルデータベース
+ * category_model
+ * 
+ * カテゴリデータ構造
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_model extends model_core {
+class category_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -30,7 +31,7 @@ class files_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','file','filename','size','mime','path','link','register_dt','update_dt'
+        'id','name'
     );
     /**
     * カラム定義
@@ -40,14 +41,7 @@ class files_model extends model_core {
     */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'file' => '`file` varchar(255) NOT NULL',
-  'filename' => '`filename` varchar(255) NOT NULL',
-  'size' => '`size` int(11) NOT NULL',
-  'mime' => '`mime` varchar(255) NOT NULL',
-  'path' => '`path` varchar(255) NOT NULL',
-  'link' => '`link` varchar(255) NOT NULL',
-  'register_dt' => '`register_dt` bigint(20) NOT NULL',
-  'update_dt' => '`update_dt` bigint(20) NOT NULL',
+  'name' => '`name` varchar(255) NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -59,7 +53,7 @@ class files_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'mime' => ' KEY `mime` (`mime`)',
+  'cname' => 'UNIQUE KEY `cname` (`name`)',
 );
     /**
     * プライマリーキー
@@ -67,7 +61,7 @@ class files_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`files`' => 'id');
+              public $primary_keys = array('`category`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -75,7 +69,7 @@ class files_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "files_active_record";
+	public $active_record_name = "category_active_record";
 	/**
 	 * 結合情報
 	 * @api
@@ -83,18 +77,46 @@ class files_model extends model_core {
 	 * @link
 	 */
 	public $relation = array();
+
+    /**
+	 * マッピングするカテゴリ名
+	 * @api 
+	 * @param Array $names マッピングするカテゴリ名
+	 * @return
+	 * @link
+	 */
+	public function map_category ($names) {
+
+		$tmp = $this->find_all_by_name($names, true);
+
+		$ids = array_column($tmp, "id");
+
+		$_names = array_column($tmp, "name");
+
+		$diffs = array_diff($names, $_names);
+
+		foreach($diffs as $diff) {
+
+			$ids[] = $this->create_record(array("name" => $diff))->id;
+
+		}
+
+		return $ids;
+    }
+
+
 }
 
 /**
- * files_active_record
+ * category_active_record
  * 
- * filesデータベースのアクティブレコード
+ * categoryデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_active_record extends active_record_core {
+class category_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -103,7 +125,7 @@ class files_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'files';
+protected static $from = 'category';
 /**
 *
 * プライマリキー
@@ -124,14 +146,7 @@ protected static $primary_key = 'id';
 */
 protected static $store_schema = array (
   'id' => 0,
-  'file' => 1,
-  'filename' => 2,
-  'size' => 3,
-  'mime' => 4,
-  'path' => 5,
-  'link' => 6,
-  'register_dt' => 7,
-  'update_dt' => 8,
+  'name' => 1,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

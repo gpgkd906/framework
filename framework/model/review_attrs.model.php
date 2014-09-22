@@ -15,7 +15,6 @@
  */
 /**
  * review_attrs_model
- * 
  * レビューで投稿された評価データベース
  *
  * @author 2014 Chen Han 

@@ -1,7 +1,6 @@
 <?php
 /**
- * files.model.php
- *
+ * metas.model.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -14,14 +13,17 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * files_model
- * ファイルデータベース
+ * metas_model
+ * 
+ * メタ情報データベース。
+ *
+ * Key/Value型でデータを保存できる
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_model extends model_core {
+class metas_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -30,7 +32,7 @@ class files_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','file','filename','size','mime','path','link','register_dt','update_dt'
+        'id','meta_key','meta_value'
     );
     /**
     * カラム定義
@@ -40,14 +42,8 @@ class files_model extends model_core {
     */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'file' => '`file` varchar(255) NOT NULL',
-  'filename' => '`filename` varchar(255) NOT NULL',
-  'size' => '`size` int(11) NOT NULL',
-  'mime' => '`mime` varchar(255) NOT NULL',
-  'path' => '`path` varchar(255) NOT NULL',
-  'link' => '`link` varchar(255) NOT NULL',
-  'register_dt' => '`register_dt` bigint(20) NOT NULL',
-  'update_dt' => '`update_dt` bigint(20) NOT NULL',
+  'meta_key' => '`meta_key` varchar(255) NOT NULL',
+  'meta_value' => '`meta_value` longtext NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -59,7 +55,7 @@ class files_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'mime' => ' KEY `mime` (`mime`)',
+  'meta_key' => 'UNIQUE KEY `meta_key` (`meta_key`)',
 );
     /**
     * プライマリーキー
@@ -67,7 +63,7 @@ class files_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`files`' => 'id');
+              public $primary_keys = array('`metas`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -75,26 +71,44 @@ class files_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "files_active_record";
+	public $active_record_name = "metas_active_record";
 	/**
 	 * 結合情報
-	 * @api
 	 * @var array
 	 * @link
 	 */
 	public $relation = array();
+
+	/**
+	 * データを読み込む
+	 * @param  $key
+	 * @return
+	 * @link
+	 */
+	public function read($key) {
+	}
+
+	/**
+	 * データを更新する
+	 * @param  $key
+	 * @param   $value
+	 * @return
+	 * @link
+	 */
+	public function write($key, $value) {
+	}
 }
 
 /**
- * files_active_record
+ * metas_active_record
  * 
- * filesデータベースのアクティブレコード
+ * metasデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_active_record extends active_record_core {
+class metas_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -103,7 +117,7 @@ class files_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'files';
+protected static $from = 'metas';
 /**
 *
 * プライマリキー
@@ -124,14 +138,8 @@ protected static $primary_key = 'id';
 */
 protected static $store_schema = array (
   'id' => 0,
-  'file' => 1,
-  'filename' => 2,
-  'size' => 3,
-  'mime' => 4,
-  'path' => 5,
-  'link' => 6,
-  'register_dt' => 7,
-  'update_dt' => 8,
+  'meta_key' => 1,
+  'meta_value' => 2,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

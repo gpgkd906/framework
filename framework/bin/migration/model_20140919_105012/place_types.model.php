@@ -1,6 +1,7 @@
 <?php
 /**
- * place_images.model.php
+ * place_types.model.php
+ *
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -13,14 +14,15 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * place_images_model
- * 場所画像データベース
+ * place_types_model
+ * 
+ * 場所の利用者タイプデータベース
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class place_images_model extends model_core {
+class place_types_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -29,7 +31,7 @@ class place_images_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','place_id','author','file_id','type','vote'
+        'id','place_id','wheelchair','autowheelchair','walker','babycar','pregnant','vision','hear','ostomate','other'
     );
     /**
     * カラム定義
@@ -40,10 +42,15 @@ class place_images_model extends model_core {
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
   'place_id' => '`place_id` varchar(128) NOT NULL',
-  'author' => '`author` int(11) NOT NULL',
-  'file_id' => '`file_id` int(11) NOT NULL',
-  'type' => '`type` varchar(64) NOT NULL',
-  'vote' => '`vote` int(11) NOT NULL',
+  'wheelchair' => '`wheelchair` int(11) NOT NULL',
+  'autowheelchair' => '`autowheelchair` int(11) NOT NULL',
+  'walker' => '`walker` int(11) NOT NULL',
+  'babycar' => '`babycar` int(11) NOT NULL',
+  'pregnant' => '`pregnant` int(11) NOT NULL',
+  'vision' => '`vision` int(11) NOT NULL',
+  'hear' => '`hear` int(11) NOT NULL',
+  'ostomate' => '`ostomate` int(11) NOT NULL',
+  'other' => '`other` int(11) NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -55,7 +62,7 @@ class place_images_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`author`,`file_id`,`vote`)',
+  'place_id' => 'UNIQUE KEY `place_id` (`place_id`)',
 );
     /**
     * プライマリーキー
@@ -63,7 +70,7 @@ class place_images_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`place_images`' => 'id');
+              public $primary_keys = array('`place_types`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -71,72 +78,84 @@ class place_images_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "place_images_active_record";
-    /**
+	public $active_record_name = "place_types_active_record";
+	/**
 	 * 結合情報
 	 * @var array
 	 * @link
 	 */
 	public $relation = array();
 
-
     /**
-	 * 画像投票数を増加させる
+	 * 場所利用者情報データレコードを初期化する
 	 * @param String $place_id Google Map用placeId
-	 * @param Integer $file_id システム内容用ファイルid
 	 * @return
 	 * @link
 	 */
-	public function increase_vote($place_id, $file_id) {
-		$this->query("update place_images set vote=vote+1 where place_id=? and file_id=?", array($place_id, $file_id));
-		return $this->get_vote($place_id, $file_id);
-    }
+	public function initialization($place_id) {
+		$record = $this->new_record();
+		$record->place_id = $place_id;
+		$record->wheelchair = 0;
+		$record->autowheelchair = 0;
+		$record->walker = 0;
+		$record->babycar = 0;
+		$record->pregnant = 0;
+		$record->vision = 0;
+		$record->hear = 0;
+		$record->ostomate = 0;
+		$record->other = 0;
+		$record->save();
+	}
 
 
     /**
-	 * 画像投票数を減少させる
+	 * 場所利用者情報データを更新(増加)
 	 * @param String $place_id Google Map用placeId
-	 * @param Integer $file_id システム内容用ファイルid
+	 * @param Array $type 場所利用者情報データ
 	 * @return
 	 * @link
 	 */
-	public function decrease_vote($place_id, $file_id) {
-		$this->query("update place_images set vote=vote-1 where place_id=? and file_id=?", array($place_id, $file_id));
-		return $this->get_vote($place_id, $file_id);
-    }
-
-
-    /**
-	 * 画像投票数を取得
-	 * 
-	 * 取得時は投票数をチェックする、無効のデータがある場合を自動修正する
-	 * @param String $place_id Google Map用placeId
-	 * @param Integer $file_id システム内容用ファイルid
-	 * @return
-	 * @link
-	 */
-	public function get_vote($place_id, $file_id) {
-		$record = $this->find("place_id", $place_id)->find("file_id", $file_id)->get_as_array();
-		if($record["vote"] < 0) {
-			$this->query("update place_images set vote=0 where place_id=? and file_id=?", array($place_id, $file_id));
-			$record["vote"] = 0;
+	public function increase_type_by_place_id($place_id, $type) {
+		$sql = array("update place_types set");
+		$set = array();
+		if(in_array($type, $this->columns)) {
+			$set[] = "{$type}={$type}+1";
 		}
-		return $record["vote"];
+		$sql[] = join(",", $set);
+		$sql[] = "where place_id=?";
+		$this->query(join(" ", $sql), array($place_id));
     }
 
+    /**
+	 * 場所利用者情報データを更新(減少)
+	 * @param String $place_id Google Map用placeId
+	 * @param Array $type 場所利用者情報データ
+	 * @return
+	 * @link
+	 */
+	public function decrease_type_by_place_id($place_id, $type) {
+		$sql = array("update place_types set");
+		$set = array();
+		if(in_array($type, $this->columns)) {
+			$set[] = "{$type}={$type}-1";
+		}
+		$sql[] = join(",", $set);
+		$sql[] = "where place_id=?";
+		$this->query(join(" ", $sql), array($place_id));
+    }
 
 }
 
 /**
- * place_images_active_record
+ * place_types_active_record
  * 
- * place_imagesデータベースのアクティブレコード
+ * place_typesデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class place_images_active_record extends active_record_core {
+class place_types_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -145,7 +164,7 @@ class place_images_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'place_images';
+protected static $from = 'place_types';
 /**
 *
 * プライマリキー
@@ -167,10 +186,15 @@ protected static $primary_key = 'id';
 protected static $store_schema = array (
   'id' => 0,
   'place_id' => 1,
-  'author' => 2,
-  'file_id' => 3,
-  'type' => 4,
-  'vote' => 5,
+  'wheelchair' => 2,
+  'autowheelchair' => 3,
+  'walker' => 4,
+  'babycar' => 5,
+  'pregnant' => 6,
+  'vision' => 7,
+  'hear' => 8,
+  'ostomate' => 9,
+  'other' => 10,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

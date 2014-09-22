@@ -16,6 +16,7 @@
  */
 /**
  * notification_model
+ * 
  * プッシュ通知用データベース
  *
  * @author 2014 Chen Han 

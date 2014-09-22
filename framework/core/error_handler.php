@@ -15,7 +15,6 @@
 
 /**
  * error_handler
- * 
  * エラー追跡サブシステム
  *
  * @author 2014 Chen Han

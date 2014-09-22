@@ -15,7 +15,6 @@
  */
 /**
  * profiles_model
- * 
  * アカウントプロフィールデータベース
  *
  * @author 2014 Chen Han 

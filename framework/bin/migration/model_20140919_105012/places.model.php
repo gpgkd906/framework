@@ -15,6 +15,7 @@
  */
 /**
  * places_model
+ * 
  * 場所データベース
  *
  * @author 2014 Chen Han 

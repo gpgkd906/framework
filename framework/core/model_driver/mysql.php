@@ -15,7 +15,7 @@
  */
 /**
  * model_driver
- * 
+ * モテルクラス用Mysqlドライバ
  *
  * @author 2014 Chen Han 
  * @package framework.core
@@ -1038,6 +1038,7 @@ class model_driver {
   
 /**
  * 検索用SQL文を構成し、発行する
+ * @api
  * @return $this
  */
 	public function select(){
@@ -1086,6 +1087,7 @@ class model_driver {
 
 /**
  * 新規用SQL文を構成し、発行する
+ * @api
  * @param array $args 直指定するプリペア値
  * @return $this
  */
@@ -1111,6 +1113,7 @@ class model_driver {
 
 /**
  * 更新用SQL文を構成し、発行する
+ * @api
  * @param boolean $active_record アクティブレコードからの更新かどか
  * @return
  */
@@ -1241,6 +1244,7 @@ class model_driver {
 
 /**
  * 削除用SQL文を構成し、発行する
+ * @api
  * @param array $args 直指定するプリペア値 
  * @return
  */

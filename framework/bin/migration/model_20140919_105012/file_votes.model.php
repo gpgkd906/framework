@@ -1,6 +1,6 @@
 <?php
 /**
- * files.model.php
+ * file_votes.model.php
  *
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
@@ -14,14 +14,17 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * files_model
- * ファイルデータベース
+ * file_votes_model
+ * 
+ * ファイル投票データベース
+ *
+ * 場所画像投票機能
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_model extends model_core {
+class file_votes_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -30,7 +33,7 @@ class files_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','file','filename','size','mime','path','link','register_dt','update_dt'
+        'id','file_id','voter'
     );
     /**
     * カラム定義
@@ -40,14 +43,8 @@ class files_model extends model_core {
     */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'file' => '`file` varchar(255) NOT NULL',
-  'filename' => '`filename` varchar(255) NOT NULL',
-  'size' => '`size` int(11) NOT NULL',
-  'mime' => '`mime` varchar(255) NOT NULL',
-  'path' => '`path` varchar(255) NOT NULL',
-  'link' => '`link` varchar(255) NOT NULL',
-  'register_dt' => '`register_dt` bigint(20) NOT NULL',
-  'update_dt' => '`update_dt` bigint(20) NOT NULL',
+  'file_id' => '`file_id` int(11) NOT NULL',
+  'voter' => '`voter` int(11) NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -59,7 +56,7 @@ class files_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'mime' => ' KEY `mime` (`mime`)',
+  'file_id' => 'UNIQUE KEY `file_id` (`file_id`,`voter`)',
 );
     /**
     * プライマリーキー
@@ -67,7 +64,7 @@ class files_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`files`' => 'id');
+              public $primary_keys = array('`file_votes`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -75,7 +72,7 @@ class files_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "files_active_record";
+	public $active_record_name = "file_votes_active_record";
 	/**
 	 * 結合情報
 	 * @api
@@ -86,15 +83,15 @@ class files_model extends model_core {
 }
 
 /**
- * files_active_record
+ * file_votes_active_record
  * 
- * filesデータベースのアクティブレコード
+ * file_votesデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_active_record extends active_record_core {
+class file_votes_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -103,7 +100,7 @@ class files_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'files';
+protected static $from = 'file_votes';
 /**
 *
 * プライマリキー
@@ -124,14 +121,8 @@ protected static $primary_key = 'id';
 */
 protected static $store_schema = array (
   'id' => 0,
-  'file' => 1,
-  'filename' => 2,
-  'size' => 3,
-  'mime' => 4,
-  'path' => 5,
-  'link' => 6,
-  'register_dt' => 7,
-  'update_dt' => 8,
+  'file_id' => 1,
+  'voter' => 2,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

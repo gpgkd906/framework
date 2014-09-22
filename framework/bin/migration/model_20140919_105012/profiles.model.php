@@ -1,6 +1,6 @@
 <?php
 /**
- * files.model.php
+ * profiles.model.php
  *
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
@@ -14,14 +14,15 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * files_model
- * ファイルデータベース
+ * profiles_model
+ * 
+ * アカウントプロフィールデータベース
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_model extends model_core {
+class profiles_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -30,7 +31,7 @@ class files_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','file','filename','size','mime','path','link','register_dt','update_dt'
+        'id','account_id','firstname','lastname','firstkana','lastkana','postzip','birth','face','address','sex','type'
     );
     /**
     * カラム定義
@@ -40,14 +41,17 @@ class files_model extends model_core {
     */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'file' => '`file` varchar(255) NOT NULL',
-  'filename' => '`filename` varchar(255) NOT NULL',
-  'size' => '`size` int(11) NOT NULL',
-  'mime' => '`mime` varchar(255) NOT NULL',
-  'path' => '`path` varchar(255) NOT NULL',
-  'link' => '`link` varchar(255) NOT NULL',
-  'register_dt' => '`register_dt` bigint(20) NOT NULL',
-  'update_dt' => '`update_dt` bigint(20) NOT NULL',
+  'account_id' => '`account_id` int(11) NOT NULL',
+  'firstname' => '`firstname` varchar(255) NOT NULL',
+  'lastname' => '`lastname` varchar(255) NOT NULL',
+  'firstkana' => '`firstkana` varchar(255) NOT NULL',
+  'lastkana' => '`lastkana` varchar(255) NOT NULL',
+  'postzip' => '`postzip` varchar(255) NOT NULL',
+  'birth' => '`birth` date NOT NULL',
+  'face' => '`face` longblob NOT NULL',
+  'address' => '`address` varchar(255) NOT NULL',
+  'sex' => '`sex` enum(\'男性\',\'女性\',\'秘密\') NOT NULL Default \'秘密\'',
+  'type' => '`type` varchar(255) NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -59,7 +63,7 @@ class files_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'mime' => ' KEY `mime` (`mime`)',
+  'account_id' => 'UNIQUE KEY `account_id` (`account_id`)',
 );
     /**
     * プライマリーキー
@@ -67,7 +71,7 @@ class files_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`files`' => 'id');
+              public $primary_keys = array('`profiles`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -75,26 +79,33 @@ class files_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "files_active_record";
+	public $active_record_name = "profiles_active_record";
 	/**
 	 * 結合情報
-	 * @api
 	 * @var array
 	 * @link
 	 */
 	public $relation = array();
+
+	/**
+	 * ビヘイビア設定
+	 * @var array
+	 * @link
+	 */
+	public $acts_as = array("api");
+
 }
 
 /**
- * files_active_record
+ * profiles_active_record
  * 
- * filesデータベースのアクティブレコード
+ * profilesデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class files_active_record extends active_record_core {
+class profiles_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -103,7 +114,7 @@ class files_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'files';
+protected static $from = 'profiles';
 /**
 *
 * プライマリキー
@@ -124,14 +135,17 @@ protected static $primary_key = 'id';
 */
 protected static $store_schema = array (
   'id' => 0,
-  'file' => 1,
-  'filename' => 2,
-  'size' => 3,
-  'mime' => 4,
-  'path' => 5,
-  'link' => 6,
-  'register_dt' => 7,
-  'update_dt' => 8,
+  'account_id' => 1,
+  'firstname' => 2,
+  'lastname' => 3,
+  'firstkana' => 4,
+  'lastkana' => 5,
+  'postzip' => 6,
+  'birth' => 7,
+  'face' => 8,
+  'address' => 9,
+  'sex' => 10,
+  'type' => 11,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

@@ -15,7 +15,7 @@
  */
 /**
  * account_model
- * アカウント用データベース
+ * 
  *
  * @author 2014 Chen Han 
  * @package framework.model

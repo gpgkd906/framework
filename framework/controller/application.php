@@ -15,7 +15,6 @@
  */
 /**
  * application
- * 
  * web applicationコントローラー親クラス
  *
  *

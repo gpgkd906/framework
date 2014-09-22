@@ -1,7 +1,6 @@
 <?php
 /**
- * place_category.model.php
- *
+ * place_images.model.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -14,14 +13,14 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * place_category_model
- * 場所のカテゴリデータベース
- *
+ * place_images_model
+ * 
+ * 場所画像データベース
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class place_category_model extends model_core {
+class place_images_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -30,7 +29,7 @@ class place_category_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','place_id','category'
+        'id','place_id','author','file_id','type','vote'
     );
     /**
     * カラム定義
@@ -41,7 +40,10 @@ class place_category_model extends model_core {
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
   'place_id' => '`place_id` varchar(128) NOT NULL',
-  'category' => '`category` int(11) NOT NULL',
+  'author' => '`author` int(11) NOT NULL',
+  'file_id' => '`file_id` int(11) NOT NULL',
+  'type' => '`type` varchar(64) NOT NULL',
+  'vote' => '`vote` int(11) NOT NULL',
 );
     ##columns##
 	##indexes##
@@ -53,7 +55,7 @@ class place_category_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`category`)',
+  'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`author`,`file_id`,`vote`)',
 );
     /**
     * プライマリーキー
@@ -61,7 +63,7 @@ class place_category_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`place_category`' => 'id');
+              public $primary_keys = array('`place_images`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -69,8 +71,8 @@ class place_category_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "place_category_active_record";
-	/**
+	public $active_record_name = "place_images_active_record";
+    /**
 	 * 結合情報
 	 * @var array
 	 * @link
@@ -79,31 +81,62 @@ class place_category_model extends model_core {
 
 
     /**
-	 * 場所のカテゴリデータを保存
-	 * @api 
-	 * @param String $place_id Google Map用PlaceId
-	 * @param Array $cate_ids カテゴリid(配列・複数)
+	 * 画像投票数を増加させる
+	 * @param String $place_id Google Map用placeId
+	 * @param Integer $file_id システム内容用ファイルid
 	 * @return
 	 * @link
 	 */
-	public function bind_category ($place_id, $cate_ids) {
-		foreach($cate_ids as $category) {
-			$this->create_record(array("place_id" => $place_id, "category" => $category));
-		}
+	public function increase_vote($place_id, $file_id) {
+		$this->query("update place_images set vote=vote+1 where place_id=? and file_id=?", array($place_id, $file_id));
+		return $this->get_vote($place_id, $file_id);
     }
+
+
+    /**
+	 * 画像投票数を減少させる
+	 * @param String $place_id Google Map用placeId
+	 * @param Integer $file_id システム内容用ファイルid
+	 * @return
+	 * @link
+	 */
+	public function decrease_vote($place_id, $file_id) {
+		$this->query("update place_images set vote=vote-1 where place_id=? and file_id=?", array($place_id, $file_id));
+		return $this->get_vote($place_id, $file_id);
+    }
+
+
+    /**
+	 * 画像投票数を取得
+	 * 
+	 * 取得時は投票数をチェックする、無効のデータがある場合を自動修正する
+	 * @param String $place_id Google Map用placeId
+	 * @param Integer $file_id システム内容用ファイルid
+	 * @return
+	 * @link
+	 */
+	public function get_vote($place_id, $file_id) {
+		$record = $this->find("place_id", $place_id)->find("file_id", $file_id)->get_as_array();
+		if($record["vote"] < 0) {
+			$this->query("update place_images set vote=0 where place_id=? and file_id=?", array($place_id, $file_id));
+			$record["vote"] = 0;
+		}
+		return $record["vote"];
+    }
+
 
 }
 
 /**
- * place_category_active_record
+ * place_images_active_record
  * 
- * place_categoryデータベースのアクティブレコード
+ * place_imagesデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class place_category_active_record extends active_record_core {
+class place_images_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -112,7 +145,7 @@ class place_category_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'place_category';
+protected static $from = 'place_images';
 /**
 *
 * プライマリキー
@@ -134,7 +167,10 @@ protected static $primary_key = 'id';
 protected static $store_schema = array (
   'id' => 0,
   'place_id' => 1,
-  'category' => 2,
+  'author' => 2,
+  'file_id' => 3,
+  'type' => 4,
+  'vote' => 5,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

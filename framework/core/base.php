@@ -15,7 +15,6 @@
 
 /**
  * base_core
- *
  * myFrameworkのbase trait
  *
  * 基本的にフレームワークのコアリソースは全てこのtraitをミクスインしている

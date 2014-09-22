@@ -1,6 +1,7 @@
 <?php
 /**
- * place_images.model.php
+ * review_attrs.model.php
+ *
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -13,14 +14,15 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * place_images_model
- * 場所画像データベース
+ * review_attrs_model
+ * 
+ * レビューで投稿された評価データベース
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class place_images_model extends model_core {
+class review_attrs_model extends model_core {
 	##columns##
     /**
     * カラム
@@ -29,7 +31,7 @@ class place_images_model extends model_core {
     * @link
     */
     public $columns = array(
-        'id','place_id','author','file_id','type','vote'
+        'id','review_id','toilet','space','flat','elevator','parking','quiet','ostomate','baby','socket','smoking'
     );
     /**
     * カラム定義
@@ -39,11 +41,17 @@ class place_images_model extends model_core {
     */
     public $alter_columns = array (
   'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'place_id' => '`place_id` varchar(128) NOT NULL',
-  'author' => '`author` int(11) NOT NULL',
-  'file_id' => '`file_id` int(11) NOT NULL',
-  'type' => '`type` varchar(64) NOT NULL',
-  'vote' => '`vote` int(11) NOT NULL',
+  'review_id' => '`review_id` int(11) NOT NULL',
+  'toilet' => '`toilet` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'space' => '`space` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'flat' => '`flat` enum(\'yes\',\'no\') NULL Default \'no\'',
+  'elevator' => '`elevator` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'parking' => '`parking` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'quiet' => '`quiet` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'ostomate' => '`ostomate` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'baby' => '`baby` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'socket' => '`socket` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+  'smoking' => '`smoking` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
 );
     ##columns##
 	##indexes##
@@ -55,7 +63,7 @@ class place_images_model extends model_core {
     */
     public $alter_indexes = array (
   'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`author`,`file_id`,`vote`)',
+  'review_id' => 'UNIQUE KEY `review_id` (`review_id`,`toilet`,`space`,`flat`,`elevator`,`parking`,`quiet`,`ostomate`,`baby`,`socket`,`smoking`)',
 );
     /**
     * プライマリーキー
@@ -63,7 +71,7 @@ class place_images_model extends model_core {
     * @var array
     * @link
     */
-              public $primary_keys = array('`place_images`' => 'id');
+              public $primary_keys = array('`review_attrs`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -71,8 +79,8 @@ class place_images_model extends model_core {
 	 * @var String
 	 * @link
 	 */
-	public $active_record_name = "place_images_active_record";
-    /**
+	public $active_record_name = "review_attrs_active_record";
+	/**
 	 * 結合情報
 	 * @var array
 	 * @link
@@ -81,62 +89,50 @@ class place_images_model extends model_core {
 
 
     /**
-	 * 画像投票数を増加させる
-	 * @param String $place_id Google Map用placeId
-	 * @param Integer $file_id システム内容用ファイルid
+	 * レビューの評価を追加する
+	 * @param Integer $review_id レビューid
+	 * @param Array $attrs 評価データ
 	 * @return
 	 * @link
 	 */
-	public function increase_vote($place_id, $file_id) {
-		$this->query("update place_images set vote=vote+1 where place_id=? and file_id=?", array($place_id, $file_id));
-		return $this->get_vote($place_id, $file_id);
-    }
-
-
-    /**
-	 * 画像投票数を減少させる
-	 * @param String $place_id Google Map用placeId
-	 * @param Integer $file_id システム内容用ファイルid
-	 * @return
-	 * @link
-	 */
-	public function decrease_vote($place_id, $file_id) {
-		$this->query("update place_images set vote=vote-1 where place_id=? and file_id=?", array($place_id, $file_id));
-		return $this->get_vote($place_id, $file_id);
-    }
-
-
-    /**
-	 * 画像投票数を取得
-	 * 
-	 * 取得時は投票数をチェックする、無効のデータがある場合を自動修正する
-	 * @param String $place_id Google Map用placeId
-	 * @param Integer $file_id システム内容用ファイルid
-	 * @return
-	 * @link
-	 */
-	public function get_vote($place_id, $file_id) {
-		$record = $this->find("place_id", $place_id)->find("file_id", $file_id)->get_as_array();
-		if($record["vote"] < 0) {
-			$this->query("update place_images set vote=0 where place_id=? and file_id=?", array($place_id, $file_id));
-			$record["vote"] = 0;
+	public function append($review_id, $attrs) {
+		$record = $this->new_record();
+		foreach($this->columns as $col) {
+			if(in_array($col, $attrs)) {
+				$record->$col = "yes";
+			} else {
+				$record->$col = "no";
+			}
 		}
-		return $record["vote"];
+		$record->review_id = $review_id;
+		$record->save();
+    }
+
+    /**
+	 * レビューの評価を削除する
+	 * @param Integer $review_id レビューid
+	 * @return
+	 * @link
+	 */
+	public function remove($review_id) {
+		if($record = $this->find_by_review_id($review_id)) {
+			$record->delete();
+		}
     }
 
 
 }
 
 /**
- * place_images_active_record
+ * review_attrs_active_record
  * 
- * place_imagesデータベースのアクティブレコード
+ * review_attrsデータベースのアクティブレコード
  *
  * @author 2014 Chen Han 
  * @package framework.model
  * @link 
  */
-class place_images_active_record extends active_record_core {
+class review_attrs_active_record extends active_record_core {
 	###active_define###
 /**
 *
@@ -145,7 +141,7 @@ class place_images_active_record extends active_record_core {
 * @var 
 * @link
 */
-protected static $from = 'place_images';
+protected static $from = 'review_attrs';
 /**
 *
 * プライマリキー
@@ -166,11 +162,17 @@ protected static $primary_key = 'id';
 */
 protected static $store_schema = array (
   'id' => 0,
-  'place_id' => 1,
-  'author' => 2,
-  'file_id' => 3,
-  'type' => 4,
-  'vote' => 5,
+  'review_id' => 1,
+  'toilet' => 2,
+  'space' => 3,
+  'flat' => 4,
+  'elevator' => 5,
+  'parking' => 6,
+  'quiet' => 7,
+  'ostomate' => 8,
+  'baby' => 9,
+  'socket' => 10,
+  'smoking' => 11,
 );
 /**
 * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか

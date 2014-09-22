@@ -15,10 +15,23 @@
  */
 /**
  * api_controller
- * 
- * apiはユーザ向けapiです
+ * bremenアプリが必要とする殆どのapiはここで定義されている。
  *
- * $authorizationがtrueとなっており、全てのアクセスは認証が必要ですので、会員向けのapiを示しています。
+ * 主に、以下の機能を提供しています。
+ *
+ *####Place関連機能
+ * 一覧Place検索データ照合 / 指定Placeデータ参照 / Place詳細データ更新と参照 / Place画像更新と参照
+ *
+ *####レビュー関連機能
+ * レビュー投稿 / レビュー一覧参照 / レビュー評価追加・削除機能(役に立った・役に立たなかった)
+ *
+ *####プロフィール関連機能
+ * プロフィール更新 / プロフィール参照 / 自分の投稿したPlace参照 / 自分が投稿したレビュー参照
+ *
+ *####統計関連機能
+ * 自分の統計情報参照
+ *
+ * $authorizationがtrueとなっており、全ての機能利用は認証が必要です。
  *
  *
  * @author 2014 Chen Han 
@@ -57,7 +70,9 @@ class api_controller extends api {
 		$places = json_decode($this->param["places"], true);
 
 		$result = App::model("places")->compare_by_places($places);
-
+		
+		$debug = App::model("places")->debug;
+		
 		$place_ids = array_column($result, "place_id");
 
 		$place_attrs = App::model("place_attrs")->find_all_by_place_id($place_ids, true);
@@ -109,6 +124,26 @@ class api_controller extends api {
 		$this->assign(get_defined_vars());
     }
 
+/**
+ * 指定するプレースの詳細データを追加する。
+ *
+ * アプリ側ではGoogle Mapに対して二種類の検索を行う
+ *
+ * 一つは周辺検索、複数のプレースデータが取得できるが、プレースの詳細アドレス情報が足りません。
+ *
+ * もう一つは詳細検索、指定するプレース１ヶ所だけを取得できるが、詳細アドレス情報や他に色々情報がある
+ * @api
+ * @param String $place_id google_map api v3用Place_id
+ * @return
+ * @link
+ */
+    public function post_place ($place_id) {
+		$address_components = $this->param["address_components"];
+		$website = $this->param["website"];
+		App::model("place_address")->upgrade($place_id, $address_components, $website);
+		$this->assign(get_defined_vars());
+    }
+	
 /**
  * placeの画像情報を投稿する
  * @api
@@ -374,19 +409,8 @@ class api_controller extends api {
  * @link
  */
 	public function mystatistics() {
-
-		//投稿数
-		$review_count = App::model("reviews")->find("author", App::helper("auth")->id)->count();
-		//投稿した画像数
-		$image_count = App::model("place_images")->find("author", App::helper("auth")->id)->count();
-		//投稿した場所数
-		$group_reviews = App::model("reviews")->reviews_history(App::helper("auth")->id);
-		$place_ids = array_column($group_reviews, "place_id");
-
-		$place_count = App::model("places")->find("place_id", $place_ids)->count();
-
-		unset($group_reviews);
-		unset($place_ids);
+		//カテゴリ投稿レビュー数, 地域投稿レビュー数, いいねされレビューランキング(5位まで)
+		$statistics = App::model("reviews")->statistics(App::helper("auth")->id);
 		$this->assign(get_defined_vars());
 	}
 
