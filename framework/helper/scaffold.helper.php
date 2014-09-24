@@ -424,7 +424,7 @@ class scaffold_helper extends helper_core {
 			call_user_func(self::$view_formater["style"], $this, App::helper("view"));
 		}
 		switch($this->action) {
-			case "edit": call_user_func(self::$view_formater["edit"], $this, $this->form); break;
+			case "edit": call_user_func(self::$view_formater["edit"], $this, $this->form, $this->vars["record"]); break;
 			case "search": call_user_func(self::$view_formater["search"], $this, $this->form); break;
 			case "add": call_user_func(self::$view_formater["add"], $this, $this->form); break;
 			case "view": call_user_func(self::$view_formater["view"], $this, $this->vars); break;

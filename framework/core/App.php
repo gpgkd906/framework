@@ -86,8 +86,12 @@ class App {
 	 * @return
 	 * @link
 	 */
-	static public function route($route) {
-		self::$route = $route;
+	static public function route($route = null) {
+		if($route === null) {
+			return self::$route;
+		} else {
+			self::$route = $route;
+		}
 	}
 
 	/**

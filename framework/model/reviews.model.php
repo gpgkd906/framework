@@ -282,6 +282,75 @@ class reviews_model extends model_core {
 		unset($this->statistics["review_place"]);
 		return $this->statistics;
     }
+
+	/**
+	 * scaffold設定 
+	 *
+	 * @api
+	 * @param Array $option
+	 * @return
+	 * @link
+	 */
+	public function scaffold($option = array()) {
+		foreach($option as $key => $value) {
+			$this->add_filter($key, $key, $value);
+		}
+		$scaffold = App::helper("scaffold");
+		list($config, $search) = $this->scaffold_action($option);
+		$scaffold->on_search($config, $search);
+		$scaffold->controls("list", "search");
+		$scaffold->add_mask(array("content" => "レビュー内容", "place_id" => "スポット", "author" => "投稿者", "entry" => "エントリランス点数", "step" => "エントリーステップ点数", "controll" => "操作"));
+		$scaffold->add_filter("id");
+		$scaffold->model($this);
+		return $scaffold;
+	}
+
+	/**
+	 * scaffold処理
+	 * @api
+	 * @param Array $option
+	 * @return
+	 * @link
+	 */
+	public function scaffold_action($option = array()) {
+		$config = function($scaffold, $form, $record) {};
+		/* $complete = function($data, $record, $scaffold) use($option) { */
+		/* 	$record->assign($option); */
+		/* 	$record->be_edited = "yes"; */
+		/* 	$record->save(); */
+		/* 	App::model("place_category")->bind_category($record->place_id, $data["category"]); */
+		/* }; */
+		$search = function($search, $model) {
+			if(isset($search["author"])) {
+				$names = explode(" ", $search["author"]);
+				if(isset($names[0])) {
+					App::model("profiles")->find("firstname", $names[0]);
+				}
+				if(isset($names[1])) {
+					App::model("profiles")->find("lastname", $names[1]);
+				}
+				$author_ids = array_column(App::model("profiles")->getall_as_array(), "account_id");
+				$model->add_filter("author", "author", array_unique($author_ids));
+			}
+			if(isset($search["place_id"])) {
+				App::model("places")->find("name", $search["place_id"], "like");
+				$place_id = array_column(App::model("places")->getall_as_array(), "place_id");
+				$model->add_filter("place_id", "place_id", array_unique($place_id));
+			}
+			if(isset($search["content"])) {
+				$model->add_filter("content", "content", $search["content"], "like");
+			}
+			if(isset($search["attr"])) {
+				foreach($search["attr"] as $attr) {
+					App::model("review_attrs")->find($attr, "yes");
+				}
+				$review_ids = array_column(App::model("review_attrs")->getall_as_array(), "review_id");
+				$model->add_filter("review_id", "id", $review_ids);
+			}
+		};
+		return array($config, $search);
+	}
+	
 	
 }
 
@@ -361,4 +430,68 @@ class reviews_active_record extends active_record_core {
 		return self::$primary_key;
 	}
 	###active_define###
+
+/**
+ * 
+ * @api
+ * @param   
+ * @param    
+ * @return
+ * @link
+ */
+    public function author () {
+		$author = App::model("profiles")->find_by_account_id($this->author);
+		return $author->firstname . " " . $author->lastname;
+    }
+/**
+ * 
+ * @api
+ * @param   
+ * @param    
+ * @return
+ * @link
+ */
+    public function place_name () {
+		$place = App::model("places")->find_by_place_id($this->place_id);
+		return $place->name;
+    }
+/**
+ *
+ * @api
+ * @var 
+ * @link
+ */
+    public static $attr_table = array(
+		"toilet" => "多目的トイレ",
+		"space" => "スペース",
+		"flat" => "フラット",
+		"elevator" => "エレベーター",
+		"parking" => "パーキング",
+		"quiet" => "静かさ、人混みの無さ",
+		"ostomate" => "オストメイト",
+		"baby" => "授乳室orベビーベッド",
+		"socket" => "コンセント",
+		"smoking" => "喫煙",
+	);
+/**
+ * 
+ * @api
+ * @param   
+ * @param    
+ * @return
+ * @link
+ */
+    public function info () {
+		$attrs = App::model("review_attrs")->find_by_review_id($this->id, true);
+		unset($attrs["id"]);
+		unset($attrs["review_id"]);
+		$info = array();
+		foreach($attrs as $key => $value) {
+			if($value === "yes") {
+				$info[] = self::$attr_table[$key];
+			}
+		}
+		return join("<br/>", $info);
+    }
+
 }

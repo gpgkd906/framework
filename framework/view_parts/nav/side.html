@@ -2,10 +2,19 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                   <li>
-                    <a href="javascript:void(0)"><i class="fa fa-globe fa-fw"></i> 投稿管理<span class="fa arrow"></span></a>
+                    <a href="javascript:void(0)"><i class="fa fa-globe fa-fw"></i> スポット管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                          <li <?php $this->page_active("admin/category") ?>>
-                            <a href="<?php $this->link("admin/category") ?>">　カテゴリ</a>
+                          <li <?php $this->page_active("admin/places") ?>>
+                          <a href="<?php $this->link("admin/places") ?>">　スポット一覧</a>
+                          </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                  <li>
+                    <a href="javascript:void(0)"><i class="fa fa-globe fa-fw"></i> レビュー管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                          <li <?php $this->page_active("admin/reviews") ?>>
+                          <a href="<?php $this->link("admin/reviews") ?>">　レビュー一覧</a>
                           </li>
                         </ul>
                         <!-- /.nav-second-level -->

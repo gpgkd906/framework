@@ -141,6 +141,11 @@ class api_controller extends api {
 		$address_components = $this->param["address_components"];
 		$website = $this->param["website"];
 		App::model("place_address")->upgrade($place_id, $address_components, $website);
+		$place = App::model("places")->find_by_place_id($place_id);
+		if(!$place->tel) {
+			$place->tel = $this->param["tel"];
+			$place->save();
+		}
 		$this->assign(get_defined_vars());
     }
 	

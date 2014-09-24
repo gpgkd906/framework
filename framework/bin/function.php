@@ -17,13 +17,15 @@ $config["controller_dir"] = $config["dir"] . "/controller";
 $config["helper_dir"] = $config["dir"] . "/helper";
 $config["vendor_dir"] = $config["dir"] . "/vendor";
 $config["view_dir"] = $config["dir"] . "/view";
+$config["test_dir"] = $config["dir"] . "/test";
 $config["view_parts_dir"] = $config["dir"] . "/view_parts";
 $config["module_dir"] = $config["dir"] . "/module";
 $config["bin_dir"] = $config["dir"] . "/bin";
 $config["application_file"] = $config["dir"] . "/controller/application.php";
 $config["entry_dir"] = dirname($config["dir"]);
-$config["setup"] = file_get_contents($config["entry_dir"] . "/index.php");
-preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", $config["setup"], $m);
+preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", file_get_contents($config["entry_dir"] . "/index.php"), $m);
+//$config["setup"] = file_get_contents($config["entry_dir"] . "/index.php");
+//preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", $config["setup"], $m);
 eval("\$DSN={$m[1]};");
 if(empty($DSN)){
 	echo "no DSN defined", PHP_EOL, "exited!", PHP_EOL;
@@ -612,5 +614,68 @@ function generate_add_comment($package) {
 			}, explode(PHP_EOL, $content));
 		$content = join(PHP_EOL, $lines);
 		file_put_contents($file, $content);
+	};
+}
+
+function generate_test($package) {
+	return function($name, $methods) use ($package) {
+		global $config;
+		$test_dir = $config["test_dir"] . "/" . $package;
+		$test_file = $test_dir . "/" . $name . "Test.php";
+		$test_class = $name. "Test";
+		if(is_file($test_file)) {
+			if(!shell::confirm("{$name}_{$package}のテストデータは既に存在している、上書きしますか?")) {
+				return $test_file;
+			}
+		}
+		$test_content = array(
+			"<?php",
+			"",
+			"class {$test_class} extends PHPUnit_Framework_TestCase {");
+		$test_content[] = "";
+		switch($package) {
+			case "model":
+				$model_file = $config["model_dir"] . "/" . $name . ".model.php";
+				$model_class = $name . "_model";
+				$DSN = var_export($config["DSN"], true);
+				$test_content[] = "";
+				$test_content[] = "    protected \$model;";
+				$test_content[] = "";
+				$test_content[] = "    public static function setUp() {";
+				$test_content[] = "        {$model_class}::commit();";
+				$test_content[] = "    }";				
+				$test_content[] = "";
+				$test_content[] = "    public static function tearDown() {";
+				$test_content[] = "        {$model_class}::rollback();";
+				$test_content[] = "    }";				
+				$test_content[] = "";
+				$test_content[] = "    public static function setUpBeforeClass() {";
+				$test_content[] = "        require '{$model_file}';";
+				$test_content[] = "        \$this->model = {$model_class}::connect($DSN);";
+				$test_content[] = "    }";
+				$test_content[] = "";
+				$test_content[] = "    public static function tearDownAfterClass() {";
+				$test_content[] = "        {$model_class}::disconnect();";
+				$test_content[] = "    }";				
+				break;
+			case "controller":
+				
+				break;
+			case "view":
+				break;
+		}
+		foreach($methods as $method) {
+			$method = ucfirst($method);
+			$test_content[] = "";
+			$test_content[] = "    public function test{$method}() {";
+			$test_content[] = "";
+			$test_content[] = "        \$this->assertTrue(false);";
+			$test_content[] = "    }";
+		}
+		$test_content[] = "";
+		$test_content[] = "}";
+		$test_content = join(PHP_EOL, $test_content);
+		file_put_contents($test_file, $test_content);
+		return $test_file;
 	};
 }

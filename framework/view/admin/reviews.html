@@ -1,0 +1,44 @@
+<?php 
+   $this->header("admin");
+?>
+<div id="wrapper">
+  
+  <?php $this->parts("nav/header"); ?>
+  
+  <?php $this->parts("nav/side"); ?>
+  
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">レビュー一覧</h1>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		管理画面検索についてのいくつの説明
+              </a>
+	    </h4>
+	  </div>
+	  <div id="collapseOne" class="panel-collapse collapse in">
+	    <div class="panel-body">
+	      <p>１、現状、レビューは検索可能、変更不可、になっております。</p>
+	      <p>２、検索においては投稿者、スポットやレビュー内容からの検索が可能です。</p>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+      <?php
+	 $this->parts("scaffold/panel");
+      ?>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+<?php $this->footer("admin"); ?>

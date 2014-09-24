@@ -885,7 +885,10 @@ class active_record_core {
 	 */
 	public function __construct($row){
 		$this->store = $row;
-		$this->primary_value = $this->store[static::get_primary_key()];
+		$primary_key = static::get_primary_key();
+		if(isset($this->store[$primary_key])) {
+			$this->primary_value = $this->store[$primary_key];
+		}
 	}
 
 	

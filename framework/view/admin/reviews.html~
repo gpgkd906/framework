@@ -1,0 +1,47 @@
+<?php 
+   $this->header("admin");
+?>
+<div id="wrapper">
+  
+  <?php $this->parts("nav/header"); ?>
+  
+  <?php $this->parts("nav/side"); ?>
+  
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">レビュー一覧</h1>
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+		管理画面検索についてのいくつの説明
+              </a>
+	    </h4>
+	  </div>
+	  <div id="collapseOne" class="panel-collapse collapse in">
+	    <div class="panel-body">
+	      <p>１、現状、スポット検索要素または更新要素はスポット名、アドレス、電話番号、カテゴリとなっております。</p>
+	      <p>２、電話番号はGoogle Mapの詳細検索情報ですので，また詳細見られていないスポットにおいて電話番号が存在しない可能性があります。</p>	      
+	      <p>スポット情報に関しては他に情報がありますが、実際アプリ側の検索やFilterではGoogle Mapのデータを利用しているのでこちらの情報を変更すると、Google Mapデータとの整合性がとれない可能性もあるので検索も更新も表示ませんように設定しています。</p>
+	      <p>当バージョンは第一フェーズで、データ収集と考えていただければと思います。</p>
+	      <p>次期バージョンでオリジナル地理情報やマップを製作となれば、完全なるスポット情報の検索や更新はサポートできるでしょう。</p>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+      <?php
+	 $this->parts("scaffold/panel");
+      ?>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+<?php $this->footer("admin"); ?>

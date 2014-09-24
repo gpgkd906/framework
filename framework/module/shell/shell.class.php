@@ -99,13 +99,24 @@ class shell {
 		return $options[$choose - 1];
 	}
 	
-	public static function get_args($default = null, $aliases = null) {
+	public static function get_args($default = null, $aliases = null, $usage = null) {
 		global $argv;
 		$res = array();
 		$size = count($argv);
+		if($size === 1) {
+			if(!empty($usage)) {
+				echo "{$argv[0]} Usage :", PHP_EOL;
+				foreach($usage as $key => $use) {
+					echo "  argument: {$key}", PHP_EOL;
+					echo "    you can use value as those: ", "[", join(" / ", $use), "]", PHP_EOL;
+				}
+				die();
+			}
+		}
 		if($aliases === null) {
 			$aliases = array();
 		}
+		$cnt = 0;
 		for($i = 1; $i < $size; $i++) {
 			@list($k, $v) = explode("=", $argv[$i]);
 			if(isset($v)) {
@@ -113,7 +124,12 @@ class shell {
 				$k = isset($aliases[$k]) ? $aliases[$k] : $k;
 				$res[$k] = $v;
 			} else {
-				$res[] = $k;
+				if(isset($aliases[$cnt])) {
+					$res[$aliases[$cnt]] = $k;
+				} else {
+					$res[] = $k;
+				}
+				$cnt++;
 			}
 		}
 		if($default !== null && is_array($default)) {

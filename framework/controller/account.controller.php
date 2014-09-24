@@ -57,7 +57,7 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function login() {
-		$this->auth->use_model($this->account);
+		$this->auth->use_model(App::model("account"));
 		$this->auth->valid_flag("status", "valid");
 		$login = $this->auth->make_login(function($login) {
 				$login->account->class("form-control")->placeholder("account");

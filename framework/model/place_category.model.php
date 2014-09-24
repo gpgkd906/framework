@@ -87,6 +87,10 @@ class place_category_model extends model_core {
 	 * @link
 	 */
 	public function bind_category ($place_id, $cate_ids) {
+		$olds = $this->find_all_by_place_id($place_id);
+		foreach($olds as $record) {
+			$record->delete();
+		}
 		foreach($cate_ids as $category) {
 			$this->create_record(array("place_id" => $place_id, "category" => $category));
 		}
