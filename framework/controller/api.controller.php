@@ -351,6 +351,13 @@ class api_controller extends api {
 
 		$places = App::model("places")->find_all_by_place_id($place_ids, true);
 
+		//myplaceの場合はカテゴリも取得が必要です。
+		$place_category = App::model("place_category")->find_all_by_place_id($place_ids, true);
+
+		$cate_ids = array_column($place_category, "category");
+
+		$category_name = App::model("category")->find_all_by_id($cate_ids, true);
+
 		$place_images = App::model("place_images")->find_all_by_place_id($place_ids, true);
 
 		$file_ids = array_column($place_images, "file_id");
@@ -365,7 +372,8 @@ class api_controller extends api {
 		unset($author);
 		unset($review_ids);
 		unset($place_ids);
-
+		unset($cate_ids);
+		
 		$this->assign(get_defined_vars());
 	}
 
