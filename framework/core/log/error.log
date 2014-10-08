@@ -6592,3 +6592,39 @@ File : /var/www/html/map/server/framework/view_parts/header-admin.html
 Line : 17
 Message : Undefined property: view_helper::$body_class
 
+2014-10-06 11:17:58
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/model_driver/mysql.php
+Line : 708
+Message : syntax error, unexpected 'function' (T_FUNCTION)
+
+2014-10-06 11:17:58
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/model_driver/mysql.php
+Line : 708
+Message : syntax error, unexpected 'function' (T_FUNCTION)
+
+2014-10-06 11:18:15
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/model_driver/mysql.php
+Line : 708
+Message : syntax error, unexpected 'function' (T_FUNCTION)
+
+2014-10-06 11:18:15
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/model_driver/mysql.php
+Line : 708
+Message : syntax error, unexpected 'function' (T_FUNCTION)
+
+2014-10-06 11:18:33
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/model_driver/mysql.php
+Line : 708
+Message : syntax error, unexpected 'function' (T_FUNCTION)
+
+2014-10-06 11:18:33
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/model_driver/mysql.php
+Line : 708
+Message : syntax error, unexpected 'function' (T_FUNCTION)
+

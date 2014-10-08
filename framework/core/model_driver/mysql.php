@@ -418,8 +418,8 @@ class model_driver {
  * @return void
  */
 	public function remove_relation($key) {
-		if(isset($this->relate[$jey])) {
-			unset($this->relate[$jey]);
+		if(isset($this->relate[$key])) {
+			unset($this->relate[$key]);
 		}
 	}
 
@@ -635,7 +635,7 @@ class model_driver {
 			}
 		} else {
 			$_set = array();
-			list($opera, $bind) = $this->_check_like($opera, $bind);
+			list($opera, $bind) = self::_check_like($opera, $bind);
 			foreach($bind as $key => $dummy){
 				$_set[] = $col . "` {$opera} ?";
 			}
@@ -654,7 +654,7 @@ class model_driver {
  */
 	protected function _find_multi($where, $bind, $opera) {
 		$_b = array();
-		list($opera, $bind) = $this->_check_like($opera, $bind);
+		list($opera, $bind) = self::_check_like($opera, $bind);
 		foreach($bind as $key => $val){
 			if(!isset($where[$key])){
 				break;
@@ -704,23 +704,32 @@ class model_driver {
  * @param array/string  $_b 検索値
  * @return array
  */
-	protected function _check_like($opera, $_b) {
-		if($opera === "like") {
-			$_b = array_map(function($i) {
-					return "%" . $i . "%";
-				}, $_b);
-		} elseif($opera === "like%") {
-			$_b = array_map(function($i) {
-					return $i . "%";
-				}, $_b);
-			$opera = "like";
-		} elseif($opera === "%like") {
-			$_b = array_map(function($i) {
-					return "%" . $i;
-				}, $_b);
-			$opera = "like";
+	protected static function _check_like($opera, $_b) {
+		$hash_table = array(
+			"like" => function($bind) {
+				return array_map(function($i) {
+						return "%" . $i . "%";
+					}, $bind);
+			},
+			"like%" => function($bind) {
+				return array_map(function($i) {
+						return $i . "%";
+					}, $bind);
+			},
+			"%like" => function($bind) {
+				return array_map(function($i) {
+						return "%" . $i;
+					}, $bind);
+			}
+		);
+		if(isset($hash_table[$opera])) {
+			return array(
+				"like",
+				call_user_func($hash_table[$opera], $_b)
+			);
+		} else {
+			return array($opera, $_b);
 		}
-		return array($opera, $_b);
 	}
 
 /**
@@ -796,9 +805,11 @@ class model_driver {
  * @return $this
  */
 	public function limit($l1 ,$l2=null){
-		$this->limit = array();
-		$this->limit[] = $l1;
-		empty($l2) || ($this->limit[] = $l2);
+		if(empty($l2)) {
+			$this->limit = array($l1);
+		} else {
+			$this->limit = array($l1, $l2);
+		}
 		return $this;
 	}
  
@@ -1023,16 +1034,22 @@ class model_driver {
  * @return
  */
 	private function make_column($from, $cols, $use_alias = true) {
-		$select = array();
-		foreach($cols as $col) {
-			$_col = $from . '.`' . $col . '`';
-			if(isset($this->alias[$_col]) && $use_alias) {
-				$select[] = $_col . " as " . $this->alias[$_col];
-			} else {
-				$select[] = $_col;
+		if($use_alias) {
+			foreach($cols as $key => $col) {
+				$_col = $from . '.`' . $col . '`';
+				if(isset($this->alias[$_col])) {
+					$cols[$key] = $_col . " as " . $this->alias[$_col];
+				} else {
+					$cols[$key] = $_col;
+				}
+			}
+		} else {
+			foreach($cols as $key => $col) {
+				$_col = $from . '.`' . $col . '`';
+				$cols[$key] = $_col;
 			}
 		}
-		return $select;
+		return $cols;
 	}
   
   

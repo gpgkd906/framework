@@ -22,14 +22,10 @@ class calendar implements IteratorAggregate {
     $this->year= isset($y)?$y:date("Y");
     $this->month= isset($m)?$m:date("m");
     $this->day= isset($d)?$d:date("d");
+	$this->days = date("t") | 0;
     $this->format();
-    $this->daysInMonth();
   }
   
-  public function daysInMonth(){
-    return $this->days=cal_days_in_month($this->mode,$this->month,$this->year);
-  }
-
   public function format($format="Y-m-d",$y=null,$m=null,$d=null){
     $y=isset($y) ? $y : $this->year;
     $m=isset($m) ? $m : $this->month;
@@ -124,8 +120,8 @@ class calendar implements IteratorAggregate {
     $this->label=date($format,strtotime("+1 day ".$this->label));
     $this->assign($this->label);
     if(!$noStop){
-      if($this->year!=$data["year"] || $this->month!=$data["month"]){
-	return false;
+		if($this->year!=$data["year"] || $this->month!=$data["month"]){
+		  return false;
       }
     }
     return $this->package();
