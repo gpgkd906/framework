@@ -11,7 +11,7 @@
  */
 require "function.php";
 
-$model = model_core::select_model(null, $config["model_dir"], $config["DSN"]);
+$model = Model_core::select_model(null, $config["model_dir"], $config["DSN"]);
 
 $tables = array();
 $res = $model->query("show tables")->fetchall_as_array();
@@ -41,7 +41,7 @@ switch($config["argv"]["source"]) {
 	    shell::ls($config["model_dir"], function($filename, $filepath) {
 				global $config, $tables;
 				list($name, $dummy, $dummy) = explode(".", $filename); 
-				$target = model_core::select_model($name, $config["model_dir"]);
+				$target = Model_core::select_model($name, $config["model_dir"]);
 				if(in_array($name, $tables)) {
 					$tables = array_diff($tables, array($name));
 					$fc = alter_column($target);
@@ -68,7 +68,7 @@ switch($config["argv"]["source"]) {
 				echo "table {$tbl_name} was existed!";
 				continue;
 			}
-			$target = model_core::select_model($tbl_name);
+			$target = Model_core::select_model($tbl_name);
 			$target->alter_columns = array();
 			$target->alter_indexes = array();
 			$target->primary_keys = array();

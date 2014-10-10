@@ -23,7 +23,7 @@
  * @package framework.model
  * @link 
  */
-class interesting_model extends model_core {
+class interesting_model extends Model_core {
 	##columns##
     /**
     * カラム

@@ -21,7 +21,7 @@
  * @package framework.model
  * @link 
  */
-class place_address_model extends model_core {
+class place_address_model extends Model_core {
 	##columns##
     /**
 	 * カラム

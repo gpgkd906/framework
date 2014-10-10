@@ -21,7 +21,7 @@
  * @package framework.model
  * @link 
  */
-class profiles_model extends model_core {
+class profiles_model extends Model_core {
 	##columns##
     /**
     * カラム

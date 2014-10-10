@@ -39,26 +39,46 @@ switch($arguments["target"]) {
 		}
 		//model
 		$generator = generate_test("model");
-		$model_tests = array();
 		shell::ls($config["model_dir"], function($filename, $filepath) use($generator){
-				global $config, $model_tests;
+				global $config;
 				list($name, $dummy, $dummy) = explode(".", $filename); 
 				$class = $name . "_model";
 				require $filepath;
-				$model = new $class($config["DSN"]);
 				$methods = array();
-				foreach(get_class_methods($model) as $tmp) {
+				$parent_class = get_parent_class($class);
+				foreach(get_class_methods($class) as $tmp) {
 					if(strpos($tmp, "__") === 0) {
 						continue;
 					}
-					if(method_exists("model_core", $tmp)) {
+					if(method_exists($parent_class, $tmp)) {
 						continue;
 					}
 					$methods[] = $tmp;
 				}
-				$model_tests[$name . "Test"] = call_user_func($generator, $name, $methods);
+				call_user_func($generator, $name, $methods);
 			});
-		print_r($model_tests);
+		$generator = generate_test("controller");
+		shell::ls($config["controller_dir"], function($filename, $filepath) use($generator){
+				global $config;
+				@list($name, $type, $dummy) = explode(".", $filename); 
+				$class = $name . "_controller";
+				if($type !== "controller") {
+					return;
+				}
+				require $filepath;
+				$methods = array();
+				$parent_class = get_parent_class($class);
+				foreach(get_class_methods($class) as $tmp) {
+					if(strpos($tmp, "__") === 0) {
+						continue;
+					}
+					if(method_exists($parent_class, $tmp)) {
+						continue;
+					}
+					$methods[] = $tmp;
+				}
+				call_user_func($generator, $name, $methods);
+			});
 		break;
 }
 

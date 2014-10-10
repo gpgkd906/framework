@@ -21,8 +21,8 @@
  * @package framework.core
  * @link 
  */
-class model_driver {
-	use base_core;
+class Model_driver {
+	use Base_core;
 /**
  * PDO接続
  * @var resource 

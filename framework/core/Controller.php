@@ -1,6 +1,6 @@
 <?php
 /**
- * controller.php
+ * Controller.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  *
@@ -14,15 +14,15 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * controller
+ * Controller
  * フレームワークコントローラースーパークラス
  *
  * @author 2014 Chen Han 
  * @package framework.core
  * @link 
  */
-class controller {
-	use base_core;
+class Controller {
+	use Base_core;
 
 /**
  * 使用するヘルパー名のリスト
@@ -94,6 +94,13 @@ class controller {
    */  
   protected $param = array();
 
+  /**
+   * headerを自動設定するかどか
+   * @var Boolean
+   * @link
+   */  
+  public static $auto_header = true;
+
 /**
  * 構造器
  * 
@@ -105,8 +112,10 @@ class controller {
  * @return
  */
   public function __construct($name, $class, $route, $request) {
-	  header_remove("Pragma");
-	  header_remove("Cache-Control");
+	  if(self::$auto_header) {
+		  header_remove("Pragma");
+		  header_remove("Cache-Control");
+	  }
 	  session_start();
 	  App::controller($this);
 	  foreach($this->helpers as $helper) {
@@ -442,10 +451,12 @@ class controller {
  * @return
  */
   protected function response_html() {  
-	  header("Content-Type: text/html; charset=utf-8");
-	  header("Expires: " . date($_SERVER["REQUEST_TIME"] + 31530000));
+	  if(self::$auto_header) {
+		  header("Content-Type: text/html; charset=utf-8");
+		  header("Expires: " . date($_SERVER["REQUEST_TIME"] + 31530000));
+	  }
 	  if(App::path("view") !== null) {
-		  if($template_engine = config::fetch("template_engine")) {
+		  if($template_engine = Config::fetch("template_engine")) {
 			  $template = $this->get_module($template_engine);
 			  $template->set_template($this->inner_info["template"]);
 			  $template->assign_array($this->tpl_vars);
@@ -453,7 +464,7 @@ class controller {
 		  } else {
 			  $this->view->render($this->tpl_vars, $this->inner_info["template"]);
 		  }
-		  if($copyright = config::fetch("copyright")) {
+		  if($copyright = Config::fetch("copyright")) {
 			  echo "<!--" . PHP_EOL;
 			  echo $copyright . PHP_EOL;
 			  echo "-->";
@@ -466,7 +477,9 @@ class controller {
  * @return
  */
   protected function response_JSON() {
-	  header("Content-Type: application/json; charset=utf-8");
+	  if(self::$auto_header) {	  
+		  header("Content-Type: application/json; charset=utf-8");
+	  }
 	  die(json_encode($this->fetch_vars()));    
   }
   
@@ -478,7 +491,9 @@ class controller {
 	  $xml = $this->get_module("xml");
 	  $root = $this->get_name() . "_" . $this->get_action() . "_Response";
 	  $xml->array2xml($root, $this->fetch_vars());
-	  header("Content-Type: text/xml; charset=utf-8");
+	  if(self::$auto_header) {
+		  header("Content-Type: text/xml; charset=utf-8");
+	  }
 	  die($xml->asXml());
   }
 

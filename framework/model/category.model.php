@@ -21,7 +21,7 @@
  * @package framework.model
  * @link 
  */
-class category_model extends model_core {
+class category_model extends Model_core {
 	##columns##
     /**
     * カラム

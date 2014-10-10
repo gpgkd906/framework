@@ -1,7 +1,7 @@
 <?php
 
 /**
- * model_core.php
+ * Model_core.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  *
@@ -15,14 +15,14 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * model_core
+ * Model_core
  * モデルスーパークラス
  *
  * @author 2014 Chen Han 
  * @package framework.core
  * @link 
  */
-class model_core extends model_driver {
+class Model_core extends Model_driver {
 
     /**
 	 * プライマリキー
@@ -156,7 +156,7 @@ class model_core extends model_driver {
 				require_once $from_path;
 				$model = new $model_name($DSN);
 			} else {
-				$model = new model_core($DSN);
+				$model = new Model_core($DSN);
 			}
 			$model->from($from);
 			self::$select_from[$from] = $model;
@@ -873,7 +873,7 @@ class active_record_core {
 	 * @link
 	 */
 	public function __call($name, $param) {
-		return call_user_func_array(array(model_core::select_model(static::get_from()), $name), $param);
+		return call_user_func_array(array(Model_core::select_model(static::get_from()), $name), $param);
 	}
 	
     /**

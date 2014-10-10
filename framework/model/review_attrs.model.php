@@ -21,7 +21,7 @@
  * @package framework.model
  * @link 
  */
-class review_attrs_model extends model_core {
+class review_attrs_model extends Model_core {
 	##columns##
     /**
     * カラム

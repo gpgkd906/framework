@@ -154,33 +154,33 @@ class App {
 	static public function setup($core_dir) {
 		$path = array(
 			"origin_include_path" => get_include_path(),
-			"core_path" => config::search("path", "core", $core_dir . "/core"),
-			"controller_path" => config::search("path", "controller", $core_dir . "/controller/"),
-			"model_path" => config::search("path", "model", $core_dir . "/model/"),
-			"behavior_path" => config::search("path", "behavior", $core_dir . "/behavior/"),
-			"module_path" => config::search("path", "module", $core_dir . "/module/"),
-			"helper_path" => config::search("path", "helper", $core_dir . "/helper/"),
-			"vendor_path" => config::search("path", "vendor", $core_dir . "/vendor/"),
-			"view_path" => config::search("path", "view", $core_dir . "/view/"),
-			"view_parts_path" => config::search("path", "view_parts", $core_dir . "/view_parts/"),
+			"core_path" => Config::search("path", "core", $core_dir . "/core"),
+			"controller_path" => Config::search("path", "controller", $core_dir . "/controller/"),
+			"model_path" => Config::search("path", "model", $core_dir . "/model/"),
+			"behavior_path" => Config::search("path", "behavior", $core_dir . "/behavior/"),
+			"module_path" => Config::search("path", "module", $core_dir . "/module/"),
+			"helper_path" => Config::search("path", "helper", $core_dir . "/helper/"),
+			"vendor_path" => Config::search("path", "vendor", $core_dir . "/vendor/"),
+			"view_path" => Config::search("path", "view", $core_dir . "/view/"),
+			"view_parts_path" => Config::search("path", "view_parts", $core_dir . "/view_parts/"),
 		);
 		self::$path = $path;
 		set_include_path(join(PATH_SEPARATOR, $path));
-		require "base.php";
-		require "controller.php";
+		require "Base.php";
+		require "Controller.php";
 		require "application.php";
 		require "api.php";
-		$dsn_type = config::search("DSN", "type");
+		$dsn_type = ucfirst(Config::search("DSN", "type"));
 		require "model_driver/{$dsn_type}.php";
-		require "model.php";
+		require "Model.php";
 		require "helper.php";
-		if(config::search("DSN", "handlersocket")) {
-			model_core::use_handlersocket(config::fetch("DSN"));
+		if(Config::search("DSN", "handlersocket")) {
+			Model_core::use_handlersocket(Config::fetch("DSN"));
 		}
-		if(config::fetch("environment") !== "develop") {
-			model_core::track_off();
+		if(Config::fetch("environment") !== "develop") {
+			Model_core::track_off();
 		}
-		model_core::behavior_path($path["behavior_path"]);
+		Model_core::behavior_path($path["behavior_path"]);
 	}
 
 	/**
@@ -240,7 +240,7 @@ class App {
 	 * @link
 	 */
 	static public function model($name) {
-		return model_core::select_model($name, self::$path["model_path"], config::fetch("DSN"));
+		return Model_core::select_model($name, self::$path["model_path"], Config::fetch("DSN"));
 	}
 
 
@@ -311,7 +311,7 @@ class App {
 	 *
 	 *     App::routines($tasks, function($task, $pid, $mypid) {
 	 *          //ここでデータベースの処理があれば、以下の処理が必要です
-	 *          model_core::connect(config::fetch("DSN"));
+	 *          Model_core::connect(Config::fetch("DSN"));
 	 *     });
 	 *
 	 * @api

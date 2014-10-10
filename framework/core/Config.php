@@ -1,7 +1,7 @@
 <?php
 
 /**
- * config.php
+ * Config.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -26,7 +26,7 @@
  * @package framework.core
  * @link
  */
-class config {
+class Config {
 
 	/**
 	 * 内部ストレージ

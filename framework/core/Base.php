@@ -22,7 +22,7 @@
  * @package framework.core
  * @link
  */
-trait base_core {
+trait Base_core {
 	/**
 	 * メッセージリソースプール
 	 *

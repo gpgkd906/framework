@@ -23,7 +23,7 @@
  * @package framework.model
  * @link 
  */
-class file_votes_model extends model_core {
+class file_votes_model extends Model_core {
 	##columns##
     /**
     * カラム

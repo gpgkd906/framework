@@ -21,7 +21,7 @@
  * @package framework.model
  * @link 
  */
-class files_model extends model_core {
+class files_model extends Model_core {
 	##columns##
     /**
     * カラム

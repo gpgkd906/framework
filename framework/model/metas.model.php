@@ -22,7 +22,7 @@
  * @package framework.model
  * @link 
  */
-class metas_model extends model_core {
+class metas_model extends Model_core {
 	##columns##
     /**
     * カラム

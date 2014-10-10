@@ -6628,3 +6628,75 @@ File : /var/www/html/map/server/framework/core/model_driver/mysql.php
 Line : 708
 Message : syntax error, unexpected 'function' (T_FUNCTION)
 
+2014-10-08 14:40:24
+実行時警告(waring)が発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 169
+Message : require(base.php): failed to open stream: No such file or directory
+
+2014-10-08 14:40:24
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 169
+Message : require(): Failed opening required 'base.php' (include_path='.:/usr/share/php:/usr/share/pear:/var/www/html/map/server/framework/core:/var/www/html/map/server/framework/controller/:/var/www/html/map/server/framework/model/:/var/www/html/map/server/framework/behavior/:/var/www/html/map/server/framework/module/:/var/www/html/map/server/framework/helper/:/var/www/html/map/server/framework/vendor/:/var/www/html/map/server/framework/view/:/var/www/html/map/server/framework/view_parts/')
+
+2014-10-08 14:40:24
+実行時警告(waring)が発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 169
+Message : require(base.php): failed to open stream: No such file or directory
+
+2014-10-08 14:40:24
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 169
+Message : require(): Failed opening required 'base.php' (include_path='.:/usr/share/php:/usr/share/pear:/var/www/html/map/server/framework/core:/var/www/html/map/server/framework/controller/:/var/www/html/map/server/framework/model/:/var/www/html/map/server/framework/behavior/:/var/www/html/map/server/framework/module/:/var/www/html/map/server/framework/helper/:/var/www/html/map/server/framework/vendor/:/var/www/html/map/server/framework/view/:/var/www/html/map/server/framework/view_parts/')
+
+2014-10-08 15:03:34
+実行時警告(waring)が発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(model_driver/mysql.php): failed to open stream: No such file or directory
+
+2014-10-08 15:03:34
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(): Failed opening required 'model_driver/mysql.php' (include_path='.:/usr/share/php:/usr/share/pear:/var/www/html/map/server/framework/core:/var/www/html/map/server/framework/controller/:/var/www/html/map/server/framework/model/:/var/www/html/map/server/framework/behavior/:/var/www/html/map/server/framework/module/:/var/www/html/map/server/framework/helper/:/var/www/html/map/server/framework/vendor/:/var/www/html/map/server/framework/view/:/var/www/html/map/server/framework/view_parts/')
+
+2014-10-08 15:03:34
+実行時警告(waring)が発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(model_driver/mysql.php): failed to open stream: No such file or directory
+
+2014-10-08 15:03:34
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(): Failed opening required 'model_driver/mysql.php' (include_path='.:/usr/share/php:/usr/share/pear:/var/www/html/map/server/framework/core:/var/www/html/map/server/framework/controller/:/var/www/html/map/server/framework/model/:/var/www/html/map/server/framework/behavior/:/var/www/html/map/server/framework/module/:/var/www/html/map/server/framework/helper/:/var/www/html/map/server/framework/vendor/:/var/www/html/map/server/framework/view/:/var/www/html/map/server/framework/view_parts/')
+
+2014-10-08 15:03:51
+実行時警告(waring)が発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(model_driver/mysql.php): failed to open stream: No such file or directory
+
+2014-10-08 15:03:51
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(): Failed opening required 'model_driver/mysql.php' (include_path='.:/usr/share/php:/usr/share/pear:/var/www/html/map/server/framework/core:/var/www/html/map/server/framework/controller/:/var/www/html/map/server/framework/model/:/var/www/html/map/server/framework/behavior/:/var/www/html/map/server/framework/module/:/var/www/html/map/server/framework/helper/:/var/www/html/map/server/framework/vendor/:/var/www/html/map/server/framework/view/:/var/www/html/map/server/framework/view_parts/')
+
+2014-10-08 15:03:51
+実行時警告(waring)が発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(model_driver/mysql.php): failed to open stream: No such file or directory
+
+2014-10-08 15:03:51
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/core/App.php
+Line : 174
+Message : require(): Failed opening required 'model_driver/mysql.php' (include_path='.:/usr/share/php:/usr/share/pear:/var/www/html/map/server/framework/core:/var/www/html/map/server/framework/controller/:/var/www/html/map/server/framework/model/:/var/www/html/map/server/framework/behavior/:/var/www/html/map/server/framework/module/:/var/www/html/map/server/framework/helper/:/var/www/html/map/server/framework/vendor/:/var/www/html/map/server/framework/view/:/var/www/html/map/server/framework/view_parts/')
+

@@ -1,6 +1,6 @@
 <?php
 /**
- * route.php
+ * Route.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -14,15 +14,15 @@
  */
 
 if(config::fetch("environment") === "develop") {
-	require "error_handler.php";
-	error_handler::setup();
+	require "Error_handler.php";
+	Error_handler::setup();
 }
 date_default_timezone_set(config::fetch("timezone") ? : "Asia/Tokyo");
 ob_start("ob_gzhandler");
 require "App.php";
 
 /**
- * route
+ * Route
  * ルータークラス
  *
  * http リクエストをフレームワークが処理しやすい用に解析する
@@ -33,7 +33,7 @@ require "App.php";
  * @package framework.core
  * @link
  */
-class route {
+class Route {
 
 	/**
 	 * ルータークラスのシングルスタンス
@@ -145,7 +145,7 @@ class route {
 	 */
 	public static function getSingletonInstance() {
 		if(!isset(self::$instance)) {
-			self::$instance = new route();
+			self::$instance = new Route();
 		}
 		return self::$instance;
 	}

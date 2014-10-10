@@ -165,7 +165,7 @@ class api_controller extends api {
 
 		$type = isset($this->param["type"]) ? $this->param["type"]: "none";
 
-		$file = App::helper("file")->dataurl_to_file($place_id . microtime(true), $dataURL, config::fetch("upload"));
+		$file = App::helper("file")->dataurl_to_file($place_id . microtime(true), $dataURL, Config::fetch("upload"));
 
 		$file_id = App::model("files")->create_record($file)->id;
 

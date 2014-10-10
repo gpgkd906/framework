@@ -21,7 +21,7 @@
  * @package framework.model
  * @link 
  */
-class account_model extends model_core {
+class account_model extends Model_core {
 	##columns##
     /**
     * カラム

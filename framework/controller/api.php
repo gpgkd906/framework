@@ -80,7 +80,7 @@ class api extends controller {
 	 */
 	protected function before_action(){
 
-		error_handler::off();
+		Error_handler::off();
 
 		if($this->authorization) {
 
@@ -350,7 +350,7 @@ class api extends controller {
 
 						"subject" => "パスワードリセット(リクエストキー)",
 
-						"application_name" => config::search("application", "name"),
+						"application_name" => Config::search("application", "name"),
 
 
 						"request_key" => $request_key
@@ -430,7 +430,7 @@ class api extends controller {
 
 						"subject"=>"パスワードリセット",
 
-						"application_name" => config::search("application", "name"),
+						"application_name" => Config::search("application", "name"),
 
 						"new_password"=>$new_password
 

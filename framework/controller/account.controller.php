@@ -150,7 +150,7 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function api_twitter_login() {
-		$this->account->twitter_login(config::fetch("www") . "account/api_twitter_login", function($account, $twitter) {
+		$this->account->twitter_login(Config::fetch("www") . "account/api_twitter_login", function($account, $twitter) {
 				App::redirect("account/api_twitter_logined?status=authorized&account_id={$account->id}&token={$account->token}");
 			}, function($twitter) {
 				if(isset($twitter->error)) {
@@ -187,7 +187,7 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function twitter_login() {
-		$this->account->twitter_login(config::fetch("www") . "account/twitter_login", function($account, $twitter) {
+		$this->account->twitter_login(Config::fetch("www") . "account/twitter_login", function($account, $twitter) {
 				$this->route->redirect("index");
 			}, function($twitter) {
 				$reg = $this->account->register("", $twitter->name, function($data, $id) use($twitter) {
@@ -207,7 +207,7 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function twitter_register() {
-		$this->account->twitter_login(config::fetch("www") . "account/twitter_login", function() {
+		$this->account->twitter_login(Config::fetch("www") . "account/twitter_login", function() {
 				$this->route->redirect("index");
 			}, function() {
 				$this->route->redirect("account/twitter_register");

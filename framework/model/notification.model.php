@@ -22,7 +22,7 @@
  * @package framework.model
  * @link 
  */
-class notification_model extends model_core {
+class notification_model extends Model_core {
 	##columns##
     /**
     * カラム

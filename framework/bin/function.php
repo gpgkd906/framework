@@ -32,9 +32,13 @@ if(empty($DSN)){
 	die();
 }
 $config["DSN"] = $DSN;
-require $config["core_dir"] . "/base.php";
+$DSN["type"] = ucfirst($DSN["type"]);
+require $config["core_dir"] . "/Base.php";
 require $config["core_dir"] . "/model_driver/{$DSN['type']}.php";
-require $config["core_dir"] . "/model.php";
+require $config["core_dir"] . "/Model.php";
+require $config["core_dir"] . "/Controller.php";
+require $config["controller_dir"] . "/application.php";
+require $config["controller_dir"] . "/api.php";
 require $config["dir"] . "/module/shell/shell.class.php";
 
 /** 
@@ -43,7 +47,7 @@ require $config["dir"] . "/module/shell/shell.class.php";
 
 function generate_model($from, $default_method = null) {
 	global $config;
-	$model = model_core::select_model($from);
+	$model = Model_core::select_model($from);
 	$model_name = $from . "_model";
 	$model_file = $config["model_dir"] . "/" . $from . ".model.php";
 	if(is_file($model_file)) {
@@ -78,7 +82,7 @@ function generate_model($from, $default_method = null) {
 		"* @package framework.model",
 		"* @link ",
 		"*/",
-		"class {$model_name} extends model_core {",
+		"class {$model_name} extends Model_core {",
 		$columns_define,
 		$index_define,
 		"/**",
@@ -122,7 +126,7 @@ function generate_model($from, $default_method = null) {
 
 function regenerate_model($from) {
 	global $config;
-	$model = model_core::select_model($from);
+	$model = Model_core::select_model($from);
 	$model_name = $from . "_model";
 	$model_file = $config["model_dir"] . "/" . $from . ".model.php";
 	$exists = file_get_contents($model_file);
@@ -479,7 +483,7 @@ function create_database_table($table) {
 		return create_database_table($table[0], $model);
 	}
 	//ここにくるのは必ず文字列になる
-	$model = model_core::select_model($table);
+	$model = Model_core::select_model($table);
 	$create = array();
 	foreach($model->alter_columns as $alter) {
 		$alter = str_replace("'CURRENT_TIMESTAMP'", 'CURRENT_TIMESTAMP', $alter);
@@ -506,7 +510,7 @@ function drop_database_table($table, $confirm = true) {
 		drop_database_table($table[0], $model);
 		return drop_database_table(array_slice($table, 1), $model);
 	}
-	$model = model_core::select_model($table);
+	$model = Model_core::select_model($table);
 	$sql = "DROP TABLE {$table}";
 	if($confirm) {
 		if(!shell::confirm($sql)) {
@@ -638,43 +642,108 @@ function generate_test($package) {
 				$model_file = $config["model_dir"] . "/" . $name . ".model.php";
 				$model_class = $name . "_model";
 				$DSN = var_export($config["DSN"], true);
+				$DSN_type = ucfirst($config["DSN"]["type"]);
 				$test_content[] = "";
-				$test_content[] = "    protected \$model;";
+				$test_content[] = "    protected static \$model;";
 				$test_content[] = "";
-				$test_content[] = "    public static function setUp() {";
-				$test_content[] = "        {$model_class}::commit();";
+				$test_content[] = "    public function setUp() {";
+				$test_content[] = "        {$model_class}::begin();";
 				$test_content[] = "    }";				
 				$test_content[] = "";
-				$test_content[] = "    public static function tearDown() {";
+				$test_content[] = "    public function tearDown() {";
 				$test_content[] = "        {$model_class}::rollback();";
 				$test_content[] = "    }";				
 				$test_content[] = "";
 				$test_content[] = "    public static function setUpBeforeClass() {";
+				$test_content[] = "        if(!trait_exists('Base_core')) {";
+				$test_content[] = "            require '{$config['core_dir']}/Base.php';";
+				$test_content[] = "        }";
+				$test_content[] = "        if(!class_exists('{$DSN_type}_driver')) {";
+				$test_content[] = "            require '{$config['core_dir']}/model_driver/{$DSN_type}.php';";
+				$test_content[] = "        }";
+				$test_content[] = "        if(!class_exists('Model_core')) {";
+				$test_content[] = "            require '{$config['core_dir']}/Model.php';";
+				$test_content[] = "        }";
+
 				$test_content[] = "        require '{$model_file}';";
-				$test_content[] = "        \$this->model = {$model_class}::connect($DSN);";
+				$test_content[] = "        self::\$model = {$model_class}::connect($DSN);";
 				$test_content[] = "    }";
 				$test_content[] = "";
 				$test_content[] = "    public static function tearDownAfterClass() {";
 				$test_content[] = "        {$model_class}::disconnect();";
-				$test_content[] = "    }";				
+				$test_content[] = "    }";
 				break;
 			case "controller":
-				
+				$controller_file = $config["controller_dir"] . "/" . $name . ".controller.php";
+				$controller_class = $name . "_controller";
+				$test_content[] = "";
+				$test_content[] = "    protected \$test_plan = array(###test_plan###);";
+				$test_content[] = "";
+				$test_content[] = "    protected \$current_plan = array();";
+				$test_content[] = "";
+				$test_content[] = "    public function setUp() {";
+				$test_content[] = "    }";				
+				$test_content[] = "";
+				$test_content[] = "    public function tearDown() {";
+				$test_content[] = "    ";
+				$test_content[] = "    }";				
+				$test_content[] = "";
+				$test_content[] = "    public static function setUpBeforeClass() {";
+				$test_content[] = "        if(!trait_exists('Base_core')) {";
+				$test_content[] = "            require '{$config['core_dir']}/Base.php';";
+				$test_content[] = "        }";
+				$test_content[] = "        if(!class_exists('Controller')) {";
+				$test_content[] = "            require '{$config['core_dir']}/Controller.php';";
+				$test_content[] = "        }";
+				$test_content[] = "        if(!class_exists('application')) {";
+				$test_content[] = "            require '{$config['controller_dir']}/application.php';";
+				$test_content[] = "        }";
+				$test_content[] = "        if(!class_exists('api')) {";
+				$test_content[] = "            require '{$config['controller_dir']}/api.php';";
+				$test_content[] = "        }";
+				$test_content[] = "        require '{$controller_file}';";
+				$test_content[] = "    }";
+				$test_content[] = "";
+				$test_content[] = "    public static function tearDownAfterClass() {";
+				$test_content[] = "    ";
+				$test_content[] = "    }";				
 				break;
 			case "view":
 				break;
 		}
+		$test_plan = array("");
 		foreach($methods as $method) {
-			$method = ucfirst($method);
+			$test_plan[] = "'{$method}' => array( array('request' => array(), 'param' => array(), 'tpl_vars' => array(), 'template' => '{$method}') ),";
+			$method_name = ucfirst($method);
 			$test_content[] = "";
-			$test_content[] = "    public function test{$method}() {";
-			$test_content[] = "";
-			$test_content[] = "        \$this->assertTrue(false);";
+			$test_content[] = "    public function test{$method_name}() {";
+			switch($package) {
+				case "model": 
+					$test_content[] = "";
+					$test_content[] = "        \$this->assertTrue(false);";
+					break;
+				case "controller":
+					$test_content[] = "        \$this->current_plan = \$this->test_plan['{$method}'];";
+					$test_content[] = "        foreach(\$this->current_plan as \$plan) {";
+					$test_content[] = "            \$request = \$plan['request'];";
+					$test_content[] = "            \$_GET = \$plan['param'];";
+					$test_content[] = "            {$controller_class}::\$auto_header = false;";
+					$test_content[] = "            \$controller = new {$controller_class}('{$method}', '{$name}', null, \$request);";
+					$test_content[] = "            \$this->assertEquals(\$controller->get_template(), \$plan['template'] ?: '{$method}');";
+					$test_content[] = "            \$this->assertEquals(array_keys(\$controller->tpl_vars), array_keys(\$plan['tpl_vars']));";
+					$test_content[] = "        }";
+					$test_content[] = "        \$this->assertTrue(false);";
+					break;
+				case "view": 
+
+					break;
+			}
 			$test_content[] = "    }";
 		}
 		$test_content[] = "";
 		$test_content[] = "}";
 		$test_content = join(PHP_EOL, $test_content);
+		$test_content = str_replace("###test_plan###", join(PHP_EOL . PHP_EOL, $test_plan) . PHP_EOL, $test_content);
 		file_put_contents($test_file, $test_content);
 		return $test_file;
 	};

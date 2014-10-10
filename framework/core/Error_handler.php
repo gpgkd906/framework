@@ -1,6 +1,6 @@
 <?php
 /**
- * error_handler.php
+ * Error_handler.php
  *
  * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
  * Copyright 2014 Chen Han
@@ -14,14 +14,14 @@
  */
 
 /**
- * error_handler
+ * Error_handler
  * エラー追跡サブシステム
  *
  * @author 2014 Chen Han
  * @package framework.core
  * @link
  */
-final class error_handler {
+final class Error_handler {
 	/**
 	 *各種エラー処理用ハンドラー
 	 *
@@ -85,14 +85,14 @@ final class error_handler {
 	 * @var string
 	 * @link
 	 */
-	private static $exceptionHandler = "error_handler::defaultExceptionHandler";
+	private static $exceptionHandler = "Error_handler::defaultExceptionHandler";
 	/**
 	 * エラーハンドラー
 	 *
 	 * @var string
 	 * @link
 	 */
-	private static $error_handler = "error_handler::defaultErrorHandler";
+	private static $Error_handler = "Error_handler::defaultErrorHandler";
 	/**
 	 * 致命エラーハンドラー
 	 * 
@@ -101,7 +101,7 @@ final class error_handler {
 	 * @var string
 	 * @link
 	 */
-	private static $fatalErrorHandler = "error_handler::defaultFatalErrorHandler";
+	private static $fatalErrorHandler = "Error_handler::defaultFatalErrorHandler";
 
 	/**
 	 * ハンドルするエラーレベルを変更する
@@ -218,7 +218,7 @@ final class error_handler {
 	 * @link
 	 */
 	public static function setErrorHandler($handler){
-		self::$error_handler = $handler;
+		self::$Error_handler = $handler;
 	}
 
 	/**
@@ -241,9 +241,9 @@ final class error_handler {
 	 * @link
 	 */
 	public static function setDefaultHandler(){
-		set_exception_handler("error_handler::proxyExceptionHandler");
-		set_error_handler("error_handler::proxyErrorHandler");
-		register_shutdown_function("error_handler::proxyFatalErrorHandler");
+		set_exception_handler("Error_handler::proxyExceptionHandler");
+		set_Error_handler("Error_handler::proxyErrorHandler");
+		register_shutdown_function("Error_handler::proxyFatalErrorHandler");
 	}
 
 	/**
@@ -301,7 +301,7 @@ final class error_handler {
 		if(!(self::$handlerLevel & $errno)){
 			return false;
 		}
-		call_user_func_array(self::$error_handler,array($errno,$errstr,$errfile,$errline,$errcontext));
+		call_user_func_array(self::$Error_handler,array($errno,$errstr,$errfile,$errline,$errcontext));
 	}
 
 	/**

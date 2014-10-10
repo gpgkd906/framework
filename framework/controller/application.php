@@ -22,7 +22,7 @@
  * @package framework.controller
  * @link 
  */
-class application extends controller {
+class application extends Controller {
 
 	/**
 	 * ルーターインスタンス、古いバージョンとの互換性のため保留
