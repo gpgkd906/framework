@@ -187,6 +187,32 @@ class api_controller extends api {
     }
 
 /**
+ * placeの画像情報を削除する
+ * @api
+ * @return
+ * @link
+ */
+	public function delete_place_image($file_id) {
+		
+		$status = false;
+
+		$author = App::helper("auth")->id;
+
+		$place_id = $this->param["place_id"];
+
+		$record = App::model("place_images")->find("author", $author)->find("place_id", $place_id)->find_by_file_id($file_id);
+		if($record) {
+			$status = true;
+			$record->delete();
+		}
+		unset($author);
+		unset($place_id);
+		unset($record);
+		
+		$this->assign(get_defined_vars());
+    }
+
+/**
  * placeに投稿した画像に対して、投票データを追加する
  * @api
  * @param String $place_id Google Map用PlaceId

@@ -16,7 +16,7 @@ class view_helper extends helper_core {
 	private $action = null;
 	
 	public function __construct() {
-		$this->view_parts = config::fetch("root") . "/framework/view_parts/";
+		$this->view_parts = Config::fetch("root") . "/framework/view_parts/";
 	}
 
 	public function get_action() {
@@ -39,7 +39,7 @@ class view_helper extends helper_core {
 	
 	public function get_link(){
 		$args = func_get_args();
-		$www = config::fetch("www");
+		$www = Config::fetch("www");
 		return $www . join("/", $args);
 	}
 
@@ -56,7 +56,7 @@ class view_helper extends helper_core {
 	
 	public function get_static(){
 		$args = func_get_args();
-		$www = config::fetch("static");
+		$www = Config::fetch("static");
 		return $www . join("/", $args);
 	}
 	

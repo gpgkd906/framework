@@ -60,7 +60,7 @@ class image_helper extends helper_core {
 		  $files = $_FILES;
 		  $post_injection = true;
 	  }
-	  $upload = config::fetch("upload");
+	  $upload = Config::fetch("upload");
 	  $res = array();
 	  $uploaded = array();
 	  foreach($files as $name => $file) {

@@ -32,7 +32,7 @@ class twitter_helper extends helper_core {
 			try {
 				return call_user_func_array(array($this->sdk, $name), $param);
 			}catch(Exception $e) {
-				if(config::fetch("environment") === "develop") {
+				if(Config::fetch("environment") === "develop") {
 					throw $e;
 				} else {
 					return false;

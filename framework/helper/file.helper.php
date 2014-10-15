@@ -116,7 +116,7 @@ class file_helper extends helper_core {
 		  $path = $upload . "mime/" . $filename;
 		  move_uploaded_file($tmp, $path);
 	  }
-	  $link = config::fetch("static") . str_replace("./", "", $path);
+	  $link = Config::fetch("static") . str_replace("./", "", $path);
 	  return array($filename, $path, $link);
   }
 
@@ -128,7 +128,7 @@ class file_helper extends helper_core {
 		  return null;
 	  }
 	  $file = $_FILES[$name];
-	  $upload = config::fetch("upload");
+	  $upload = Config::fetch("upload");
 	  $res = array();
 	  if(is_array($file["tmp_name"])) {
 		  foreach($file["tmp_name"] as $key => $tmp) {

@@ -13,11 +13,11 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-if(config::fetch("environment") === "develop") {
+if(Config::fetch("environment") === "develop") {
 	require "Error_handler.php";
 	Error_handler::setup();
 }
-date_default_timezone_set(config::fetch("timezone") ? : "Asia/Tokyo");
+date_default_timezone_set(Config::fetch("timezone") ? : "Asia/Tokyo");
 ob_start("ob_gzhandler");
 require "App.php";
 
@@ -268,7 +268,7 @@ class Route {
 			$is_url=true;
 		}
 		if(!$is_url){
-			$to = config::fetch("www") . $to;
+			$to = Config::fetch("www") . $to;
 		}
 		header('Location:' . $to, true, 301);
 		die();
