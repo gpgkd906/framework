@@ -31,8 +31,8 @@ class account_controller extends application {
 	 * @link
 	 */
 	protected function before_action() {
-		if(!$this->auth->is_valid() && !is_callable(array($this, $this->get_action()))) {
-			$this->route->redirect("account/login");
+		if(!App::helper("auth")->is_valid() && !is_callable(array($this, $this->get_action()))) {
+			App::route()->redirect("account/login");
 		}
 		parent::before_action();
 	}
@@ -44,8 +44,8 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function logout() {
-		$this->auth->logout();
-		$this->route->redirect("account/login");
+		App::helper("auth")->logout();
+		App::route()->redirect("account/login");
 	}
 
 	/**
@@ -57,15 +57,16 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function login() {
-		$this->auth->use_model(App::model("account"));
-		$this->auth->valid_flag("status", "valid");
-		$login = $this->auth->make_login(function($login) {
+		$auth = App::helper("auth");
+		$auth->use_model(App::model("account"));
+		$auth->valid_flag("status", "valid");
+		$login = $auth->make_login(function($login) {
 				$login->account->class("form-control")->placeholder("account");
 				$login->password->class("form-control")->placeholder("password");
 				$login->submit->class("btn btn-lg btn-success btn-block")->value("ログイン");
 			});
-		$this->auth->login_handler(function($auth) {
-				$this->route->redirect("admin");
+		$auth->login_handler(function($auth) {
+				App::route()->redirect("admin");
 			}, function($error) {
 				$this->set("error", $error);
 			});
@@ -79,10 +80,10 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function facebook_login() {
-		$this->account->facebook_login(function($account, $facebook) {
-				$this->route->redirect("index");
+		App::model("account")->facebook_login(function($account, $facebook) {
+				App::route()->redirect("index");
 			}, function($facebook) {
-				$this->route->redirect("account/facebook_register");
+				App::route()->redirect("account/facebook_register");
 			});
 	}
 
@@ -101,7 +102,7 @@ class account_controller extends application {
 		if(isset($facebook["name"])) {
 			$name = $facebook["name"];
 		}
-		$reg = $this->account->register($email, $name, function($data, $id) use($facebook) {
+		$reg = App::model("account")->register($email, $name, function($data, $id) use($facebook) {
 				$this->_register_complete($data);
 			});
 		$this->assign(get_defined_vars());
@@ -114,7 +115,7 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function api_facebook_login() {
-		$this->account->facebook_login(function($account, $facebook) {
+		App::model("account")->facebook_login(function($account, $facebook) {
 				App::redirect("account/api_facebook_logined?status=authorized&account_id={$account->id}&token={$account->token}");
 			}, function($facebook) {
 				if(isset($facebook["id"])) {
@@ -123,7 +124,7 @@ class account_controller extends application {
 						"password" => "",
 						"facebook_id" => $facebook["id"]
 					);
-					$id = $this->auth->register($data);
+					$id = App::helper("auth")->register($data);
 					App::model("profiles")->create_record(array("account_id" => $id, "name" => $facebook["name"], "nickname" => $facebook["name"]));
 					App::model("alerms")->init($id);
 					$record = App::model("account")->find_by_id($id);
@@ -150,7 +151,7 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function api_twitter_login() {
-		$this->account->twitter_login(Config::fetch("www") . "account/api_twitter_login", function($account, $twitter) {
+		App::model("account")->twitter_login(Config::fetch("www") . "account/api_twitter_login", function($account, $twitter) {
 				App::redirect("account/api_twitter_logined?status=authorized&account_id={$account->id}&token={$account->token}");
 			}, function($twitter) {
 				if(isset($twitter->error)) {
@@ -162,7 +163,7 @@ class account_controller extends application {
 						"password" => "",
 						"twitter_id" => $twitter->id
 					);
-					$id = $this->auth->register($data);
+					$id = App::helper("auth")->register($data);
 					App::model("profiles")->create_record(array("account_id" => $id, "name" => $twitter->name, "nickname" => $twitter->screen_name));
 					App::model("alerms")->init($id);
 					$record = App::model("account")->find_by_id($id);
@@ -187,10 +188,10 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function twitter_login() {
-		$this->account->twitter_login(Config::fetch("www") . "account/twitter_login", function($account, $twitter) {
-				$this->route->redirect("index");
+		App::model("account")->twitter_login(Config::fetch("www") . "account/twitter_login", function($account, $twitter) {
+				App::route()->redirect("index");
 			}, function($twitter) {
-				$reg = $this->account->register("", $twitter->name, function($data, $id) use($twitter) {
+				$reg = App::model("account")->register("", $twitter->name, function($data, $id) use($twitter) {
 						//App::model("account_meta")->update_meta($id, "twitter_id", $twitter->id);
 						$this->_register_complete($data);
 					});
@@ -207,10 +208,10 @@ class account_controller extends application {
 	 * @link
 	 */
 	public function twitter_register() {
-		$this->account->twitter_login(Config::fetch("www") . "account/twitter_login", function() {
-				$this->route->redirect("index");
+		App::model("account")->twitter_login(Config::fetch("www") . "account/twitter_login", function() {
+				App::route()->redirect("index");
 			}, function() {
-				$this->route->redirect("account/twitter_register");
+				App::route()->redirect("account/twitter_register");
 			});
 	}
 
@@ -224,13 +225,13 @@ class account_controller extends application {
 	 */
 	public function add($id = null, $salt = null) {
 		if(empty($id) || empty($salt)) {
-			$this->route->redirect("account/error");
+			App::route()->redirect("account/error");
 		}
-		$add = $this->account->add($id, $salt, function($data, $account) {
+		$add = App::model("account")->add($id, $salt, function($data, $account) {
 				$this->_register_complete($data);
 			});
 		if(!$add) {
-			$this->route->redirect("account/error");
+			App::route()->redirect("account/error");
 		}
 		$this->assign(get_defined_vars());
 	}
@@ -251,7 +252,7 @@ class account_controller extends application {
 		App::helper("mail")->send($data,
 			join(PHP_EOL, array()),
 			$data["mail"]);
-		$this->route->redirect("account/complete");
+		App::route()->redirect("account/complete");
 	}
 
 	/**

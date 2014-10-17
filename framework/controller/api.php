@@ -71,7 +71,7 @@ class api extends controller {
 	 *###リリース時はHTTPSを追加する場合以下のコードを追加
 	 * 
 	 *         if(!isset($_SERVER['HTTPS'])) { 
-	 *             $this->route->forbidden(); 
+	 *             App::route()->forbidden(); 
 	 *         }
 	 *
 	 * @api
