@@ -126,7 +126,6 @@ class account_controller extends application {
 					);
 					$id = App::helper("auth")->register($data);
 					App::model("profiles")->create_record(array("account_id" => $id, "name" => $facebook["name"], "nickname" => $facebook["name"]));
-					App::model("alerms")->init($id);
 					$record = App::model("account")->find_by_id($id);
 					App::redirect("account/api_facebook_logined?status=authorized&account_id={$id}&token={$record->token}");
 				} else {
