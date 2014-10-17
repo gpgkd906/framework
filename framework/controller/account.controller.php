@@ -125,7 +125,8 @@ class account_controller extends application {
 						"facebook_id" => $facebook["id"]
 					);
 					$id = App::helper("auth")->register($data);
-					App::model("profiles")->create_record(array("account_id" => $id, "name" => $facebook["name"], "nickname" => $facebook["name"]));
+					$facebook_face = "https://graph.facebook.com/" . $facebook["id"] . "/picture";
+					App::model("profiles")->create_record(array("account_id" => $id, "name" => $facebook["name"], "nickname" => $facebook["name"], "face" =>"data:image/jpeg;base64," . base64_encode(file_get_contents($facebook_face))));
 					$record = App::model("account")->find_by_id($id);
 					App::redirect("account/api_facebook_logined?status=authorized&account_id={$id}&token={$record->token}");
 				} else {
