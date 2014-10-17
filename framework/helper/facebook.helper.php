@@ -9,6 +9,7 @@ class facebook_helper extends helper_core {
 				"appId" => Config::search("facebook_application", "appId"),
 				"secret" => Config::search("facebook_application", "secret")
 										));
+		$this->sdk->getUser();
 	}
 	
 	public function __call($name, $param){

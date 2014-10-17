@@ -72,7 +72,7 @@ class auth_helper extends helper_core {
 
 			"val" => $val
 
-								  );
+		);
 
 	}
 	
@@ -218,7 +218,7 @@ class auth_helper extends helper_core {
 
 		if(empty($this->target) || empty($this->target["token"])) {
 
-				$this->_token_auth($token);
+			$this->_token_auth($token);
 
 		}
 
@@ -652,7 +652,7 @@ class auth_helper extends helper_core {
 
 						"request_expire" => $_SERVER["REQUEST_TIME"] + 86400 * 3
 
-                                                           )));
+			)));
 
 		}
 
@@ -730,7 +730,7 @@ class auth_helper extends helper_core {
 
 			"user" => 10, "manager" => 20, "admin" => 30, "superadmin" => 40, "system" => 50
 
-					   );
+		);
 
 		$permission = isset($table[$permission]) ? $table[$permission] : 0;
 
@@ -805,19 +805,13 @@ class auth_helper extends helper_core {
 
 	public function facebook_login($login) {
 
-		if(!$this->is_valid()) {
+		$facebook_api = App::helper("facebook");
 
-			$facebook_api = App::helper("facebook");
+		if($facebook_profile = $facebook_api->api("/me")) {
 
-			$user = $facebook_api->getUser();
+			$facebook_id = $facebook_profile["id"];
 
-			if($facebook_profile = $facebook_api->api("/me")) {
-
-				$facebook_id = $facebook_profile["id"];
-
-				call_user_func($login, $facebook_id, $facebook_profile, $this);
-
-			}
+			call_user_func($login, $facebook_id, $facebook_profile, $this);
 
 		}
 
