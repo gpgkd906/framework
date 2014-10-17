@@ -709,6 +709,9 @@ abstract class BaseFacebook
     if (!isset($_REQUEST['code']) || !isset($_REQUEST['state'])) {
       return false;
     }
+	if(preg_match("/Android/", $_SERVER["HTTP_USER_AGENT"]) && empty($this->state)) {
+		$this->state = $_REQUEST["state"];
+	}
     if ($this->state === $_REQUEST['state']) {
         // CSRF state has done its job, so clear it
         $this->state = null;

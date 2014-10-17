@@ -24,49 +24,49 @@
 class reviews_model extends Model_core {
 	##columns##
     /**
-    * カラム
-    * @api
-    * @var array
-    * @link
-    */
+	 * カラム
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $columns = array(
         'id','author','content','place_id','entry','step','register_dt','update_dt'
     );
     /**
-    * カラム定義
-    * @api
-    * @var array
-    * @link
-    */
+	 * カラム定義
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $alter_columns = array (
-  'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'author' => '`author` int(11) NOT NULL',
-  'content' => '`content` longtext NOT NULL',
-  'place_id' => '`place_id` varchar(128) NOT NULL',
-  'entry' => '`entry` int(11) NOT NULL',
-  'step' => '`step` int(11) NOT NULL',
-  'register_dt' => '`register_dt` bigint(20) NOT NULL',
-  'update_dt' => '`update_dt` bigint(20) NOT NULL',
-);
+		'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
+		'author' => '`author` int(11) NOT NULL',
+		'content' => '`content` longtext NOT NULL',
+		'place_id' => '`place_id` varchar(128) NOT NULL',
+		'entry' => '`entry` int(11) NOT NULL',
+		'step' => '`step` int(11) NOT NULL',
+		'register_dt' => '`register_dt` bigint(20) NOT NULL',
+		'update_dt' => '`update_dt` bigint(20) NOT NULL',
+	);
     ##columns##
 	##indexes##
     /**
-    * インデックス定義
-    * @api
-    * @var array
-    * @link
-    */
+	 * インデックス定義
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $alter_indexes = array (
-  'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'reviews' => 'UNIQUE KEY `reviews` (`author`,`place_id`,`register_dt`)',
-);
+		'PRIMARY' => 'PRIMARY KEY  (`id`)',
+		'reviews' => 'UNIQUE KEY `reviews` (`author`,`place_id`,`register_dt`)',
+	);
     /**
-    * プライマリーキー
-    * @api
-    * @var array
-    * @link
-    */
-              public $primary_keys = array('`reviews`' => 'id');
+	 * プライマリーキー
+	 * @api
+	 * @var array
+	 * @link
+	 */
+	public $primary_keys = array('`reviews`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -366,70 +366,70 @@ class reviews_model extends Model_core {
 class reviews_active_record extends active_record_core {
 	###active_define###
 /**
-*
-* テーブル名
-* @api
-* @var 
-* @link
-*/
-protected static $from = 'reviews';
+ *
+ * テーブル名
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $from = 'reviews';
 /**
-*
-* プライマリキー
-* @api
-* @var 
-* @link
-*/
-protected static $primary_key = 'id';
+ *
+ * プライマリキー
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $primary_key = 'id';
 /**
-* モデルのカラムの反転配列。
-* 
-* 反転後issetが働ける、パフォーマンス的にいい
-*
-* 反転は自動生成するので，実行時に影響はありません
-* @api
-* @var 
-* @link
-*/
-protected static $store_schema = array (
-  'id' => 0,
-  'author' => 1,
-  'content' => 2,
-  'place_id' => 3,
-  'entry' => 4,
-  'step' => 5,
-  'register_dt' => 6,
-  'update_dt' => 7,
-);
+ * モデルのカラムの反転配列。
+ * 
+ * 反転後issetが働ける、パフォーマンス的にいい
+ *
+ * 反転は自動生成するので，実行時に影響はありません
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $store_schema = array (
+		'id' => 0,
+		'author' => 1,
+		'content' => 2,
+		'place_id' => 3,
+		'entry' => 4,
+		'step' => 5,
+		'register_dt' => 6,
+		'update_dt' => 7,
+	);
 /**
-* 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
-* @api
-* @param String $col チェックするカラム名
-* @return
-* @link
-*/
-public static function has_column($col) {
-	return isset(self::$store_schema[$col]);
-}
+ * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
+ * @api
+ * @param String $col チェックするカラム名
+ * @return
+ * @link
+ */
+	public static function has_column($col) {
+		return isset(self::$store_schema[$col]);
+	}
 /**
-* 遅延静的束縛：ActiveRecordのテーブル名を取得
-* @api
-* @return
-* @link
-*/
-public static function get_from() {
-	return self::$from;
-}
+ * 遅延静的束縛：ActiveRecordのテーブル名を取得
+ * @api
+ * @return
+ * @link
+ */
+	public static function get_from() {
+		return self::$from;
+	}
 /**
-* 遅延静的束縛：ActiveRecordのプライマリーキーを取得
-* @api
-* @return
-* @link
-*/
-public static function get_primary_key() {
-	return self::$primary_key;
-}
-###active_define###
+ * 遅延静的束縛：ActiveRecordのプライマリーキーを取得
+ * @api
+ * @return
+ * @link
+ */
+	public static function get_primary_key() {
+		return self::$primary_key;
+	}
+	###active_define###
 
 /**
  * 

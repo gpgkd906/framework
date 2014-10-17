@@ -107,5 +107,9 @@ class admin_controller extends application {
 		$this->assign(get_defined_vars());
     }
 
+	public function partner() {
+		$scaffold = App::model("partners")->scaffold();
+		$this->assign(get_defined_vars());		
+	}
 
 }

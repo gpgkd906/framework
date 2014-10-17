@@ -24,52 +24,52 @@
 class places_model extends Model_core {
 	##columns##
     /**
-    * カラム
-    * @api
-    * @var array
-    * @link
-    */
+	 * カラム
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $columns = array(
         'id','place_id','lat','lng','name','vicinity','tel','reviews_cnt','entry','step','be_edited'
     );
     /**
-    * カラム定義
-    * @api
-    * @var array
-    * @link
-    */
+	 * カラム定義
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $alter_columns = array (
-  'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'place_id' => '`place_id` varchar(128) NOT NULL',
-  'lat' => '`lat` double NOT NULL',
-  'lng' => '`lng` double NOT NULL',
-  'name' => '`name` varchar(256) NOT NULL',
-  'vicinity' => '`vicinity` varchar(256) NOT NULL',
-  'tel' => '`tel` varchar(64) NULL',
-  'reviews_cnt' => '`reviews_cnt` int(11) NOT NULL',
-  'entry' => '`entry` int(11) NOT NULL',
-  'step' => '`step` int(11) NOT NULL',
-  'be_edited' => '`be_edited` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
-);
+		'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
+		'place_id' => '`place_id` varchar(128) NOT NULL',
+		'lat' => '`lat` double NOT NULL',
+		'lng' => '`lng` double NOT NULL',
+		'name' => '`name` varchar(256) NOT NULL',
+		'vicinity' => '`vicinity` varchar(256) NOT NULL',
+		'tel' => '`tel` varchar(64) NULL',
+		'reviews_cnt' => '`reviews_cnt` int(11) NOT NULL',
+		'entry' => '`entry` int(11) NOT NULL',
+		'step' => '`step` int(11) NOT NULL',
+		'be_edited' => '`be_edited` enum(\'yes\',\'no\') NOT NULL Default \'no\'',
+	);
     ##columns##
 	##indexes##
     /**
-    * インデックス定義
-    * @api
-    * @var array
-    * @link
-    */
+	 * インデックス定義
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $alter_indexes = array (
-  'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'reference' => 'UNIQUE KEY `reference` (`place_id`)',
-);
+		'PRIMARY' => 'PRIMARY KEY  (`id`)',
+		'reference' => 'UNIQUE KEY `reference` (`place_id`)',
+	);
     /**
-    * プライマリーキー
-    * @api
-    * @var array
-    * @link
-    */
-              public $primary_keys = array('`places`' => 'id');
+	 * プライマリーキー
+	 * @api
+	 * @var array
+	 * @link
+	 */
+	public $primary_keys = array('`places`' => 'id');
     ##indexes##
 	/**
 	 * 対応するActiveRecordクラス名
@@ -297,73 +297,73 @@ class places_model extends Model_core {
 class places_active_record extends active_record_core {
 	###active_define###
 /**
-*
-* テーブル名
-* @api
-* @var 
-* @link
-*/
-protected static $from = 'places';
+ *
+ * テーブル名
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $from = 'places';
 /**
-*
-* プライマリキー
-* @api
-* @var 
-* @link
-*/
-protected static $primary_key = 'id';
+ *
+ * プライマリキー
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $primary_key = 'id';
 /**
-* モデルのカラムの反転配列。
-* 
-* 反転後issetが働ける、パフォーマンス的にいい
-*
-* 反転は自動生成するので，実行時に影響はありません
-* @api
-* @var 
-* @link
-*/
-protected static $store_schema = array (
-  'id' => 0,
-  'place_id' => 1,
-  'lat' => 2,
-  'lng' => 3,
-  'name' => 4,
-  'vicinity' => 5,
-  'tel' => 6,
-  'reviews_cnt' => 7,
-  'entry' => 8,
-  'step' => 9,
-  'be_edited' => 10,
-);
+ * モデルのカラムの反転配列。
+ * 
+ * 反転後issetが働ける、パフォーマンス的にいい
+ *
+ * 反転は自動生成するので，実行時に影響はありません
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $store_schema = array (
+		'id' => 0,
+		'place_id' => 1,
+		'lat' => 2,
+		'lng' => 3,
+		'name' => 4,
+		'vicinity' => 5,
+		'tel' => 6,
+		'reviews_cnt' => 7,
+		'entry' => 8,
+		'step' => 9,
+		'be_edited' => 10,
+	);
 /**
-* 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
-* @api
-* @param String $col チェックするカラム名
-* @return
-* @link
-*/
-public static function has_column($col) {
-	return isset(self::$store_schema[$col]);
-}
+ * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
+ * @api
+ * @param String $col チェックするカラム名
+ * @return
+ * @link
+ */
+	public static function has_column($col) {
+		return isset(self::$store_schema[$col]);
+	}
 /**
-* 遅延静的束縛：ActiveRecordのテーブル名を取得
-* @api
-* @return
-* @link
-*/
-public static function get_from() {
-	return self::$from;
-}
+ * 遅延静的束縛：ActiveRecordのテーブル名を取得
+ * @api
+ * @return
+ * @link
+ */
+	public static function get_from() {
+		return self::$from;
+	}
 /**
-* 遅延静的束縛：ActiveRecordのプライマリーキーを取得
-* @api
-* @return
-* @link
-*/
-public static function get_primary_key() {
-	return self::$primary_key;
-}
-###active_define###
+ * 遅延静的束縛：ActiveRecordのプライマリーキーを取得
+ * @api
+ * @return
+ * @link
+ */
+	public static function get_primary_key() {
+		return self::$primary_key;
+	}
+    ###active_define###
 	public static $category_table = array("airport" => "空港", 
 		"amusement_park" => "遊園地", 
 		"aquarium" => "水族館", 

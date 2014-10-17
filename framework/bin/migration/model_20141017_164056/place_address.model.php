@@ -24,46 +24,46 @@
 class place_address_model extends Model_core {
 	##columns##
     /**
-    * カラム
-    * @api
-    * @var array
-    * @link
-    */
+	 * カラム
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $columns = array(
         'id','place_id','pref','address','website'
     );
     /**
-    * カラム定義
-    * @api
-    * @var array
-    * @link
-    */
+	 * カラム定義
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $alter_columns = array (
-  'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
-  'place_id' => '`place_id` varchar(128) NOT NULL',
-  'pref' => '`pref` varchar(64) NOT NULL',
-  'address' => '`address` text NOT NULL',
-  'website' => '`website` text NOT NULL',
-);
+		'id' => '`id` int(11) NOT NULL  AUTO_INCREMENT',
+		'place_id' => '`place_id` varchar(128) NOT NULL',
+		'pref' => '`pref` varchar(64) NOT NULL',
+		'address' => '`address` text NOT NULL',
+		'website' => '`website` text NOT NULL',
+	);
     ##columns##
 	##indexes##
     /**
-    * インデックス定義
-    * @api
-    * @var array
-    * @link
-    */
+	 * インデックス定義
+	 * @api
+	 * @var array
+	 * @link
+	 */
     public $alter_indexes = array (
-  'PRIMARY' => 'PRIMARY KEY  (`id`)',
-  'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`pref`)',
-);
+		'PRIMARY' => 'PRIMARY KEY  (`id`)',
+		'place_id' => 'UNIQUE KEY `place_id` (`place_id`,`pref`)',
+	);
     /**
-    * プライマリーキー
-    * @api
-    * @var array
-    * @link
-    */
-              public $primary_keys = array('`place_address`' => 'id');
+	 * プライマリーキー
+	 * @api
+	 * @var array
+	 * @link
+	 */
+	public $primary_keys = array('`place_address`' => 'id');
     ##indexes##
 /**
  * 対応するActiveRecordクラス名
@@ -123,66 +123,66 @@ class place_address_model extends Model_core {
 class place_address_active_record extends active_record_core {
 	###active_define###
 /**
-*
-* テーブル名
-* @api
-* @var 
-* @link
-*/
-protected static $from = 'place_address';
+ *
+ * テーブル名
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $from = 'place_address';
 /**
-*
-* プライマリキー
-* @api
-* @var 
-* @link
-*/
-protected static $primary_key = 'id';
+ *
+ * プライマリキー
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $primary_key = 'id';
 /**
-* モデルのカラムの反転配列。
-* 
-* 反転後issetが働ける、パフォーマンス的にいい
-*
-* 反転は自動生成するので，実行時に影響はありません
-* @api
-* @var 
-* @link
-*/
-protected static $store_schema = array (
-  'id' => 0,
-  'place_id' => 1,
-  'pref' => 2,
-  'address' => 3,
-  'website' => 4,
-);
+ * モデルのカラムの反転配列。
+ * 
+ * 反転後issetが働ける、パフォーマンス的にいい
+ *
+ * 反転は自動生成するので，実行時に影響はありません
+ * @api
+ * @var 
+ * @link
+ */
+	protected static $store_schema = array (
+		'id' => 0,
+		'place_id' => 1,
+		'pref' => 2,
+		'address' => 3,
+		'website' => 4,
+	);
 /**
-* 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
-* @api
-* @param String $col チェックするカラム名
-* @return
-* @link
-*/
-public static function has_column($col) {
-	return isset(self::$store_schema[$col]);
-}
+ * 遅延静的束縛：現在のActiveRecordのカラムにあるかどか
+ * @api
+ * @param String $col チェックするカラム名
+ * @return
+ * @link
+ */
+	public static function has_column($col) {
+		return isset(self::$store_schema[$col]);
+	}
 /**
-* 遅延静的束縛：ActiveRecordのテーブル名を取得
-* @api
-* @return
-* @link
-*/
-public static function get_from() {
-	return self::$from;
-}
+ * 遅延静的束縛：ActiveRecordのテーブル名を取得
+ * @api
+ * @return
+ * @link
+ */
+	public static function get_from() {
+		return self::$from;
+	}
 /**
-* 遅延静的束縛：ActiveRecordのプライマリーキーを取得
-* @api
-* @return
-* @link
-*/
-public static function get_primary_key() {
-	return self::$primary_key;
-}
-###active_define###
+ * 遅延静的束縛：ActiveRecordのプライマリーキーを取得
+ * @api
+ * @return
+ * @link
+ */
+	public static function get_primary_key() {
+		return self::$primary_key;
+	}
+	###active_define###
 
 }

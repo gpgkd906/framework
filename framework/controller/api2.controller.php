@@ -40,7 +40,7 @@ class api2_controller extends api {
 	public function partners() {
 		$status = false;
 		if(true) {
-			$partners = array("watami");
+			$partners = array_column(App::model("partners")->getall_as_array(), "keyword");
 			$status = true;
 		}
 		$this->assign(get_defined_vars());
