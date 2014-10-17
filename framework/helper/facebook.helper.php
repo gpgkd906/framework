@@ -6,8 +6,8 @@ class facebook_helper extends helper_core {
 	public function __construct(){
 		App::import("facebook");
 		$this->sdk = new Facebook(array(
-				"appId" => "",
-				"secret" => ""
+				"appId" => Config::search("facebook_application", "appId"),
+				"secret" => Config::search("facebook_application", "secret")
 										));
 	}
 	

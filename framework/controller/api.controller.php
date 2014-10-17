@@ -71,8 +71,6 @@ class api_controller extends api {
 
 		$result = App::model("places")->compare_by_places($places);
 		
-		$debug = App::model("places")->debug;
-		
 		$place_ids = array_column($result, "place_id");
 
 		$place_attrs = App::model("place_attrs")->find_all_by_place_id($place_ids, true);
@@ -269,8 +267,6 @@ class api_controller extends api {
 		if($review_id = App::model("reviews")->append($this->param, App::helper("auth")->id)) {
 			$status = true;
 		}
-		$debug = App::model("place_types")->debug;
-
 		$this->assign(get_defined_vars());
 	}
 

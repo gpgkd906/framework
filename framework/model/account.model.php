@@ -119,7 +119,7 @@ class account_model extends Model_core {
 	}
 
 	/**
-	 * facebook Oauth 認証api
+	 * twitter Oauth 認証api
 	 * @api
 	 * @param String $callback_url twitterに渡すコールバックurl({@link https://dev.twitter.com/oauth twitter oauth api仕様})
 	 * @param Closure $logined システム上twitterアカウントを見つかった時処理(一般的にはログイン処理)
