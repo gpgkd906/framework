@@ -280,9 +280,7 @@ class Model_driver {
  */
 	public function __construct($DSN){
 		if(self::$conn === null){
-			self::$conn = new PDO("mysql:host={$DSN['host']};dbname={$DSN['dbname']}", $DSN["user"], $DSN["password"]);
-			//mysql_select_db($DSN["dbname"], self::$conn);
-			self::$conn->exec("SET NAMES {$DSN['charset']}");
+			self::connect($DSN);
 		}
 	}
 
@@ -303,6 +301,9 @@ class Model_driver {
 	public static function connect($DSN) {
 		self::$conn = new PDO("mysql:host={$DSN['host']};dbname={$DSN['dbname']}", $DSN["user"], $DSN["password"]);
 		self::$conn->exec("SET NAMES {$DSN['charset']}");
+		if(isset($DSN["handlersocket"])) {
+			self::use_handlersocket($DSN);
+		}
 	}
 
 /**

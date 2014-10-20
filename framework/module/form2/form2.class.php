@@ -120,10 +120,10 @@ class form2 {
  */
 	public function find($id=null){
 		if(empty($id)){
-			$id=$this->lastId;
+			$id = $this->last_id;
 		}
 		if(empty($this->storage[$id])){
-			trigger_error("FormHelper:undefined Form",E_USER_NOTICE);
+			trigger_error("FormHelper:undefined Form", E_USER_NOTICE);
 			return null;
 		}
 		return $this->storage[$id];
@@ -239,7 +239,6 @@ class form_obj2 {
 		$this->set("id", $id);
 	}
 
-
 /**
  * メールハンドラを設定(必須ではない)
  * @param object 
@@ -271,7 +270,6 @@ class form_obj2 {
 		echo "</form>";
 	}
 
-
 /**
  * フォームの属性設定
  * @param string $attr 属性名
@@ -282,7 +280,6 @@ class form_obj2 {
 		$this->attrs[$attr] = $val;
 	}
 	
-
 /**
  * フォームに要素を追加
  * @param string $type 要素タイプ
@@ -365,7 +362,6 @@ class form_obj2 {
 		return $this->all_data;
 	}
 
-
 /**
  * ユーザ入力データを返す、キーを指定する場合は指定されたデータが返されるが、その以外の場合は全データ返される。
  * @param string $name データキー
@@ -389,7 +385,6 @@ class form_obj2 {
 		return null;
 	}
 
-
 /**
  * データ値を上書きする
  * @param string $name 上書きしたいデータのキー
@@ -407,7 +402,6 @@ class form_obj2 {
 			$this->elements[$name]->value($val);
 		}
 	}
-
 
 /**
  * データを一気に上書きする
@@ -451,7 +445,6 @@ class form_obj2 {
 		}
 	}
 
-
 /**
  * バリデーション処理、リセットデータの検知
  * @return
@@ -477,7 +470,6 @@ class form_obj2 {
 		return $this->no_error;
 	}
 
-
 /**
  * 強制エラー
  * @return
@@ -500,7 +492,6 @@ class form_obj2 {
 		return $this->submitted;
 	}
 	
-
 /**
  * 確認ページ処理されるかどかのチェック
  * @return
@@ -515,7 +506,6 @@ class form_obj2 {
 		return $this->confirmed;		
 	}
 
-
 /**
  * 完了処理をされるかどかのチェック
  * @return
@@ -529,7 +519,6 @@ class form_obj2 {
 		}
 		return $this->completed;		
 	}
-
 
 /**
  * サブミット処理
@@ -577,7 +566,6 @@ class form_obj2 {
 		}
 	}
 
-
 /**
  * 確認ページ生成時必要の処理
  * @return
@@ -591,7 +579,6 @@ class form_obj2 {
 		$this->elements["reset"]->type("submit")->value("戻る");
 	}
 
-
 /**
  * 生成した要素をアクセスする
  * @param string $name 要素名
@@ -602,7 +589,6 @@ class form_obj2 {
 			return $this->elements[$name];
 		}
 	}
-
 
 /**
  * 要素追加の部分関数

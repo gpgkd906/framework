@@ -174,9 +174,6 @@ class App {
 		require "model_driver/{$dsn_type}.php";
 		require "Model.php";
 		require "helper.php";
-		if(Config::search("DSN", "handlersocket")) {
-			Model_core::use_handlersocket(Config::fetch("DSN"));
-		}
 		if(Config::fetch("environment") !== "develop") {
 			Model_core::track_off();
 		}
