@@ -101,8 +101,9 @@ class place_address_model extends Model_core {
  * @link
  */
     public function upgrade($place_id, $address_components, $website) {
+		$pref = array_intersect($address_components, self::$pref_table);
 		$data = array(
-			"pref" => array_pop(array_intersect($address_components, self::$pref_table)),
+			"pref" => array_pop($pref),
 			"address" => join(",", $address_components),
 			"website" => $website
 		);

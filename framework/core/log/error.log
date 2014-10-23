@@ -172,3 +172,365 @@ File : /var/www/html/map/server/framework/view_parts/header-admin.html
 Line : 17
 Message : Undefined property: view_helper::$body_class
 
+2014-10-21 18:26:06
+回復不能なエラーが発生しました。
+File : /var/www/html/map/server/framework/helper/auth.helper.php
+Line : 356
+Message : Class 'checker' not found
+
+2014-10-21 18:28:12
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:17
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:19
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:21
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:23
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:24
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:25
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:27
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:28
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:29
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:31
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:36
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:38
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:38
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:45
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:46
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-21 18:28:47
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/view_parts/header-admin.html
+Line : 17
+Message : Undefined property: view_helper::$body_class
+
+2014-10-23 12:40:49
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid OAuth access token signature.
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(344): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(344): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 12:47:51
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid appsecret_proof provided in the API argument
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(345): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(345): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 14:12:48
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:12:48
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid appsecret_proof provided in the API argument
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 14:13:44
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:13:44
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid appsecret_proof provided in the API argument
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(348): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(348): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 14:13:46
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:13:46
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid appsecret_proof provided in the API argument
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(348): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(348): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 14:13:59
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:13:59
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid appsecret_proof provided in the API argument
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(348): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(348): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 14:14:07
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:14:07
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Invalid appsecret_proof provided in the API argument
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(45): Route->request()
+#13 {main}
+
+2014-10-23 14:22:42
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:22:42
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Unknown path components: /851759901522792
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('user/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('user/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->api('user/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(48): Route->request()
+#13 {main}
+
+2014-10-23 14:22:57
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:22:57
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Unknown path components: /851759901522792
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('User/8517599015...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('User/8517599015...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->api('User/8517599015...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(48): Route->request()
+#13 {main}
+
+2014-10-23 14:23:20
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+
+2014-10-23 14:23:20
+例外が発生しました。
+File : /var/www/html/map/server/framework/module/facebook/base_facebook.php
+Line : 1328
+Message : Unknown path components: /851759901522792
+Trace:#0 /var/www/html/map/server/framework/module/facebook/base_facebook.php(899): BaseFacebook->throwAPIException(Array)
+#1 [internal function]: BaseFacebook->_graph('/User/851759901...')
+#2 /var/www/html/map/server/framework/module/facebook/base_facebook.php(672): call_user_func_array(Array, Array)
+#3 [internal function]: BaseFacebook->api('/User/851759901...')
+#4 /var/www/html/map/server/framework/helper/facebook.helper.php(18): call_user_func_array(Array, Array)
+#5 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->__call('api', Array)
+#6 /var/www/html/map/server/framework/controller/api.php(347): facebook_helper->api('/User/851759901...')
+#7 [internal function]: api->login_with_facebookid('851759901522792')
+#8 /var/www/html/map/server/framework/core/Controller.php(417): call_user_func_array(Array, Array)
+#9 /var/www/html/map/server/framework/core/Controller.php(402): Controller->call_action('login_with_face...', 'login_with_face...')
+#10 /var/www/html/map/server/framework/core/Controller.php(130): Controller->process(Object(Route), Array)
+#11 /var/www/html/map/server/framework/core/Route.php(199): Controller->__construct('api', 'api', Object(Route), Array)
+#12 /var/www/html/map/server/index.php(48): Route->request()
+#13 {main}
+
+2014-10-23 14:25:12
+実行時警告(notice)が発生しました。
+File : /var/www/html/map/server/framework/controller/api.php
+Line : 342
+Message : Undefined index: access_token
+

@@ -57,6 +57,7 @@ class api extends controller {
 		"login",
 		"authorized",
 		"facebook_login_url",
+        "login_with_facebookid",
 		"reset_password",
 		"reset_password_request"
 	);
@@ -98,9 +99,9 @@ class api extends controller {
 
 					die(json_encode(array(
 
-								"status" => false,
+                        "status" => false,
 
-								"message" => "権限がありません"
+                        "message" => "権限がありません"
 
 					)));
 
@@ -308,25 +309,84 @@ class api extends controller {
 	 */
 	public function facebook_login_url() {
 
-		if($this->authorization) {
-
-			$url = App::helper("facebook")->getLoginUrl(array(
-
-					"redirect_uri" => App::helper("view")->get_link("account/api_facebook_login"),
-
-					"scope" => "email"
-
-			));
-
-			$this->assign(get_defined_vars());
-
-		} else {
-
-			$this->none_exist_call();
-
-		}
-
+        $url = App::helper("facebook")->getLoginUrl(array(
+            
+            "redirect_uri" => App::helper("view")->get_link("account/api_facebook_login"),
+            
+            "scope" => "email"
+            
+        ));
+        
+        $this->assign(get_defined_vars());
+        
 	}
+    
+    /**
+     * クライアントのアクセスtokenを利用したfacebook認証
+     * @api
+     * @param   
+     * @param    
+     * @return
+     * @link
+     */
+    public function login_with_facebook_token () {
+        $access_token = $this->param["access_token"];
+        
+        App::helper("facebook")->setAccessToken($access_token);
+		
+        App::model("account")->facebook_login(function($account, $facebook) {
+            
+            $auth = App::helper("auth");
+            
+            $status = $auth->is_valid();
+
+			$token = $auth->token;
+
+			$account_id = $auth->id;
+
+			$user = $auth->get_user();
+
+			$profile = App::model("profiles")->find_by_account_id($account_id, true);
+
+            $this->assign(get_defined_vars());
+
+        }, function($facebook) {
+            
+            if(isset($facebook["id"])) {
+                
+                $status = true;
+
+                $data = array(
+                    "account" => $facebook["email"],
+                    "password" => "",
+                    "facebook_id" => $facebook["id"]
+                );
+
+                $id = App::helper("auth")->register($data);
+
+                $facebook_face = "https://graph.facebook.com/" . $facebook["id"] . "/picture";
+
+                App::model("profiles")->create_record(array("account_id" => $id, "name" => $facebook["name"], "nickname" => $facebook["name"], "face" =>"data:image/jpeg;base64," . base64_encode(file_get_contents($facebook_face))));
+
+                $account = App::model("account")->find_by_id($id);
+
+            }
+
+            $auth = App::helper("auth");
+            
+            $status = $auth->is_valid();
+
+			$token = $auth->token;
+
+			$account_id = $auth->id;
+
+			$user = $auth->get_user();
+
+			$profile = App::model("profiles")->find_by_account_id($account_id, true);
+            
+            $this->assign(get_defined_vars());
+        });
+    }
 
 	/**
 	 *　パスワード再発行リクエスト処理
@@ -348,37 +408,37 @@ class api extends controller {
 
 				App::helper("mail")->send(array(
 
-						"subject" => "パスワードリセット(リクエストキー)",
+                    "subject" => "パスワードリセット(リクエストキー)",
 
-						"application_name" => Config::search("application", "name"),
+                    "application_name" => Config::search("application", "name"),
 
 
-						"request_key" => $request_key
+                    "request_key" => $request_key
 
 				), join(PHP_EOL, array(
 
-						"お世話になっております。",
+                    "お世話になっております。",
 
-						"いつも「{application_name}」を利用していただきありがとうございます。",
+                    "いつも「{application_name}」を利用していただきありがとうございます。",
 
-						"",
+                    "",
 
-						"パスワードリセットのリクエストを受付致しましたので、下記のリクエストキーを発行しました。",
+                    "パスワードリセットのリクエストを受付致しましたので、下記のリクエストキーを発行しました。",
 
-						"",
+                    "",
 
-						"{request_key}",
+                    "{request_key}",
 
-						"",
+                    "",
 
-						"リクエストキーを3日以内にアプリまでコピー&ペーストしていただければ、パスワードの再発行
+                    "リクエストキーを3日以内にアプリまでコピー&ペーストしていただければ、パスワードの再発行
 がご利用になります。",
 
-						"また、リクエストキーを第三者に漏れないよう大切に保管してください。",
+                    "また、リクエストキーを第三者に漏れないよう大切に保管してください。",
 
-						"",
+                    "",
 
-						"今後ともよろしくお願い申し上げます。"
+                    "今後ともよろしくお願い申し上げます。"
 
 				)), $user->account);
 
@@ -428,33 +488,33 @@ class api extends controller {
 
 				App::helper("mail")->send(array(
 
-						"subject"=>"パスワードリセット",
+                    "subject"=>"パスワードリセット",
 
-						"application_name" => Config::search("application", "name"),
+                    "application_name" => Config::search("application", "name"),
 
-						"new_password"=>$new_password
+                    "new_password"=>$new_password
 
 				), join(PHP_EOL, array(
 
-						"お世話になっております。",
+                    "お世話になっております。",
 
-						"いつも「{application_name}」を利用していただきありがとうございます。",
+                    "いつも「{application_name}」を利用していただきありがとうございます。",
 
-						"",
+                    "",
 
-						"パスワードリセットしました。下記は新しいパスワードになります",
+                    "パスワードリセットしました。下記は新しいパスワードになります",
 
-						"",
+                    "",
 
-						"{new_password}",
+                    "{new_password}",
 
-						"",
+                    "",
 
-						"パスワードを第三者に漏れないよう大切に保管してください。",
+                    "パスワードを第三者に漏れないよう大切に保管してください。",
 
-						"",
+                    "",
 
-						"今後ともよろしくお願い申し上げます。"
+                    "今後ともよろしくお願い申し上げます。"
 
 				)), $user->account);
 

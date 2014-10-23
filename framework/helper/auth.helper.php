@@ -29,6 +29,7 @@ class auth_helper extends helper_core {
 			$this->target = $_SESSION["auth_target"];
 
 		}
+		App::import("checker");
 
 	}
 
@@ -806,7 +807,7 @@ class auth_helper extends helper_core {
 	public function facebook_login($login) {
 
 		$facebook_api = App::helper("facebook");
-
+        
 		if($facebook_profile = $facebook_api->api("/me")) {
 
 			$facebook_id = $facebook_profile["id"];

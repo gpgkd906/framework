@@ -955,9 +955,9 @@ class active_record_core {
 		}
 		$vals = array();
 		foreach($cols as $col) {
-			$vals = $this->store[$col];
+			$vals[] = $this->store[$col];
 		}
-		return $vals;
+		return join(",", $vals);
 	}
 
 	/**
