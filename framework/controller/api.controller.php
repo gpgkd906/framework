@@ -76,7 +76,7 @@ class api_controller extends api {
 		$place_attrs = App::model("place_attrs")->find_all_by_place_id($place_ids, true);
 
 		$place_types = App::model("place_types")->find_all_by_place_id($place_ids, true);
-
+        
 		//場所に紐付けた画像も取得
 		$place_images = App::model("place_images")->find_all_by_place_id($place_ids, true);
 
@@ -106,6 +106,8 @@ class api_controller extends api {
 
 		$place_images = App::model("place_images")->find_all_by_place_id($place_id, true);
 
+		$place_attr = App::model("place_attrs")->find_by_place_id($place_id, true);
+        
 		$file_ids = array_column($place_images, "file_id");
 
 		$files = array_map(function($file) {
