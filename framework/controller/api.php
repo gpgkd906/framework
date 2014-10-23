@@ -57,7 +57,7 @@ class api extends controller {
 		"login",
 		"authorized",
 		"facebook_login_url",
-        "login_with_facebookid",
+        "login_with_facebook_token",
 		"reset_password",
 		"reset_password_request"
 	);
