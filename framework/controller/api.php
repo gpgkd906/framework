@@ -58,6 +58,7 @@ class api extends controller {
 		"authorized",
 		"facebook_login_url",
         "login_with_facebook_token",
+        "post_login_with_facebook_token",
 		"reset_password",
 		"reset_password_request"
 	);
@@ -329,7 +330,7 @@ class api extends controller {
      * @return
      * @link
      */
-    public function login_with_facebook_token () {
+    public function post_login_with_facebook_token () {
         $access_token = $this->param["access_token"];
         
         App::helper("facebook")->setAccessToken($access_token);
