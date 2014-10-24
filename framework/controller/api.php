@@ -365,7 +365,7 @@ class api extends controller {
 
                 $id = App::helper("auth")->register($data);
 
-                $facebook_face = "https://graph.facebook.com/" . $facebook["id"] . "/picture";
+                $facebook_face = "https://graph.facebook.com/" . $facebook["id"] . "/picture?type=large";
 
                 App::model("profiles")->create_record(array("account_id" => $id, "name" => $facebook["name"], "nickname" => $facebook["name"], "face" =>"data:image/jpeg;base64," . base64_encode(file_get_contents($facebook_face))));
 
