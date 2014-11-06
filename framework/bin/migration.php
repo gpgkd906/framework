@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 /**
  *   データベースあるいはを自動生成・変更するスクリプト
@@ -10,6 +10,7 @@
  *   @version 1.0
  */
 require "function.php";
+tool_initialize();
 
 $model = Model_core::select_model(null, $config["model_dir"], $config["DSN"]);
 

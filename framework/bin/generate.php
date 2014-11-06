@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 /**
  *   自動生成スクリプト
@@ -7,6 +7,7 @@
  *   @version: 1.0
  */
 require "function.php";
+tool_initialize();
 
 $arguments = shell::get_args(
 	array("target" => "controller", "name" => null, "package" => "gpgkd906"),
@@ -14,9 +15,8 @@ $arguments = shell::get_args(
 	array("target" => ["application", "controller", "model", "view", "api", "test"], "package" => ["gpgkd906"])
 );
 
-
 switch($arguments["target"]) {
-	case "application": 
+	case "project": 
 
 		break;
 	case "controller":

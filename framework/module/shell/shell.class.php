@@ -108,7 +108,7 @@ class shell {
 				echo "{$argv[0]} Usage :", PHP_EOL;
 				foreach($usage as $key => $use) {
 					echo "  argument: {$key}", PHP_EOL;
-					echo "    you can use value as those: ", "[", join(" / ", $use), "]", PHP_EOL;
+					echo "    you can use value as those: ", "[", join(", ", $use), "]", PHP_EOL;
 				}
 				die();
 			}

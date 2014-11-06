@@ -44,7 +44,7 @@ trait Base_core {
 	 * リソースをメッセージリソースプールに設定
 	 * 
 	 * 設定後、監視しているイベントを起こす
-	 *@api
+	 * @api
 	 *
 	 * @param String $message メッセージ名
 	 * @param Mixed $resource 任意リソース
@@ -104,5 +104,5 @@ trait Base_core {
 			return $this->resources[$message];
 		}
 	}
-
+    
 }

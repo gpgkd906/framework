@@ -465,22 +465,22 @@ class Model_core extends Model_driver {
 		}
 		$token = $data[0];
 		switch ( $token ) {
-			case 's' :
-				if ( $strict ) {
-					if ( '"' !== $data[ $length - 2 ] )
-						return false;
-				} elseif ( false === strpos( $data, '"' ) ) {
-					return false;
-				}
-				// or else fall through
-			case 'a' :
-			case 'O' :
-				return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
-			case 'b' :
-			case 'i' :
-			case 'd' :
-				$end = $strict ? '$' : '';
-				return (bool) preg_match( "/^{$token}:[0-9.E-]+;$end/", $data );
+        case 's' :
+            if ( $strict ) {
+                if ( '"' !== $data[ $length - 2 ] )
+                    return false;
+            } elseif ( false === strpos( $data, '"' ) ) {
+                return false;
+            }
+            // or else fall through
+        case 'a' :
+        case 'O' :
+            return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
+        case 'b' :
+        case 'i' :
+        case 'd' :
+            $end = $strict ? '$' : '';
+            return (bool) preg_match( "/^{$token}:[0-9.E-]+;$end/", $data );
 		}
 		return false;
 	}	
@@ -516,8 +516,7 @@ class Model_core extends Model_driver {
 	 * @return
 	 */
 	public function __call($name, $param){
-		
-		if(isset($param[0])) {
+        if(isset($param[0])) {
 			if(strpos($name, "find_by_") === 0) {
 				$name = str_replace("find_by_", "", $name);
 				$this->find($name, $param[0])->limit(1);
@@ -553,6 +552,58 @@ class Model_core extends Model_driver {
 		}
 		return $this->behavior_call($name, $param);
 	}
+
+    /**
+     * __callをフレームワークツールで最適化するための着地点
+     * @api
+     * @param   
+     * @param    
+     * @return
+     * @link
+     */
+    public function modelcall ($type, $name, $param)
+    {
+        switch($type) {
+        case "find_by":
+            $this->find($name, $param[0])->limit(1);
+            if(isset($param[1]) && $param[1] === true) {
+                return $this->get_as_array();
+            } else {
+                return $this->get();
+            }
+            break;
+        case "find_all_by":
+            if(empty($param[0])) {
+                return array();
+            }
+            $this->find($name, $param[0]);
+            if(isset($param[1]) && $param[1] === true) {
+                return $this->getall_as_array();
+            } else {
+                return $this->getall();
+            }
+            break;
+        case "update_by":
+            return $this->_update_by($name, $param);
+            break;
+        case "write_by":
+            return $this->_upgrade_by($name, $param);
+            break;
+        case "count_by":
+            return $this->_count_by($name, $param);
+            break;
+        case "count_value_by":
+            return $this->_count_by_value($name, $param);
+            break;
+        case "exists_by":
+            return $this->_exists_by($name, $param);
+            break;
+        case "upgrade_by":
+            return $this->_upgrade_by($name, $param);
+            break;
+        }
+    }
+
 
     /**
 	 * 条件に一致するレコードを全更新する
@@ -972,6 +1023,24 @@ class active_record_core {
 			$this->__set($name, $value);
 		}
 	}
+
+    /**
+     * レコードのupdate_dtだけ更新する
+     * タイムスタンプを利用していなければ，touchメソッドは何もしません
+     * @api
+     * @param   
+     * @param    
+     * @return
+     * @link
+     */
+    public function touch ()
+    {
+        if(static::has_column("update_dt")) {
+            $this->real_changed = true;
+            $this->save();
+        }
+    }
+
 	
 	/**
 	 * データバインド
@@ -1016,7 +1085,9 @@ class active_record_core {
 	 * データセットの変更をデータベースに反映
 	 *
 	 *値が実質的に変更されてない場合はSQLの生成及び発行を飛ばす：「最も早いSQLはSQLを発行しないこと」
-	 *
+	 * ※注意、明示的に値の変更がなくてもtouchメソッドがコールされるとタイムスタンプが更新されるので
+     *   SQLが発行される。
+     *
 	 *更新時の挙動は要検討、論理上プライマリキーは変更すべきものではない
 	 * 
 	 *実際業務では変更される場合もあるかもしれない;

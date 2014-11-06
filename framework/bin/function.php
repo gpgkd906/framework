@@ -6,41 +6,48 @@ if(php_sapi_name() !== "cli") {
 /**
  * config for framework cmd;
  */
-if(!isset($config)) {
-	$config = array();
-}
-$config["tab"] = "    ";
-$config["dir"] = dirname(dirname(__FILE__));
-$config["core_dir"] = $config["dir"] . "/core";
-$config["model_dir"] = $config["dir"] . "/model";
-$config["controller_dir"] = $config["dir"] . "/controller";
-$config["helper_dir"] = $config["dir"] . "/helper";
-$config["vendor_dir"] = $config["dir"] . "/vendor";
-$config["view_dir"] = $config["dir"] . "/view";
-$config["test_dir"] = $config["dir"] . "/test";
-$config["view_parts_dir"] = $config["dir"] . "/view_parts";
-$config["module_dir"] = $config["dir"] . "/module";
-$config["bin_dir"] = $config["dir"] . "/bin";
-$config["application_file"] = $config["dir"] . "/controller/application.php";
-$config["entry_dir"] = dirname($config["dir"]);
-preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", file_get_contents($config["entry_dir"] . "/index.php"), $m);
+function tool_initialize() {
+    global $config;
+    static $inited = false;
+    if($inited) {
+        return false;
+    }
+    $inited = true;
+    if(!isset($config)) {
+        $config = array();
+    }
+    $config["tab"] = "    ";
+    $config["dir"] = dirname(dirname(__FILE__));
+    $config["core_dir"] = $config["dir"] . "/core";
+    $config["model_dir"] = $config["dir"] . "/model";
+    $config["controller_dir"] = $config["dir"] . "/controller";
+    $config["helper_dir"] = $config["dir"] . "/helper";
+    $config["vendor_dir"] = $config["dir"] . "/vendor";
+    $config["view_dir"] = $config["dir"] . "/view";
+    $config["test_dir"] = $config["dir"] . "/test";
+    $config["view_parts_dir"] = $config["dir"] . "/view_parts";
+    $config["module_dir"] = $config["dir"] . "/module";
+    $config["bin_dir"] = $config["dir"] . "/bin";
+    $config["application_file"] = $config["dir"] . "/controller/application.php";
+    $config["entry_dir"] = dirname($config["dir"]);
+    preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", file_get_contents($config["entry_dir"] . "/index.php"), $m);
 //$config["setup"] = file_get_contents($config["entry_dir"] . "/index.php");
 //preg_match("/DSN[\"'],\s+?(array[\S\s]+?\))\)/", $config["setup"], $m);
-eval("\$DSN={$m[1]};");
-if(empty($DSN)){
-	echo "no DSN defined", PHP_EOL, "exited!", PHP_EOL;
-	die();
+    eval("\$DSN={$m[1]};");
+    if(empty($DSN)){
+        echo "no DSN defined", PHP_EOL, "exited!", PHP_EOL;
+        die();
+    }
+    $config["DSN"] = $DSN;
+    $DSN["type"] = ucfirst($DSN["type"]);
+    require $config["core_dir"] . "/Base.php";
+    require $config["core_dir"] . "/model_driver/{$DSN['type']}.php";
+    require $config["core_dir"] . "/Model.php";
+    require $config["core_dir"] . "/Controller.php";
+    require $config["controller_dir"] . "/application.php";
+    require $config["controller_dir"] . "/api.php";
+    require $config["dir"] . "/module/shell/shell.class.php";
 }
-$config["DSN"] = $DSN;
-$DSN["type"] = ucfirst($DSN["type"]);
-require $config["core_dir"] . "/Base.php";
-require $config["core_dir"] . "/model_driver/{$DSN['type']}.php";
-require $config["core_dir"] . "/Model.php";
-require $config["core_dir"] . "/Controller.php";
-require $config["controller_dir"] . "/application.php";
-require $config["controller_dir"] . "/api.php";
-require $config["dir"] . "/module/shell/shell.class.php";
-
 /** 
  * define function for framework console cmd;
  */
@@ -57,6 +64,7 @@ function generate_model($from, $default_method = null) {
 	$tab = $config["tab"];
 	$columns_define = columns_define($model, $tab);
 	$index_define = index_define($model, $tab);
+    $modelcall = modelcall_define($model, $tab);
 	$class_array = array(
 		"<?php",
 		"/**",
@@ -85,6 +93,7 @@ function generate_model($from, $default_method = null) {
 		"class {$model_name} extends Model_core {",
 		$columns_define,
 		$index_define,
+        $modelcall,
 		"/**",
 		"* 対応するActiveRecordクラス名",
 		"* @api",
@@ -100,6 +109,7 @@ function generate_model($from, $default_method = null) {
 		"*/",
 		"public \$relation = array();",
 	);
+    
 	if(!empty($default_method) && is_array($default_method)) {
 		$class_array[] = methods_define($default_method);
 	}
@@ -136,12 +146,24 @@ function regenerate_model($from) {
 	preg_match($reg_columns, $exists, $column_context);
 	$columns_define = columns_define($model, $tab);
 	$exists = str_replace($column_context[0], $columns_define, $exists);
+    //model call
+    $reg_modelcall = "/##modelcall##[\s\S]*?##modelcall##/";
+	$modelcall_define = modelcall_define($model, $tab);
+	if(preg_match($reg_modelcall, $exists, $modelcall_context)) {
+        $exists = str_replace($modelcall_co0ntext[0], $modelcall_define, $exists);
+        $modelcall_define = null;
+    }
 	//index define
 	$reg_index = "/##indexes##[\s\S]*?##indexes##/";
 	preg_match($reg_index, $exists, $index_context);
 	$index_define = index_define($model, $tab);
+    if($modelcall_define !== null) {
+        //後方互換性のため
+        $index_define = $index_define . $modelcall_define;
+        $modelcall_define = null;
+    }
 	$exists = str_replace($index_context[0], $index_define, $exists);
-	//relation define
+    //relation define
 	/* $reg_relate = "/##relation##[\s\S]*?##relation##/"; */
 	/* preg_match($reg_relate, $exists, $relate_context); */
 	//active define
@@ -384,6 +406,43 @@ function alter_index($model) {
 	return $res;
 }
 
+function modelcall_define ($model, $tab)
+{
+    $ref = new ReflectionClass($model);
+    $modelcall_context = ReflectionMethod::export($model, "__call", true);
+    preg_match_all("/\\\$model->([^(]+)/", $modelcall_context, $matchs);
+    $target_methods = array_unique($matchs[1]);
+    $indexes_string = join(";", alter_index($model));
+    $columns = $model->columns(true);
+    $target_column = array();
+    foreach($columns as $col) {
+        if(strpos($indexes_string, $col) !== false) {
+            $target_column[] = $col;
+        }
+    }
+    $modelcall = array("##modelcall##", "");
+    foreach($target_methods as $test_method) {
+        if($ref->hasMethod($test_method)) {
+            //静的に定義されたメソッドは対処しない
+            continue;
+        }
+        //動的に生成されたメソッドは何とかする
+        // find_all_by_id => find_all_by
+        // indexをチェックするのも、データベース設計時indexされなかったカラムはそもそも検索対象ではない
+        $method_type = preg_replace("/_[^_]*?$/", "", $test_method);
+        foreach($target_column as $tc) {
+            $target_method = $method_type . "_" . $tc;
+            $modelcall[] = $tab . "public function {$target_method} ()";
+            $modelcall[] = $tab . "{";
+            $modelcall[] = $tab . $tab . "\$this->modelcall('$method_type', '{$tc}', func_get_args());";
+            $modelcall[] = $tab . "}";
+            $modelcall[] = "";
+        }
+    }
+    $modelcall[] = "##modelcall##";
+    return join(PHP_EOL, $modelcall);
+}
+
 function reset_application($models, $application_file) {
 	$app_defined = file_get_contents($application_file);
 	preg_match("/public\s*?\\\$models[\s\S]*?\);/", $app_defined, $use_defined);
@@ -473,6 +532,7 @@ function do_alter_index($model) {
 	$model->query($change);
 	echo "Indexes OF TABLE " . $name . " HAS BE UPDATED", PHP_EOL;
 }
+
 
 function create_database_table($table) {
 	if(empty($table)) {
