@@ -9,4 +9,6 @@
 6, controller
 7, viewmodel
 8, plugin
+    ini
+    db(mysql)
     
