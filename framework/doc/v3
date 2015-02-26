@@ -1,0 +1,12 @@
+1, namespace base.
+2, tiny core
+3, service base
+4, model:
+    schema
+    record
+    entity
+5, route
+6, controller
+7, viewmodel
+8, plugin
+    
