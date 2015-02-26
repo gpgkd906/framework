@@ -3,6 +3,7 @@
 3, service base
 4, model:
     schema
+    sqlbuilder
     record
     entity
 5, route
