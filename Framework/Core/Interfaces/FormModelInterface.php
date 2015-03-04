@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Core\Interface;
+namespace Framework\Core\Interfaces;
 
 interface FormModelInterface {
 

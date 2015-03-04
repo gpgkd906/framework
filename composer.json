@@ -1,0 +1,17 @@
+{
+    "name": "gpgkd906/framework",
+    "description": "origin framework by gpgkd906",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "chen han",
+            "email": "gpgkd906@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+	"psr-0": {
+	    "Framework": "./"
+	}
+    }
+}

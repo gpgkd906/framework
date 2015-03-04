@@ -14,7 +14,7 @@
  * @since
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Framework\Core\Interface;
+namespace Framework\Core\Interfaces;
 
 /**
  * ControllerInterface

@@ -1,3 +1,4 @@
+<?php
 /**
  * AppInterface
  *
@@ -12,7 +13,7 @@
  * @since
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Framework\Core\Interface;
+namespace Framework\Core\Interfaces;
 
 /**
  * AppInterface
@@ -22,8 +23,10 @@ namespace Framework\Core\Interface;
  * @package 
  * @link 
  */
-class AppInterface 
+interface AppInterface 
 {
+    static public function run($config);
+
     static public function getController($controllerName);
 
     static public function getModel($modelName);
