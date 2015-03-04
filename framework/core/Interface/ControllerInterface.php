@@ -30,12 +30,12 @@ interface ControllerInterface
 
     private function callAction($action, $restAction);
 
-    public function setResponseType();
+    public function setResponseType($responseType);
 
     public function getResponseType();
     
     public function response();
-
+    
     protected function responseHtml();
 
     protected function responseJSON();

@@ -14,7 +14,7 @@
  * @since
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace FrameWork\Core;
+namespace FrameWork\Core\Interface;
 
 /**
  * ViewModelInterface
@@ -25,14 +25,18 @@ namespace FrameWork\Core;
  * @link 
  */
 interface ViewModelInterface 
-{
-    public function setTemplate();
+{    
+    public function setTemplate($template);
 
     public function getTemplate();
 
-    public function setData();
+    public function setData($data);
 
     public function getData();
 
     public function onDataChanged();
+
+    private function getFormModel();
+
+    private function getModel();    
 }

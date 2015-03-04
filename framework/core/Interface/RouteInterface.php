@@ -14,7 +14,7 @@
  * @since
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace FrameWork\Core;
+namespace FrameWork\Core\Interface;
 
 /**
  * RouteInterface
@@ -26,17 +26,17 @@ namespace FrameWork\Core;
  */
 class RouteInterface 
 {
-    public static function getSingletonInstance();
+    public static function getSingleton();
 
-    public function add();
+    public function addAppTable($appUrl);
 
-    public function regularParse();
-    
+    public function setAppTable($appTable);
+
     public function mapping();
 
-    public function request();
+    public function dispatch();
 
-    public function redirect();
+    public function redirect($app);
 
     public function badRequest();
 
