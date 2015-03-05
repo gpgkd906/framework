@@ -1,0 +1,11 @@
+<?php
+
+namespace Framework\Route;
+
+use Framework\Core\Interfaces\RouteModelInterface;
+
+class RouteModel implements RouteModelInterface
+{
+    
+
+}

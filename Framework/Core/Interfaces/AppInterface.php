@@ -25,7 +25,9 @@ namespace Framework\Core\Interfaces;
  */
 interface AppInterface 
 {
-    static public function run($config);
+    static public function setGlobalConfig($globalConfig);
+
+    static public function run();
 
     static public function getController($controllerName);
 
@@ -35,7 +37,7 @@ interface AppInterface
 
     static public function getFormModel($formModelName);
 
-    static public function getRouter();
+    static public function getRouteModel($routeModelName);
 
     static public function getHelper($helperName);
 

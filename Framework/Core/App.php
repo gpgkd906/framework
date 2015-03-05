@@ -6,9 +6,20 @@ use Framework\Core\Interfaces\AppInterface;
 
 class App implements AppInterface
 {
-    static public function run($config)
+    static private $globalConfig = null;
+
+    static function setGlobalConfig($config)
     {
-        var_dump($config);
+        self::$globalConfig = $config;
+    }
+
+    static public function run()
+    {
+        $routeName = self::$globalConfig->getConfig("route", "Framework\Route\RouteModel");
+        $routeModel = self::getRouteModel($routeName);
+        list($controllerName, $action, $param) = $routeModel->dispatch();
+        $controller = self::getController($controllerName);
+        $controller->process($action, $param);
     }
 
     static public function getController($controllerName)
@@ -31,9 +42,9 @@ class App implements AppInterface
         
     }
 
-    static public function getRouter()
+    static public function getRouteModel($routeModelName)
     {
-        
+        return $routeModelName::getSingleton();
     }
 
     static public function getHelper($helperName)

@@ -24,7 +24,7 @@ namespace FrameWork\Core\Interfaces;
  * @package 
  * @link 
  */
-class RouteInterface 
+class RouteModelInterface 
 {
     public static function getSingleton();
 
@@ -37,12 +37,8 @@ class RouteInterface
     public function dispatch();
 
     public function redirect($app);
+    
+    public function update();
 
-    public function badRequest();
-
-    public function notFound();
-
-    public function forbidden();
-
-    public function serverError();
+    public function refresh();
 }
