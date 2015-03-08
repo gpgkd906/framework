@@ -10,6 +10,7 @@ class ConfigModel implements ConfigModelInterface {
     
     //scope
     const SUPER = "global";
+    const ROUTE = "route";
     //property
     const READONLY = 10;
     const READWRITE = 11;
@@ -23,6 +24,7 @@ class ConfigModel implements ConfigModelInterface {
     
     static private $dir = null;
     
+    private $scope = null;
     private $config = [];
     private $property;
     
@@ -38,17 +40,23 @@ class ConfigModel implements ConfigModelInterface {
         $property = $config["property"];
         $configName = join(".", [$namespace, $scope, $property]);
         if(!isset(self::$instances[$configName])) {
-            $config = require(self::getFile($namespace, $scope));            
-            self::$instances[$configName] = new self($config, $property);
+            $configFile = self::getFile($namespace, $scope);
+            if(is_file($configFile)) {
+                $config = require($configFile);
+            } else {
+                $config = [];
+            }
+            self::$instances[$configName] = new self($scope, $config, $property);
         }
         return self::$instances[$configName];
     }
 
-    private function __construct($config, $property = null)
+    private function __construct($scope, $config, $property = null)
     {
         if($property === null) {
             $property = self::READONLY;
         }
+        $this->scope = $scope;
         $this->config = $config;
         $this->property = $property;
     }
@@ -59,6 +67,11 @@ class ConfigModel implements ConfigModelInterface {
             self::$dir = ROOT_DIR . "Framework/Config/" . $namespace . "/";
         }
         return self::$dir . $configName . ".php";
+    }
+
+    public function getScope()
+    {
+        return $this->scope;
     }
 
     public function getConfig($key, $default = null)

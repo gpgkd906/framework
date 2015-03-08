@@ -26,19 +26,13 @@ namespace Framework\Core\Interfaces;
  */
 interface ControllerInterface 
 {
-    public function process($request);
-
-    private function callAction($action, $restAction);
+    static public function getSingleton();
+    
+    public function callActionFlow($action, $restAction);
 
     public function setResponseType($responseType);
 
     public function getResponseType();
     
     public function response();
-    
-    protected function responseHtml();
-
-    protected function responseJSON();
-
-    protected function responseXML();
 }

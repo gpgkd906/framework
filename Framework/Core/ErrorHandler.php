@@ -12,7 +12,7 @@
  * @since
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
+namespace Framework\Core;
 /**
  * Error_handler
  * エラー追跡サブシステム
@@ -21,7 +21,7 @@
  * @package framework.core
  * @link
  */
-final class Error_handler {
+final class ErrorHandler {
 	/**
 	 *各種エラー処理用ハンドラー
 	 *
@@ -73,26 +73,22 @@ final class Error_handler {
 	 */
 	private static $debugMode = true;
 	/**
-	 * フィルターハンドラー
-	 *
-	 * @var string
-	 * @link
-	 */
-	private static $handlerFilter = "self::defaultFilter";
-	/**
 	 * 例外(Exception)ハンドラー
 	 *
 	 * @var string
 	 * @link
 	 */
-	private static $exceptionHandler = "Error_handler::defaultExceptionHandler";
+    const DEFAULT_EXCEPTION_HANDLER = "defaultExceptionHandler";
+	private static $exceptionHandler = null;
+    
 	/**
 	 * エラーハンドラー
 	 *
 	 * @var string
 	 * @link
 	 */
-	private static $Error_handler = "Error_handler::defaultErrorHandler";
+    const DEFAULT_ERROR_HANDLER = "defaultErrorHandler";
+	private static $ErrorHandler = null;
 	/**
 	 * 致命エラーハンドラー
 	 * 
@@ -101,7 +97,12 @@ final class Error_handler {
 	 * @var string
 	 * @link
 	 */
-	private static $fatalErrorHandler = "Error_handler::defaultFatalErrorHandler";
+    const DEFAUT_FATAL_ERROR_HANDLER = "defaultFatalErrorHandler";
+	private static $fatalErrorHandler = null;
+
+    //
+    const DEFAULT_FILTER_HANDLER = "defaultFilter";
+    private static $filterHandler = null;
 
 	/**
 	 * ハンドルするエラーレベルを変更する
@@ -194,9 +195,18 @@ final class Error_handler {
 	 * @return
 	 * @link
 	 */
-	public static function setHandlerFilter($filter){
-		self::$handlerFilter = $filter;
+	public static function setFilterHandler($filter){
+		self::$filterHandler = $filter;
 	}
+
+    public static function getFilterHandler()
+    {
+        if(empty(self::$filterHandler)) {
+            return get_class() . "::" . self::DEFAULT_FILTER_HANDLER;
+        } else {
+            return self::$filterHandler;
+        }
+    }
 
 	/**
 	 * ハンドラーレベルを取得する
@@ -218,7 +228,7 @@ final class Error_handler {
 	 * @link
 	 */
 	public static function setErrorHandler($handler){
-		self::$Error_handler = $handler;
+		self::$ErrorHandler = $handler;
 	}
 
 	/**
@@ -241,9 +251,10 @@ final class Error_handler {
 	 * @link
 	 */
 	public static function setDefaultHandler(){
-		set_exception_handler("Error_handler::proxyExceptionHandler");
-		set_Error_handler("Error_handler::proxyErrorHandler");
-		register_shutdown_function("Error_handler::proxyFatalErrorHandler");
+        $className = get_class();
+		set_exception_handler($className . "::proxyExceptionHandler");
+		set_Error_handler($className . "::proxyErrorHandler");
+		register_shutdown_function($className . "::proxyFatalErrorHandler");
 	}
 
 	/**
@@ -255,10 +266,15 @@ final class Error_handler {
 	 * @link
 	 */
 	public static function proxyExceptionHandler($e){
-		if(!self::$debugMode || !call_user_func(self::$handlerFilter)){
+		if(!self::$debugMode || !call_user_func(self::getFilterHandler())){
 			return false;
 		}
-		call_user_func_array(self::$exceptionHandler,array($e));
+        if(empty(self::$exceptionHandler)) {
+            $exceptionHandler = get_class() . "::" . self::DEFAULT_EXCEPTION_HANDLER;
+        } else {
+            $exceptionHandler = self::$exceptionHandler;
+        }
+		call_user_func_array($exceptionHandler,array($e));
 	}
 
 	/**
@@ -295,13 +311,18 @@ final class Error_handler {
 	 * @link
 	 */
 	public static function proxyErrorHandler($errno,$errstr,$errfile,$errline,$errcontext){
-		if(!self::$debugMode || !call_user_func(self::$handlerFilter)){
+		if(!self::$debugMode || !call_user_func(self::getFilterHandler())){
 			return false;
 		}
 		if(!(self::$handlerLevel & $errno)){
 			return false;
 		}
-		call_user_func_array(self::$Error_handler,array($errno,$errstr,$errfile,$errline,$errcontext));
+        if(empty(self::$ErrorHandler)) {
+            $ErrorHandler = get_class() . "::" . self::DEFAULT_ERROR_HANDLER;
+        } else {
+            $ErrorHandler = self::$ErrorHandler;
+        }
+		call_user_func_array($ErrorHandler,array($errno,$errstr,$errfile,$errline,$errcontext));
 	}
 
 	/**
@@ -340,10 +361,15 @@ final class Error_handler {
 	 * @link
 	 */
 	public static function proxyFatalErrorHandler(){
-		if( !self::$debugMode || !call_user_func(self::$handlerFilter) ){
+		if( !self::$debugMode || !call_user_func(self::getFilterHandler()) ){
 			return false;
 		}
-		call_user_func(self::$fatalErrorHandler);
+        if(empty(self::$fatalErrorHandler)) {
+            $fatalErrorHandler = get_class() . "::" . self::DEFAUT_FATAL_ERROR_HANDLER;
+        } else {
+            $fatalErrorHandler = self::$fatalErrorHandler;
+        }
+		call_user_func($fatalErrorHandler);
 	}
 
 	/**

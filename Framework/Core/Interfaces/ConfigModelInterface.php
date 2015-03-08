@@ -5,7 +5,7 @@ namespace Framework\Core\Interfaces;
 interface ConfigModelInterface {
     
     static public function registerNamespace($namespace);
-
+    
     static public function getConfigModel($config);
 
     public function getConfig($key);

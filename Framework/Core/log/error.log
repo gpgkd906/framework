@@ -1,0 +1,36 @@
+2015-03-08 20:28:35
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 52
+Message : Class 'Framework\Model\BookModel' not found
+
+2015-03-08 20:28:35
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 44
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-03-08 20:29:18
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 44
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-03-08 20:30:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 44
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-03-08 20:31:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 52
+Message : Class 'Framework\Model\BookModel' not found
+
+2015-03-08 20:31:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 44
+Message : Class 'Framework\Controller\Controller' not found
+
