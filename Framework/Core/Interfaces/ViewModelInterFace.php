@@ -33,10 +33,10 @@ interface ViewModelInterface
     public function setData($data);
 
     public function getData();
-
-    public function onDataChanged();
-
-    private function getFormModel();
-
-    private function getModel();    
+   
+    public function renderAsHtml();
+    
+    public function renderAsJson();
+    
+    public function renderAsXml();
 }
