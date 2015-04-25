@@ -15,6 +15,7 @@ class RouteModel implements RouteModelInterface
 
     private $request_method = null;
     private $request_param = [];
+    private $default_req = 'index';
 
     static private $instance = null;
 
@@ -27,6 +28,7 @@ class RouteModel implements RouteModelInterface
             "property" => ConfigModel::READONLY
         ]);
         $this->appUrl = $this->config->getConfig("appUrl");
+        $this->default_req = $this->config->getConfig("default_req", $this->default_req);
     }
     
     public static function getSingleton()
@@ -92,7 +94,7 @@ class RouteModel implements RouteModelInterface
 
     public function appMapping()
     {
-        $req = $_GET["req"];
+        $req = $this->getReq();
         if(isset($this->appUrl[$req])) {
             return $this->appUrl[$req];
         }
@@ -100,7 +102,7 @@ class RouteModel implements RouteModelInterface
 
     public function parseRequest()
     {
-        $req = $_GET["req"];
+        $req = $this->getReq();
         if(strpos($req, ".")) {
             return [null, null, null];
         }
@@ -120,6 +122,15 @@ class RouteModel implements RouteModelInterface
             $reqs[] = null;
         }
         return $reqs;
+    }
+
+    public function getReq() {
+        $param = $this->getParam();
+        if(isset($param["req"])) {
+            return $param["req"];
+        } else {
+            return $this->default_req;
+        }
     }
 
     public function isConsole()

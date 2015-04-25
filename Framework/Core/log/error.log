@@ -1,36 +1,426 @@
-2015-03-08 20:28:35
+2015-04-22 23:49:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 21
+Message : Class 'Framework\Core\AbstractViewModel' not found
+
+2015-04-22 23:50:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 21
+Message : Class 'Framework\Core\AbstractViewModel' not found
+
+2015-04-22 23:52:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:52:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:52:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:52:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:53:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:56:39
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 21
+Message : Undefined class constant 'Framework\Core\ViewModel\AbstractViewModel::responseHTML'
+
+2015-04-22 23:57:34
 回復不能なエラーが発生しました。
 File : /var/www/html/framework/Framework/Core/App.php
 Line : 52
 Message : Class 'Framework\Model\BookModel' not found
 
-2015-03-08 20:28:35
-回復不能なエラーが発生しました。
-File : /var/www/html/framework/Framework/Core/App.php
-Line : 44
-Message : Class 'Framework\Controller\Controller' not found
+2015-04-23 00:06:02
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
 
-2015-03-08 20:29:18
-回復不能なエラーが発生しました。
-File : /var/www/html/framework/Framework/Core/App.php
-Line : 44
-Message : Class 'Framework\Controller\Controller' not found
+2015-04-23 00:06:14
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
 
-2015-03-08 20:30:56
-回復不能なエラーが発生しました。
-File : /var/www/html/framework/Framework/Core/App.php
-Line : 44
-Message : Class 'Framework\Controller\Controller' not found
-
-2015-03-08 20:31:13
-回復不能なエラーが発生しました。
-File : /var/www/html/framework/Framework/Core/App.php
+2015-04-23 00:07:06
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
 Line : 52
-Message : Class 'Framework\Model\BookModel' not found
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
 
-2015-03-08 20:31:13
+2015-04-23 00:07:22
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:40
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:04:58
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:04:59
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:11:36
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:24:57
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Undefined index: IndexViewModel
+
+2015-04-25 02:24:57
 回復不能なエラーが発生しました。
-File : /var/www/html/framework/Framework/Core/App.php
-Line : 44
-Message : Class 'Framework\Controller\Controller' not found
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:25:46
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:25:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:37
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:37
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:31:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:31:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:32:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:32:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:36:53
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:53
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:36:54
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:54
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:36:54
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:54
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:36:55
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:55
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:37:52
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:37:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:37:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:45:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:45:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:50:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 11
+Message : Declaration of Framework\Core\AbstractController::response() must be compatible with Framework\Core\Interfaces\ControllerInterface::response(Framework\Core\Interfaces\ViewModelInterface $viewModel)
+
+2015-04-25 02:50:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 11
+Message : Declaration of Framework\Core\AbstractController::response() must be compatible with Framework\Core\Interfaces\ControllerInterface::response(Framework\Core\Interfaces\ViewModelInterface $viewModel)
+
+2015-04-25 02:50:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 11
+Message : Declaration of Framework\Core\AbstractController::response() must be compatible with Framework\Core\Interfaces\ControllerInterface::response(Framework\Core\Interfaces\ViewModelInterface $viewModel)
+
+2015-04-25 02:51:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:51:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:29:21
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:21
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:35
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:30:00
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:30:27
+スクリプト中，将来のPHPバージョンに互換性を持たないしかねないのコードを検出されました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 48
+Message : Non-static method Framework\Core\ViewModel\AbstractViewModel::setRenderType() should not be called statically, assuming $this from incompatible context
+
+2015-04-25 11:30:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:31:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:31:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:32:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 11:32:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 11:32:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
 

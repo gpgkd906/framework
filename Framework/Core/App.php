@@ -4,6 +4,7 @@ namespace Framework\Core;
 
 use Framework\Core\Interfaces\AppInterface;
 use Framework\Core\ErrorHandler;
+use Framework\Core\ViewModel\ViewModelManager;
 
 class App implements AppInterface
 {
@@ -12,6 +13,7 @@ class App implements AppInterface
     const DEFAULT_ROUTE = "Framework\Route\RouteModel";
     const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Controller";
     const DEFAULT_MODEL_NAMESPACE = "Framework\Model";
+    const DEFAULT_VIEWMODEL_NAMESPACE = "Framework\ViewModel";
     
     static private $globalConfig = null;
 
@@ -29,6 +31,7 @@ class App implements AppInterface
         if($useErrorHandler) {
             ErrorHandler::setup();
         }
+        ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE));
         $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         $routeModel = self::getRouteModel($routeName);
         list($controllerName, $action, $param) = $routeModel->dispatch();

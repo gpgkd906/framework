@@ -3,24 +3,28 @@
 namespace Framework\Core;
 
 use Framework\Core\Interfaces\ControllerInterface;
+use Framework\Core\Interfaces\ViewModelInterface;
+use Framework\Core\ViewModel\AbstractViewModel;
 use Exception;
 
 abstract class AbstractController implements ControllerInterface
 {    
     static private $instance = [];
     
-    const responseHTML = "html";
-    const responseJSON = "json";
-    const responseXML = "xml";
     //error
     const ERROR_INVALID_RESPONSE_TYPE = "error: invalid response-type";
+    const ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL = "error: return-value is not valid view model from action %s ";
     
-    private $responseType = "html";
+    private $responseType = AbstractViewModel::renderAsHTML;
 
+    private $controllerName = null;
+    private $ViewModel = null;
+    
     static public function getSingleton() {
         $controllerName = get_called_class();
         if(!isset(self::$instance[$controllerName])) {
             self::$instance[$controllerName] = new $controllerName();
+            self::$instance[$controllerName]->setSelfName($controllerName);
         }
         return self::$instance[$controllerName];
     }
@@ -36,28 +40,36 @@ abstract class AbstractController implements ControllerInterface
         }
         if(is_callable([$this, $actionMethod])) {
             $this->callAction("beforeAction");
-            $this->callAction($actionMethod, $param);
+            $viewModel = $this->callAction($actionMethod, $param);
+            $this->setViewModel($viewModel);
             $this->callAction("afterAction");
-            $this->callAction("beforeResponse");
-            $this->callAction("response");
-            $this->callAction("afterResponse");
+            if(isset($viewModel)) {
+                if($viewModel instanceof ViewModelInterface) {
+                    $viewModel->setRenderType($this->responseType);
+                    $this->callAction("beforeResponse");
+                    $this->callAction("response");
+                    $this->callAction("afterResponse");
+                } else {
+                    throw new Exception(sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getSelfName() . "::" . $actionMethod));
+                }
+            }
         } else {
             throw new Exception("not implements for not_found");
         }
-    }
+    }    
 
     protected function callAction($action, $param = null)
     {
         if(is_callable([$this, $action])) {
-            $this->{$action}($param);
+            return $this->{$action}($param);
         }
     }
 
     public function setResponseType($responseType)
     {
-        if($responseType === self::responseHTML
-        || $responseType === self::responseJSON
-        || $responseType === self::responseXML
+        if($responseType === AbstractViewModel::renderAsHTML
+        || $responseType === AbstractViewModel::renderAsJSON
+        || $responseType === AbstractViewModel::renderAsXML
         ) {
             $this->responseType = $responseType;
         } else {
@@ -72,34 +84,26 @@ abstract class AbstractController implements ControllerInterface
     
     public function response()
     {
-        switch($this->responseType) {
-        case self::responseHTML:
-            $this->responseHTML();
-            break;
-        case self::responseJSON:
-            $this->responseJSON();
-            break;
-        case self::responseXML:
-            $this->responseXML();
-            break;
-        default:
-            throw new Exception(self::ERROR_INVALID_RESPONSE_TYPE);
-            break;
-        }
-    }
-    
-    protected function responseHtml()
-    {
-
+        $this->getViewModel()->render();
     }
 
-    protected function responseJSON()
+    public function setSelfName($controllerName)
     {
-
+        $this->controllerName = $controllerName;
     }
 
-    protected function responseXML()
+    public function getSelfName()
     {
-        
+        return $this->controllerName;
+    }
+
+    public function setViewModel($ViewModel)
+    {
+        $this->ViewModel = $ViewModel;
+    }
+
+    public function getViewModel()
+    {
+        return $this->ViewModel;
     }
 }
