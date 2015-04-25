@@ -34,6 +34,14 @@ interface ViewModelInterface
 
     public function getData();
    
+    public function asHtml();
+    
+    public function asJson();
+    
+    public function asXml();
+
+    public function render();
+    
     public function renderAsHtml();
     
     public function renderAsJson();

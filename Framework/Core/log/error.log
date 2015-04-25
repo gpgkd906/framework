@@ -424,3 +424,487 @@ File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
 Line : 77
 Message : Cannot access empty property
 
+2015-04-25 14:56:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 14:57:38
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 98
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 14:57:38
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 98
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 14:57:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 99
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 14:57:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 99
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 15:01:37
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 99
+Message : Class Framework\ViewModel\IndexViewModel contains 3 abstract methods and must therefore be declared abstract or implement the remaining methods (FrameWork\Core\Interfaces\ViewModelInterface::renderAsHtml, FrameWork\Core\Interfaces\ViewModelInterface::renderAsJson, FrameWork\Core\Interfaces\ViewModelInterface::renderAsXml)
+
+2015-04-25 15:25:53
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 98
+Message : Access level to Framework\ViewModel\IndexViewModel::$template must be public (as in class Framework\Core\ViewModel\AbstractViewModel)
+
+2015-04-25 19:32:47
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:32:47
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:32:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:37:20
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:37:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:37:20
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:37:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:37:21
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:37:21
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:47:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Call to undefined method Framework\Core\ViewModel\ViewModelManager::setTemplateDir()
+
+2015-04-25 19:50:55
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 148
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:50:55
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 148
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:55:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 80
+Message : Class 'Framework\Core\ViewModel\Exception' not found
+
+2015-04-25 19:55:45
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:56:19
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModeltemplate/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:57:05
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:57:06
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:57:06
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:24
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 20:12:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 21
+Message : syntax error, unexpected '}', expecting ',' or ';'
+
+2015-04-25 20:12:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 21
+Message : syntax error, unexpected '}', expecting ',' or ';'
+
+2015-04-25 20:13:08
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\HeaderViewModel
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php(47): Framework\Core\ViewModel\ViewModelManager::getView(Array)
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(107): Framework\Core\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(156): Framework\Core\ViewModel\AbstractViewModel->getChilds()
+#3 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(120): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#5 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#6 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#7 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#8 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#9 {main}
+
+2015-04-25 20:16:00
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/HeaderViewModel.php
+Line : 99
+Message : Cannot redeclare class Framework\ViewModel\IndexViewModel
+
+2015-04-25 20:16:09
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\ContentViewModel
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php(47): Framework\Core\ViewModel\ViewModelManager::getView(Array)
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(107): Framework\Core\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(156): Framework\Core\ViewModel\AbstractViewModel->getChilds()
+#3 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(120): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#5 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#6 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#7 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#8 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#9 {main}
+
+2015-04-25 20:35:39
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 102
+Message : Cannot redeclare Framework\Core\ViewModel\AbstractViewModel::setItems()
+
+2015-04-25 20:35:39
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 102
+Message : Cannot redeclare Framework\Core\ViewModel\AbstractViewModel::setItems()
+

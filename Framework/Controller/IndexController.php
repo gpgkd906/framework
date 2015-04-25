@@ -15,10 +15,11 @@ class IndexController extends AbstractController
         /* var_dump($book->getAll()); */
         
 
-        return ViewModelManager::getViewModel([
+        $viewModel = ViewModelManager::getViewModel([
             "viewModel" => "IndexViewModel",
             "Model" => "Book"
         ]);
+        return $viewModel;
     }
 
 }

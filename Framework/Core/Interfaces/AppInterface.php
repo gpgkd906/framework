@@ -33,8 +33,6 @@ interface AppInterface
 
     static public function getModel($modelName);
 
-    static public function getViewModel($viewModelName);
-
     static public function getFormModel($formModelName);
 
     static public function getRouteModel($routeModelName);

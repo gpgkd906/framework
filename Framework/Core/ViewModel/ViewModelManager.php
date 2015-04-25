@@ -16,18 +16,35 @@ class ViewModelManager implements ViewModelManagerInterface
     static private $alias = [];
     //
     static private $namespace = null;
-
+    static private $templateDir = null;
+    
     static public function setNamespace($namespace) {
         self::$namespace = $namespace;
     }
 
+    static public function getNamespace()
+    {
+        return self::$namespace;
+    }
+
+    static public function setTemplateDir($templateDir)
+    {
+        self::$templateDir = $templateDir;
+    }
+
+    static public function getTemplateDir()
+    {
+        return self::$templateDir;
+    }
+
     static public function getViewModel($config)
     {
+        if($config instanceof ViewModelInterface) {
+            return $config;
+        }
         //viewModel?
         if(isset($config["viewModel"])) {
             return self::getView($config);
-        } elseif($config["tpl"]) {
-            return self::getTplView($config);
         } else {
             throw new Exception(self::ERROR_INVALID_VIEWMODEL_CONFIG);
         }
@@ -41,22 +58,16 @@ class ViewModelManager implements ViewModelManagerInterface
         }
         if(!class_exists($viewModelName)) {
             $viewModelName = self::$namespace . "\\" . $viewModelName;
+            if(!class_exists($viewModelName)) {
+                throw new Exception(sprintf(self::ERROR_INVALID_VIEWMODEL, $viewModelName));
+            }
+            self::setAlias($config["viewModel"], $viewModelName);
         }
-        if(!class_exists($viewModelName)) {
-            throw new Exception(sprintf(self::ERROR_INVALID_VIEWMODEL, $viewModelName));
+        $ViewModel = new $viewModelName;
+        if($ViewModel->getTemplateDir() === null) {
+            $ViewModel->setTemplateDir(self::getTemplateDir());
         }
-        return new $viewModelName;
-    }
-
-    static private function getTplView($config)
-    {
-        $viewModelName = self::$templateViewModel;
-        if(!class_exists($viewModelName)) {
-            throw new Exception(self::ERROR_INVALID_TEMPLATE_VIEWMODEL);            
-        }
-        $TemplateViewModel = new $viewModelName;
-        $TemplateViewModel->setConfig($config);
-        return $TemplateViewModel;
+        return $ViewModel;
     }
 
     static public function setAlias($alias, $viewModelName)

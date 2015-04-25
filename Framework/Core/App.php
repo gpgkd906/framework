@@ -32,6 +32,7 @@ class App implements AppInterface
             ErrorHandler::setup();
         }
         ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE));
+        ViewModelManager::setTemplateDir(self::$globalConfig->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', self::DEFAULT_VIEWMODEL_NAMESPACE)));
         $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         $routeModel = self::getRouteModel($routeName);
         list($controllerName, $action, $param) = $routeModel->dispatch();
@@ -54,10 +55,10 @@ class App implements AppInterface
         $modelLabel = $modelNamespace . "\\" . $model;
         return $modelLabel::getSingleton();        
     }
-
-    static public function getViewModel($viewModelName)
+    
+    static public function getGlobalConfig($key)
     {
-        
+        return self::$$globalConfig->getConfig($key);
     }
 
     static public function getFormModel($formModelName)
