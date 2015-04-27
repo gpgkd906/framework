@@ -11,6 +11,8 @@ class ConfigModel implements ConfigModelInterface {
     //scope
     const SUPER = "global";
     const ROUTE = "route";
+    const MODEL = "model";
+    const VIEW = "view";
     //property
     const READONLY = 10;
     const READWRITE = 11;

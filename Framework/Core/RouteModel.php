@@ -1,12 +1,15 @@
 <?php
 
-namespace Framework\Route;
+namespace Framework\Core;
 
 use Framework\Core\Interfaces\RouteModelInterface;
 use Framework\Config\ConfigModel;
+use Exception;
 
 class RouteModel implements RouteModelInterface
 {
+    const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
+
 
     const GET = "get";
     const POST = "post";
@@ -43,8 +46,6 @@ class RouteModel implements RouteModelInterface
     {
         if($this->isConsole()) {
             $request = $this->parseCommand();
-        } else if($request = $this->appMapping()) {
-            //nothing do here
         } else {
             $request = $this->parseRequest();
         }
@@ -92,9 +93,8 @@ class RouteModel implements RouteModelInterface
         
     }
 
-    public function appMapping()
+    public function appMapping($req)
     {
-        $req = $this->getReq();
         if(isset($this->appUrl[$req])) {
             return $this->appUrl[$req];
         }
@@ -102,6 +102,8 @@ class RouteModel implements RouteModelInterface
 
     public function parseRequest()
     {
+        //controller, action, param
+        $request = [null, null, null];
         $req = $this->getReq();
         if(strpos($req, ".")) {
             return [null, null, null];
@@ -110,18 +112,56 @@ class RouteModel implements RouteModelInterface
             $req = substr($req, 0, -1);
         }
         $reqs = explode("/", $req);
-        //controllerName
-        if(empty($reqs[0])) {
-            $reqs[0] = "index";
+        $reqLenth = count($reqs);
+        switch($reqLenth) {
+        case 1: //sample: index
+            $_req = $reqs[0];
+            if(!$request = $this->appMapping($_req)) {
+                $request = [ucfirst($_req), $this->default_req, null];
+            }
+            break;
+        case 2: //sample: mypage/bookmarks, product/1
+            $_req = $reqs[0];
+            if($request = $this->appMapping($_req)) {
+                $request[2] = $reqs[1];
+            } else {
+                $_req = join("/", $reqs);
+                if(!$request = $this->appMapping($_req)) {
+                    $_req = ucfirst($reqs[0]) . "\\" .  ucfirst($reqs[1]);
+                    $request = [$_req, $this->default_req, null];
+                }
+            }
+            break;
+        default: //count($reqs) >= 3: product/detail/1, admin/product/list
+            $mapped = false;
+            for($i = 1; $i < $reqLenth; $i++) {
+                list($_req, $rest) = $this->joinStep($reqs, $i);
+                if($request = $this->appMapping($_req)) {
+                    $request[2] = $rest;
+                    $mapped = true;
+                    break;
+                }
+            }
+            if($mapped === false) {
+                $_req = ucfirst($reqs[0]) . "\\" .  ucfirst($reqs[1]);
+                $request = [$_req, $reqs[2], array_slice($reqs, 3)];                
+            }
+            break;
         }
-        //actionName
-        if(!isset($reqs[1])) {
-            $reqs[] = "index";
+        if(empty($request[1])) {
+            $request[1] = $this->default_req;
         }
-        if(!isset($reqs[2])) {
-            $reqs[] = null;
+        return $request;
+    }
+
+    private function joinStep($array, $step = 1, $delimiter = "/")
+    {
+        if(count($array) < $step) {
+            throw new Exception(self::INVALID_JOINSTEP);
         }
-        return $reqs;
+        $joinArr = array_slice($array, 0, $step);
+        $rest = array_slice($array, $step);
+        return [join($delimiter, $joinArr), $rest];
     }
 
     public function getReq() {

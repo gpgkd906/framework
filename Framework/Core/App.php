@@ -10,7 +10,7 @@ class App implements AppInterface
 {
     const ERROR_NEED_GLOBAL_CONFIG = "error: need global config";
     //
-    const DEFAULT_ROUTE = "Framework\Route\RouteModel";
+    const DEFAULT_ROUTE = "Framework\Core\RouteModel";
     const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Controller";
     const DEFAULT_MODEL_NAMESPACE = "Framework\Model";
     const DEFAULT_VIEWMODEL_NAMESPACE = "Framework\ViewModel";
@@ -36,6 +36,8 @@ class App implements AppInterface
         $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         $routeModel = self::getRouteModel($routeName);
         list($controllerName, $action, $param) = $routeModel->dispatch();
+        var_dump($controllerName, $action, $param);
+        die();
         $controller = self::getController($controllerName);
         $controller->callActionFlow($action, $param);
     }

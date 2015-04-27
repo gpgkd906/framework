@@ -908,3 +908,669 @@ File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
 Line : 102
 Message : Cannot redeclare Framework\Core\ViewModel\AbstractViewModel::setItems()
 
+2015-04-26 01:47:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:16
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:29
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:47:29
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:47:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:47:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:45
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:49:45
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:51:25
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:51:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:51:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 02:00:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 02:00:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 02:00:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 02:00:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:22:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 12:22:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:25:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 12:25:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:02
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:02
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:40:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:40:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:40:52
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:42:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:51:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:57:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:58:17
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:03
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:03
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:04
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:04
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:26
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:27
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:27
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:40
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:32:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:35
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:35:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:35:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:35:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:36:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:36:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:36:53
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:58:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:59:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:59:45
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:05:10
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
