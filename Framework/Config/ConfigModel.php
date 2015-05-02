@@ -2,23 +2,33 @@
 
 namespace Framework\Config;
 
-use Framework\Core\App;
-
 use Framework\Core\Interfaces\ConfigModelInterface;
+use Framework\Core\Interfaces\EventInterface;
 
-class ConfigModel implements ConfigModelInterface {
-    
+class ConfigModel implements ConfigModelInterface 
+{
+    use \Framework\Core\EventTrait;
+
     //scope
     const SUPER = "global";
     const ROUTE = "route";
     const MODEL = "model";
     const VIEW = "view";
     //property
-    const READONLY = 10;
+    const READONLY  = 10;
     const READWRITE = 11;
+    //
+    const TYPE_PHP_ARRAY = 100;
+    const TYPE_INI_FILE  = 101;
+    const TYPE_JSON_FILE = 102;
+    const TYPE_CALLBACK  = 103;
     //
     const ERROR_READONLY = "error: readonly";
     const ERROR_INVALID = "error: invalid config";
+    const ERROR_INVALID_SCOPE_OR_FILEPATH = "error: invalid scope or config-filepath";
+    const ERROR_INVALID_CALLBACK = "error: invalid callback";
+    const ERROR_INVALID_INI_CONFIG = "error: invaliad ini config: %s";
+    const ERROR_INVALID_JSON_CONFIG = "error: invalid json config: %s";
 
     static private $namespace = null;
     
@@ -29,38 +39,102 @@ class ConfigModel implements ConfigModelInterface {
     private $scope = null;
     private $config = [];
     private $property;
-    
+    private $type = null;
+
     static public function registerNamespace($namespace)
     {
         return self::$namespace = $namespace;
     }
 
-    static public function getConfigModel($config)
+    static public function getConfigModel($metaConfig)
     {
         $namespace = self::$namespace;
-        $scope = $config["scope"];
-        $property = $config["property"];
+        $scope = $metaConfig["scope"];
+        if(isset($metaConfig["property"])) {
+            $property = $metaConfig["property"];
+        } else {
+            $property = self::READONLY;
+        }
+        if(isset($metaConfig['type'])) {
+            $type = $metaConfig['type'];
+        } else {
+            $type = self::TYPE_PHP_ARRAY;
+        }
         $configName = join(".", [$namespace, $scope, $property]);
         if(!isset(self::$instances[$configName])) {
-            $configFile = self::getFile($namespace, $scope);
-            if(is_file($configFile)) {
-                $config = require($configFile);
-            } else {
-                $config = [];
-            }
-            self::$instances[$configName] = new self($scope, $config, $property);
+            $config = self::loadConfig($metaConfig, $type);
+            self::$instances[$configName] = new self($scope, $config, $property, $type);
         }
         return self::$instances[$configName];
     }
 
-    private function __construct($scope, $config, $property = null)
+    static public function loadConfig($metaConfig, $type)
     {
-        if($property === null) {
-            $property = self::READONLY;
+        if($type === self::TYPE_CALLBACK) {
+            $config = self::loadConfigFromCallback($metaConfig);
+        } else {
+            $config = self::loadConfigFromFile($metaConfig, $type);
         }
+        return $config;
+    }
+    
+    static public function loadConfigFromFile($metaConfig, $type)
+    {
+        if(!isset($metaConfig['scope']) && !isset($metaConfig['configFile'])) {
+            throw new Exception(self::INVALID_SCOPE_OR_FILEPATH);
+        }
+        if(isset($metaConfig['configFile'])) {
+            $configFile = $metaConfig['configFile'];
+        } else {
+            if(isset($metaConfig['namespace'])) {
+                $namespace = $metaConfig['namespace'];
+            } else {
+                $namespace = self::$namespace;
+            }
+            $configFile = self::getFile($namespace, $metaConfig['scope']);
+        }
+        if(is_file($configFile)) {
+            switch($type) {
+            case self::TYPE_PHP_ARRAY:
+                $config = require($configFile);
+                break;
+            case self::TYPE_INI_FILE:
+                if(!$config = parse_ini_file($configFile, true)) {
+                    
+                }
+                break;
+            case self::TYPE_JSON_FILE:
+                $contents = file_get_contents($configFile);
+                if(!$config = json_decode($contents, true)) {
+                }
+                break;
+            }
+        } else {
+            $config = [];
+        }
+        return $config;
+    }
+
+    static public function loadConfigFromCallback($metaConfig)
+    {
+        if(!isset($metaConfig['callback'])) {
+            throw new Exception(self::ERROR_INVALID_CALLBACK);
+        }
+        if(!isset($metaConfig['callback']['loadConfig'])) {
+            throw new Exception(self::ERROR_INVALID_CALLBACK);
+        }
+        if(!is_callable($metaConfig['callback']['loadConfig'])) {
+            throw new Exception(self::ERROR_INVALID_CALLBACK);
+        }
+        return call_use_func($metaConfig['callback']['loadConfig']);
+    }
+
+    private function __construct($scope, $config, $property, $type)
+    {
         $this->scope = $scope;
         $this->config = $config;
         $this->property = $property;
+        $this->type = $type;
     }
 
     static private function getFile($namespace, $configName)
@@ -99,8 +173,18 @@ class ConfigModel implements ConfigModelInterface {
         
     }
 
+    static private function updateToFile()
+    {
+        
+    }
+
+    static private function updateByCallBack()
+    {
+        
+    }
+
     public function refresh()
     {
-
+        
     }
 }

@@ -36,8 +36,9 @@ class App implements AppInterface
         $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         $routeModel = self::getRouteModel($routeName);
         list($controllerName, $action, $param) = $routeModel->dispatch();
-        var_dump($controllerName, $action, $param);
-        die();
+        if(empty($controllerName)) {
+            die;
+        }
         $controller = self::getController($controllerName);
         $controller->callActionFlow($action, $param);
     }
@@ -62,12 +63,7 @@ class App implements AppInterface
     {
         return self::$$globalConfig->getConfig($key);
     }
-
-    static public function getFormModel($formModelName)
-    {
-        
-    }
-
+    
     static public function getRouteModel($routeModelName = null)
     {
         if($routeModelName === null) {

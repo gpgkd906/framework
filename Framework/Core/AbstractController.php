@@ -56,12 +56,15 @@ abstract class AbstractController implements ControllerInterface
         } else {
             throw new Exception("not implements for not_found");
         }
-    }    
+    }
 
-    protected function callAction($action, $param = null)
+    protected function callAction($action, $param = [])
     {
         if(is_callable([$this, $action])) {
-            return $this->{$action}($param);
+            if($param === null) {
+                $param = [];
+            }
+            return call_user_func_array([$this, $action], $param);
         }
     }
 

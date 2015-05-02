@@ -1,0 +1,12 @@
+<?php
+
+namespace Framework\Core\Interfaces;
+
+interface EventInterface 
+{
+    public function addEventListener($eventName, $callback);
+    
+    public function removeEventListener($eventName, $callback);
+    
+    protected function triggerEvent($eventName);
+}

@@ -9,7 +9,7 @@ use Exception;
 class RouteModel implements RouteModelInterface
 {
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
-
+    const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
 
     const GET = "get";
     const POST = "post";
@@ -19,6 +19,7 @@ class RouteModel implements RouteModelInterface
     private $request_method = null;
     private $request_param = [];
     private $default_req = 'index';
+    private $max_depths = 10;
 
     static private $instance = null;
 
@@ -32,6 +33,7 @@ class RouteModel implements RouteModelInterface
         ]);
         $this->appUrl = $this->config->getConfig("appUrl");
         $this->default_req = $this->config->getConfig("default_req", $this->default_req);
+        $this->max_depths = $this->config->getConfig("max_depths", $this->max_depths);
     }
     
     public static function getSingleton()
@@ -113,6 +115,9 @@ class RouteModel implements RouteModelInterface
         }
         $reqs = explode("/", $req);
         $reqLenth = count($reqs);
+        if($reqLenth > $this->max_depths) {
+            throw new Exception(self::ERROR_OVER_MAX_DEPTHS);
+        }
         switch($reqLenth) {
         case 1: //sample: index
             $_req = $reqs[0];
