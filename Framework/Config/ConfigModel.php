@@ -14,6 +14,7 @@ class ConfigModel implements ConfigModelInterface
     const ROUTE = "route";
     const MODEL = "model";
     const VIEW = "view";
+    const PLUGINS = "plugins";
     //property
     const READONLY  = 10;
     const READWRITE = 11;

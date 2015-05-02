@@ -3,10 +3,13 @@ namespace Framework\Core\ViewModel;
 
 use Framework\Core\Interfaces\ViewModelInterface;
 use Framework\Core\ViewModel\ViewModelManager;
+use Framework\Core\Interfaces\EventInterface;
 use Exception;
 
-abstract class AbstractViewModel implements ViewModelInterface
+abstract class AbstractViewModel implements ViewModelInterface, EventInterface
 {
+    use \Framework\Core\EventTrait;
+    
     const renderAsHTML = "html";
     const renderAsJSON = "json";
     const renderAsXML = "xml";
@@ -25,7 +28,6 @@ abstract class AbstractViewModel implements ViewModelInterface
     private $childs = [];
 
     public function __construct() {
-        
     }
     
     public function setRenderType($renderType)

@@ -5,10 +5,13 @@ namespace Framework\Core;
 use Framework\Core\Interfaces\ControllerInterface;
 use Framework\Core\Interfaces\ViewModelInterface;
 use Framework\Core\ViewModel\AbstractViewModel;
+use Framework\Core\Interfaces\EventInterface;
 use Exception;
 
-abstract class AbstractController implements ControllerInterface
+abstract class AbstractController implements ControllerInterface, EventInterface
 {    
+    use \Framework\Core\EventTrait;
+    
     static private $instance = [];
     
     //error

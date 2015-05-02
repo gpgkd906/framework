@@ -1,0 +1,2294 @@
+2015-04-22 23:49:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 21
+Message : Class 'Framework\Core\AbstractViewModel' not found
+
+2015-04-22 23:50:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 21
+Message : Class 'Framework\Core\AbstractViewModel' not found
+
+2015-04-22 23:52:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:52:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:52:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:52:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:53:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 7
+Message : Interface 'Framework\Core\Interfaces\ViewModelInterface' not found
+
+2015-04-22 23:56:39
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 21
+Message : Undefined class constant 'Framework\Core\ViewModel\AbstractViewModel::responseHTML'
+
+2015-04-22 23:57:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 52
+Message : Class 'Framework\Model\BookModel' not found
+
+2015-04-23 00:06:02
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-23 00:06:14
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-23 00:07:06
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 52
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-23 00:07:22
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:40
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 01:52:41
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:04:58
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:04:59
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:11:36
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 51
+Message : error: return-value is not valid view model from action Framework\Controller\IndexController::index 
+Trace:#0 /var/www/html/framework/Framework/Core/App.php(36): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#1 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#2 {main}
+
+2015-04-25 02:24:57
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Undefined index: IndexViewModel
+
+2015-04-25 02:24:57
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:25:46
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:25:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:37
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:37
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:28:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 37
+Message : Class 'IndexViewModel' not found
+
+2015-04-25 02:31:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:31:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:32:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:32:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 38
+Message : Class 'Framework\ViewModel\IndexViewModel' not found
+
+2015-04-25 02:36:53
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:53
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:36:54
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:54
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:36:54
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:54
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:36:55
+不明なエラーが発生しました
+File : /var/www/html/framework/Framework/ViewModel/ViewModelManager.php
+Line : 65
+Message : Argument 2 passed to Framework\ViewModel\ViewModelManager::setInstance() must implement interface Framework\Core\Interfaces\ViewModelManagerInterface, instance of Framework\ViewModel\IndexViewModel given, called in /var/www/html/framework/Framework/ViewModel/ViewModelManager.php on line 45 and defined
+
+2015-04-25 02:36:55
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:37:52
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:37:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:37:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:45:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:45:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:50:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 11
+Message : Declaration of Framework\Core\AbstractController::response() must be compatible with Framework\Core\Interfaces\ControllerInterface::response(Framework\Core\Interfaces\ViewModelInterface $viewModel)
+
+2015-04-25 02:50:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 11
+Message : Declaration of Framework\Core\AbstractController::response() must be compatible with Framework\Core\Interfaces\ControllerInterface::response(Framework\Core\Interfaces\ViewModelInterface $viewModel)
+
+2015-04-25 02:50:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 11
+Message : Declaration of Framework\Core\AbstractController::response() must be compatible with Framework\Core\Interfaces\ControllerInterface::response(Framework\Core\Interfaces\ViewModelInterface $viewModel)
+
+2015-04-25 02:51:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 02:51:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 23
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:29:21
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:21
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:35
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:29:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:30:00
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Controller/IndexController.php
+Line : 18
+Message : Class 'Framework\ViewModel\ViewModelManager' not found
+
+2015-04-25 11:30:27
+スクリプト中，将来のPHPバージョンに互換性を持たないしかねないのコードを検出されました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 48
+Message : Non-static method Framework\Core\ViewModel\AbstractViewModel::setRenderType() should not be called statically, assuming $this from incompatible context
+
+2015-04-25 11:30:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:31:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:31:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access  property Framework\ViewModel\IndexViewModel::$renderType
+
+2015-04-25 11:32:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 11:32:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 11:32:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 14:56:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 77
+Message : Cannot access empty property
+
+2015-04-25 14:57:38
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 98
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 14:57:38
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 98
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 14:57:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 99
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 14:57:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 99
+Message : syntax error, unexpected 'foreach' (T_FOREACH)
+
+2015-04-25 15:01:37
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 99
+Message : Class Framework\ViewModel\IndexViewModel contains 3 abstract methods and must therefore be declared abstract or implement the remaining methods (FrameWork\Core\Interfaces\ViewModelInterface::renderAsHtml, FrameWork\Core\Interfaces\ViewModelInterface::renderAsJson, FrameWork\Core\Interfaces\ViewModelInterface::renderAsXml)
+
+2015-04-25 15:25:53
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 98
+Message : Access level to Framework\ViewModel\IndexViewModel::$template must be public (as in class Framework\Core\ViewModel\AbstractViewModel)
+
+2015-04-25 19:32:47
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:32:47
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:32:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:06
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:07
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:22
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 123
+Message : extract() expects parameter 1 to be array, null given
+
+2015-04-25 19:33:23
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:33:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:37:20
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:37:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:37:20
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:37:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:37:21
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:37:21
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 124
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:47:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Call to undefined method Framework\Core\ViewModel\ViewModelManager::setTemplateDir()
+
+2015-04-25 19:50:55
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 148
+Message : require(template/index.phtml): failed to open stream: No such file or directory
+
+2015-04-25 19:50:55
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 148
+Message : require(): Failed opening required 'template/index.phtml' (include_path='.:/usr/share/php:/usr/share/pear')
+
+2015-04-25 19:55:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 80
+Message : Class 'Framework\Core\ViewModel\Exception' not found
+
+2015-04-25 19:55:45
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:56:19
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModeltemplate/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:57:05
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:57:06
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:57:06
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:23
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 19:58:24
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 81
+Message : error: invalid render template [/var/www/html/framework/Framework/ViewModel/template/index.phtml]
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(150): Framework\Core\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(117): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#2 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#3 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#5 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#6 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#7 {main}
+
+2015-04-25 20:12:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 21
+Message : syntax error, unexpected '}', expecting ',' or ';'
+
+2015-04-25 20:12:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/IndexViewModel.php
+Line : 21
+Message : syntax error, unexpected '}', expecting ',' or ';'
+
+2015-04-25 20:13:08
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\HeaderViewModel
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php(47): Framework\Core\ViewModel\ViewModelManager::getView(Array)
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(107): Framework\Core\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(156): Framework\Core\ViewModel\AbstractViewModel->getChilds()
+#3 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(120): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#5 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#6 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#7 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#8 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#9 {main}
+
+2015-04-25 20:16:00
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/ViewModel/HeaderViewModel.php
+Line : 99
+Message : Cannot redeclare class Framework\ViewModel\IndexViewModel
+
+2015-04-25 20:16:09
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\ContentViewModel
+Trace:#0 /var/www/html/framework/Framework/Core/ViewModel/ViewModelManager.php(47): Framework\Core\ViewModel\ViewModelManager::getView(Array)
+#1 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(107): Framework\Core\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(156): Framework\Core\ViewModel\AbstractViewModel->getChilds()
+#3 /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php(120): Framework\Core\ViewModel\AbstractViewModel->renderAsHtml()
+#4 /var/www/html/framework/Framework/Core/AbstractController.php(87): Framework\Core\ViewModel\AbstractViewModel->render()
+#5 /var/www/html/framework/Framework/Core/AbstractController.php(64): Framework\Core\AbstractController->response(NULL)
+#6 /var/www/html/framework/Framework/Core/AbstractController.php(50): Framework\Core\AbstractController->callAction('response')
+#7 /var/www/html/framework/Framework/Core/App.php(40): Framework\Core\AbstractController->callActionFlow('index', NULL)
+#8 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#9 {main}
+
+2015-04-25 20:35:39
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 102
+Message : Cannot redeclare Framework\Core\ViewModel\AbstractViewModel::setItems()
+
+2015-04-25 20:35:39
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/ViewModel/AbstractViewModel.php
+Line : 102
+Message : Cannot redeclare Framework\Core\ViewModel\AbstractViewModel::setItems()
+
+2015-04-26 01:47:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:16
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:29
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:47:29
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:47:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:47:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:47:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:49:32
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:49:45
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 01:49:45
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:51:25
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:51:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 01:51:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 02:00:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 02:00:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 02:00:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 02:00:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:22:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 12:22:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:25:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-04-26 12:25:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:02
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:02
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-26 12:27:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\AController' not found
+
+2015-04-26 12:27:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:40:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:40:49
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:40:52
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:42:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:51:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:57:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:58:17
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:03
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:03
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:04
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:04
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:26
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:27
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:27
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 128
+Message : Undefined variable: request
+
+2015-04-27 20:59:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:36
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:40
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 20:59:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:32:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:06
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:07
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:35
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:34:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:35:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:35:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:35:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:36:22
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:36:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:36:53
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:27
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:52:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:58:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:59:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 21:59:45
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:05:10
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:07:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:01
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:08:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-27 22:09:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 00:59:43
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:41
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:01:42
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:07:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:07:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:07:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:07:20
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:07:33
+例外が発生しました。
+File : /var/www/html/framework/Framework/Core/RouteModel.php
+Line : 119
+Message : error: over max_depths
+Trace:#0 /var/www/html/framework/Framework/Core/RouteModel.php(52): Framework\Core\RouteModel->parseRequest()
+#1 /var/www/html/framework/Framework/Core/App.php(38): Framework\Core\RouteModel->dispatch()
+#2 /var/www/html/framework/index.php(17): Framework\Core\App::run()
+#3 {main}
+
+2015-04-28 01:07:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-04-28 01:07:44
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:00:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\]Controller' not found
+
+2015-05-02 00:00:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:00:59
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 64
+Message : call_user_func_array() expects parameter 2 to be array, null given
+
+2015-05-02 00:00:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:02:13
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 64
+Message : call_user_func_array() expects parameter 2 to be array, null given
+
+2015-05-02 00:02:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:02:13
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 64
+Message : call_user_func_array() expects parameter 2 to be array, null given
+
+2015-05-02 00:02:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:02:13
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Core/AbstractController.php
+Line : 64
+Message : call_user_func_array() expects parameter 2 to be array, null given
+
+2015-05-02 00:02:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:03:15
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:04
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:04
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:05
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:05
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:05
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:05
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:04:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 50
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:11
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:12
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:47
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:05:48
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:09
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:57
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:57
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:07:58
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:29:59
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 78
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 58 and defined
+
+2015-05-02 00:29:59
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 83
+Message : Undefined variable: type
+
+2015-05-02 00:29:59
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 78
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 58 and defined
+
+2015-05-02 00:29:59
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 83
+Message : Undefined variable: type
+
+2015-05-02 00:29:59
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:48:13
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 114
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 62 and defined
+
+2015-05-02 00:48:13
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 119
+Message : Undefined variable: type
+
+2015-05-02 00:48:13
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 114
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 62 and defined
+
+2015-05-02 00:48:13
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 119
+Message : Undefined variable: type
+
+2015-05-02 00:48:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:48:14
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 114
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 62 and defined
+
+2015-05-02 00:48:14
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 119
+Message : Undefined variable: type
+
+2015-05-02 00:48:14
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 114
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 62 and defined
+
+2015-05-02 00:48:14
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 119
+Message : Undefined variable: type
+
+2015-05-02 00:48:14
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:48:14
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 114
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 62 and defined
+
+2015-05-02 00:48:14
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 119
+Message : Undefined variable: type
+
+2015-05-02 00:48:14
+実行時警告(waring)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 114
+Message : Missing argument 4 for Framework\Config\ConfigModel::__construct(), called in /var/www/html/framework/Framework/Config/ConfigModel.php on line 62 and defined
+
+2015-05-02 00:48:14
+実行時警告(notice)が発生しました。
+File : /var/www/html/framework/Framework/Config/ConfigModel.php
+Line : 119
+Message : Undefined variable: type
+
+2015-05-02 00:48:14
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:53:25
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:53:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:53:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:53:30
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:53:30
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:53:31
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 00:57:00
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:03:23
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:03:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:05:50
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:05:51
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:05:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:05:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:05:56
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:12
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:13
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:28
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:07:34
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:08:17
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:08:17
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:08:18
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 49
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-02 01:12:40
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 48
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-05-03 02:12:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Class 'Framrwork\Core\EventManager' not found
+
+2015-05-03 02:12:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Class 'Framrwork\Core\EventManager' not found
+
+2015-05-03 02:12:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Class 'Framrwork\Core\EventManager' not found
+
+2015-05-03 02:12:33
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Class 'Framrwork\Core\EventManager' not found
+
+2015-05-03 02:13:55
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Class 'Framrwork\Core\EventManager' not found
+
+2015-05-03 02:13:55
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Core/App.php
+Line : 35
+Message : Class 'Framrwork\Core\EventManager' not found
+
+2015-05-03 02:40:26
+回復不能なエラーが発生しました。
+File : /var/www/html/framework/Framework/Config/Development/plugins.php
+Line : 12
+Message : syntax error, unexpected end of file
+

@@ -5,17 +5,21 @@ namespace Framework\Core;
 use Framework\Core\Interfaces\AppInterface;
 use Framework\Core\ErrorHandler;
 use Framework\Core\ViewModel\ViewModelManager;
+use Framework\Core\EventManager;
 
 class App implements AppInterface
 {
     const ERROR_NEED_GLOBAL_CONFIG = "error: need global config";
     //
+    const DEFAULT_PLUGINMANAGER = "Framework\Core\PluginManager\PluginManager";
     const DEFAULT_ROUTE = "Framework\Core\RouteModel";
     const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Controller";
     const DEFAULT_MODEL_NAMESPACE = "Framework\Model";
     const DEFAULT_VIEWMODEL_NAMESPACE = "Framework\ViewModel";
     
     static private $globalConfig = null;
+    static private $eventManager = null;
+    static private $pluginManager = null;
 
     static function setGlobalConfig($config)
     {
@@ -39,6 +43,10 @@ class App implements AppInterface
         if(empty($controllerName)) {
             die;
         }
+        self::$eventManager = new EventManager;
+        $pluginManager = self::getPluginManager();
+        $pluginManager->initPlugins();
+        $pluginManager->triggerEvent("pluginsLoaded");
         $controller = self::getController($controllerName);
         $controller->callActionFlow($action, $param);
     }
@@ -70,6 +78,15 @@ class App implements AppInterface
             $routeModelName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         }
         return $routeModelName::getSingleton();
+    }
+
+    static public function getPluginManager($pluginManagerName = null)
+    {
+        if($pluginManagerName === null) {
+            $pluginManagerName = self::$globalConfig->getConfig("pluginManager", self::DEFAULT_PLUGINMANAGER);
+            self::$pluginManager = $pluginManagerName::getSingleton();
+        }
+        return self::$pluginManager;
     }
 
     static public function getHelper($helperName)
