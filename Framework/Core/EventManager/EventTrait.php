@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Core;
+namespace Framework\Core\EventManager;
 
 trait EventTrait
 {
@@ -32,13 +32,14 @@ trait EventTrait
         }
     }
 
-    public function triggerEvent($eventName)
+    public function triggerEvent($eventName, $parameters = [])
     {
         if(!isset($this->eventQueue[$eventName])) {
             $this->eventQueue[$eventName] = [];
         }
+        array_unshift($parameters, $this);
         foreach($this->eventQueue[$eventName] as $key => $call) {
-            call_user_func_array($call, [$this]);
-        }       
+            $parameters = call_user_func_array($call, $parameters);
+        }
     }
 }

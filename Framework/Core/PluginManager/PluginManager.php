@@ -6,9 +6,10 @@ use Framework\Config\ConfigModel;
 
 class PluginManager implements EventInterface
 {
-    use \Framework\Core\EventTrait;
+    use \Framework\Core\EventManager\EventTrait;
     
     private $config = null;
+    private $plugins = [];
     static private $instance = null;
 
     static public function getSingleton()
@@ -29,9 +30,15 @@ class PluginManager implements EventInterface
     
     public function initPlugins()
     {
-        foreach($this->config->getConfig("plugins", []) as $plugin) {
-            var_dump($plugin);
+        foreach($this->config->getConfig("plugins", []) as $pluginConfig) {
+            if(isset($pluginConfig["enabled"]) && $pluginConfig["enabled"]) {
+                $pluginLabel = $pluginConfig["identify"];
+                $plugin = $pluginLabel::getSingleton();
+                $this->plugins[$pluginLabel] = $plugin;
+                $plugin->init($this);
+            }
         }
+        $this->triggerEvent("PluginInited");
     }
-
+    
 }

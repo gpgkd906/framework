@@ -10,7 +10,7 @@ use Exception;
 
 abstract class AbstractController implements ControllerInterface, EventInterface
 {    
-    use \Framework\Core\EventTrait;
+    use \Framework\Core\EventManager\EventTrait;
     
     static private $instance = [];
     

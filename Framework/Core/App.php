@@ -5,7 +5,7 @@ namespace Framework\Core;
 use Framework\Core\Interfaces\AppInterface;
 use Framework\Core\ErrorHandler;
 use Framework\Core\ViewModel\ViewModelManager;
-use Framework\Core\EventManager;
+use Framework\Core\EventManager\EventManager;
 
 class App implements AppInterface
 {
@@ -34,19 +34,20 @@ class App implements AppInterface
         $useErrorHandler = self::$globalConfig->getConfig("ErrorHandler", true);
         if($useErrorHandler) {
             ErrorHandler::setup();
-        }
+        }        
         ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE));
         ViewModelManager::setTemplateDir(self::$globalConfig->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', self::DEFAULT_VIEWMODEL_NAMESPACE)));
+        //plugin
+        self::$eventManager = new EventManager;
+        $pluginManager = self::getPluginManager();
+        $pluginManager->initPlugins();
+        //route
         $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         $routeModel = self::getRouteModel($routeName);
         list($controllerName, $action, $param) = $routeModel->dispatch();
         if(empty($controllerName)) {
             die;
         }
-        self::$eventManager = new EventManager;
-        $pluginManager = self::getPluginManager();
-        $pluginManager->initPlugins();
-        $pluginManager->triggerEvent("pluginsLoaded");
         $controller = self::getController($controllerName);
         $controller->callActionFlow($action, $param);
     }

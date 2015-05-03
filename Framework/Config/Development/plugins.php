@@ -3,9 +3,9 @@
 return [
     "plugins" => [
         "aws" => [
-            "identify" => "Framework\Plugins\Aws",
+            "identify" => "Framework\Plugins\Aws\AwsPlugin",
             "description" => "",
-            "enabled" => false
+            "enabled" => true
         ],
     ]
 ];

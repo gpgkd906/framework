@@ -8,7 +8,7 @@ use Exception;
 
 abstract class AbstractViewModel implements ViewModelInterface, EventInterface
 {
-    use \Framework\Core\EventTrait;
+    use \Framework\Core\EventManager\EventTrait;
     
     const renderAsHTML = "html";
     const renderAsJSON = "json";

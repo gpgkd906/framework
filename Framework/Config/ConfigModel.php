@@ -7,8 +7,6 @@ use Framework\Core\Interfaces\EventInterface;
 
 class ConfigModel implements ConfigModelInterface 
 {
-    use \Framework\Core\EventTrait;
-
     //scope
     const SUPER = "global";
     const ROUTE = "route";
