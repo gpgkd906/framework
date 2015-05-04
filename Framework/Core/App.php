@@ -37,8 +37,8 @@ class App implements AppInterface
         }        
         ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE));
         ViewModelManager::setTemplateDir(self::$globalConfig->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', self::DEFAULT_VIEWMODEL_NAMESPACE)));
-        //plugin
         self::$eventManager = new EventManager;
+        //plugin
         $pluginManager = self::getPluginManager();
         $pluginManager->initPlugins();
         //route

@@ -26,8 +26,30 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     protected $renderType = "html";
     protected $templateDir = null;
     private $childs = [];
+    private $id = null;
+    static private $incrementId = 0;
+    public $listeners = [];
 
-    public function __construct() {
+    static private function getIncrementId()
+    {
+        self::$incrementId ++;
+        return "viewModel_" . self::$incrementId;
+    }
+
+    public function __construct($config) {
+        if(isset($config["id"])) {
+            $this->id = $id;
+        } else {
+            $this->id = self::getIncrementId();
+        }
+        foreach($this->listeners as $event => $listener) {
+            $this->addEventListener($event, [$this, $listener]);
+        }
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
     
     public function setRenderType($renderType)
@@ -104,14 +126,25 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     public function addChild(ViewModelInterface $ViewModel)
     {
         $ViewModel->setRenderType($this->getRenderType());
-        $this->childs[] = $ViewModel;
+        $this->childs[$ViewModel->getId()] = $ViewModel;
     }
     
+    public function getChild($id)
+    {
+        $childs = $this->getChilds();
+        if(isset($childs[$id])) {
+            return $childs[$id];
+        }
+        return null;
+    }
+
     public function getChilds()
     {
         if(empty($this->childs) && !empty($this->items)) {
             foreach($this->items as $item) {
-                $this->childs[] = ViewModelManager::getViewModel($item);
+                $viewModel = ViewModelManager::getViewModel($item);
+                $viewModel->setRenderType($this->getRenderType());
+                $this->childs[$viewModel->getId()] = $viewModel;
             }
         }
         return $this->childs;
@@ -119,23 +152,26 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     
     public function render($renderType = null)
     {
+        $this->triggerEvent("Render");
         if($renderType === null) {
             $renderType = $this->renderType;
         }
         switch($renderType) {
         case static::renderAsHTML:
-            return $this->renderAsHTML();
+            $display = $this->renderAsHTML();
             break;
         case static::renderAsJSON:
-            return $this->renderAsJSON();
+            $display = $this->renderAsJSON();
             break;
         case static::renderAsXML:
-            return $this->renderAsXML();
+            $display = $this->renderAsXML();
             break;
         default:
             throw new Exception(self::ERROR_INVALID_RENDER_TYPE);
             break;
         }
+        $this->triggerEvent("Display");
+        return $display;
     }
 
     public function asHtml()
@@ -183,8 +219,8 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
             require $template;
         }
         foreach($this->getChilds() as $child) {
-            $child->renderAsHtml();
-        }        
+            $child->render();
+        }
     }
 
     public function renderAsJSON()

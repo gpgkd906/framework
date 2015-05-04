@@ -6,6 +6,8 @@ abstract class AbstractPlugin
 {
     static private $instance;
     
+    public $listeners = [];
+
     static public function getSingleton() {
         $pluginName = get_called_class();
         if(!isset(self::$instance[$pluginName])) {
@@ -14,11 +16,9 @@ abstract class AbstractPlugin
         return self::$instance[$pluginName];
     }
 
-    public $actions = [];
-
     public function init($pluginManager)
     {
-        foreach($this->actions as $event => $action) {
+        foreach($this->listeners as $event => $action) {
             $pluginManager->addEventListener($event, [$this, $action]);
         }
     }

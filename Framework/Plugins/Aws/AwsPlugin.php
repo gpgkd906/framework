@@ -6,7 +6,7 @@ use Framework\Core\PluginManager\AbstractPlugin;
 
 class AwsPlugin extends AbstractPlugin
 {
-    public $actions = [
+    public $listeners = [
         "PluginInited" => "onloaded",
     ];
     

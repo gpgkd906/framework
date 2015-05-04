@@ -63,7 +63,7 @@ class ViewModelManager implements ViewModelManagerInterface
             }
             self::setAlias($config["viewModel"], $viewModelName);
         }
-        $ViewModel = new $viewModelName;
+        $ViewModel = new $viewModelName($config);
         if($ViewModel->getTemplateDir() === null) {
             $ViewModel->setTemplateDir(self::getTemplateDir());
         }
