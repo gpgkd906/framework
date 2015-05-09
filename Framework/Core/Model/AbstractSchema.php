@@ -7,50 +7,64 @@ use Exception;
 
 abstract class AbstractSchema implements SchemaInterface
 {
-    static private $name = null;
+    protected $name = null;
 
-    static private $columns = [];
+    protected $columns = [];
     
-    static private $indexs = [];
+    protected $indexs = [];
 
-    static private $foreignKey = [];
+    protected $foreignKeys = [];
 
-    static private $primaryKey = null;
-
-    static public function getColumns($key = null)
+    protected $primaryKey = null;
+    
+    public function getColumns()
     {
-        if(isset(static::$columns[$key])) {
-            return static::$columns[$key];
-        } else {
-            return static::$columns;
+        return $this->columns;
+    }
+
+    public function getColumn($key)
+    {
+        if(isset($this->columns[$key])) {
+            return $this->columns[$key];
         }
     }
 
-    static public function getIndex($key = null)
+    public function hasColumn($key)
     {
-        if(isset(static::$indexs[$key])) {
-            return static::$indexs[$key];
-        } else {
-            return static::$indexs;
+        return isset($this->columns[$key]);
+    }
+
+    public function getIndexs()
+    {
+        return $this->indexs;
+    }
+    
+    public function getIndex($key)
+    {
+        if(isset($this->indexs[$key])) {
+            return $this->indexs[$key];
         }
     }
     
-    static public function getForeignKey($key = null)
+    public function getForeignKeys()
     {
-        if(isset(static::$foreignKey[$key])) {
-            return static::$foreignKey[$key];
-        } else {
-            return static::$foreignKey;
+        return $this->foreignKeys;
+    }
+
+    public function getForeignKey($key)
+    {
+        if(isset($this->foreignKeys[$key])) {
+            return $this->foreignKeys[$key];
         }
     }
     
     public function getPrimaryKey()
     {
-        return static::$primaryKey;
+        return $this->primaryKey;
     }
 
     public function getName()
     {
-        return static::$name;
+        return $this->name;
     }
 }

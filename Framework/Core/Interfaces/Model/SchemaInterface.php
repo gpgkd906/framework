@@ -4,13 +4,11 @@ namespace Framework\Core\Interfaces\Model;
 
 interface SchemaInterface
 {
-    public function getSingleton();
-
-    public function getColumns($key);
+    public function getColumns();
     
-    public function getIndexs($key);
+    public function getIndexs();
 
-    public function getForeignKey($key);
+    public function getForeignKeys();
     
     public function getPrimaryKey();
 
