@@ -3,24 +3,55 @@
 namespace Framework\Core\Model;
 
 use FrameWork\Core\Interfaces\ModelInterface;
+use Framework\Config\ConfigModel;
+use PDO;
 
 abstract class AbstractModel implements ModelInterface
 {
     const FETCH_ASSOC = 2;
     
     static private $sqlBuilder = "Framework\Core\Model\SqlBuiler\Mysql";
-    static private $record = "Framework\Core\Model\AbstractRecord";
-
+    static private $connection = null;
+    static private $config = null;
+    static private $database = "mysql";
+    static private $charset = "utf8";
+    
+    private $Record = "Framework\Core\Model\AbstractRecord";
     private $models = [];
-
     private $conditions = [];
     
+    static public function getConnection()
+    {
+        if(self::$config === null) {
+            self::$config = ConfigModel::getConfigModel([
+                "scope" => ConfigModel::Model,
+                "property" => ConfigModel::READONLY
+            ]);
+        }
+        if(self::$connection === null) {
+            $db = self::$config->getConfig("database", self::$database);
+            $host = self::$config->getConfig("host");
+            $user = self::$config->getConfig("user");
+            $pass = self::$config->getConfig("password");
+            $dbname = self::$config->getConfig("dbname");
+            $charset = self::$config->getConfig("charset", self::$charset);
+            $connectStatement = sprintf("%s:host=%s;dbname=%s;charset=%s", $db, $host, $dbname, $charset);
+            self::$connection = new PDO($connectStatement, $user, $pass);
+        }
+        return self::$connection;
+    }
+
     static public function getSingleton() {
         $modelName = get_called_class();
         if(!isset(self::$models[$modelName])) {
             self::$models[$modelName] = new $modelName();
         }
         return self::$models[$modelName];
+    }
+
+    private function __construct()
+    {
+        
     }
     
     public function find()
@@ -50,11 +81,11 @@ abstract class AbstractModel implements ModelInterface
         if(is_array($select)) {
             $tmp = [];
             foreach($select as $selectItem) {
-                $tmp[] = static::$sqlBuilder::quete($selectItem);
+                $tmp[] = {static::$sqlBuilder}::quete($selectItem);
             }
             $select = join(',', $tmp);
         }
-        $selectSql = static::$sqlBuilder::getSelectQuery($parts);
+        $selectSql = {static::$sqlBuilder}::getSelectQuery($parts);
         return $this->query($selectSql, $params);
     }
 
@@ -62,7 +93,7 @@ abstract class AbstractModel implements ModelInterface
     {
         $parts = $this->collectParts();
         $params = $this->collectParams();
-        $updateSql = static::$sqlBuilder::getUpdateQuery($parts);
+        $updateSql = {static::$sqlBuilder}::getUpdateQuery($parts);
         return $this->query($updateSql, $params);
     }
     
@@ -70,7 +101,7 @@ abstract class AbstractModel implements ModelInterface
     {
         $parts = $this->collectParts();
         $params = $this->collectParams();
-        $deleteSql = static::$sqlBuilder::getDeleteQuery($parts);
+        $deleteSql = {static::$sqlBuilder}::getDeleteQuery($parts);
         return $this->query($updateSql, $params);
     }
 
@@ -83,7 +114,8 @@ abstract class AbstractModel implements ModelInterface
 
     public function newRecord()
     {
-        return new static::$record;
+        $RecordClass = $this->Record;
+        return new $RecordClass;
     }
 
     public function getRecord()
@@ -147,8 +179,4 @@ abstract class AbstractModel implements ModelInterface
         
     }
 
-    public function getConnection()
-    {
-        
-    }
 }

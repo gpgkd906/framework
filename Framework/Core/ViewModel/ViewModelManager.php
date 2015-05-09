@@ -12,6 +12,8 @@ class ViewModelManager implements ViewModelManagerInterface
         = "error: invalid viewmodel config";
     const ERROR_INVALID_VIEWMODEL = "error: invalid viewmodelname: %s";
     const ERROR_INVALID_TEMPLATE_VIEWMODEL = "error: invalid template viewModel";
+    
+    static private $defaultViewModel = "Framework\Core\ViewModel\ViewModel";
     static private $templateViewModel = "Framework\Core\ViewModel\TemplateViewModel";
     static private $alias = [];
     //
@@ -42,12 +44,11 @@ class ViewModelManager implements ViewModelManagerInterface
         if($config instanceof ViewModelInterface) {
             return $config;
         }
-        //viewModel?
-        if(isset($config["viewModel"])) {
-            return self::getView($config);
-        } else {
-            throw new Exception(self::ERROR_INVALID_VIEWMODEL_CONFIG);
+        //set default viewmodel if not set
+        if(!isset($config["viewModel"])) {
+            $config["viewModel"] = self::$defaultViewModel;
         }
+        return self::getView($config);
     }
     
     static private function getView($config)
@@ -88,5 +89,15 @@ class ViewModelManager implements ViewModelManagerInterface
     static public function getTemplateViewModel()
     {
         return $this->templateViewModel;
+    }
+
+    static public function setDefaultViewModel($viewModelName)
+    {
+        $this->defaultViewModel = $viewModelName;
+    }
+
+    static public function getDefaultViewModel()
+    {
+        return $this->defaultViewModel;
     }
 }

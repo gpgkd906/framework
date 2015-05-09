@@ -33,7 +33,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     static private function getIncrementId()
     {
         self::$incrementId ++;
-        return "viewModel_" . self::$incrementId;
+        return "ViewModel_" . self::$incrementId;
     }
 
     public function __construct($config) {
@@ -41,6 +41,9 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
             $this->id = $id;
         } else {
             $this->id = self::getIncrementId();
+        }
+        if(isset($config["items"])) {
+            $this->setItems($config["items"]);
         }
         foreach($this->listeners as $event => $listener) {
             $this->addEventListener($event, [$this, $listener]);
