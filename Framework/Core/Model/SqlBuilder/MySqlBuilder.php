@@ -1,117 +1,27 @@
 <?php
-/**
- * mysql.php
- *
- * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
- *
- * Copyright 2014 Chen Han
- *
- * Licensed under The MIT License
- *
- * @copyright Copyright 2014 Chen Han
- * @link
- * @since
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
- */
-/**
- * model_driver
- * モテルクラス用Mysqlドライバ
- *
- * @author 2014 Chen Han 
- * @package framework.core
- * @link 
- */
-class Model_driver {
-	use Base_core;
-/**
- * PDO接続
- * @var resource 
- * @link http://
- */
-	private static $conn = null;
 
-/**
- * PDOstatmentセット
- * @var array 
- * @link http://
- */
-	private $stmt = null;
+class MySqlBuilder {
 
-/**
- * プリペーア用値配列
- * @var array 
- * @link http://
- */
 	private $args = array();
 
-/**
- * プリペーア用キー配列
- * @var array 
- * @link http://
- */
 	protected $set = array();
 
-/**
- * プリペーア用「?」配列
- * @var array 
- * @link http://
- */
 	protected $set_args = array();
 
-/**
- * 検索条件格納
- * @var array 
- * @link http://
- */
 	protected $find = array();
 
-/**
- * 持続的検索条件格納
- * @var array 
- * @link http://
- */
 	protected $filter = array();
 
-/**
- * 結合関係格納
- * @var array 
- * @link http://
- */
 	protected $join = array();
 
-/**
- * 目標モデル
- * @var string 
- * @link http://
- */
 	protected $from = null;
 
-/**
- * 目標テーブル
- * @var string 
- * @link http://
- */
 	protected $table = null;
 
-/**
- * SQL用検索条件格納
- * @var array 
- * @link http://
- */
 	protected $where = array();
 
-/**
- * 直指定検索条件格納
- * @var array 
- * @link http://
- */
 	protected $where_condition = array();
- 
-/**
- * 持続的直指定検索条件格納
- * @var array 
- * @link http://
- */
+    
 	protected $where_filter = array();
 
 /**
@@ -522,14 +432,14 @@ class Model_driver {
  */
 	public function check_where($where) {
 		$_check = array_reduce($where, function($set, $item) {
-				if(strpos($item, ".")){
-					list($_table, $_column) = explode(".", $item);
-					$set[] = $_column;
-				} else {
-					$set[] = $item;
-				}
-				return $set;
-			}, array());
+            if(strpos($item, ".")){
+                list($_table, $_column) = explode(".", $item);
+                $set[] = $_column;
+            } else {
+                $set[] = $item;
+            }
+            return $set;
+        }, array());
 		if(empty($this->join_columns)) {
 			$this->join_columns = $this->columns();
 		}
@@ -709,18 +619,18 @@ class Model_driver {
 		$hash_table = array(
 			"like" => function($bind) {
 				return array_map(function($i) {
-						return "%" . $i . "%";
-					}, $bind);
+                    return "%" . $i . "%";
+                }, $bind);
 			},
 			"like%" => function($bind) {
 				return array_map(function($i) {
-						return $i . "%";
-					}, $bind);
+                    return $i . "%";
+                }, $bind);
 			},
 			"%like" => function($bind) {
 				return array_map(function($i) {
-						return "%" . $i;
-					}, $bind);
+                    return "%" . $i;
+                }, $bind);
 			}
 		);
 		if(isset($hash_table[$opera])) {
@@ -888,18 +798,18 @@ class Model_driver {
  */
 	private function set_join_request($argv) {
 		switch(count($argv)) {
-			case 4:
-				list($target1, $target2, $col1, $col2) = $argv;
-				break;
-			case 3:
-				$target1 = $this;
-				list($target2, $col1, $col2) = $argv;      
-				break;
-			case 2:
-				$target1 = $this;
-				$target2 = $argv[0];
-				$col1 = $col2 = $argv[1];
-				break;
+        case 4:
+            list($target1, $target2, $col1, $col2) = $argv;
+            break;
+        case 3:
+            $target1 = $this;
+            list($target2, $col1, $col2) = $argv;      
+            break;
+        case 2:
+            $target1 = $this;
+            $target2 = $argv[0];
+            $col1 = $col2 = $argv[1];
+            break;
 		}
 		return array($target1, $target2, $col1, $col2);
 	}
@@ -1119,11 +1029,11 @@ class Model_driver {
 			return $this->reset();
 		}
 		$sql = join(" ", array(
-				"INSERT INTO",
-				$this->from,
-				"(" . $_set . ")",
-				"VALUES",
-				"(" . preg_replace("/[^,]++/", "?", $_set) . ")"));
+            "INSERT INTO",
+            $this->from,
+            "(" . $_set . ")",
+            "VALUES",
+            "(" . preg_replace("/[^,]++/", "?", $_set) . ")"));
 		$this->query($sql, $this->args);
 		return $this->reset();
 	}
@@ -1678,12 +1588,12 @@ class Model_driver {
  */
 class handlersocket_stmt {
 	
-   /**
-	* 取得したデータセット
-	* @api
-	* @var Array
-	* @link
-	*/
+    /**
+     * 取得したデータセット
+     * @api
+     * @var Array
+     * @link
+     */
 	private $result = array();
 	
 	/**
