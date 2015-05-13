@@ -21,7 +21,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     
     protected $template = null;
     protected $data = [];
-    protected $layout = null;
     protected $items = [];
     protected $renderType = "html";
     protected $templateDir = null;
@@ -44,6 +43,9 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         }
         if(isset($config["items"])) {
             $this->setItems($config["items"]);
+        }
+        if(isset($config["data"])) {
+            $this->setData($config["data"]);
         }
         foreach($this->listeners as $event => $listener) {
             $this->addEventListener($event, [$this, $listener]);
@@ -234,14 +236,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     public function renderAsXML()
     {
         
-    }
-    
-    public function getLayout()
-    {
-        if($this->layout !== null) {
-            $layout = $this->layout;
-            return $layoutView = new $layout;
-        }
     }
 
     public function __toString()
