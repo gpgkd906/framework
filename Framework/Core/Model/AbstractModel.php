@@ -8,33 +8,52 @@ use PDO;
 
 abstract class AbstractModel implements ModelInterface
 {
+    const ERROR_UNDEFINED_SCHEMA = "error: undefined schema in model [%s]";
+    const ERROR_UNDEFINED_RECORD = "error: undefined record in model [%s]";
+
     const FETCH_ASSOC = 2;
     
     static private $sqlBuilder = "Framework\Core\Model\SqlBuiler\Mysql";
     static private $connection = null;
-    static private $config = null;
-    static private $database = "mysql";
-    static private $charset = "utf8";
+    static private $modelConfig = [
+        "database" => "mysql",
+        "charset"  => "utf8",
+    ];
     
-    private $Record = "Framework\Core\Model\AbstractRecord";
+    protected $config = [
+        "Schema" => null,
+        "Record" => null,
+    ];
     private $models = [];
-    private $conditions = [];
-    
-    static public function getConnection()
+
+    static protected function getModelConfig()
     {
-        if(self::$config === null) {
-            self::$config = ConfigModel::getConfigModel([
+        if(is_array(self::$modelConfig)) {
+            $modelConfig = self::$modelConfig;
+            self::$modelConfig = ConfigModel::getConfigModel([
                 "scope" => ConfigModel::Model,
                 "property" => ConfigModel::READONLY
             ]);
+            foreach($modelConfig as $key => $default) {
+                if(!self::$modelConfig->getConfig($key)) {
+                    self::$modelConfig->setConfig($key, $default);
+                }
+            }
         }
+        return self::$modelConfig;
+    }
+    
+    
+    static public function getConnection()
+    {
         if(self::$connection === null) {
-            $db = self::$config->getConfig("database", self::$database);
-            $host = self::$config->getConfig("host");
-            $user = self::$config->getConfig("user");
-            $pass = self::$config->getConfig("password");
-            $dbname = self::$config->getConfig("dbname");
-            $charset = self::$config->getConfig("charset", self::$charset);
+            $modelConfig = self::getModelConfig();
+            $db = $modelConfig->getConfig("database", self::$database);
+            $host = $modelConfig->getConfig("host");
+            $user = $modelConfig->getConfig("user");
+            $pass = $modelConfig->getConfig("password");
+            $dbname = $modelConfig->getConfig("dbname");
+            $charset = $modelConfig->getConfig("charset", self::$charset);
             $connectStatement = sprintf("%s:host=%s;dbname=%s;charset=%s", $db, $host, $dbname, $charset);
             self::$connection = new PDO($connectStatement, $user, $pass);
         }
@@ -51,7 +70,13 @@ abstract class AbstractModel implements ModelInterface
 
     private function __construct()
     {
-        
+        $modelName = get_called_class();
+        if(empty($this->config["Schema"])) {
+            throw new Exception(sprintf(self::ERROR_UNDEFINED_SCHEMA, $modelName));
+        }
+        if(empty($this->config["Record"])) {
+            throw new Exception(sprintf(self::ERROR_UNDEFINED_RECORD, $modelName));
+        }
     }
     
     public function find()
@@ -61,48 +86,39 @@ abstract class AbstractModel implements ModelInterface
     
     public function order()
     {
-
+        
     }
-
+    
     public function group()
     {
-
+        
     }
-
+    
     public function join()
     {
-
+        
     }
-
+    
     public function select($select)
     {
-        $parts = $this->collectParts();
-        $params = $this->collectParams();
-        if(is_array($select)) {
-            $tmp = [];
-            foreach($select as $selectItem) {
-                $tmp[] = {static::$sqlBuilder}::quete($selectItem);
-            }
-            $select = join(',', $tmp);
-        }
-        $selectSql = {static::$sqlBuilder}::getSelectQuery($parts);
-        return $this->query($selectSql, $params);
     }
 
     public function update()
     {
-        $parts = $this->collectParts();
-        $params = $this->collectParams();
-        $updateSql = {static::$sqlBuilder}::getUpdateQuery($parts);
-        return $this->query($updateSql, $params);
     }
     
     public function delete()
     {
-        $parts = $this->collectParts();
-        $params = $this->collectParams();
-        $deleteSql = {static::$sqlBuilder}::getDeleteQuery($parts);
-        return $this->query($updateSql, $params);
+    }
+
+    public function query($sql, $params)
+    {
+        $this->stmt = $this->getConnection()->prepare($sql);
+    }
+
+    public function getSqlBuilder()
+    {
+        
     }
 
     public function create($data)
@@ -117,66 +133,49 @@ abstract class AbstractModel implements ModelInterface
         $RecordClass = $this->Record;
         return new $RecordClass;
     }
-
-    public function getRecord()
-    {
-        $data = $this->stmt->fetch(self::FETCH_ASSOC);
-        $record = $this->newRecord();
-        $record->assign($data);
-        return $record;
-    }
-
-    public function getAllRecord()
-    {
         
+    public function fetchRecord()
+    {        
+        if($data = $this->stmt->fetch(self::FETCH_ASSOC)) {
+            $record = $this->newRecord();
+            $record->assign($data);
+            return $record;
+        }
+        return false;
     }
 
-    public function getArray()
+    public function fetchAllRecord()
+    {
+        $records = [];
+        while($record = $this->fetchRecord()) {
+            $records[] = $record;
+        }
+        return $records;
+    }
+
+    public function eachRecord($callBack)
+    {
+        while($record = $this->fetchRecord()) {
+            call_user_func($callBack, $record);
+        }
+    }
+
+    public function fetchArray()
     {
         $data = $this->stmt->fetch(self::FETCH_ASSOC);
         return $data;        
     }
 
-    public function getAllArray()
+    public function fetchAllArray()
     {
         $data = $this->stmt->fetchAll(self::FETCH_ASSOC);
         return $data;        
     }
-    
-    public function setFilters($filters)
-    {
-        
-    }
-    
-    public function getFilters()
-    {
-        
-    }
 
-    public function skipFilter()
+    public function eachArray($callBack)
     {
-        
+        while($row = $this->fetchArray()) {
+            call_user_func($callBack, $row);
+        }
     }
-
-    public function setRelations()
-    {
-        
-    }
-
-    public function getRelations()
-    {
-        
-    }
-
-    public function skipRelation()
-    {
-        
-    }
-
-    public function query($sql, $params)
-    {
-        $this->stmt = $this->getConnection()->prepare($sql);
-        
-    }
-
 }

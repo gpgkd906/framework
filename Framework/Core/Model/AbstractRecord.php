@@ -49,7 +49,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function __construct($Model = null){
+	public function __construct($Model = null)
+    {
         if(self::$Model === null) {
             if($Model === null) {
                 if(!$this->config["Model"] || !class_exists($this->config["Model"])) {
@@ -68,7 +69,8 @@ abstract class AbstractRecord implements RecordInterface
         }
 	}
     
-	public function get($name){
+	public function get($name)
+    {
 		return isset($this->store[$name]) ? $this->store[$name] : null;
 	}
 	
@@ -80,7 +82,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function set($name, $value){
+	public function set($name, $value)
+    {
 		if($this->store[$name] !== $value) {
 			$this->realChanged = true;
 		}
@@ -93,7 +96,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function getPrimaryValue(){
+	public function getPrimaryValue()
+    {
 		return $this->primaryValue;
 	}
 
@@ -109,7 +113,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function assign($data) {
+	public function assign($data)
+    {
 		foreach($data as $name => $value) {
 			$this->set($name, $value);
 		}
@@ -143,7 +148,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function toArray() {
+	public function toArray()
+    {
 		return $this->store;
 	}
 	
@@ -161,7 +167,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function save(){
+	public function save()
+    {
 		if(empty($this->store)) {
             throw new Exception(self::ERROR_INVALID_RECORD);
 			return false;
@@ -196,7 +203,8 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function delete() {
+	public function delete()
+    {
 		if($this->getPrimaryValue()) {
 			if(self::$Model->find(self::$Schema->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
                 $this->store = array();

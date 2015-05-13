@@ -1,27 +1,5 @@
 <?php
 
-/**
- * Model_core.php
- *
- * myFramework : Origin Framework by Chen Han https://github.com/gpgkd906/framework
- *
- * Copyright 2014 Chen Han
- *
- * Licensed under The MIT License
- *
- * @copyright Copyright 2014 Chen Han
- * @link
- * @since
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
- */
-/**
- * Model_core
- * モデルスーパークラス
- *
- * @author 2014 Chen Han 
- * @package framework.core
- * @link 
- */
 class Model_core extends Model_driver {
 
     /**

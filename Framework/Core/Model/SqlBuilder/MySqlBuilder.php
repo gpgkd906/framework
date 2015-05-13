@@ -24,210 +24,31 @@ class MySqlBuilder {
     
 	protected $where_filter = array();
 
-/**
- * ソート条件
- * @var string 
- * @link http://
- */
 	protected $order= null;
 
-/**
- * グループ条件
- * @var string 
- * @link http://
- */
 	protected $group = null;
 
-/**
- * リミット条件
- * @var integer/array
- * @link http://
- */
 	protected $limit=array();
 
-/**
- * 最後に発行したプリペアクエリ
- * @var array 
- * @link http://
- */
-	protected $lastQuery=array();
-
-/**
- * カレントのモデルのカラム情報
- * @var array 
- * @link http://
- */
 	protected $columns = array();
 
-/**
- * カレントのモデルの完全なるカラム情報(DB依存)
- * @var array 
- * @link http://
- */
-	protected $full_columns = array();
-
-/**
- * カレントのモデルと結合関係を持つモデルのカラム情報
- * @var array 
- * @link http://
- */
 	protected $relate_columns = array();
 
-/**
- * 実際に結合する全てのモデルのカラム情報
- * @var array 
- * @link http://
- */
 	protected $join_columns = array();
 
-/**
- * 持続的な検索条件の例外
- * @var array 
- * @link http://
- */
 	protected $skip_filter = array();
 
-/**
- * 結合情報
- * @var array 
- * @link http://
- */
 	protected $relate = array();
 
-/**
- * 結合のスキップ情報
- * @var array 
- * @link http://
- */
 	protected $skip_relate = array();
 
-/**
- * 最後にスキップした結合情報
- * @var array 
- * @link http://
- */
 	protected $last_skip_relate = array();
 
-/**
- * プリペアキャッシュ
- * @var array 
- * @link http://
- */
-	protected $prepare_cache = array();
-
-/**
- * 結合する際の同名カラムの回避情報
- * @var array 
- * @link http://
- */
 	protected $alias = array();
 
-/**
- * デバッグ情報
- * @var array 
- * @link http://
- */
-	public $debug=array(
-		"error"=>array(),
-		"info"=>array(),
-		"total" => 0,
-	);
-
-/**
- * デバッグモード
- * @var boolean
- * @link http://
- */
-	public static $debug_mode = true;
-
-/**
- * カレントのモデルのインデックス情報
- * @var array 
- * @link http://
- */
-	public $indexes = array();
-
-/**
- * handlersocketのクライアント
- * handlersocketがインスタンスされることはhandlersocketを使用することも意味している
- * @var mix
- * @link http://
- */
-	public static $handlersocket = false;
-
-/**
- * handlersocketのポート情報
- * @var mix
- * @link http://
- */
-	private static $handlersocket_port = 9999;
-
-/**
- * handlersocketのdb情報
- * @var mix
- * @link http://
- */
-	private static $handlersocket_dbname = null;
-
-/**
- * handlersocket用のカラム情報
- * @var mix
- * @link http://
- */
-	private $handlersocket_cols = false;
-
-/**
- * handlersocketで挿入する時のinsert_id;
- * @var mix
- * @link http://
- */
-	private $handlersocket_insert_id = false;
-
-/**
- * 構造器、DB接続構造
- * @param array $DSN データベース接続情報
- * @return void
- */
-	public function __construct($DSN){
-		if(self::$conn === null){
-			self::connect($DSN);
-		}
-	}
-
-/**                                                                                                   
- * DB接続切断する                                                                                     
- * @return void                                                                                       
- */
-	public static function disconnect() {
-		return self::$conn = null;
-	}
-
-
-/**                                                                                                   
- * 強制DB接続する(既に接続されている場合でも再接続する)                                               
- * マルチプロセスの場合はプロセスごとに接続が必要                                                     
- * @param array $DSN
- */
-	public static function connect($DSN) {
-		self::$conn = new PDO("mysql:host={$DSN['host']};dbname={$DSN['dbname']}", $DSN["user"], $DSN["password"]);
-		self::$conn->exec("SET NAMES {$DSN['charset']}");
-		if(isset($DSN["handlersocket"])) {
-			self::use_handlersocket($DSN);
-		}
-	}
-
-/**
- * モデルバインド
- * @param string $table テーブル名
- * @return $this
- */
 	public function from($table){
 		$this->table = $table;
 		$this->from='`' . $table . '`';
-		if(self::$handlersocket !== false) {
-			$this->handlersocket_cols = array_diff($this->columns, array($this->get_primary_key()));
-		}
-		return $this;
 	}
 
 /**
@@ -725,30 +546,6 @@ class MySqlBuilder {
 	}
  
 /**
- * トランザクション開始
- * @return
- */
-	public static function begin() {
-		self::$conn->beginTransaction();
-	}
-
-/**
- * トランザクション開始
- * @return
- */
-	public static function commit() {
-		self::$conn->commit();
-	}
-
-/**
- * トランザクション開始
- * @return
- */
-	public static function rollback() {
-		self::$conn->rollBack();
-	}
-
-/**
  * inner_joinの別名
  * @return
  */
@@ -975,12 +772,6 @@ class MySqlBuilder {
 			$set[$_k] = $this->escape($_v);
 		}
 		$this->check_relation();
-		if(empty($this->join) && self::$handlersocket !== false) {
-			if($this->handlersocket_try_select() !== null) {
-				$this->tracking("handlersocket_select", null);
-				return $this->reset();
-			}
-		}
 		$halfSql = array("SELECT", empty($set) ? $this->select_column() : join(",", $set), "FROM " . $this->from);
 		foreach($this->join as $join) {
 			$halfSql[] = $join["join_type"] . " " . $join["target_table"] . " ON " . $join["from_table"] . ".`".$join["from_column"]."` = ".$join["target_table"].".`".$join["target_column"]."`";
@@ -988,29 +779,6 @@ class MySqlBuilder {
 		$sql = $this->build_where($halfSql);
 		$this->query($sql, $this->args);
 		return $this->reset();
-	}
-
-/**
- * handlersocketでの取得可能かどかをチェックし、可能であればは取得を試す
- * @return object handlersocket_stmt $stmt
- */ 
-	private function handlersocket_try_select() {
-		$filter = $this->get_all_filter();
-		$primary = $this->get_primary_key();
-	  
-		if(empty($filter) && count($this->find) === 1 && $primary === $this->find[0][0]) {
-			$val = $this->find[0][1];
-			$opera = isset($this->find[0][2]) ? $this->find[0][2] : "=";
-			return $this->stmt = new handlersocket_stmt($this->handlersocket_select($val, $opera));			  
-		} else {
-			if(empty($this->find) && count($filter) === 1 && $filter = array_pop($filter)) {
-				if($primary === $filter[0]) {
-					$val = $filter[1];
-					$opera = isset($filter[2]) ? $filter[2] : "=";
-					return $this->stmt = new handlersocket_stmt($this->handlersocket_select($val, $opera));			  
-				}
-			}
-		}
 	}
 
 /**
@@ -1022,12 +790,6 @@ class MySqlBuilder {
 	public function insert(){
 		$this->args = array_merge($this->set_args, $this->args);
 		$_set = join(",", $this->set);
-		if(self::$handlersocket !== false) {
-			$_set = str_replace("`", "", $_set);
-			$this->handlersocket_insert_id = $this->handlersocket_insert($this->args, $_set);
-			$this->tracking("handlersocket_insert", null);
-			return $this->reset();
-		}
 		$sql = join(" ", array(
             "INSERT INTO",
             $this->from,
@@ -1045,19 +807,10 @@ class MySqlBuilder {
  * @param boolean $active_record アクティブレコードからの更新かどか
  * @return
  */
-	public function update($active_record = false){
+	public function update(){
 		$this->args = array_merge($this->set_args, $this->args);
-		if(self::$handlersocket !== false) {
-			if($this->handlersocket_try_update()) {
-				$this->tracking("handlersocket_update", null);
-				return $this->reset();
-			}
-		}
 		$set = array();
 		$target = $this->from;
-		if($active_record) {
-			$target = $this->active_record_update_config();
-		}
 		foreach($this->set as $item){
 			if(strpos($item, "=") === false){
 				$item = $item . "=?";
@@ -1075,114 +828,12 @@ class MySqlBuilder {
 	}
 
 /**
- * handlersocketでの更新可能かどかをチェックし、可能であればは更新を試す
- * @return object handlersocket_stmt $stmt
- */ 
-	private function handlersocket_try_update() {
-		$filter = $this->get_all_filter();
-		$primary = $this->get_primary_key();
-		$res = $val = false;
-		if(empty($filter) && count($this->find) === 1 && $primary === $this->find[0][0]) {
-			$val = $this->find[0][1];
-			$opera = isset($this->find[0][2]) ? $this->find[0][2] : "=";
-		} else {
-			if(empty($this->find) && count($filter) === 1 && $filter = array_pop($filter)) {
-				if($primary === $filter[0]) {
-					$val = $filter[1];
-					$opera = isset($filter[2]) ? $filter[2] : "=";
-				}
-			}
-		}
-		if($val !== false) {
-			$_set = str_replace("`", "", join(",", $this->set));
-			$res = $this->handlersocket_update($val, $this->args, $opera, $_set);
-		}
-		return $res;
-	}
-
-/**
- * アクティブレコードが結合相手のテーブルも更新させることがあるので、情報を設定して見る
- * @return
- */
-	private function active_record_update_config() {
-		$tables = array();
-		$this->check_relation();
-		$this->set = $this->make_all_column(false);
-		if(empty($this->join)) {
-			$tables = array($this->from);
-		} else {
-			foreach($this->join as $join) {
-				$this->where($join["from_table"] . ".`".$join["from_column"] . "` = " . $join["target_table"] . ".`" . $join["target_column"] . "`");
-				$tables[] = $join["from_table"];
-				$tables[] = $join["target_table"];
-			}
-		}
-		return join(",", array_unique($tables));
-	}
-  
-	/**
-	 * maybe too complex to use this multi update?
-	 * well, let us see that...
-	 */
-/**
- * 多量なアクティブレコードを一つのSQL文で更新する
- * @param array $records アクティブレコード集 
- * @return
- */
-	public function multi_update($records) {
-		$this->put($records[0]->to_array());
-		$target = $this->active_record_update_config();
-		$args = $ids_set = $ids = $set = $set_args = $sql_set = array();
-		$primary_key = $this->get_primary_key();
-		$sql_key = $this->get_from() . '.`' . $primary_key . '`';
-		$set_length = count($this->set);
-		$last = $set_length - 1;
-		foreach($records as $record) {
-			$row = $record->to_array();
-			$ids[] = $id = $row[$primary_key];
-			$ids_set[] = "?";
-			$row = array_values($row);
-			for($i = 0; $i < $set_length; $i++) {
-				$key = $this->set[$i];
-				if(!isset($set[$key])) {
-					$set[$key] = array("{$key} = (case {$sql_key}");
-					$set_args[$key] = array();
-				}
-				$set[$key][] = "when ? then ?";
-				$set_args[$key] = array_merge($set_args[$key], array($id, $row[$i]));
-			}
-		}
-		$sql = array("update", $target, "set");
-		for($i = 0; $i < $set_length; $i++) {
-			$key = $this->set[$i];
-			$set[$key][] = "else {$key} end)";
-			$sql_set[] = join(" ", $set[$key]);		  
-			$args = array_merge($args, $set_args[$key]);
-		}
-		$sql[] = join(",", $sql_set);
-		$sql[] = " where {$sql_key} in (" . join(",", $ids_set) . ")";
-		foreach($this->where_condition as $where) {
-			$sql[] = "AND ({$where})";
-		}
-		$args = array_merge($args, $ids);
-		$this->query(join(" ",$sql), $args);
-		return $this->reset();
-	}
-
-
-/**
  * 削除用SQL文を構成し、発行する
  * @api
  * @param array $args 直指定するプリペア値 
  * @return
  */
 	public function delete($args = null){
-		if(self::$handlersocket !== false) {
-			if($this->handlersocket_try_delete()) {
-				$this->tracking("handlersocket_delete", null);
-				return $this->reset();
-			}
-		}
 		$halfSql = array();
 		$halfSql[] = "DELETE FROM";
 		$halfSql[] = $this->from;
@@ -1190,32 +841,6 @@ class MySqlBuilder {
 		$this->args = array_merge($this->args, (array)$args);
 		$this->query($sql, $this->args);
 		return $this->reset();
-	}
-
-    /**
-	 * handlersocketから削除を試す
-	 * @return
-	 * @link
-	 */
-	private function handlersocket_try_delete() {
-		$filter = $this->get_all_filter();
-		$primary = $this->get_primary_key();
-		$res = $val = false;
-		if(empty($filter) && count($this->find) === 1 && $primary === $this->find[0][0]) {
-			$val = $this->find[0][1];
-			$opera = isset($this->find[0][2]) ? $this->find[0][2] : "=";
-		} else {
-			if(empty($this->find) && count($filter) === 1 && $filter = array_pop($filter)) {
-				if($primary === $filter[0]) {
-					$val = $filter[1];
-					$opera = isset($filter[2]) ? $filter[2] : "=";
-				}
-			}
-		}
-		if($val !== false) {
-			$res = $this->handlersocket_delete($val, $opera);
-		}
-		return $res;
 	}
 
 /**
@@ -1276,354 +901,5 @@ class MySqlBuilder {
 	public function quote($str) {
 		return '`' . $str . '`';
 	}
-
-/**
- * SQL発行、デバッグ情報キャッシュ 
- * @param string $sql SQL文
- * @param mix $data プリペア値
- * @return $this
- */
-	public function query($sql, $data=null){
-		$this->lastQuery = array($sql,$data);
-		$this->tracking($sql, $data);
-		$this->stmt = $this->_query($sql, $data);
-		return $this;
-	}
-
-
-/**
- * SQL発行,prepare statement使用
- * @param string $sql 構成したプリペアSQL
- * @param mix $data プリペア値
- * @return resource $res クエリ結果
- */
-	private function _query($sql, $data = null) {
-		if(empty($data)){
-			$res = $stmt = self::$conn->query($sql);
-		}else{
-			if(isset($this->prepare_cache[$sql])) {
-				$stmt = $this->prepare_cache[$sql];
-			} else {
-				$stmt = self::$conn->prepare($sql);
-				if(!$stmt) {
-					$this->debug["error"][] = array($sql, $stmt->errorInfo());
-					return $stmt;
-				}
-				$this->prepare_cache[$sql] = $stmt;
-			}
-			$res = $stmt->execute($data);
-		}
-		if(!$res){
-			if($stmt === false) {
-				$this->debug["error"][] = array($sql, self::$conn->errorInfo());			  
-			} else {
-				$this->debug["error"][] = array($sql, $stmt->errorInfo());
-			}
-		}
-		return $stmt;
-	}
-
-/**
- * デバッグモードをオンにする
- * @return array
- */
-	public static function track(){
-		self::$debug_mode = true;
-	}
-
-/**
- * デバッグモードをオフにする
- * @return array
- */
-	public static function track_off(){
-		self::$debug_mode = false;
-	}
-
-/**
- * デバッグ情報をログにする、ログするsqlセットは最大10件にする
- * 10件を越える場合は古いほうから情報を廃棄する
- * @param string $sql クエリーしたプリペアSQL
- * @param mix $data プリペア値
- * @return array
- */
-	private function tracking($sql, $data) {
-		if(self::$debug_mode) {
-			$this->debug["info"][] = array($sql, $data);
-			if($this->debug["total"] > 10) {
-				array_shift($this->debug["info"]);
-			}
-			$this->debug["total"] ++;
-		}
-	}
-
-/**
- * 最後に発行したクエリを取得する
- * @return array
- */
-	public function get_last_query(){
-		return $this->lastQuery;
-	}
-
-
-/**
- * 最後に新規挿入したデータのプライマリキーを取得
- * @return integer
- */
-	public function last_id(){
-		if(self::$handlersocket !== false) {
-			return $this->handlersocket_insert_id;
-		} else {
-			return self::$conn->lastInsertId();
-		}
-	}
-
-
-/**
- * 結果集からデータを一件抽出する
- * @return array
- */
-	public function fetch(){
-		$record = false;
-		if($this->stmt) {
-			$record = $this->stmt->fetch(2);
-		}
-		if(!$record) {
-			$this->stmt = null;
-		}
-		return $record;
-	}
-  
-/**
- * 結果集からデータを全件抽出する
- * @return array
- */
-	public function fetchall(){
-		$res = array();
-		if($this->stmt) {
-			$res = $this->stmt->fetchAll(2);
-			$this->stmt = null;
-		}
-		return $res;
-	}
-
-
-/**
- * モデルのカラム情報を取得する
- * @param boolean $force 強制再取得するかしないか
- * @return array
- */
-	public function columns($force = false){
-		if(empty($this->columns) || $force) {
-			$this->columns = array();
-			foreach($this->query("show columns from " . $this->from)->fetchall_as_array(2) as $row) {
-				$this->columns[] = $row["Field"];
-			}
-		}
-		return $this->columns;
-	}
-  
-/**
- * モデルのカラム情報を整形せずに全取得する
- * @param Boolean $force 強制取得するかどか
- * @return array
- */
-	public function full_columns($force = false){
-		if(empty($this->full_columns) || $force) {
-			$this->full_columns = $this->query("show columns from " . $this->from)->fetchall_as_array(2);
-		}
-		return $this->full_columns;
-	}
-
-/**
- * カラム情報を再構成する
- * @param String $name 構成するカラム名
- * @param Closure $caller 構成時追加情報処理
- * @return array
- */
-	public function alter_column($name, $caller){
-		$info = null;
-		$full_columns = $this->full_columns();
-		foreach($full_columns as $key => $_info) {
-			if($_info["Field"] === $name) {
-				preg_match("/(\w+)(?:\((.*)\))?()/", $_info["Type"], $m);
-				list($dummy, $_info["Type"], $_info["Ext"]) = $m;
-				if(in_array($_info["Type"], array("enum", "set"))) {
-					$_info["Ext"] = explode(",", str_replace(array("'", '"'), "", $_info["Ext"]));
-				}
-				unset($_info["Field"]);
-				$info = call_user_func($caller, $_info);
-				if(!empty($info)) {
-					$col = $this->{$name};
-					if(is_array($info["Ext"])) {
-						$info["Ext"] = "'" . join("', '", $info["Ext"]) . "'";
-					}
-					$null = $info["Null"] === "YES" ? "" : "NOT ";
-					$sql = "ALTER TABLE  {$this->from} CHANGE  {$col}  {$col} {$info['Type']}({$info['Ext']}) CHARACTER SET utf8 COLLATE utf8_general_ci {$null}NULL DEFAULT  '{$info['Default']}'";
-					$this->query($sql);
-					$info["Field"] = $name;
-					$info["Type"] = $info["Type"] . "(" . $info['Ext'] . ")";
-					$this->full_columns[$key] = $info;
-				}
-				break;
-			}
-		}
-	}
-
-/**
- * モデルのインデックス情報を取得する
- * @param boolean $force 強制再取得するかしないか
- * @return array
- */
-	public function indexes($force = false) {
-		if(empty($this->indexes) || $force) {
-			$this->query("show index from " . $this->from);
-			$this->indexes = $this->fetchall_as_array(2);
-		}
-		return $this->indexes;
-	}
-
-/**
- * handlersocket使用するかしないかの設定 ※handlersocketはmysqlだけ使える
- * handlersocketは実験的にライブラリの内部で使用する、現状はプライマリキーをメインで操作する
- * 将来的にuniqueキーでも対応したいのだが、とにかく実験的に運用する
- * @param Array $DSN 
- * @return array
- */
-	public static function use_handlersocket($DSN) {
-		if(class_exists("HandlerSocket") && self::$handlersocket === false && $DSN["type"] === "mysql") {
-			if(isset($DSN["handlersocket_port"])) {
-				self::$handlersocket_port = $DSN["handlersocket_port"];
-			}
-			self::$handlersocket = new HandlerSocket($DSN["host"], self::$handlersocket_port);
-			self::$handlersocket_dbname = $DSN["dbname"];
-		}
-		return self::$handlersocket;
-	}
-
-/**
- * handlersocketでの取得
- * @param String $primary_key プライマリーキー
- * @param String $opera 操作方法
- * @return array
- */
-	private function handlersocket_select($primary_key, $opera = "=") {
-		$columns = $this->columns;
-		self::$handlersocket->openIndex(1, self::$handlersocket_dbname, $this->table, HandlerSocket::PRIMARY, join(",", $columns));
-		if(!is_array($primary_key)) {
-			$primary_key = array($primary_key);
-			$res = array(self::$handlersocket->executeSingle(1, $opera, $primary_key));	  
-		} else {
-			$select = array();
-			foreach($primary_key as $key) {
-				$select[] = array(1, $opera, $key);
-			}
-			$res = self::$handlersocket->executeMulti($select);	  		  
-		}
-		$_res = array();
-		foreach($res as $row) {
-			if(empty($row)) {
-				continue;
-			} else {
-				$_res[] = array_combine($columns, $row[0]);
-			}
-		}
-		return empty($_res) ? array(false) : $_res;
-	}
-
-/**
- * handlersocketでの挿入
- * @param Array $data 
- * @param Array $cols
- * @return array
- */
-	private function handlersocket_insert($data, $cols = null) {
-		if($cols === null) {
-			self::$handlersocket->openIndex(3, self::$handlersocket_dbname, $this->table, HandlerSocket::PRIMARY, join(",", $this->handlersocket_cols));
-		} else {
-			self::$handlersocket->openIndex(3, self::$handlersocket_dbname, $this->table, HandlerSocket::PRIMARY, $cols);	  
-		}
-		return self::$handlersocket->executeInsert(3, $data);
-	}
-
-/**
- * handlersocketでの更新
- * @param String $primary_key
- * @param Array $data
- * @param String $opera
- * @param Array $cols
- * @return Array
- */
-	private function handlersocket_update($primary_key, $data, $opera = "=", $cols = null) {
-		if($cols === null) {
-			self::$handlersocket->openIndex(2, self::$handlersocket_dbname, $this->table, HandlerSocket::PRIMARY, join(",", $this->handlersocket_cols));
-		} else {
-			self::$handlersocket->openIndex(2, self::$handlersocket_dbname, $this->table, HandlerSocket::PRIMARY, $cols);
-		}
-		return self::$handlersocket->executeUpdate(2, $opera, $primary_key, $data, 1, 0);
-	}
-
-/**
- * handlersocketでの削除
- * @param String $primary_key
- * @param String $opera
- * @return array
- */
-	private function handlersocket_delete($primary_key, $opera = "=") {
-		self::$handlersocket->openIndex(4, self::$handlersocket_dbname, $this->table, HandlerSocket::PRIMARY, "");
-		if(!is_array($primary_key)) {
-			$primary_key = array($primary_key);
-		}
-		return self::$handlersocket->executeDelete(4, $opera, $primary_key);
-	}
-
 }
 
-/**
- * handlersocket_stmt
- *  
- * handlersocket用stmt、PDOカーソルのfetch/fetchallを模擬するもの
- * @author 2014 Chen Han 
- * @package framework.core
- * @link 
- */
-class handlersocket_stmt {
-	
-    /**
-     * 取得したデータセット
-     * @api
-     * @var Array
-     * @link
-     */
-	private $result = array();
-	
-	/**
-	 * 構造機構
-	 * @param Array $result
-	 * @return
-	 * @link
-	 */
-	public function __construct($result) {
-		$this->result = array_reverse($result);
-	}
-	
-    /**
-	 * データを一件取得
-	 * @api
-	 * @return
-	 * @link
-	 */
-	public function fetch() {
-		return array_pop($this->result);
-	}
-	
-	/**
-	 * データを全件取得
-	 * @api
-	 * @return
-	 * @link
-	 */
-	public function fetchall() {
-		return array_reverse($this->result);
-	}
-	
-}
