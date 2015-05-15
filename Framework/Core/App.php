@@ -63,7 +63,7 @@ class App implements AppInterface
     static public function getModel($model)
     {
         $modelNamespace = self::$globalConfig->getConfig("modelNamespace", self::DEFAULT_MODEL_NAMESPACE);
-        $model = ucfirst($model) . "Model";
+        $model = ucfirst($model) . "\\Model";
         $modelLabel = $modelNamespace . "\\" . $model;
         return $modelLabel::getSingleton();        
     }

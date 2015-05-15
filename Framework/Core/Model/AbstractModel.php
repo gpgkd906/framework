@@ -2,9 +2,10 @@
 
 namespace Framework\Core\Model;
 
-use FrameWork\Core\Interfaces\ModelInterface;
+use Framework\Core\Interfaces\Model\ModelInterface;
 use Framework\Config\ConfigModel;
 use PDO;
+use Exception;
 
 abstract class AbstractModel implements ModelInterface
 {
@@ -15,6 +16,8 @@ abstract class AbstractModel implements ModelInterface
     
     static private $sqlBuilder = "Framework\Core\Model\SqlBuiler\Mysql";
     static private $connection = null;
+    private $stmt;
+
     static private $modelConfig = [
         "database" => "mysql",
         "charset"  => "utf8",
@@ -24,7 +27,9 @@ abstract class AbstractModel implements ModelInterface
         "Schema" => null,
         "Record" => null,
     ];
-    private $models = [];
+    static private $models = [];
+
+
 
     static protected function getModelConfig()
     {
@@ -99,7 +104,7 @@ abstract class AbstractModel implements ModelInterface
         
     }
     
-    public function select($select)
+    public function select($select = null)
     {
     }
 
@@ -134,42 +139,75 @@ abstract class AbstractModel implements ModelInterface
         return new $RecordClass;
     }
         
-    public function fetchRecord()
-    {        
-        if($data = $this->stmt->fetch(self::FETCH_ASSOC)) {
-            $record = $this->newRecord();
-            $record->assign($data);
-            return $record;
+    public function fetch()
+    {
+        if($this->stmt) {
+            if($data = $this->stmt->fetch(self::FETCH_ASSOC)) {
+                $record = $this->newRecord();
+                $record->assign($data);
+                return $record;
+            }
         }
         return false;
     }
 
-    public function fetchAllRecord()
+    public function fetchAll()
     {
-        $records = [];
-        while($record = $this->fetchRecord()) {
-            $records[] = $record;
+        if($this->stmt) {
+            $records = [];
+            while($record = $this->fetch()) {
+                $records[] = $record;
+            }
+            return $records;
         }
-        return $records;
     }
 
-    public function eachRecord($callBack)
+    public function get()
     {
-        while($record = $this->fetchRecord()) {
+        $this->select();
+        return $this->fetch();
+    }
+
+    public function getAll()
+    {
+        $this->select();
+        return $this->fetchAll();
+    }
+
+    public function getArray()
+    {
+        $this->select();
+        return $this->fetchArray();
+    }
+
+    public function getAllArray()
+    {
+        $this->select();
+        return $this->fetchAllArray();
+    }
+
+
+    public function each($callBack)
+    {
+        while($record = $this->fetch()) {
             call_user_func($callBack, $record);
         }
     }
 
     public function fetchArray()
     {
-        $data = $this->stmt->fetch(self::FETCH_ASSOC);
-        return $data;        
+        if($this->stmt) {
+            $data = $this->stmt->fetch(self::FETCH_ASSOC);
+            return $data;
+        }
     }
 
     public function fetchAllArray()
     {
-        $data = $this->stmt->fetchAll(self::FETCH_ASSOC);
-        return $data;        
+        if($this->stmt) {
+            $data = $this->stmt->fetchAll(self::FETCH_ASSOC);
+            return $data;
+        }
     }
 
     public function eachArray($callBack)
