@@ -1,6 +1,9 @@
 <?php
 
-class MySqlBuilder {
+namespace Framework\Core\Interfaces\Model\SqlbuilderInterface;
+
+class MySql implements SqlbuilderInterface
+{
 
 	private $args = array();
 

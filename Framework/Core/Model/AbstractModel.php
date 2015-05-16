@@ -3,6 +3,7 @@
 namespace Framework\Core\Model;
 
 use Framework\Core\Interfaces\Model\ModelInterface;
+use Framework\Core\Interfaces\Model\SchemaInterface;
 use Framework\Config\ConfigModel;
 use PDO;
 use Exception;
@@ -16,7 +17,8 @@ abstract class AbstractModel implements ModelInterface
     
     static private $sqlBuilder = "Framework\Core\Model\SqlBuiler\Mysql";
     static private $connection = null;
-    private $stmt;
+    private $stmt = null;
+    private $sqlbuilder = null;
 
     static private $modelConfig = [
         "database" => "mysql",
@@ -28,8 +30,6 @@ abstract class AbstractModel implements ModelInterface
         "Record" => null,
     ];
     static private $models = [];
-
-
 
     static protected function getModelConfig()
     {
@@ -78,10 +78,22 @@ abstract class AbstractModel implements ModelInterface
         $modelName = get_called_class();
         if(empty($this->config["Schema"])) {
             throw new Exception(sprintf(self::ERROR_UNDEFINED_SCHEMA, $modelName));
+        } else {
+            $this->getSchema();
         }
         if(empty($this->config["Record"])) {
             throw new Exception(sprintf(self::ERROR_UNDEFINED_RECORD, $modelName));
         }
+        $this->getSqlBuilder();
+    }
+
+    public function getSchema()
+    {
+        if(!$this->config["Schema"] instanceof SchemaInterface) {
+            $SchemaLabel = $this->config["Schema"];
+            $this->config["Schema"] = new $SchemaLabel;
+        }
+        return $this->config["Schema"];
     }
     
     public function find()
@@ -106,6 +118,7 @@ abstract class AbstractModel implements ModelInterface
     
     public function select($select = null)
     {
+        
     }
 
     public function update()
@@ -123,7 +136,10 @@ abstract class AbstractModel implements ModelInterface
 
     public function getSqlBuilder()
     {
-        
+        if($this->sqlBuilder === null) {
+            $this->sqlBuilder = new self::$sqlBuilder;
+        }
+        return $this->sqlBuilder;
     }
 
     public function create($data)
