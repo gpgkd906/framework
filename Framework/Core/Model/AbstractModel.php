@@ -3,6 +3,7 @@
 namespace Framework\Core\Model;
 
 use Framework\Core\Interfaces\Model\ModelInterface;
+use Framework\Core\Interfaces\Model\SchemaInterface;
 use Framework\Config\ConfigModel;
 use PDO;
 use Exception;
@@ -31,7 +32,7 @@ abstract class AbstractModel implements ModelInterface
         "Record" => null,
     ];
     static private $models = [];
-    
+
     static protected function getModelConfig()
     {
         if(is_array(self::$modelConfig)) {
@@ -85,8 +86,9 @@ abstract class AbstractModel implements ModelInterface
         }
         $this->schemaLabel = $this->config["Schema"];
         $this->recordLabel = $this->config["Record"];
+        $this->getSqlBuilder();
     }
-    
+
     public function find()
     {
         $sqlBuilder = $this->getSqlBuilder();
@@ -114,7 +116,6 @@ abstract class AbstractModel implements ModelInterface
     public function select($select = null)
     {
         $sqlBuilder = $this->getSqlBuilder();
-        
     }
 
     public function update()

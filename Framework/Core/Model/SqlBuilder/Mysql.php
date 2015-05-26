@@ -2,7 +2,10 @@
 namespace Framework\Core\Model\SqlBuilder;
 use Framework\Core\Interfaces\Model\SchemaInterface;
 
-class MySqlBuilder {
+namespace Framework\Core\Interfaces\Model\SqlbuilderInterface;
+
+class MySql implements SqlbuilderInterface
+{
 
     private $Schema = null;
     private $sql = null;
