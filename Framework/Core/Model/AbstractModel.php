@@ -11,12 +11,15 @@ abstract class AbstractModel implements ModelInterface
 {
     const ERROR_UNDEFINED_SCHEMA = "error: undefined schema in model [%s]";
     const ERROR_UNDEFINED_RECORD = "error: undefined record in model [%s]";
-
-    const FETCH_ASSOC = 2;
     
-    static private $sqlBuilder = "Framework\Core\Model\SqlBuiler\Mysql";
+    const FETCH_ASSOC = 2;
+    const DEFAULT_SQLBUILDER = "Framework\Core\Model\SqlBuilder\MySqlBuilder";
     static private $connection = null;
-    private $stmt;
+    private $Schema = null;
+    private $schemaLabel = null;
+    private $recordLabel = null;
+    private $sqlBuilder = null;
+    private $stmt = null;
 
     static private $modelConfig = [
         "database" => "mysql",
@@ -28,15 +31,13 @@ abstract class AbstractModel implements ModelInterface
         "Record" => null,
     ];
     static private $models = [];
-
-
-
+    
     static protected function getModelConfig()
     {
         if(is_array(self::$modelConfig)) {
             $modelConfig = self::$modelConfig;
             self::$modelConfig = ConfigModel::getConfigModel([
-                "scope" => ConfigModel::Model,
+                "scope" => ConfigModel::MODEL,
                 "property" => ConfigModel::READONLY
             ]);
             foreach($modelConfig as $key => $default) {
@@ -76,36 +77,44 @@ abstract class AbstractModel implements ModelInterface
     private function __construct()
     {
         $modelName = get_called_class();
-        if(empty($this->config["Schema"])) {
+        if(empty($this->config["Schema"])) {            
             throw new Exception(sprintf(self::ERROR_UNDEFINED_SCHEMA, $modelName));
         }
         if(empty($this->config["Record"])) {
             throw new Exception(sprintf(self::ERROR_UNDEFINED_RECORD, $modelName));
         }
+        $this->schemaLabel = $this->config["Schema"];
+        $this->recordLabel = $this->config["Record"];
     }
     
     public function find()
     {
+        $sqlBuilder = $this->getSqlBuilder();
         
     }
     
     public function order()
     {
+        $sqlBuilder = $this->getSqlBuilder();
         
     }
     
     public function group()
     {
+        $sqlBuilder = $this->getSqlBuilder();
         
     }
     
     public function join()
     {
+        $sqlBuilder = $this->getSqlBuilder();
         
     }
     
     public function select($select = null)
     {
+        $sqlBuilder = $this->getSqlBuilder();
+        
     }
 
     public function update()
@@ -123,7 +132,22 @@ abstract class AbstractModel implements ModelInterface
 
     public function getSqlBuilder()
     {
-        
+        if($this->sqlBuilder === null) {
+            $Config = self::getModelConfig();
+            $sqlBuilderLabel = $Config->getConfig("sqlBuilder", self::DEFAULT_SQLBUILDER);
+            $this->sqlBuilder = new $sqlBuilderLabel;
+            $this->sqlBuilder->setSchema($this->getSchema());
+        }
+        return $this->sqlBuilder;
+    }
+
+    public function getSchema()
+    {
+        if($this->Schema === null) {
+            $schemaLabel = $this->schemaLabel;
+            $this->Schema = new $schemaLabel;
+        }
+        return $this->Schema;
     }
 
     public function create($data)
@@ -135,10 +159,42 @@ abstract class AbstractModel implements ModelInterface
 
     public function newRecord()
     {
-        $RecordClass = $this->Record;
-        return new $RecordClass;
+        $recordClass = $this->recordLabel;
+        return new $recordClass;
     }
         
+    public function get()
+    {
+        if($this->stmt == null) {
+            $this->select();
+        }
+        return $this->fetch();
+    }
+
+    public function getAll()
+    {
+        if($this->stmt == null) {
+            $this->select();
+        }
+        return $this->fetchAll();
+    }
+
+    public function getArray()
+    {
+        if($this->stmt == null) {
+            $this->select();
+        }
+        return $this->fetchArray();
+    }
+
+    public function getAllArray()
+    {
+        if($this->stmt == null) {
+            $this->select();
+        }
+        return $this->fetchAllArray();
+    }
+
     public function fetch()
     {
         if($this->stmt) {
@@ -147,6 +203,7 @@ abstract class AbstractModel implements ModelInterface
                 $record->assign($data);
                 return $record;
             }
+            $this->stmt = null;
         }
         return false;
     }
@@ -158,34 +215,10 @@ abstract class AbstractModel implements ModelInterface
             while($record = $this->fetch()) {
                 $records[] = $record;
             }
+            $this->stmt = null;
             return $records;
         }
     }
-
-    public function get()
-    {
-        $this->select();
-        return $this->fetch();
-    }
-
-    public function getAll()
-    {
-        $this->select();
-        return $this->fetchAll();
-    }
-
-    public function getArray()
-    {
-        $this->select();
-        return $this->fetchArray();
-    }
-
-    public function getAllArray()
-    {
-        $this->select();
-        return $this->fetchAllArray();
-    }
-
 
     public function each($callBack)
     {
@@ -197,8 +230,10 @@ abstract class AbstractModel implements ModelInterface
     public function fetchArray()
     {
         if($this->stmt) {
-            $data = $this->stmt->fetch(self::FETCH_ASSOC);
-            return $data;
+            if($data = $this->stmt->fetch(self::FETCH_ASSOC)) {
+                return $data;
+            }
+            $this->stmt = null;
         }
     }
 
@@ -206,6 +241,7 @@ abstract class AbstractModel implements ModelInterface
     {
         if($this->stmt) {
             $data = $this->stmt->fetchAll(self::FETCH_ASSOC);
+            $this->stmt = null;
             return $data;
         }
     }

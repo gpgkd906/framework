@@ -6,10 +6,12 @@ use Framework\Core\Interfaces\AppInterface;
 use Framework\Core\ErrorHandler;
 use Framework\Core\ViewModel\ViewModelManager;
 use Framework\Core\EventManager\EventManager;
+use Exception;
 
 class App implements AppInterface
 {
     const ERROR_NEED_GLOBAL_CONFIG = "error: need global config";
+    const ERROR_INVALID_CONTROLLER_LABEL = "error: invalid_controller_label: %s";
     //
     const DEFAULT_PLUGINMANAGER = "Framework\Core\PluginManager\PluginManager";
     const DEFAULT_ROUTE = "Framework\Core\RouteModel";
@@ -34,20 +36,21 @@ class App implements AppInterface
         $useErrorHandler = self::$globalConfig->getConfig("ErrorHandler", true);
         if($useErrorHandler) {
             ErrorHandler::setup();
+        }
+        //route
+        $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
+        $routeModel = self::getRouteModel($routeName);
+        if($routeModel->isFaviconRequest()) {
+            $routeModel->sendDummyFavicon();
         }        
+
         ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE));
         ViewModelManager::setTemplateDir(self::$globalConfig->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', self::DEFAULT_VIEWMODEL_NAMESPACE)));
         self::$eventManager = new EventManager;
         //plugin
         $pluginManager = self::getPluginManager();
         $pluginManager->initPlugins();
-        //route
-        $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
-        $routeModel = self::getRouteModel($routeName);
         list($controllerName, $action, $param) = $routeModel->dispatch();
-        if(empty($controllerName)) {
-            die;
-        }
         $controller = self::getController($controllerName);
         $controller->callActionFlow($action, $param);
     }
@@ -57,6 +60,9 @@ class App implements AppInterface
         $controllerNamespace = self::$globalConfig->getConfig("controllerNamespace", self::DEFAULT_CONTROLLER_NAMESPACE);
         $controller = ucfirst($controller) . "Controller";
         $controllerLabel = $controllerNamespace . "\\" . $controller;
+        if(!class_exists($controllerLabel)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_CONTROLLER_LABEL, $controllerLabel));
+        }
         return $controllerLabel::getSingleton();
     }
 
@@ -81,9 +87,9 @@ class App implements AppInterface
         return $routeModelName::getSingleton();
     }
 
-    static public function getPluginManager($pluginManagerName = null)
+    static public function getPluginManager()
     {
-        if($pluginManagerName === null) {
+        if(self::$pluginManager == null) {
             $pluginManagerName = self::$globalConfig->getConfig("pluginManager", self::DEFAULT_PLUGINMANAGER);
             self::$pluginManager = $pluginManagerName::getSingleton();
         }

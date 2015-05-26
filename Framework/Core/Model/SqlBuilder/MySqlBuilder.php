@@ -1,54 +1,44 @@
 <?php
+namespace Framework\Core\Model\SqlBuilder;
+use Framework\Core\Interfaces\Model\SchemaInterface;
 
 class MySqlBuilder {
 
+    private $Schema = null;
+    private $sql = null;
 	private $args = array();
-
-	protected $set = array();
-
-	protected $set_args = array();
-
-	protected $find = array();
-
-	protected $filter = array();
-
-	protected $join = array();
-
-	protected $from = null;
-
-	protected $table = null;
-
-	protected $where = array();
-
-	protected $where_condition = array();
     
+	protected $set = array();
+	protected $set_args = array();
+	protected $find = array();
+	protected $filter = array();
+	protected $join = array();
+	protected $from = null;
+	protected $table = null;
+	protected $where = array();
+	protected $where_condition = array();
 	protected $where_filter = array();
-
 	protected $order= null;
-
 	protected $group = null;
-
 	protected $limit=array();
-
 	protected $columns = array();
-
 	protected $relate_columns = array();
-
 	protected $join_columns = array();
-
 	protected $skip_filter = array();
-
 	protected $relate = array();
-
 	protected $skip_relate = array();
-
 	protected $last_skip_relate = array();
-
 	protected $alias = array();
 
-	public function from($table){
+    public function setSchema(SchemaInterface $Schema)
+    {
+        $this->Schema = $Schema;
+        $this->setTable($Schema->getName());
+    }
+
+	private function setTable($table){
 		$this->table = $table;
-		$this->from='`' . $table . '`';
+		$this->from = '`' . $table . '`';
 	}
 
 /**
@@ -200,24 +190,18 @@ class MySqlBuilder {
 			call_user_func_array(array($this, "join"), $set);
 		}
 	}
-
-
-/**
- * モデル名を取得
- * @api
- * @return string 
- */
-	public function get_from(){
-		return $this->from;
-	}
-
+    
 /**
  * モデルのテーブル名を取得
  * @api
  * @return string 
  */
-	public function get_table(){
-		return $this->table;
+	public function getTable($quoted = false){
+        if($quoted) {
+            return $this->table;
+        } else {
+            return $this->from;
+        }
 	}
 
 /**
@@ -619,8 +603,8 @@ class MySqlBuilder {
  * @return
  */
 	private function set_join_table($target1, $target2) {
-		$table1 = $target1->get_from();
-		$table2 = $target2->get_from();
+		$table1 = $target1->getTable(true);
+		$table2 = $target2->getTable(true);
 		$this->relate_columns[$table1] = $target1->columns();
 		$this->relate_columns[$table2] = $target2->columns();
 	  
@@ -674,7 +658,7 @@ class MySqlBuilder {
  */
 	private function set_join_meta($from, $col1, $col2, $join, $type) {
 		$from_columns = $from->columns();
-		$from_table = $from->get_from();
+		$from_table = $from->getTable(true);
 		$check_from = in_array($col1, $from_columns) ? true : false;
 		if($check_from || $col1 === $col2) {
 			$join["from_column"] = $col1;

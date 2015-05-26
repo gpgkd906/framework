@@ -56,7 +56,8 @@ abstract class AbstractRecord implements RecordInterface
                 if(!$this->config["Model"] || !class_exists($this->config["Model"])) {
                     throw new Exception(self::ERROR_INVALID_MODEL);
                 }
-                $Model = $this->config["Model"]::getSingleton();
+                $modelLabel = $this->config["Model"];
+                $Model = $modelLabel::getSingleton();
             }
             if($Model instanceof ModelInterface) {
                 self::$Model = $Model;
@@ -157,12 +158,11 @@ abstract class AbstractRecord implements RecordInterface
 	 * データセットの変更をデータベースに反映
 	 *
 	 *値が実質的に変更されてない場合はSQLの生成及び発行を飛ばす：「最も早いSQLはSQLを発行しないこと」
-	 * ※注意、明示的に値の変更がなくてもtouchメソッドがコールされるとタイムスタンプが更新されるので
-     *   SQLが発行される。
+	 * ※注意、明示的に値の変更がなくてもtouchメソッドがコールされるとタイムスタンプが更新されるのでSQLが発行される。
      *
 	 *更新時の挙動は要検討、論理上プライマリキーは変更すべきものではない
 	 * 
-	 *実際業務では変更される場合もあるかもしれない;
+	 * * task: make primary value can not be changed
 	 * @api
 	 * @return
 	 * @link

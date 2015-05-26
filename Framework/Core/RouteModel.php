@@ -194,4 +194,16 @@ class RouteModel implements RouteModelInterface
         }
         return $param;
     }
+
+    public function isFaviconRequest() 
+    {
+        return $_SERVER["REQUEST_URI"] === "/favicon.ico";
+    }
+
+    public function sendDummyFavicon()
+    {
+        header('Content-Type: image/vnd.microsoft.icon');
+        header('Content-length: 0');
+        die();
+    }
 }
