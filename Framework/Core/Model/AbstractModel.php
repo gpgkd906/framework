@@ -14,7 +14,7 @@ abstract class AbstractModel implements ModelInterface
     const ERROR_UNDEFINED_RECORD = "error: undefined record in model [%s]";
     
     const FETCH_ASSOC = 2;
-    const DEFAULT_SQLBUILDER = "Framework\Core\Model\SqlBuilder\MySqlBuilder";
+    const DEFAULT_SQLBUILDER = "Framework\Core\Model\SqlBuilder\MySql";
     static private $connection = null;
     private $Schema = null;
     private $schemaLabel = null;

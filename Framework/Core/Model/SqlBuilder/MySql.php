@@ -1,37 +1,39 @@
 <?php
 namespace Framework\Core\Model\SqlBuilder;
 use Framework\Core\Interfaces\Model\SchemaInterface;
+use Framework\Core\Interfaces\Model\SqlBuilderInterface;
 
-namespace Framework\Core\Interfaces\Model\SqlbuilderInterface;
-
-class MySql implements SqlbuilderInterface
+class MySql implements SqlBuilderInterface
 {
 
     private $Schema = null;
     private $sql = null;
-	private $args = array();
+	private $parameters = [];
     
-	protected $set = array();
-	protected $set_args = array();
-	protected $find = array();
-	protected $filter = array();
-	protected $join = array();
+	protected $set = [];
+	protected $set_args = [];
 	protected $from = null;
 	protected $table = null;
-	protected $where = array();
-	protected $where_condition = array();
-	protected $where_filter = array();
-	protected $order= null;
-	protected $group = null;
-	protected $limit=array();
-	protected $columns = array();
-	protected $relate_columns = array();
-	protected $join_columns = array();
-	protected $skip_filter = array();
-	protected $relate = array();
-	protected $skip_relate = array();
-	protected $last_skip_relate = array();
-	protected $alias = array();
+	protected $findStack = [];
+	protected $joinStack = [];
+	protected $whereStack = [];
+	protected $orderStack = [];
+    protected $orderQuery = null;
+    protected $groupStack = [];
+    protected $groupQuery = null;
+	protected $limit = [];
+	protected $alias = [];
+
+    /**
+     * クエリ発行中に一時に利用した情報を解放する
+     * @return $this
+     */
+	protected function reset(){
+        
+		return $this;
+	}
+
+
 
     public function setSchema(SchemaInterface $Schema)
     {
@@ -45,75 +47,6 @@ class MySql implements SqlbuilderInterface
 	}
 
 /**
- * 持続的な検索条件を設定する
- * @param string $key フィルタ名
- * @param max 　　$where 検索カラム名(集)
- * @param mix 　　$bind  検索値(集)
- * @param string $opera 検索方法
- * @return void
- */
-	public function add_filter($key, $where, $bind = null, $opera = "=") {
-		$this->filter[$key] = array($where, $bind, $opera);
-	}
-
-/**
- * 設定した持続的な検索条件を削除する
- * @param string $key フィルタ名
- * @return void
- */
-	public function remove_filter($key) {
-		if(isset($this->filter[$key])) {
-			unset($this->filter[$key]);
-		}
-	}
-  
-
-/**
- * 設定した全ての持続的な検索条件を削除する
- * @return void
- */
-	public function clear_filter() {
-		$this->filter = array();
-	}
-
-
-/**
- * 設定した持続的な検索条件をスキップするように、スキップ情報を設定
- * @param string $key フィルタ名
- * @return void
- */
-	public function skip_filter($key = "all") {
-		if(empty($key)) {
-			return false;
-		}
-		if($key === "all") {
-			$this->skip_filter = $this->filter;
-		} else {
-			$this->skip_filter[$key] = true;
-		}
-	}
-
-/**
- * 設定したフィルタを取得
- * @param string $key フィルタ名
- * @return array フィルタ情報
- */
-	public function get_filter($key) {
-		return $this->filter[$key];
-	}
-
-  
-/**
- * 設定したフィルタをスキップ済みして取得する
- * @return array フィルタ情報
- */
-	public function get_all_filter() {
-		$filter = array_diff_key($this->filter, $this->skip_filter);
-		$this->skip_filter = array();
-		return $filter;
-	}
-  
-/**
  * カラム名の別名を設定
  * @param string $col カラム名
  * @param string $alias 別名
@@ -125,75 +58,6 @@ class MySql implements SqlbuilderInterface
   
 	//relate (long live join)
 
-/**
- * 結合情報を追加する
- * @api 
- * @return
- * @link
- */
-	public function add_relation() {
-		$args = func_get_args();
-		$key = array_shift($args);
-		$this->relate[$key] = $args;
-	}
-
-/**
- * 設定した結合情報を削除する
- * @param string $key $結合情報名
- * @return void
- */
-	public function remove_relation($key) {
-		if(isset($this->relate[$key])) {
-			unset($this->relate[$key]);
-		}
-	}
-
-/**
- * 設定した結合情報を全て削除する
- * @api
- * @return
- */
-	public function clear_relation() {
-		$this->relate = array();
-	}
-
-/**
- * 結合のスキップ情報を設定する
- * @api
- * @param string $key 結合情報名
- * @return void
- */
-	public function skip_relation($key = "all") {
-		if($key === "all") {
-			$this->skip_relate = $this->relate;
-		} else {
-			$this->skip_relate[$key] = true;
-		}
-	}
-
-
-/**
- * 最後の結合のスキップ情報を取得
- * @return array 
- */
-	public function get_last_skipped_relation() {
-		return $this->last_skip_relate;
-	}
-
-
-/**
- * 設定した結合情報で実結合処理
- * @return void
- */
-	protected function check_relation() {
-		$relate = array_diff_key($this->relate, $this->skip_relate);
-		$this->last_skip_relate = $this->skip_relate;
-		$this->skip_relate = array();
-		foreach($relate as $set) {
-			call_user_func_array(array($this, "join"), $set);
-		}
-	}
-    
 /**
  * モデルのテーブル名を取得
  * @api
@@ -220,18 +84,6 @@ class MySql implements SqlbuilderInterface
 		return $this;
 	}
 
-
-/**
- * 設定した検索条件を取得し、全ての検索条件を解除する
- * @api
- * @return array
- */
-	public function fetch_find() {
-		$find = $this->find;
-		$this->find = array();
-		return $find;
-	}
-  
 
 /**
  * 設定した検索条件をテーブルのカラム情報を照合し、情報の正当性をチェックする
@@ -457,12 +309,8 @@ class MySql implements SqlbuilderInterface
  * @param boolean $filter 持続的にするかどか
  * @return void
  */
-	public function where($where_condition, $filter = false) {
-		if($filter) {
-			$this->where_filter[] = $where_condition;
-		} else {
-			$this->where_condition[] = $where_condition;
-		}
+	public function where($where_condition) {
+        $this->where_condition[] = $where_condition;
 	}
 
 
@@ -471,7 +319,7 @@ class MySql implements SqlbuilderInterface
  * @return array
  */
 	protected function _where() {
-		$where = array_merge($this->where_filter, $this->where_condition);
+		$where = $this->where_condition;
 		foreach($where as $wc) {
 			$this->where[] = "(" . $wc . ")";
 		}
@@ -498,23 +346,50 @@ class MySql implements SqlbuilderInterface
  * @param string $order ソート条件
  * @return $this
  */
-	public function order($order){
+	public function addOrder($column, $order){
+        $column = $this->escape($column);
 		$order = $this->escape($order);
-		$this->order = "ORDER BY {$order}";
+        $this->orderStack[] = $column . " " . $order;
 		return $this;
 	}
+
+    public function setOrder($orderQuery)
+    {
+        $this->orderQuery = "ORDER BY " . $orderQuery;
+    }
+
+    public function getOrder()
+    {
+        if($this->orderQuery === null) {
+            $this->orderQuery = "ORDER BY " . join(",", $this->orderStack);
+        }
+        return $this->orderQuery;
+    }
 
 /**
  * グループ情報設定
  * @param string $group グループ情報
  * @return $this
  */
-	public function group($group){
-		$group = $this->escape($group);
-		$this->group = "GROUP BY {$group}";
-		return $this;
+	public function addGroup($column)
+    {
+		$column = $this->escape($column);
+        $this->groupStack[] = $column;
+        return $this;
 	}
+
+    public function setGroup($groupQuery)
+    {
+        $this->groupQuery = "GROUP BY " . $groupQuery;
+    }
   
+    public function getGroup()
+    {
+        if($this->groupQuery === null) {
+            $this->groupQuery = "GROUP BY " . join(",", $this->groupStack);
+        }
+        return $this->groupQuery;
+    }
 
 /**
  * リミット条件設定
@@ -536,8 +411,8 @@ class MySql implements SqlbuilderInterface
  * inner_joinの別名
  * @return
  */
-	public function join() {
-		return call_user_func_array(array($this, "inner_join"), func_get_args());
+	public function join($joinModel, $leftCol, $rightCol = null) {
+        return $this->innerJoin($joinModel, $leftCol, $rightCol);
 	}
  
 
@@ -545,8 +420,8 @@ class MySql implements SqlbuilderInterface
  * モデルを双方向で結合させる
  * @return
  */
-	public function inner_join() {
-		list($target1, $target2, $col1, $col2) = $this->set_join_request(func_get_args());
+	public function innerJoin($joinModel, $leftCol, $rightCol = null) {
+		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
 		list($join, $from, $target) = $this->set_join_table($target1, $target2);
 		$this->set_join_meta($from, $col1, $col2, $join, "INNER JOIN");
 		return $this;
@@ -556,8 +431,8 @@ class MySql implements SqlbuilderInterface
  * モデルを往方向で結合させる
  * @return
  */
-	public function left_join() {
-		list($target1, $target2, $col1, $col2) = $this->set_join_request(func_get_args());
+	public function leftJoin($joinModel, $leftCol, $rightCol = null) {
+		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
 		list($join, $from, $target) = $this->set_join_table($target1, $target2);
 		$this->set_join_meta($from, $col1, $col2, $join, "LEFT JOIN");
 		return $this;
@@ -567,8 +442,8 @@ class MySql implements SqlbuilderInterface
  * モデルを復方向で結合させる
  * @return
  */
-	public function right_join() {
-		list($target1, $target2, $col1, $col2) = $this->set_join_request(func_get_args());
+	public function rightJoin($joinModel, $leftCol, $rightCol = null) {
+		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
 		list($join, $from, $target) = $this->set_join_table($target1, $target2);
 		$this->set_join_meta($from, $col1, $col2, $join, "RIGHT JOIN");
 		return $this;
@@ -855,17 +730,7 @@ class MySql implements SqlbuilderInterface
 
 
 /**
- * クエリ発行中に一時に利用した情報を解放する
- * @return $this
- */
-	protected function reset(){
-		$this->alias = $this->limit = $this->where_condition = $this->where = $this->join = $this->find = $this->set_args = $this->set = $this->args = array();
-		$this->order = $this->group = null;
-		return $this;
-	}
-
-/**
- * 数字や数字の文字列以外を全てエスケープする(Mysql)
+ * 数字や数字の文字列以外を全てエスケープする(PDO::quote)
  * @param mix $val エスケープ目標
  * @param string $quote
  * @return mix エスケープ済み値
@@ -888,5 +753,30 @@ class MySql implements SqlbuilderInterface
 	public function quote($str) {
 		return '`' . $str . '`';
 	}
+
+    public function getQuery()
+    {
+
+    }
+    
+    public function getParameters()
+    {
+        
+    }
+
+    public function getSubQuery()
+    {
+
+    }
+
+    public function setSubQuery($subQuery)
+    {
+        
+    }
+
+    public function having($subQuery)
+    {
+        
+    }
 }
 
