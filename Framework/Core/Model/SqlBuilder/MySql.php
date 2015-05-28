@@ -10,35 +10,41 @@ class MySql implements SqlBuilderInterface
     private $sql = null;
 	private $parameters = [];
     
-	protected $set = [];
-	protected $set_args = [];
-	protected $from = null;
-	protected $table = null;
-	protected $findStack = [];
-	protected $joinStack = [];
-	protected $whereStack = [];
-	protected $orderStack = [];
-    protected $orderQuery = null;
-    protected $groupStack = [];
-    protected $groupQuery = null;
-	protected $limit = [];
-	protected $alias = [];
+	private $set = [];
+	private $set_args = [];
+	private $from = null;
+	private $table = null;
+	private $findStack = [];
+	private $joinStack = [];
+	private $whereStack = [];
+	private $orderStack = [];
+    private $orderQuery = null;
+    private $groupStack = [];
+    private $groupQuery = null;
+    private $replaceStack = [];
+    private $replaceQuery = null;
+    private $replaceParameters = [];
+	private $limit = [];
+	private $alias = [];
 
     /**
      * クエリ発行中に一時に利用した情報を解放する
      * @return $this
      */
-	protected function reset(){
+	private function reset(){
         
 		return $this;
 	}
-
-
 
     public function setSchema(SchemaInterface $Schema)
     {
         $this->Schema = $Schema;
         $this->setTable($Schema->getName());
+    }
+
+    public function getSchema()
+    {
+        return $this->Schema;
     }
 
 	private function setTable($table){
@@ -131,7 +137,7 @@ class MySql implements SqlBuilderInterface
  * @param string $opera 検索方法
  * @return
  */
-	protected function _find($where,$bind=null,$opera = "="){
+	private function _find($where,$bind=null,$opera = "="){
 		// 0 => array(0), "" => array("") ==> not empty
 		// null => array(), array() => array() ==> empty
 		$bind=(array) $bind;
@@ -177,7 +183,7 @@ class MySql implements SqlBuilderInterface
  * @param string $opera 検索方法
  * @return
  */
-	protected function _find_single($where, $bind, $opera) {
+	private function _find_single($where, $bind, $opera) {
 		if(strpos($where[0], ".") > 0) {
 			$col = "`" . $this->escape(join("`.`", explode(".", str_replace("`", "", $where[0])))) . "`";
 		}else {
@@ -223,7 +229,7 @@ class MySql implements SqlBuilderInterface
  * @param string $opera 検索方法
  * @return
  */
-	protected function _find_multi($where, $bind, $opera) {
+	private function _find_multi($where, $bind, $opera) {
 		$_b = array();
 		list($opera, $bind) = self::_check_like($opera, $bind);
 		foreach($bind as $key => $val){
@@ -275,7 +281,7 @@ class MySql implements SqlBuilderInterface
  * @param array/string  $_b 検索値
  * @return array
  */
-	protected static function _check_like($opera, $_b) {
+	private static function _check_like($opera, $_b) {
 		$hash_table = array(
 			"like" => function($bind) {
 				return array_map(function($i) {
@@ -318,7 +324,7 @@ class MySql implements SqlBuilderInterface
  * 設定したSQL文の検索条件を取得する
  * @return array
  */
-	protected function _where() {
+	private function _where() {
 		$where = $this->where_condition;
 		foreach($where as $wc) {
 			$this->where[] = "(" . $wc . ")";
@@ -347,7 +353,7 @@ class MySql implements SqlBuilderInterface
  * @return $this
  */
 	public function addOrder($column, $order){
-        $column = $this->escape($column);
+        $this->getSchema()->checkColumn($column);
 		$order = $this->escape($order);
         $this->orderStack[] = $column . " " . $order;
 		return $this;
@@ -373,6 +379,7 @@ class MySql implements SqlBuilderInterface
  */
 	public function addGroup($column)
     {
+        $this->getSchema()->checkColumn($column);
 		$column = $this->escape($column);
         $this->groupStack[] = $column;
         return $this;
@@ -633,7 +640,6 @@ class MySql implements SqlBuilderInterface
 		foreach($set as $_k => $_v) {
 			$set[$_k] = $this->escape($_v);
 		}
-		$this->check_relation();
 		$halfSql = array("SELECT", empty($set) ? $this->select_column() : join(",", $set), "FROM " . $this->from);
 		foreach($this->join as $join) {
 			$halfSql[] = $join["join_type"] . " " . $join["target_table"] . " ON " . $join["from_table"] . ".`".$join["from_column"]."` = ".$join["target_table"].".`".$join["target_column"]."`";
@@ -705,12 +711,12 @@ class MySql implements SqlBuilderInterface
 		return $this->reset();
 	}
 
-/**
- * 検索条件SQL文を最終構成
- * @param string $halfSql 検索・新規・更新・削除SQLのWHERE以前部分 
- * @return
- */
-	protected function build_where($halfSql){
+    /**
+     * 検索条件SQL文を最終構成
+     * @param string $halfSql 検索・新規・更新・削除SQLのWHERE以前部分 
+     * @return
+     */
+	private function build_where($halfSql){
 		foreach($this->find as $obj){
 			$this->_find($obj[0],$obj[1],$obj[2]);
 		}
@@ -727,14 +733,13 @@ class MySql implements SqlBuilderInterface
 		}
 		return join(" ",$halfSql);
 	}
-
-
-/**
- * 数字や数字の文字列以外を全てエスケープする(PDO::quote)
- * @param mix $val エスケープ目標
- * @param string $quote
- * @return mix エスケープ済み値
- */
+    
+    /**
+     * 数字や数字の文字列以外を全てエスケープする(PDO::quote)
+     * @param mix $val エスケープ目標
+     * @param string $quote
+     * @return mix エスケープ済み値
+     */
 	public function escape($val, $quote = "") {
 		if(!is_numeric($val)) {
 			$val = self::$conn->quote($val);
@@ -745,11 +750,11 @@ class MySql implements SqlBuilderInterface
 		return $val;
 	}
 
-/**
- * 目標文字列に「`」で囲む
- * @param string $str 目標文字列
- * @return string
- */
+    /**
+     * 目標文字列に「`」で囲む
+     * @param string $str 目標文字列
+     * @return string
+     */
 	public function quote($str) {
 		return '`' . $str . '`';
 	}
@@ -777,6 +782,31 @@ class MySql implements SqlBuilderInterface
     public function having($subQuery)
     {
         
+    }
+
+    public function addReplace($column, $search, $replace)
+    {
+        $this->getSchema()->checkColumn($column);
+        $this->replaceStack[] = [$column, $search, $replace];
+        $this->replaceQuery = null;
+    }
+
+    public function getReplace()
+    {
+        if($this->replaceQuery === null) {
+            $replaceQuery = [];
+            $replaceParameters = [];
+            foreach($this->replaceStack as $replace) {
+                [$column, $search, $replace] = $replace;
+                $replaceQuery[] = sprintf("SET %s = REPLACE(%s, ?, ?)", $column, $column);
+                $replaceParameters[] = $search;
+                $replaceParameters[] = $replace;
+            }
+            $replaceQuery = join(", ", $replaceQuery);
+            $this->replaceQuery = $replaceQuery;
+            $this->replaceParameters = $replaceParameters;
+        }
+        return [$this->replaceQuery, $this->replaceParameters];
     }
 }
 

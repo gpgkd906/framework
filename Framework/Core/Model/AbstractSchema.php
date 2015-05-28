@@ -7,6 +7,8 @@ use Exception;
 
 abstract class AbstractSchema implements SchemaInterface
 {
+    const ERROR_CHECK_COLUMN = "error: check_column";
+    
     protected $name = null;
 
     protected $columns = [];
@@ -32,6 +34,16 @@ abstract class AbstractSchema implements SchemaInterface
     public function hasColumn($key)
     {
         return isset($this->columns[$key]);
+    }
+
+    public function checkColumn($key, $msg = null)
+    {
+        if(!$this->hasColumn($key)) {
+            if($msg == null) {
+                $msg = self::ERROR_CHECK_COLUMN;
+            }
+            throw new Exception($msg);
+        }
     }
 
     public function getIndexs()
