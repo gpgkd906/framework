@@ -20,7 +20,8 @@ trait EventTrait
         $this->eventQueue[$eventName][] = $callBack;
     }
 
-    public function removeEventListener($eventName, $callBack) {
+    public function removeEventListener($eventName, $callBack)
+    {
         if(!isset($this->eventQueue[$eventName])) {
             $this->eventQueue[$eventName] = [];
         }
