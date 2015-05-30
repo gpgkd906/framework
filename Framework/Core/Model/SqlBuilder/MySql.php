@@ -5,6 +5,7 @@ use Framework\Core\Interfaces\Model\SqlBuilderInterface;
 
 class MySql implements SqlBuilderInterface
 {
+    const ERROR_INVALID_PARAMETER_FOR_BETWEEN = "error: invalid parameter for between in column [%s]";
 
     private $Schema = null;
     private $sql = null;
@@ -77,266 +78,91 @@ class MySql implements SqlBuilderInterface
         }
 	}
 
-/**
- * 検索条件を設定する
- * @api
- * @param max 　　$where 検索カラム名(集)
- * @param mix 　　$bind  検索値(集)
- * @param string $opera 検索方法
- * @return $this
- */
-	public function find($where, $bind = null, $opera = "="){
-		$this->find[]=array($where, $bind, $opera);
+    public function findBy($dataSet)
+    {
+        foreach($dataSet as $set) {
+            $column = $set[0];
+            $bind = isset($set[1]) ? $set[1] : null;
+            $opera = isset($set[2]) ? $set[2] : "=";
+            $this->find($column, $bind, $set);
+        }
+    }
+    
+    /**
+     * 検索条件を設定する
+     * @api
+     * @param max 　　$where 検索カラム名(集)
+     * @param mix 　　$bind  検索値(集)
+     * @param string $opera 検索方法
+     * @return $this
+     */
+	public function find($column, $bind = null, $opera = "="){
+        $this->checkColumn($column);
+        $opera = strtolower($opera);
+		$this->findStack[]=array($column, $bind, $opera);
 		return $this;
 	}
 
-
-/**
- * 設定した検索条件をテーブルのカラム情報を照合し、情報の正当性をチェックする
- * @param array/string $where 検索キー
- * @return 照合結果、失敗する場合はfalseを返す
- */
-	public function check_where($where) {
-		$_check = array_reduce($where, function($set, $item) {
-            if(strpos($item, ".")){
-                list($_table, $_column) = explode(".", $item);
-                $set[] = $_column;
-            } else {
-                $set[] = $item;
+    /**
+     * 遅的にバンドする 
+     * 設定した検索条件をSQL文に変換する
+     * @param max 　　$where 検索カラム名(集)
+     * @param mix 　　$bind  検索値(集)
+     * @param string $opera 検索方法
+     * @return
+     */
+	private function execFind($column, $value = null, $opera = "="){
+		if(empty($value)) {
+            //make is null or is not null
+			return false;
+		}
+        $where = null;
+        $column = $this->makeQueryColumn($column);
+        switch($opera) {
+        case "between":
+            if(count($value) !== 2) {
+                throw new Exception(sprintf(self::ERROR_INVALID_PARAMETER_FOR_BETWEEN, $column));
             }
-            return $set;
-        }, array());
-		if(empty($this->join_columns)) {
-			$this->join_columns = $this->columns();
-		}
-		$diff = array_diff($_check, $this->join_columns);
-		return empty($diff);
-	}
-
-
-/**
- * NULL検索条件を設定する
- * @param string/array $where 検索カラム
- * @param boolean $null NULLかどか
- * @return
- */
-	public function is_null($where, $null = true) {
-		$where = $this->escape($where);
-		if($null) {
-			$this->where[]="(`". $where . "` IS NULL)";
-		} else {
-			$this->where[]="(`". $where . "` IS NOT NULL)";      
-		}
-	}
-
-/**
- * 遅的にバンドする 
- * 設定した検索条件をSQL文に変換する
- * @param max 　　$where 検索カラム名(集)
- * @param mix 　　$bind  検索値(集)
- * @param string $opera 検索方法
- * @return
- */
-	private function _find($where,$bind=null,$opera = "="){
-		// 0 => array(0), "" => array("") ==> not empty
-		// null => array(), array() => array() ==> empty
-		$bind=(array) $bind;
-		if(empty($bind)) {
-			return false;
-		}
-		$primary = false;
-		if(strpos($where, ",") !== false){
-			if($where === $this->get_primary_key()) {
-				$primary = true;
-			}
-			$where = explode(",", $where);
-		}else{
-			$where = array($where);
-		}
-		if(!$this->check_where($where)) {
-			trigger_error("unsafe column:[" . join(",", $where) . "] for model:{$this->table}", E_USER_WARNING);
-			return false;
-		}
-		$arglen = count(func_get_args());
-		$opera = strtolower($opera);
-		if($arglen === 1){
-			//do nothing
-		}elseif(count($where) === 1 && count($bind) > 1){
-			list($where, $bind) = $this->_find_single($where, $bind, $opera);
-		}else{
-			list($where, $bind) = $this->_find_multi($where, $bind, $opera);      
-		}
-		if($primary) {
-			$this->where[] = "(" . join(" AND ", $where) . ")";		
-		} else {
-			$this->where[] = "(" . join(" OR ", $where) . ")";
-		}
-		$this->args = array_merge($this->args, $bind);
-		return $this;
-	}
-
-/**
- * 遅的にバンドする 
- * 設定した検索条件をSQL文に変換するサブ処理、検索カラムと検査値は一対一という場合に働く
- * @param max 　　$where 検索カラム名(集)
- * @param mix 　　$bind  検索値(集)
- * @param string $opera 検索方法
- * @return
- */
-	private function _find_single($where, $bind, $opera) {
-		if(strpos($where[0], ".") > 0) {
-			$col = "`" . $this->escape(join("`.`", explode(".", str_replace("`", "", $where[0])))) . "`";
-		}else {
-			$from = $this->from;
-			if(!in_array($where[0], $this->columns)) {
-				foreach($this->relate_columns as $_from => $columns) {
-					if(in_array($where[0], $columns)) {
-						$from = $_from;
-						break;
-					}
-				}
-			}
-			$col = $from.".`".$where[0]."`";
-		}
-		if($opera === "between"){
-			$where[0] = $col . " between ? and ?";
-		}elseif($opera === "=" || $opera === "<>" || $opera === "not"){
-			$_v = array();
-			foreach($bind as $dummy){
-				$_v[] = "?";
-			}
-			if($opera === "=") {
-				$where[0] = $col . " in (" . join(",", $_v) . ")";
-			} else {
-				$where[0] = $col . " not in (" . join(",", $_v) . ")";
-			}
-		} else {
-			$_set = array();
-			list($opera, $bind) = self::_check_like($opera, $bind);
-			foreach($bind as $key => $dummy){
-				$_set[] = $col . "` {$opera} ?";
-			}
-			$where=$_set;
-		}
-		return array($where, $bind);
+            $where = '(' . $column . ' BETWEEN ? AND ?)';
+            break;
+        case "=":
+            if(is_array($value)) {
+                
+                
+            } else {
+                $where = "(" . $column . " = ?)";
+            }
+            break;
+        case "<>":
+        case "not":
+            if(is_array($value)) {
+                
+                
+            } else {
+                $where = "(" . $column . " <> ?)";
+            }
+            break;
+        case "like":
+            $where = "(" . $column . " like ?)";
+            break;
+        case "%like":
+            $where = "(" . $column . " like ?)";
+            break;
+        case "like%":
+            $where = "(" . $column . " like ?)";
+            break;
+        default:
+            $where = "(" . $column . " " . $this->escape($opera) . " ?)";
+            break;
+        }
 	}
   
-/**
- * 遅的にバンドする 
- * 設定した検索条件をSQL文に変換するサブ処理、検索カラムと検査値は一対多という場合に働く
- * @param max 　　$where 検索カラム名(集)
- * @param mix 　　$bind  検索値(集)
- * @param string $opera 検索方法
- * @return
- */
-	private function _find_multi($where, $bind, $opera) {
-		$_b = array();
-		list($opera, $bind) = self::_check_like($opera, $bind);
-		foreach($bind as $key => $val){
-			if(!isset($where[$key])){
-				break;
-			}
-			$_w = $where[$key];
-		  
-			if(strpos($_w, ".") > 0) {
-				$col = "`" . $this->escape(join("`.`", explode(".", str_replace("`", "", $_w)))) . "`";
-			}else {
-				$from = $this->from;
-				if(!in_array($_w, $this->columns)) {
-					foreach($this->relate_columns as $_from => $columns) {
-						if(in_array($_w, $columns)) {
-							$from = $_from;
-							break;
-						}
-					}
-				}
-				$col = $from . ".`" . $_w . "`";
-			}
-			if(is_array($val)){
-				$_v = array();
-				foreach($val as $dummy){
-					$_v[] = "?";
-				}
-				if($opera === "=") {
-					$_w = $col . " in (" . join(",", $_v) . ")";
-				} else {
-					$_w = $col . " not in (" . join(",", $_v) . ")";
-				}
-				$_b = array_merge($_b, $val);
-			}else{
-				if(strpos($_w, "?") === false){
-					$_w = $col . " {$opera} ?";
-				}
-				$_b[] = $val;
-			}
-			$where[$key] = $_w;
-		}
-		return array($where, $_b);
-	}
-  
-
-/**
- * 検索条件のLIKEを整形する
- * @param string $opera 検索方法: like, %like, like%, %like%
- * @param array/string  $_b 検索値
- * @return array
- */
-	private static function _check_like($opera, $_b) {
-		$hash_table = array(
-			"like" => function($bind) {
-				return array_map(function($i) {
-                    return "%" . $i . "%";
-                }, $bind);
-			},
-			"like%" => function($bind) {
-				return array_map(function($i) {
-                    return $i . "%";
-                }, $bind);
-			},
-			"%like" => function($bind) {
-				return array_map(function($i) {
-                    return "%" . $i;
-                }, $bind);
-			}
-		);
-		if(isset($hash_table[$opera])) {
-			return array(
-				"like",
-				call_user_func($hash_table[$opera], $_b)
-			);
-		} else {
-			return array($opera, $_b);
-		}
-	}
-
-/**
- * SQL文の検索条件を直指定する
- * @param string $where_condition SQL文の検索条件
- * @param boolean $filter 持続的にするかどか
- * @return void
- */
-	public function where($where_condition) {
-        $this->where_condition[] = $where_condition;
-	}
-
-
-/**
- * 設定したSQL文の検索条件を取得する
- * @return array
- */
-	private function _where() {
-		$where = $this->where_condition;
-		foreach($where as $wc) {
-			$this->where[] = "(" . $wc . ")";
-		}
-	}
-
-/**
- * 更新条件を設定する
- * @param string $set 更新カラム
- * @param mix $bind 更新値
- * @return $this;
- */
+    /**
+     * 更新条件を設定する
+     * @param string $set 更新カラム
+     * @param mix $bind 更新値
+     * @return $this;
+     */
 	public function set($set,$bind=null){
 		$this->set[] = "`" . $set . "`";
 		$_bind = (array) $bind;
@@ -353,7 +179,7 @@ class MySql implements SqlBuilderInterface
  * @return $this
  */
 	public function addOrder($column, $order){
-        $this->getSchema()->checkColumn($column);
+        $this->checkColumn($column);
 		$order = $this->escape($order);
         $this->orderStack[] = $column . " " . $order;
 		return $this;
@@ -379,7 +205,7 @@ class MySql implements SqlBuilderInterface
  */
 	public function addGroup($column)
     {
-        $this->getSchema()->checkColumn($column);
+        $this->checkColumn($column);
 		$column = $this->escape($column);
         $this->groupStack[] = $column;
         return $this;
@@ -761,12 +587,12 @@ class MySql implements SqlBuilderInterface
 
     public function getQuery()
     {
-
+        return $this->sql;
     }
     
     public function getParameters()
     {
-        
+        return $this->args;
     }
 
     public function getSubQuery()
@@ -783,10 +609,10 @@ class MySql implements SqlBuilderInterface
     {
         
     }
-
+    
     public function addReplace($column, $search, $replace)
     {
-        $this->getSchema()->checkColumn($column);
+        $this->checkColumn($column);
         $this->replaceStack[] = [$column, $search, $replace];
         $this->replaceQuery = null;
     }
@@ -807,6 +633,16 @@ class MySql implements SqlBuilderInterface
             $this->replaceParameters = $replaceParameters;
         }
         return [$this->replaceQuery, $this->replaceParameters];
+    }
+
+    public function checkColumn($column)
+    {
+        return $this->getSchema()->checkColumn($column);
+    }
+
+    public function makeQueryColumn($column)
+    {
+        return $column;
     }
 }
 
