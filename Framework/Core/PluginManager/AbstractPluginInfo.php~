@@ -1,0 +1,10 @@
+<?php
+
+namespace Framework\Core\PluginManager;
+
+abstract class AbstractPluginInfo
+{
+    
+
+
+}

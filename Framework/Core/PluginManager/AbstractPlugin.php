@@ -8,6 +8,16 @@ abstract class AbstractPlugin
     
     public $listeners = [];
 
+    public function getInstallInfo()
+    {
+        
+    }
+
+    public function getListeners()
+    {
+        return $this->listeners;
+    }
+
     static public function getSingleton() {
         $pluginName = get_called_class();
         if(!isset(self::$instance[$pluginName])) {

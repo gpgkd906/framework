@@ -24,13 +24,13 @@ class PluginManager implements EventInterface
     {
         $this->config = ConfigModel::getConfigModel([
             "scope" => ConfigModel::PLUGINS,
-            "property" => ConfigModel::READONLY
+            "property" => ConfigModel::READWRITE
         ]);
     }
     
     public function initPlugins()
     {
-        foreach($this->config->getConfig("plugins", []) as $pluginConfig) {
+        foreach($this->config->getConfig("plugins", []) as $pluginConfig) {            
             if(isset($pluginConfig["enabled"]) && $pluginConfig["enabled"]) {
                 $pluginLabel = $pluginConfig["identify"];
                 $plugin = $pluginLabel::getSingleton();
@@ -41,4 +41,22 @@ class PluginManager implements EventInterface
         $this->triggerEvent("PluginInited");
     }
     
+    public function isInstalledPlugin($plugin)
+    {
+        
+    }
+    
+    public function installPlugin($plugin)
+    {
+         if($this->isInstalledPlugin($plugin)) {
+             return $this->updatePlugin($plugin);
+         }
+
+     }
+
+    public function updatePlugin($plugin)
+    {
+        $pluginName = $plugin->getName();
+        $installedPlugin = $this->config->getConfig("plugins");
+    }
 }
