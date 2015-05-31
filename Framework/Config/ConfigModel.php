@@ -4,6 +4,7 @@ namespace Framework\Config;
 
 use Framework\Core\Interfaces\ConfigModelInterface;
 use Framework\Core\Interfaces\EventInterface;
+use Exception;
 
 class ConfigModel implements ConfigModelInterface 
 {
@@ -159,9 +160,10 @@ class ConfigModel implements ConfigModelInterface
 
     public function setConfig($key, $value)
     {
-        if($this->property === self::READONLY) {
-            throw new Exception(self::ERROR_READONLY);
+        if(isset($this->config[$key])) {
+            $this->config[$key] = $value;
         }
+        return $value;
     }
 
     public function update()
@@ -172,12 +174,12 @@ class ConfigModel implements ConfigModelInterface
         
     }
 
-    static private function updateToFile()
+    private function updateToFile()
     {
         
     }
 
-    static private function updateByCallBack()
+    private function updateByCallBack()
     {
         
     }
