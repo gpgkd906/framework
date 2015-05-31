@@ -6,11 +6,11 @@ interface ModelInterface
 {
     static function getSingleton();
     
-    public function find();
+    public function find($column, $bind, $opera);
 
-    public function order();
+    public function order($column, $order);
 
-    public function group();
+    public function group($column);
 
     public function join();
 

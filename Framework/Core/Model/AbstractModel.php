@@ -5,7 +5,6 @@ namespace Framework\Core\Model;
 use Framework\Core\Interfaces\Model\ModelInterface;
 use Framework\Core\Interfaces\Model\SchemaInterface;
 use Framework\Config\ConfigModel;
-use PDO;
 use Exception;
 
 abstract class AbstractModel implements ModelInterface
@@ -15,7 +14,6 @@ abstract class AbstractModel implements ModelInterface
     
     const FETCH_ASSOC = 2;
     const DEFAULT_SQLBUILDER = "Framework\Core\Model\SqlBuilder\MySql";
-    static private $connection = null;
     private $Schema = null;
     private $schemaLabel = null;
     private $recordLabel = null;
@@ -50,23 +48,6 @@ abstract class AbstractModel implements ModelInterface
         return self::$modelConfig;
     }
     
-    
-    static public function getConnection()
-    {
-        if(self::$connection === null) {
-            $modelConfig = self::getModelConfig();
-            $db = $modelConfig->getConfig("database", self::$database);
-            $host = $modelConfig->getConfig("host");
-            $user = $modelConfig->getConfig("user");
-            $pass = $modelConfig->getConfig("password");
-            $dbname = $modelConfig->getConfig("dbname");
-            $charset = $modelConfig->getConfig("charset", self::$charset);
-            $connectStatement = sprintf("%s:host=%s;dbname=%s;charset=%s", $db, $host, $dbname, $charset);
-            self::$connection = new PDO($connectStatement, $user, $pass);
-        }
-        return self::$connection;
-    }
-
     static public function getSingleton() {
         $modelName = get_called_class();
         if(!isset(self::$models[$modelName])) {
@@ -89,46 +70,60 @@ abstract class AbstractModel implements ModelInterface
         $this->getSqlBuilder();
     }
 
-    public function find()
+    public function find($column, $bind = null, $opera = "=")
     {
-        $sqlBuilder = $this->getSqlBuilder();
-        
+        $this->getSqlBuilder()->find($column, $bind, $opera, "AND");
     }
     
-    public function order()
+    public function orFind($column, $bind = null, $opera = "=")
     {
-        $sqlBuilder = $this->getSqlBuilder();
-        
+        $this->getSqlBuilder()->find($column, $bind, $opera, "OR");
     }
     
-    public function group()
+    public function order($column, $order = "ASC")
     {
-        $sqlBuilder = $this->getSqlBuilder();
-        
+        $this->getSqlBuilder()->addOrder($column, $order);
+    }
+    
+    public function group($column)
+    {
+        $this->getSqlBuilder()->addGroup($column);
     }
     
     public function join()
     {
-        $sqlBuilder = $this->getSqlBuilder();
-        
+        $sqlBuilder = $this->getSqlBuilder();        
     }
     
-    public function select($select = null)
+    public function select($column = null)
     {
         $sqlBuilder = $this->getSqlBuilder();
+        if($column === null) {
+            $column = $this->getSchema()->getFormatColumns();
+        } else {
+            $columns = explode(",", $column);
+            $column = [];
+            foreach($columns as $key) {
+                $key = trim($key);
+                $column[$key] = $this->getSchema()->getFormatColumn($key);
+            }
+        }
+        return $sqlBuilder->select($column);
+    }
+
+    public function insert()
+    {
+        return $this->getSqlBuilder()->insert();
     }
 
     public function update()
     {
+        return $this->getSqlBuilder()->update();
     }
     
     public function delete()
     {
-    }
-
-    public function query($sql, $params)
-    {
-        $this->stmt = $this->getConnection()->prepare($sql);
+        return $this->getSqlBuilder()->delete();
     }
 
     public function getSqlBuilder()
@@ -138,6 +133,7 @@ abstract class AbstractModel implements ModelInterface
             $sqlBuilderLabel = $Config->getConfig("sqlBuilder", self::DEFAULT_SQLBUILDER);
             $this->sqlBuilder = new $sqlBuilderLabel;
             $this->sqlBuilder->setSchema($this->getSchema());
+            $this->sqlBuilder->setConnectionInfo($Config->getConfig("connection"));
         }
         return $this->sqlBuilder;
     }
@@ -176,6 +172,7 @@ abstract class AbstractModel implements ModelInterface
     {
         if($this->stmt == null) {
             $this->select();
+            $this->stmt = $this->getSqlBuilder()->query();
         }
         return $this->fetchAll();
     }

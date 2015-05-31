@@ -12,7 +12,8 @@ abstract class AbstractSchema implements SchemaInterface
     protected $name = null;
 
     protected $columns = [];
-    
+    protected $formatColumns = [];
+
     protected $indexs = [];
 
     protected $foreignKeys = [];
@@ -28,6 +29,23 @@ abstract class AbstractSchema implements SchemaInterface
     {
         if(isset($this->columns[$key])) {
             return $this->columns[$key];
+        }
+    }
+
+    public function getFormatColumns()
+    {
+        if(empty($this->formatColumns)) {
+            foreach($this->columns as $key => $column) {
+                $this->formatColumns[$key] = $this->quote($this->name) . "." . $this->quote($column);                
+            }
+        }
+        return $this->formatColumns;
+    }
+
+    public function getFormatColumn($key)
+    {
+        if(isset($this->columns[$key])) {
+            return $this->getFormatColumns()[$key];
         }
     }
 
@@ -78,5 +96,10 @@ abstract class AbstractSchema implements SchemaInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    public function quote($string)
+    {
+        return '`' . $string . '`';
     }
 }

@@ -2,12 +2,17 @@
 namespace Framework\Core\Model\SqlBuilder;
 use Framework\Core\Interfaces\Model\SchemaInterface;
 use Framework\Core\Interfaces\Model\SqlBuilderInterface;
+use PDO;
+use Exception;
 
 class MySql implements SqlBuilderInterface
 {
     const ERROR_INVALID_PARAMETER_FOR_BETWEEN = "error: invalid parameter for between in column [%s]";
-    const ERROR_INVALID_OPERA = "error: column [%s] on invalid opera [%s]";
-
+    const ERROR_INVALID_OPERA = "error: ERROR_INVALID_OPERA, column [%s] on invalid opera [%s]";
+    const ERROR_INVALID_WHERE_CONDITION = "error: INVALID_WHERE_CONDITION, column [%s] on invalid [%s]";
+    const ERROR_INVALID_CONNECTION_INFO = "error: ERROR_INVALID_CONNECTION_INFO";
+    const ERROR_INVALID_SQL = "error: ERROR_INVALID_SQL";
+    
     private $Schema = null;
     private $sql = null;
 	private $parameters = [];
@@ -28,6 +33,42 @@ class MySql implements SqlBuilderInterface
 	private $limit = [];
     private $limitQuery = null;
 	private $alias = [];
+    static private $connection = null;
+    static private $connectionInfo = null;
+
+    public function setConnectionInfo($connectionInfo)
+    {
+        if(self::$connectionInfo == null) {
+            if(empty($connectionInfo["host"]) || empty($connectionInfo["user"])) {
+                throw new Exception(self::ERROR_INVALID_CONNECTION_INFO);            
+            }
+            if(!isset($connectionInfo["database"]) || empty($connectionInfo["database"])) {
+                $connectionInfo["database"] = "mysql";
+            }
+            if(!isset($connectionInfo["charset"]) || empty($connectionInfo["charset"])) {
+                $connectionInfo["charset"] = "utf8";
+            }
+            self::$connectionInfo = $connectionInfo;
+        }
+    }
+
+    static public function getConnection()
+    {
+        if(self::$connection === null) {
+            if(self::$connectionInfo === null) {
+                throw new Exception(self::ERROR_INVALID_CONNECTION_INFO);
+            }
+            $db = self::$connectionInfo["database"];
+            $host = self::$connectionInfo["host"];
+            $user = self::$connectionInfo["user"];
+            $pass = self::$connectionInfo["password"];
+            $dbname = self::$connectionInfo["dbname"];
+            $charset = self::$connectionInfo["charset"];
+            $connectStatement = sprintf("%s:host=%s;dbname=%s;charset=%s", $db, $host, $dbname, $charset);
+            self::$connection = new PDO($connectStatement, $user, $pass);
+        }
+        return self::$connection;
+    }
 
     /**
      * クエリ発行中に一時に利用した情報を解放する
@@ -95,10 +136,10 @@ class MySql implements SqlBuilderInterface
      * @param string $opera 検索方法
      * @return $this
      */
-	public function find($column, $bind = null, $opera = "="){
+	public function find($column, $bind = null, $opera = "=", $junction = "AND"){
         $this->checkColumn($column);
         $opera = strtolower($opera);
-		$this->findStack[]=array($column, $bind, $opera);
+		$this->findStack[] = array($column, $bind, $opera, $junction);
 		return $this;
 	}
 
@@ -111,31 +152,35 @@ class MySql implements SqlBuilderInterface
      * @return
      */
 	private function execFind($column, $value = null, $opera = "="){
-		if(empty($value)) {
-            //make is null or is not null
-			return $this->execNull($column, $value, $opera);
-		}
         $where = null;
-        $column = $this->makeQueryColumn($column);
-        switch($opera) {
-        case "between":
-            if(count($value) !== 2) {
-                throw new Exception(sprintf(self::ERROR_INVALID_PARAMETER_FOR_BETWEEN, $column));
+        $column = $this->getSchema()->getFormatColumn($column);
+		if(empty($value)) {
+			$where = $this->execNull($column, $value, $opera);
+		} else {
+            switch($opera) {
+            case "between":
+                if(count($value) !== 2) {
+                    throw new Exception(sprintf(self::ERROR_INVALID_PARAMETER_FOR_BETWEEN, $column));
+                }
+                $where = '(' . $column . ' BETWEEN ? AND ?)';
+                $this->parameters = $this->parameters + $value;
+                break;
+            case "=": case "not": case "<>": case "!=":
+                return $this->execEqual($column, $value, $opera);
+                break;
+            case "like": case "%like": case "like%": case "not like":
+                return $this->execLike($column, $value, $opera);
+                break;
+            default:
+                $where = "(" . $column . " " . $this->escape($opera) . " ?)";
+                $this->parameters[] = $value;
+                break;
             }
-            $where = '(' . $column . ' BETWEEN ? AND ?)';
-            $this->parameters = $this->parameter + $value;
-            break;
-        case "=": case "not": case "<>": case "!=":
-            return $this->execEqual($column, $value, $opera);
-            break;
-        case "like": case "%like": case "like%": case "not like":
-            return $this->execLike($column, $value, $opera);
-            break;
-        default:
-            $where = "(" . $column . " " . $this->escape($opera) . " ?)";
-            $this->parameters[] = $value;
-            break;
         }
+        if($where === null) {
+            throw new Exception(sprintf(self::ERROR_INVALID_WHERE_CONDITION, $column, $opera));
+        }
+        return $junction . " " . $where;
 	}
 
     private function execNull($column, $value, $opera)
@@ -151,6 +196,7 @@ class MySql implements SqlBuilderInterface
             throw new Exception(sprintf(self::ERROR_INVALID_OPERA, $column, $opera));
             break;
         }
+        return $where;
     }
 
 
@@ -160,7 +206,7 @@ class MySql implements SqlBuilderInterface
         case "=":
             if(is_array($value)) {
                 $where = "(" . $column . " in (" . join(", ", array_pad([], count($value), "?")) . "))";                
-                $this->parameters = $this->parameter + $value;
+                $this->parameters = $this->parameters + $value;
             } else {
                 $where = "(" . $column . " = ?)";
                 $this->parameters[] = $value;
@@ -169,7 +215,7 @@ class MySql implements SqlBuilderInterface
         case "<>": case "not": case "!=":
             if(is_array($value)) {
                 $where = "(" . $column . " not in (" . join(", ", array_pad([], count($value), "?")) . "))";
-                $this->parameters = $this->parameter + $value;
+                $this->parameters = $this->parameters + $value;
             } else {
                 $where = "(" . $column . " <> ?)";
                 $this->parameters[] = $value;
@@ -179,6 +225,7 @@ class MySql implements SqlBuilderInterface
             throw new Exception(sprintf(self::ERROR_INVALID_OPERA, $column, $opera));
             break;
         }
+        return $where;
     }
 
     private function execLike($column, $value, $opera)
@@ -200,6 +247,7 @@ class MySql implements SqlBuilderInterface
             throw new Exception(sprintf(self::ERROR_INVALID_OPERA, $column, $opera));
             break;
         }
+        return $where;
     }
         
   
@@ -219,14 +267,15 @@ class MySql implements SqlBuilderInterface
 		return $this;
 	}
 
-/**
- * ソート条件設定
- * @param string $order ソート条件
- * @return $this
- */
+    /**
+     * ソート条件設定
+     * @param string $order ソート条件
+     * @return $this
+     */
 	public function addOrder($column, $order){
         $this->checkColumn($column);
-		$order = $this->escape($order);
+        $column = $this->getSchema()->getFormatColumn($column);
+		$order = strtoupper($this->escape($order));
         $this->orderStack[] = $column . " " . $order;
         $this->orderQuery = null;
 		return $this;
@@ -255,7 +304,7 @@ class MySql implements SqlBuilderInterface
 	public function addGroup($column)
     {
         $this->checkColumn($column);
-		$column = $this->escape($column);
+		$column = $this->getSchema()->getFormatColumn($column);
         $this->groupStack[] = $column;
         $this->groupQuery = null;
         return $this;
@@ -539,8 +588,10 @@ class MySql implements SqlBuilderInterface
 		$sql = array("SELECT", join(", ", $columns), "FROM " . $this->getTable(true));
         $sql[] = $this->execJoin();
         $sql[] = $this->execWhere();
+        $sql[] = $this->getGroup();
+        $sql[] = $this->getOrder();
+        $sql[] = $this->getLimit();
         $this->sql = join(" ", $sql);
-        var_dump($this->sql);
 		return $this->reset();
 	}
 
@@ -563,12 +614,12 @@ class MySql implements SqlBuilderInterface
 	}
 
 
-/**
- * 更新用SQL文を構成し、発行する
- * @api
- * @param boolean $active_record アクティブレコードからの更新かどか
- * @return
- */
+    /**
+     * 更新用SQL文を構成し、発行する
+     * @api
+     * @param boolean $active_record アクティブレコードからの更新かどか
+     * @return
+     */
 	public function update(){
 		$this->args = array_merge($this->set_args, $this->args);
 		$set = array();
@@ -609,10 +660,14 @@ class MySql implements SqlBuilderInterface
      * @return
      */
 	private function execWhere(){
-        foreach($this->findStack as $find) {
-            $this->execFind($find[0], $find[1], $find[2]);
+        $whereQuery = [];
+        foreach($this->findStack as $key => $find) {
+            if($key > 0) {
+                $whereQuery[] = $find[3];
+            }
+            $whereQuery[] = $this->execFind($find[0], $find[1], $find[2]);
         }
-		return join(" ", [$this->getGroup(), $this->getOrder(), $this->getLimit()]);
+		return " WHERE " . join(" ", $whereQuery);
 	}
     
     /**
@@ -623,7 +678,7 @@ class MySql implements SqlBuilderInterface
      */
 	public function escape($val, $quote = "") {
 		if(!is_numeric($val)) {
-			$val = self::$conn->quote($val);
+			$val = self::getConnection()->quote($val);
 			if(empty($quote)) {
 				$val = substr($val, 1, -1);
 			}
@@ -640,9 +695,9 @@ class MySql implements SqlBuilderInterface
 		return '`' . $str . '`';
 	}
 
-    public function getQuery()
+    public function getSql()
     {
-        return $this->query;
+        return $this->sql;
     }
     
     public function getParameters()
@@ -698,6 +753,20 @@ class MySql implements SqlBuilderInterface
     public function makeQueryColumn($column)
     {
         return $column;
+    }
+
+    public function query($sql = null, $parameters = null)
+    {
+        if($sql == null && $parameters == null) {
+            $sql = $this->getSql();
+            $parameters = $this->getParameters();
+        }
+        if($sql === null) {
+            throw new Exception(self::ERROR_INVALID_SQL);
+        }
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($parameters);
+        return $stmt;
     }
 }
 

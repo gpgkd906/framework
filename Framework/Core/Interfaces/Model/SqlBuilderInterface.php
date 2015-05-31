@@ -4,7 +4,7 @@ namespace Framework\Core\Interfaces\Model;
 
 interface SqlBuilderInterface 
 {
-    public function getQuery();
+    public function getSql();
 
     public function getParameters();
     
