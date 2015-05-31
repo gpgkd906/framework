@@ -6,13 +6,13 @@ use Framework\Core\Interfaces\Model\SqlBuilderInterface;
 class MySql implements SqlBuilderInterface
 {
     const ERROR_INVALID_PARAMETER_FOR_BETWEEN = "error: invalid parameter for between in column [%s]";
+    const ERROR_INVALID_OPERA = "error: column [%s] on invalid opera [%s]";
 
     private $Schema = null;
     private $sql = null;
 	private $parameters = [];
     
 	private $set = [];
-	private $set_args = [];
 	private $from = null;
 	private $table = null;
 	private $findStack = [];
@@ -26,6 +26,7 @@ class MySql implements SqlBuilderInterface
     private $replaceQuery = null;
     private $replaceParameters = [];
 	private $limit = [];
+    private $limitQuery = null;
 	private $alias = [];
 
     /**
@@ -53,28 +54,26 @@ class MySql implements SqlBuilderInterface
 		$this->from = '`' . $table . '`';
 	}
 
-/**
- * カラム名の別名を設定
- * @param string $col カラム名
- * @param string $alias 別名
- * @return
- */
+   /**
+    * カラム名の別名を設定
+    * @param string $col カラム名
+    * @param string $alias 別名
+    * @return
+    */
 	public function alias($col, $alias) {
 		$this->alias[$col] = $alias;
 	}
   
-	//relate (long live join)
-
-/**
- * モデルのテーブル名を取得
- * @api
- * @return string 
- */
+   /**
+    * モデルのテーブル名を取得
+    * @api
+    * @return string 
+    */
 	public function getTable($quoted = false){
         if($quoted) {
-            return $this->table;
-        } else {
             return $this->from;
+        } else {
+            return $this->table;
         }
 	}
 
@@ -114,7 +113,7 @@ class MySql implements SqlBuilderInterface
 	private function execFind($column, $value = null, $opera = "="){
 		if(empty($value)) {
             //make is null or is not null
-			return false;
+			return $this->execNull($column, $value, $opera);
 		}
         $where = null;
         $column = $this->makeQueryColumn($column);
@@ -124,38 +123,85 @@ class MySql implements SqlBuilderInterface
                 throw new Exception(sprintf(self::ERROR_INVALID_PARAMETER_FOR_BETWEEN, $column));
             }
             $where = '(' . $column . ' BETWEEN ? AND ?)';
+            $this->parameters = $this->parameter + $value;
             break;
-        case "=":
-            if(is_array($value)) {
-                
-                
-            } else {
-                $where = "(" . $column . " = ?)";
-            }
+        case "=": case "not": case "<>": case "!=":
+            return $this->execEqual($column, $value, $opera);
             break;
-        case "<>":
-        case "not":
-            if(is_array($value)) {
-                
-                
-            } else {
-                $where = "(" . $column . " <> ?)";
-            }
-            break;
-        case "like":
-            $where = "(" . $column . " like ?)";
-            break;
-        case "%like":
-            $where = "(" . $column . " like ?)";
-            break;
-        case "like%":
-            $where = "(" . $column . " like ?)";
+        case "like": case "%like": case "like%": case "not like":
+            return $this->execLike($column, $value, $opera);
             break;
         default:
             $where = "(" . $column . " " . $this->escape($opera) . " ?)";
+            $this->parameters[] = $value;
             break;
         }
 	}
+
+    private function execNull($column, $value, $opera)
+    {
+        switch($opera) {
+        case "=":
+            $where = "(" . $column . " IS NULL)";
+            break;
+        case "<>": case "not": case "!=":
+            $where = "(" . $column . " IS NOT NULL)";
+            break;
+        default:
+            throw new Exception(sprintf(self::ERROR_INVALID_OPERA, $column, $opera));
+            break;
+        }
+    }
+
+
+    private function execEqual($column, $value, $opera)
+    {
+        switch($opera) {
+        case "=":
+            if(is_array($value)) {
+                $where = "(" . $column . " in (" . join(", ", array_pad([], count($value), "?")) . "))";                
+                $this->parameters = $this->parameter + $value;
+            } else {
+                $where = "(" . $column . " = ?)";
+                $this->parameters[] = $value;
+            }
+            break;
+        case "<>": case "not": case "!=":
+            if(is_array($value)) {
+                $where = "(" . $column . " not in (" . join(", ", array_pad([], count($value), "?")) . "))";
+                $this->parameters = $this->parameter + $value;
+            } else {
+                $where = "(" . $column . " <> ?)";
+                $this->parameters[] = $value;
+            }
+            break;
+        default:
+            throw new Exception(sprintf(self::ERROR_INVALID_OPERA, $column, $opera));
+            break;
+        }
+    }
+
+    private function execLike($column, $value, $opera)
+    {
+        switch($opera) {
+        case "%like":
+            $where = "(" . $column . " like ?)";
+            $this->parameters[] = $value;
+            break;
+        case "like%":
+            $where = "(" . $column . " like ?)";
+            $this->parameters[] = $value;
+            break;
+        case "like":
+            $where = "(" . $column . " like ?)";
+            $this->parameters[] = $value;
+            break;
+        default:
+            throw new Exception(sprintf(self::ERROR_INVALID_OPERA, $column, $opera));
+            break;
+        }
+    }
+        
   
     /**
      * 更新条件を設定する
@@ -182,6 +228,7 @@ class MySql implements SqlBuilderInterface
         $this->checkColumn($column);
 		$order = $this->escape($order);
         $this->orderStack[] = $column . " " . $order;
+        $this->orderQuery = null;
 		return $this;
 	}
 
@@ -193,7 +240,9 @@ class MySql implements SqlBuilderInterface
     public function getOrder()
     {
         if($this->orderQuery === null) {
-            $this->orderQuery = "ORDER BY " . join(",", $this->orderStack);
+            if(!empty($this->orderStack)) {
+                $this->orderQuery = "ORDER BY " . join(",", $this->orderStack);
+            }
         }
         return $this->orderQuery;
     }
@@ -208,6 +257,7 @@ class MySql implements SqlBuilderInterface
         $this->checkColumn($column);
 		$column = $this->escape($column);
         $this->groupStack[] = $column;
+        $this->groupQuery = null;
         return $this;
 	}
 
@@ -219,26 +269,39 @@ class MySql implements SqlBuilderInterface
     public function getGroup()
     {
         if($this->groupQuery === null) {
-            $this->groupQuery = "GROUP BY " . join(",", $this->groupStack);
+            if(!empty($this->groupStack)) {
+                $this->groupQuery = "GROUP BY " . join(",", $this->groupStack);
+            }
         }
         return $this->groupQuery;
     }
 
-/**
- * リミット条件設定
- * $l1だけ設定される場合は制限値、$l2設定される場合、$l1はオフセット値になる
- * @param integer $l1 オフセット/制限値 
- * @param integer $l2 制限値
- * @return $this
- */
-	public function limit($l1 ,$l2=null){
+    /**
+     * リミット条件設定
+     * $l1だけ設定される場合は制限値、$l2設定される場合、$l1はオフセット値になる
+     * @param integer $l1 オフセット/制限値 
+     * @param integer $l2 制限値
+     * @return $this
+     */
+	public function limit($l1, $l2=null){
 		if(empty($l2)) {
 			$this->limit = array($l1);
 		} else {
 			$this->limit = array($l1, $l2);
 		}
+        $this->limitQuery = null; 
 		return $this;
 	}
+
+    public function getLimit()
+    {
+		if($this->limitQuery === null){
+            if(!empty($this->limit)) {
+                $this->limitQuery = "LIMIT " . join(",", $this->limit);
+            }
+		}
+        return $this->limitQuery;
+    }
  
 /**
  * inner_joinの別名
@@ -455,42 +518,47 @@ class MySql implements SqlBuilderInterface
 		return $cols;
 	}
   
+    private function execJoin()
+    {
+        $joinQuery = [];
+		foreach($this->joinStack as $join) {
+			$joinQuery[] = $join["join_type"] . " " . $join["target_table"] . " ON " . $join["from_table"] . ".`".$join["from_column"]."` = ".$join["target_table"].".`".$join["target_column"]."`";
+		}
+        return join(" ", $joinQuery);
+    }
   
 /**
  * 検索用SQL文を構成し、発行する
  * @api
  * @return $this
  */
-	public function select(){
-		$set = func_get_args();
-		foreach($set as $_k => $_v) {
-			$set[$_k] = $this->escape($_v);
+	public function select($columns){
+		foreach($columns as $key => $col) {
+			$this->checkColumn($key);
 		}
-		$halfSql = array("SELECT", empty($set) ? $this->select_column() : join(",", $set), "FROM " . $this->from);
-		foreach($this->join as $join) {
-			$halfSql[] = $join["join_type"] . " " . $join["target_table"] . " ON " . $join["from_table"] . ".`".$join["from_column"]."` = ".$join["target_table"].".`".$join["target_column"]."`";
-		}
-		$sql = $this->build_where($halfSql);
-		$this->query($sql, $this->args);
+		$sql = array("SELECT", join(", ", $columns), "FROM " . $this->getTable(true));
+        $sql[] = $this->execJoin();
+        $sql[] = $this->execWhere();
+        $this->sql = join(" ", $sql);
+        var_dump($this->sql);
 		return $this->reset();
 	}
 
-/**
- * 新規用SQL文を構成し、発行する
- * @api
- * @param array $args 直指定するプリペア値
- * @return $this
- */
+    /**
+     * 新規用SQL文を構成し、発行する
+     * @api
+     * @param array $args 直指定するプリペア値
+     * @return $this
+     */
 	public function insert(){
 		$this->args = array_merge($this->set_args, $this->args);
-		$_set = join(",", $this->set);
+		$_set = join(", ", $this->set);
 		$sql = join(" ", array(
             "INSERT INTO",
             $this->from,
             "(" . $_set . ")",
             "VALUES",
             "(" . preg_replace("/[^,]++/", "?", $_set) . ")"));
-		$this->query($sql, $this->args);
 		return $this->reset();
 	}
 
@@ -504,20 +572,20 @@ class MySql implements SqlBuilderInterface
 	public function update(){
 		$this->args = array_merge($this->set_args, $this->args);
 		$set = array();
-		$target = $this->from;
+		$target = $this->getTable(true);
 		foreach($this->set as $item){
 			if(strpos($item, "=") === false){
 				$item = $item . "=?";
 			}
 			$set[] = $item;
 		}
-		$halfSql = array(
+		$sql = array(
 			"UPDATE",
 			$target,
 			"SET",
 			join(",", $set));
-		$sql = $this->build_where($halfSql);
-		$this->query($sql, $this->args);
+		$sql[] = $this->execWhere();
+        $this->sql = join(" ", $sql);
 		return $this->reset();
 	}
 
@@ -527,37 +595,24 @@ class MySql implements SqlBuilderInterface
  * @param array $args 直指定するプリペア値 
  * @return
  */
-	public function delete($args = null){
-		$halfSql = array();
-		$halfSql[] = "DELETE FROM";
-		$halfSql[] = $this->from;
-		$sql = $this->build_where($halfSql);
-		$this->args = array_merge($this->args, (array)$args);
-		$this->query($sql, $this->args);
+	public function delete(){
+		$sql = array();
+		$sql[] = "DELETE FROM";
+		$sql[] = $this->getTable(true);
+		$sql[] = $this->execWhere();
+        $this->sql = join(" ", $sql);
 		return $this->reset();
 	}
 
     /**
      * 検索条件SQL文を最終構成
-     * @param string $halfSql 検索・新規・更新・削除SQLのWHERE以前部分 
      * @return
      */
-	private function build_where($halfSql){
-		foreach($this->find as $obj){
-			$this->_find($obj[0],$obj[1],$obj[2]);
-		}
-		foreach($this->get_all_filter() as $key => $obj){
-			$this->_find($obj[0],$obj[1],$obj[2]);
-		}
-		$this->_where();
-		if(!empty($this->where)){
-			$halfSql[]="WHERE ".join(" AND ",$this->where);
-		}
-		$halfSql[] = join(" ", array($this->group, $this->order));
-		if(!empty($this->limit)){
-			$halfSql[]="LIMIT ".join(",",$this->limit);
-		}
-		return join(" ",$halfSql);
+	private function execWhere(){
+        foreach($this->findStack as $find) {
+            $this->execFind($find[0], $find[1], $find[2]);
+        }
+		return join(" ", [$this->getGroup(), $this->getOrder(), $this->getLimit()]);
 	}
     
     /**
@@ -587,12 +642,12 @@ class MySql implements SqlBuilderInterface
 
     public function getQuery()
     {
-        return $this->sql;
+        return $this->query;
     }
     
     public function getParameters()
     {
-        return $this->args;
+        return $this->parameters;
     }
 
     public function getSubQuery()
@@ -623,7 +678,7 @@ class MySql implements SqlBuilderInterface
             $replaceQuery = [];
             $replaceParameters = [];
             foreach($this->replaceStack as $replace) {
-                [$column, $search, $replace] = $replace;
+                list($column, $search, $replace) = $replace;
                 $replaceQuery[] = sprintf("SET %s = REPLACE(%s, ?, ?)", $column, $column);
                 $replaceParameters[] = $search;
                 $replaceParameters[] = $replace;
