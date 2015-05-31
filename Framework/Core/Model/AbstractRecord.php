@@ -174,7 +174,7 @@ abstract class AbstractRecord implements RecordInterface
 			return false;
 		}
 		$primaryKey = self::$Schema->getPrimaryKey();
-        $Model = self::$Model;
+        $sqlBuilder = self::$Model->getSqlBuilder();
 		if(isset($this->primaryValue)) {
 			if(!$this->realChanged) {
 				return false;
@@ -182,16 +182,18 @@ abstract class AbstractRecord implements RecordInterface
 			if(self::$Schema->hasColumn("update_dt")) {
 				$this->set("update_dt", $_SERVER["REQUEST_TIME"]);
 			}
-            $Model->skip_filter();
-			$Model->find($primaryKey, $this->getPrimaryValue())->put($this->store)->update(true);
+            $sqlBuilder->find($primaryKey, $this->getPrimaryValue());
+            $sqlBuilder->put($this->store);
+            $sqlBuilder->update();
 			$this->real_changed = false;
 		} else {
 			if(self::$Schema->hasColumn("register_dt")) {
                 $this->set("register_dt", $_SERVER["REQUEST_TIME"]);
                 $this->set("update_dt", $_SERVER["REQUEST_TIME"]);
 			}
-			$Model->put($this->store)->insert();
-            $this->setPrimaryValue($Model->getLastId());
+            $sqlBuilder->put($this->store);
+            $sqlBuilder->insert();
+            $this->setPrimaryValue($sqlBuilder->getLastId());
         }
 		return $this->getPrimaryValue();
 	}

@@ -7,7 +7,7 @@ use Exception;
 
 abstract class AbstractSchema implements SchemaInterface
 {
-    const ERROR_CHECK_COLUMN = "error: check_column";
+    const ERROR_CHECK_COLUMN = "error: check_column, has no column [%s] in table [%s]";
     
     protected $name = null;
 
@@ -58,9 +58,10 @@ abstract class AbstractSchema implements SchemaInterface
     {
         if(!$this->hasColumn($key)) {
             if($msg == null) {
-                $msg = self::ERROR_CHECK_COLUMN;
+                throw new Exception(sprintf(self::ERROR_CHECK_COLUMN, $key, $this->getName()));
+            } else {
+                throw new Exception($msg);
             }
-            throw new Exception($msg);
         }
     }
 

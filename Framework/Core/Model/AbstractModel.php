@@ -70,6 +70,19 @@ abstract class AbstractModel implements ModelInterface
         $this->getSqlBuilder();
     }
 
+    public function setValue($column, $value)
+    {
+        $this->getSqlBuilder()->set($column, $value);
+    }
+
+    public function putValues($data)
+    {
+        $sqlBuilder = $this->getSqlBuilder();
+        foreach($data as $column => $value) {
+            $sqlBuilder->set($column, $value);
+        }
+    }
+
     public function find($column, $bind = null, $opera = "=")
     {
         $this->getSqlBuilder()->find($column, $bind, $opera, "AND");
@@ -108,22 +121,22 @@ abstract class AbstractModel implements ModelInterface
                 $column[$key] = $this->getSchema()->getFormatColumn($key);
             }
         }
-        return $sqlBuilder->select($column);
+        return $sqlBuilder->select($column)->query();
     }
 
     public function insert()
     {
-        return $this->getSqlBuilder()->insert();
+        $this->getSqlBuilder()->insert()->query();
     }
 
     public function update()
     {
-        return $this->getSqlBuilder()->update();
+        return $this->getSqlBuilder()->update()->query();
     }
     
     public function delete()
     {
-        return $this->getSqlBuilder()->delete();
+        return $this->getSqlBuilder()->delete()->query();
     }
 
     public function getSqlBuilder()

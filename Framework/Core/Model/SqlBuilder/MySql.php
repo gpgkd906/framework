@@ -17,9 +17,10 @@ class MySql implements SqlBuilderInterface
     private $sql = null;
 	private $parameters = [];
     
-	private $set = [];
 	private $from = null;
 	private $table = null;
+	private $setColumnStack = [];
+    private $setValueStack = [];
 	private $findStack = [];
 	private $joinStack = [];
 	private $whereStack = [];
@@ -163,7 +164,7 @@ class MySql implements SqlBuilderInterface
                     throw new Exception(sprintf(self::ERROR_INVALID_PARAMETER_FOR_BETWEEN, $column));
                 }
                 $where = '(' . $column . ' BETWEEN ? AND ?)';
-                $this->parameters = $this->parameters + $value;
+                $this->parameters = array_merge($this->parameters, $value);
                 break;
             case "=": case "not": case "<>": case "!=":
                 return $this->execEqual($column, $value, $opera);
@@ -206,7 +207,7 @@ class MySql implements SqlBuilderInterface
         case "=":
             if(is_array($value)) {
                 $where = "(" . $column . " in (" . join(", ", array_pad([], count($value), "?")) . "))";                
-                $this->parameters = $this->parameters + $value;
+                $this->parameters = array_merge($this->parameters, $value);
             } else {
                 $where = "(" . $column . " = ?)";
                 $this->parameters[] = $value;
@@ -215,7 +216,7 @@ class MySql implements SqlBuilderInterface
         case "<>": case "not": case "!=":
             if(is_array($value)) {
                 $where = "(" . $column . " not in (" . join(", ", array_pad([], count($value), "?")) . "))";
-                $this->parameters = $this->parameters + $value;
+                $this->parameters = array_merge($this->parameters, $value);
             } else {
                 $where = "(" . $column . " <> ?)";
                 $this->parameters[] = $value;
@@ -257,13 +258,10 @@ class MySql implements SqlBuilderInterface
      * @param mix $bind 更新値
      * @return $this;
      */
-	public function set($set,$bind=null){
-		$this->set[] = "`" . $set . "`";
-		$_bind = (array) $bind;
-		if(empty($_bind)) {
-			$_bind = array($bind);
-		}
-		$this->set_args = array_merge($this->set_args, $_bind);
+	public function set($column, $value){
+        $this->checkColumn($column);
+        $this->setColumnStack[] = $column;
+        $this->setValueStack[] = $value;
 		return $this;
 	}
 
@@ -602,14 +600,19 @@ class MySql implements SqlBuilderInterface
      * @return $this
      */
 	public function insert(){
-		$this->args = array_merge($this->set_args, $this->args);
-		$_set = join(", ", $this->set);
-		$sql = join(" ", array(
+        $Schema = $this->getSchema();
+        $columnStack = [];
+        foreach($this->setColumnStack as $key) {
+            $columnStack[] = $Schema->getColumn($key);
+        }
+        $valueStack = array_pad([], count($this->setValueStack), "?");
+        $this->sql = join(" ", [
             "INSERT INTO",
-            $this->from,
-            "(" . $_set . ")",
+            $this->getTable(true),
+            "(" . join(", ", $columnStack) . ")",
             "VALUES",
-            "(" . preg_replace("/[^,]++/", "?", $_set) . ")"));
+            "(" . join(", ", $valueStack) . ")"]);
+        $this->parameters = array_merge($this->setValueStack, $this->parameters);
 		return $this->reset();
 	}
 
@@ -621,22 +624,14 @@ class MySql implements SqlBuilderInterface
      * @return
      */
 	public function update(){
-		$this->args = array_merge($this->set_args, $this->args);
-		$set = array();
-		$target = $this->getTable(true);
-		foreach($this->set as $item){
-			if(strpos($item, "=") === false){
-				$item = $item . "=?";
-			}
-			$set[] = $item;
-		}
-		$sql = array(
+		$this->sql = join(" ", [
 			"UPDATE",
-			$target,
+			$this->getTable(true),
 			"SET",
-			join(",", $set));
-		$sql[] = $this->execWhere();
-        $this->sql = join(" ", $sql);
+            $this->makeUpdateParts(),
+            $this->execWhere()
+        ]);
+        $this->parameters = array_merge($this->setValueStack, $this->parameters);
 		return $this->reset();
 	}
 
@@ -654,6 +649,16 @@ class MySql implements SqlBuilderInterface
         $this->sql = join(" ", $sql);
 		return $this->reset();
 	}
+
+    public function makeUpdateParts()
+    {
+        $columnStack = [];
+        $Schema = $this->getSchema();
+        foreach($this->setColumnStack as $key) {
+            $columnStack[] = $Schema->getFormatColumn($key) . " = ?";
+        }
+        return join(", ", $columnStack);
+    }
 
     /**
      * 検索条件SQL文を最終構成
@@ -699,10 +704,20 @@ class MySql implements SqlBuilderInterface
     {
         return $this->sql;
     }
+
+    public function setSql($sql = null)
+    {
+        $this->sql = $sql;
+    }
     
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    public function setParameters($parameters = [])
+    {
+        $this->parameters = $parameters;
     }
 
     public function getSubQuery()
@@ -750,16 +765,13 @@ class MySql implements SqlBuilderInterface
         return $this->getSchema()->checkColumn($column);
     }
 
-    public function makeQueryColumn($column)
-    {
-        return $column;
-    }
-
     public function query($sql = null, $parameters = null)
     {
         if($sql == null && $parameters == null) {
             $sql = $this->getSql();
             $parameters = $this->getParameters();
+            $this->setSql(null);
+            $this->setParameters([]);
         }
         if($sql === null) {
             throw new Exception(self::ERROR_INVALID_SQL);
