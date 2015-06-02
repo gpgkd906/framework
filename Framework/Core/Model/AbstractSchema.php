@@ -12,17 +12,45 @@ abstract class AbstractSchema implements SchemaInterface
     protected $name = null;
 
     protected $columns = [];
-    protected $formatColumns = [];
 
+    private $flipColumns = null;
+    private $formatColumns = null;
+    private $objectKeys = null;
+    private $nativeKeys = null;
+    
     protected $indexs = [];
 
     protected $foreignKeys = [];
 
     protected $primaryKey = null;
     
+    public function getObjectKeys()
+    {
+        if($this->objectKeys === null) {
+            $this->objectKeys = array_keys($this->getColumns());
+        }
+        return $this->objectKeys;
+    }
+
+    public function getNativeKeys()
+    {
+        if($this->nativeKeys === null) {
+            $this->nativeKeys = array_values($this->getColumns());
+        }
+        return $this->nativeKeys;
+    }
+
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    public function getFlipColumns()
+    {
+        if($this->flipColumns === null) {
+            $this->flipColumns = array_flip($this->getColumns());
+        }
+        return $this->flipColumns;
     }
 
     public function getColumn($key)
@@ -34,7 +62,7 @@ abstract class AbstractSchema implements SchemaInterface
 
     public function getFormatColumns()
     {
-        if(empty($this->formatColumns)) {
+        if($this->formatColumns === null) {
             foreach($this->columns as $key => $column) {
                 $this->formatColumns[$key] = $this->quote($this->name) . "." . $this->quote($column);                
             }

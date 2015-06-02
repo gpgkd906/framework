@@ -10,7 +10,10 @@ abstract class AbstractRecord implements RecordInterface
 {
     const ERROR_INVALID_RECORD = "error: invalid record";
     const ERROR_INVALID_MODEL = "error: invalid model";
+    const ERROR_INVALID_COLUMN_FOR_SET = "error: INVALID_COLUMN_FOR_SET [%s]";
+    const ERROR_NONE_WRITABLE = "error: this is a nonewritable record[cause of there is not full column for update]";
     
+    static private $nullStore = null;
     /**
 	 * テーブルカラムにあるデータセット
 	 * @api
@@ -39,9 +42,11 @@ abstract class AbstractRecord implements RecordInterface
 
     static private $Model = null;
     
-    public $config = [
+    static public $config = [
         "Model" => null,
     ];
+
+    private $writable = true;
     /**
 	 * ActiveRecord構造関数
 	 * @api
@@ -49,32 +54,50 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function __construct($Model = null)
+	public function __construct($writable = true)
+    {
+        $this->writable = $writable;
+        $this->store = self::getNullStore();
+	}
+
+    static public function getModel()
     {
         if(self::$Model === null) {
-            if($Model === null) {
-                if(!$this->config["Model"] || !class_exists($this->config["Model"])) {
-                    throw new Exception(self::ERROR_INVALID_MODEL);
-                }
-                $modelLabel = $this->config["Model"];
-                $Model = $modelLabel::getSingleton();
+            if(!static::$config["Model"] || !class_exists(static::$config["Model"])) {
+                throw new Exception(self::ERROR_INVALID_MODEL);
             }
+            $modelLabel = static::$config["Model"];
+            $Model = $modelLabel::getSingleton();
             if($Model instanceof ModelInterface) {
                 self::$Model = $Model;
             } else {
                 throw new Exception(self::ERROR_INVALID_MODEL);
             }
         }
+        return self::$Model;
+    }
+
+    static public function getSchema()
+    {
         if(self::$Schema === null) {
-            self::$Schema = self::$Model->getSchema();
+            self::$Schema = self::getModel()->getSchema();
         }
-	}
+        return self::$Schema;
+    }
     
+    static public function getNullStore()
+    {
+        if(self::$nullStore === null) {
+            self::$nullStore = array_fill_keys(self::getSchema()->getObjectKeys(), "");
+        }
+        return self::$nullStore;
+    }
+
 	public function get($name)
     {
 		return isset($this->store[$name]) ? $this->store[$name] : null;
 	}
-	
+    
     /**
 	 * データセットにキーを指定して更新する
 	 * @api
@@ -85,6 +108,9 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	public function set($name, $value)
     {
+        if(!isset($this->store[$name])) {
+            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_SET, $name));
+        }
 		if($this->store[$name] !== $value) {
 			$this->realChanged = true;
 		}
@@ -119,7 +145,7 @@ abstract class AbstractRecord implements RecordInterface
 		foreach($data as $name => $value) {
 			$this->set($name, $value);
 		}
-        $primaryKey = self::$Schema->getPrimaryKey();
+        $primaryKey = self::getSchema()->getPrimaryKey();
 		if(isset($data[$primaryKey])) {
 			$this->setPrimaryValue($data[$primaryKey]);
 		}
@@ -137,7 +163,7 @@ abstract class AbstractRecord implements RecordInterface
      */
     public function touch ()
     {
-        if(self::$Schema->hasColumn("update_dt")) {
+        if(self::getSchema()->hasColumn("update_dt")) {
             $this->realChanged = true;
             $this->save();
         }
@@ -169,17 +195,21 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	public function save()
     {
+        if($this->writable === false) {
+            throw new Exception(self::ERROR_NONE_WRITABLE);
+			return false;            
+        }
 		if(empty($this->store)) {
             throw new Exception(self::ERROR_INVALID_RECORD);
 			return false;
 		}
-		$primaryKey = self::$Schema->getPrimaryKey();
-        $sqlBuilder = self::$Model->getSqlBuilder();
+		$primaryKey = self::getSchema()->getPrimaryKey();
+        $sqlBuilder = self::getModel()->getSqlBuilder();
 		if(isset($this->primaryValue)) {
 			if(!$this->realChanged) {
 				return false;
 			}
-			if(self::$Schema->hasColumn("update_dt")) {
+			if(self::getSchema()->hasColumn("update_dt")) {
 				$this->set("update_dt", $_SERVER["REQUEST_TIME"]);
 			}
             $sqlBuilder->find($primaryKey, $this->getPrimaryValue());
@@ -187,7 +217,7 @@ abstract class AbstractRecord implements RecordInterface
             $sqlBuilder->update();
 			$this->real_changed = false;
 		} else {
-			if(self::$Schema->hasColumn("register_dt")) {
+			if(self::getSchema()->hasColumn("register_dt")) {
                 $this->set("register_dt", $_SERVER["REQUEST_TIME"]);
                 $this->set("update_dt", $_SERVER["REQUEST_TIME"]);
 			}
@@ -208,7 +238,7 @@ abstract class AbstractRecord implements RecordInterface
 	public function delete()
     {
 		if($this->getPrimaryValue()) {
-			if(self::$Model->find(self::$Schema->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
+			if(self::getModel()->find(self::getSchema()->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
                 $this->store = array();
                 return true;
             }

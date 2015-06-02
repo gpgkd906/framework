@@ -121,7 +121,8 @@ abstract class AbstractModel implements ModelInterface
                 $column[$key] = $this->getSchema()->getFormatColumn($key);
             }
         }
-        return $sqlBuilder->select($column)->query();
+        $this->stmt = $this->getSqlBuilder()->select($column)->query();
+        return $this;
     }
 
     public function insert()
@@ -172,6 +173,30 @@ abstract class AbstractModel implements ModelInterface
         $recordClass = $this->recordLabel;
         return new $recordClass;
     }
+
+    public function bindRecord($data)
+    {
+        //covert native keys to object keys;
+        $recordClass = $this->recordLabel;
+        $tempStore = $recordClass::getNullStore();
+        $keyMap = $this->getSchema()->getColumns();
+        $writableRecord = true;
+        foreach($tempStore as $key => $null) {
+            $nativeColumn = $keyMap[$key];
+            if(isset($data[$nativeColumn])) {
+                $tempStore[$key] = $data[$nativeColumn];
+            } else {
+                $writableRecord = false;
+            }
+        }
+        if($writableRecord) {
+            $record = new $recordClass;
+        } else {
+            $record = new $recordClass(false);
+        }
+        $record->assign($tempStore);
+        return $record;
+    }
         
     public function get()
     {
@@ -185,7 +210,6 @@ abstract class AbstractModel implements ModelInterface
     {
         if($this->stmt == null) {
             $this->select();
-            $this->stmt = $this->getSqlBuilder()->query();
         }
         return $this->fetchAll();
     }
@@ -210,9 +234,7 @@ abstract class AbstractModel implements ModelInterface
     {
         if($this->stmt) {
             if($data = $this->stmt->fetch(self::FETCH_ASSOC)) {
-                $record = $this->newRecord();
-                $record->assign($data);
-                return $record;
+                return $this->bindRecord($data);
             }
             $this->stmt = null;
         }
