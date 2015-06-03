@@ -12,6 +12,7 @@ abstract class AbstractRecord implements RecordInterface
     const ERROR_INVALID_MODEL = "error: invalid model";
     const ERROR_INVALID_COLUMN_FOR_SET = "error: INVALID_COLUMN_FOR_SET [%s]";
     const ERROR_NONE_WRITABLE = "error: this is a dirty-record[a partially record or a deleted record]";
+    const ERROR_PRIMARY_KEY_IS_CHANGED = "error: PRIMARY_KEY_IS_CHANGED";
     
     static private $nullStore = null;
     /**
@@ -150,7 +151,8 @@ abstract class AbstractRecord implements RecordInterface
 		foreach($data as $name => $value) {
 			$this->set($name, $value);
 		}
-        $primaryKey = self::getSchema()->getPrimaryKey();
+
+        $primaryKey = self::getSchema()->getObjectPrimaryKey();
 		if(isset($data[$primaryKey])) {
 			$this->setPrimaryValue($data[$primaryKey]);
 		}
@@ -168,7 +170,7 @@ abstract class AbstractRecord implements RecordInterface
      */
     public function touch ()
     {
-        if(self::getSchema()->hasColumn("update_dt")) {
+        if(self::getSchema()->hasTimeStamp("updateDate")) {
             $this->realChanged = true;
             $this->save();
         }
@@ -208,26 +210,36 @@ abstract class AbstractRecord implements RecordInterface
             throw new Exception(self::ERROR_INVALID_RECORD);
 			return false;
 		}
-		$primaryKey = self::getSchema()->getPrimaryKey();
+        $Schema = self::getSchema();
+		$primaryKey = $Schema->getObjectPrimaryKey();
         $sqlBuilder = self::getModel()->getSqlBuilder();
 		if(isset($this->primaryValue)) {
 			if(!$this->realChanged) {
 				return false;
 			}
-			if(self::getSchema()->hasColumn("update_dt")) {
-				$this->set("update_dt", $_SERVER["REQUEST_TIME"]);
+			if($Schema->hasTimeStamp("updateDate")) {
+                $this->set($Schema->getObjectTimeStamp("updateDate"), date("Ymd", $_SERVER["REQUEST_TIME"]));
+			}
+			if($Schema->hasTimeStamp("updateTime")) {
+                $this->set($Schema->getObjectTimeStamp("updateTime"), date("His", $_SERVER["REQUEST_TIME"]));
 			}
             $sqlBuilder->find($primaryKey, $this->getPrimaryValue());
-            $sqlBuilder->put($this->store);
-            $sqlBuilder->update();
-			$this->real_changed = false;
+            foreach($this->store as $key => $value) {
+                $sqlBuilder->set($key, $value);
+            }
+            $sqlBuilder->update()->query();
+			$this->realChanged = false;
 		} else {
-			if(self::getSchema()->hasColumn("register_dt")) {
-                $this->set("register_dt", $_SERVER["REQUEST_TIME"]);
-                $this->set("update_dt", $_SERVER["REQUEST_TIME"]);
+			if($Schema->hasTimeStamp("createDate")) {
+                $this->set($Schema->getObjectTimeStamp("createDate"), date("Ymd", $_SERVER["REQUEST_TIME"]));
+            }
+			if($Schema->hasTimeStamp("createTime")) {
+                $this->set($Schema->getObjectTimeStamp("createTime"), date("His", $_SERVER["REQUEST_TIME"]));
 			}
-            $sqlBuilder->put($this->store);
-            $sqlBuilder->insert();
+            foreach($this->store as $key => $value) {
+                $sqlBuilder->set($key, $value);
+            }
+            $sqlBuilder->insert()->query();
             $this->setPrimaryValue($sqlBuilder->getLastId());
         }
 		return $this->getPrimaryValue();

@@ -16,6 +16,7 @@ class MySql implements SqlBuilderInterface
     private $Schema = null;
     private $sql = null;
 	private $parameters = [];
+    private $lastQuery = null;
     
 	private $from = null;
 	private $table = null;
@@ -76,7 +77,21 @@ class MySql implements SqlBuilderInterface
      * @return $this
      */
 	private function reset(){
-        
+        $this->setColumnStack = [];
+        $this->setValueStack = [];
+        $this->findStack = [];
+        $this->joinStack = [];
+        $this->whereStack = [];
+        $this->orderStack = [];
+        $this->orderQuery = null;
+        $this->groupStack = [];
+        $this->groupQuery = null;
+        $this->replaceStack = [];
+        $this->replaceQuery = null;
+        $this->replaceParameters = [];
+        $this->limit = [];        
+        $this->limitQuery = null;
+        $this->alias = [];
 		return $this;
 	}
 
@@ -776,7 +791,18 @@ class MySql implements SqlBuilderInterface
         }
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($parameters);
+        $this->setLastQuery($sql, $parameters);
         return $stmt;
+    }
+
+    public function getLastQuery()
+    {
+        return $this->lastQuery;
+    }
+
+    private function setLastQuery($sql, $parameters)
+    {
+        $this->lastQuery = [$sql, $parameters];
     }
 }
 

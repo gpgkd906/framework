@@ -8,11 +8,27 @@ use Exception;
 abstract class AbstractSchema implements SchemaInterface
 {
     const ERROR_CHECK_COLUMN = "error: check_column, has no column [%s] in table [%s]";
+    const ERROR_INVALID_TIMESTAMP_KEY = "error: INVALID_TIMESTAMP_KEY [%s] in table [%s]";
+    
+    const TIMESTAMP_DATE = "timestamp_date";
+    const TIMESTAMP_TIME = "timestamp_time";
     
     protected $name = null;
 
     protected $columns = [];
-
+    protected $timestamp = [
+        "createDate" => "register_date",
+        "createTime" => "register_time",
+        "updateDate" => "update_date",
+        "updateTime" => "update_time",
+    ];
+    private $timestampFlag = [
+        "createDate" => null,
+        "createTime" => null,
+        "updateDate" => null,
+        "updateTime" => null,
+    ];
+    
     private $flipColumns = null;
     private $formatColumns = null;
     private $objectKeys = null;
@@ -20,8 +36,7 @@ abstract class AbstractSchema implements SchemaInterface
     
     protected $indexs = [];
 
-    protected $foreignKeys = [];
-
+    private $objectPrimaryKey = null;
     protected $primaryKey = null;
     
     public function getObjectKeys()
@@ -105,21 +120,17 @@ abstract class AbstractSchema implements SchemaInterface
         }
     }
     
-    public function getForeignKeys()
-    {
-        return $this->foreignKeys;
-    }
-
-    public function getForeignKey($key)
-    {
-        if(isset($this->foreignKeys[$key])) {
-            return $this->foreignKeys[$key];
-        }
-    }
-    
     public function getPrimaryKey()
     {
         return $this->primaryKey;
+    }
+
+    public function getObjectPrimaryKey()
+    {
+        if($this->objectPrimaryKey === null) {
+            $this->objectPrimaryKey = array_search($this->primaryKey, $this->columns);
+        }
+        return $this->objectPrimaryKey;
     }
 
     public function getName()
@@ -131,4 +142,28 @@ abstract class AbstractSchema implements SchemaInterface
     {
         return '`' . $string . '`';
     }
+
+    public function hasTimeStamp($key)
+    {
+        $timestamp = $this->timestamp;
+        if(!array_key_exists($key, $timestamp)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_TIMESTAMP_KEY, $key, $this->getName()));
+        }
+        $timestampFlag = $this->timestampFlag[$key];
+        if($this->timestampFlag[$key] === null) {
+            //check if there is a timestamp column
+            $objectKey = $timestamp[$key];
+            $this->timestampFlag[$key] = $this->hasColumn($objectKey);
+        }
+        return $this->timestampFlag[$key];
+    }
+
+     public function getObjectTimeStamp($key)
+     {
+         $timestamp = $this->timestamp;
+         if(!array_key_exists($key, $timestamp)) {
+             throw new Exception(sprintf(self::ERROR_INVALID_TIMESTAMP_KEY, $key, $this->getName()));
+         }
+         return $timestamp[$key];
+     }
 }
