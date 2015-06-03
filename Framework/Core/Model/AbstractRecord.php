@@ -11,7 +11,7 @@ abstract class AbstractRecord implements RecordInterface
     const ERROR_INVALID_RECORD = "error: invalid record";
     const ERROR_INVALID_MODEL = "error: invalid model";
     const ERROR_INVALID_COLUMN_FOR_SET = "error: INVALID_COLUMN_FOR_SET [%s]";
-    const ERROR_NONE_WRITABLE = "error: this is a nonewritable record[cause of there is not full column for update]";
+    const ERROR_NONE_WRITABLE = "error: this is a dirty-record[a partially record or a deleted record]";
     
     static private $nullStore = null;
     /**
@@ -46,7 +46,7 @@ abstract class AbstractRecord implements RecordInterface
         "Model" => null,
     ];
 
-    private $writable = true;
+    private $isDirty = false;
     /**
 	 * ActiveRecord構造関数
 	 * @api
@@ -54,9 +54,9 @@ abstract class AbstractRecord implements RecordInterface
 	 * @return
 	 * @link
 	 */
-	public function __construct($writable = true)
+	public function __construct($isDirty = false)
     {
-        $this->writable = $writable;
+        $this->isDirty = $isDirty;
         $this->store = self::getNullStore();
 	}
 
@@ -91,6 +91,11 @@ abstract class AbstractRecord implements RecordInterface
             self::$nullStore = array_fill_keys(self::getSchema()->getObjectKeys(), "");
         }
         return self::$nullStore;
+    }
+
+    public function isDirty()
+    {
+        return $this->isDirty;
     }
 
 	public function get($name)
@@ -195,7 +200,7 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	public function save()
     {
-        if($this->writable === false) {
+        if($this->isDirty === true) {
             throw new Exception(self::ERROR_NONE_WRITABLE);
 			return false;            
         }
@@ -237,9 +242,14 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	public function delete()
     {
+        if($this->isDirty === true) {
+            throw new Exception(self::ERROR_NONE_WRITABLE);
+			return false;            
+        }
 		if($this->getPrimaryValue()) {
 			if(self::getModel()->find(self::getSchema()->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
-                $this->store = array();
+                $this->store = self::getNullStore();
+                $this->isDirty = true;
                 return true;
             }
 		}

@@ -11,6 +11,8 @@ abstract class AbstractModel implements ModelInterface
 {
     const ERROR_UNDEFINED_SCHEMA = "error: undefined schema in model [%s]";
     const ERROR_UNDEFINED_RECORD = "error: undefined record in model [%s]";
+    const ERROR_INVALID_SCHEMA_FOR_JOIN = "error: INVALID_SCHEMA_FOR_JOIN";
+    const ERROR_INVALID_COLUMN_FOR_JOIN = "error: invalid column [%s] for join schema [%s]";
     
     const FETCH_ASSOC = 2;
     const DEFAULT_SQLBUILDER = "Framework\Core\Model\SqlBuilder\MySql";
@@ -103,9 +105,21 @@ abstract class AbstractModel implements ModelInterface
         $this->getSqlBuilder()->addGroup($column);
     }
     
-    public function join()
+    public function join($Schema, $from, $to)
     {
-        $sqlBuilder = $this->getSqlBuilder();        
+        if($Schema instanceof ModelInterface) {
+            $Schema = $Schema->getSchema();
+        }
+        if(!$Schema instanceof SchemaInterface) {
+            throw new Exception(self::ERROR_INVALID_SCHEMA_FOR_JOIN);
+        }
+        if(!$this->getSchema()->hasColumn($from)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_JOIN, $this->getSchema()->getName(), $from));
+        }
+        if(!$Schema->hasColumn($to)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_JOIN, $Schema->getName(), $to));
+        }
+        $this->getSqlBuilder()->join($Schema, $from, $to);
     }
     
     public function select($column = null)
@@ -180,20 +194,16 @@ abstract class AbstractModel implements ModelInterface
         $recordClass = $this->recordLabel;
         $tempStore = $recordClass::getNullStore();
         $keyMap = $this->getSchema()->getColumns();
-        $writableRecord = true;
+        $isDirtyRecord = false;
         foreach($tempStore as $key => $null) {
             $nativeColumn = $keyMap[$key];
             if(isset($data[$nativeColumn])) {
                 $tempStore[$key] = $data[$nativeColumn];
             } else {
-                $writableRecord = false;
+                $isDirtyRecord = true;
             }
         }
-        if($writableRecord) {
-            $record = new $recordClass;
-        } else {
-            $record = new $recordClass(false);
-        }
+        $record = new $recordClass($isDirtyRecord);
         $record->assign($tempStore);
         return $record;
     }

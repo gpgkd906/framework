@@ -41,7 +41,7 @@ class MySql implements SqlBuilderInterface
     {
         if(self::$connectionInfo == null) {
             if(empty($connectionInfo["host"]) || empty($connectionInfo["user"])) {
-                throw new Exception(self::ERROR_INVALID_CONNECTION_INFO);            
+                throw new Exception(self::ERROR_INVALID_CONNECTION_INFO);
             }
             if(!isset($connectionInfo["database"]) || empty($connectionInfo["database"])) {
                 $connectionInfo["database"] = "mysql";
@@ -281,7 +281,7 @@ class MySql implements SqlBuilderInterface
 
     public function setOrder($orderQuery)
     {
-        $this->orderQuery = "ORDER BY " . $orderQuery;
+        $this->orderQuery = $orderQuery;
     }
 
     public function getOrder()
@@ -294,11 +294,11 @@ class MySql implements SqlBuilderInterface
         return $this->orderQuery;
     }
 
-/**
- * グループ情報設定
- * @param string $group グループ情報
- * @return $this
- */
+    /**
+     * グループ情報設定
+     * @param string $group グループ情報
+     * @return $this
+     */
 	public function addGroup($column)
     {
         $this->checkColumn($column);
@@ -310,7 +310,7 @@ class MySql implements SqlBuilderInterface
 
     public function setGroup($groupQuery)
     {
-        $this->groupQuery = "GROUP BY " . $groupQuery;
+        $this->groupQuery = $groupQuery;
     }
   
     public function getGroup()
@@ -349,20 +349,19 @@ class MySql implements SqlBuilderInterface
 		}
         return $this->limitQuery;
     }
- 
-/**
- * inner_joinの別名
- * @return
- */
-	public function join($joinModel, $leftCol, $rightCol = null) {
+    
+    /**
+     * inner_joinの別名
+     * @return
+     */
+	public function join($Schema, $from, $to) {
         return $this->innerJoin($joinModel, $leftCol, $rightCol);
 	}
  
-
-/**
- * モデルを双方向で結合させる
- * @return
- */
+    /**
+     * モデルを双方向で結合させる
+     * @return
+     */
 	public function innerJoin($joinModel, $leftCol, $rightCol = null) {
 		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
 		list($join, $from, $target) = $this->set_join_table($target1, $target2);
@@ -370,10 +369,10 @@ class MySql implements SqlBuilderInterface
 		return $this;
 	}
 
-/**
- * モデルを往方向で結合させる
- * @return
- */
+    /**
+     * モデルを往方向で結合させる
+     * @return
+     */
 	public function leftJoin($joinModel, $leftCol, $rightCol = null) {
 		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
 		list($join, $from, $target) = $this->set_join_table($target1, $target2);
@@ -381,10 +380,10 @@ class MySql implements SqlBuilderInterface
 		return $this;
 	}
 
-/**
- * モデルを復方向で結合させる
- * @return
- */
+    /**
+     * モデルを復方向で結合させる
+     * @return
+     */
 	public function rightJoin($joinModel, $leftCol, $rightCol = null) {
 		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
 		list($join, $from, $target) = $this->set_join_table($target1, $target2);
@@ -392,12 +391,11 @@ class MySql implements SqlBuilderInterface
 		return $this;
 	}
 
-
-/**
- * 結合情報を整形する
- * @param array $argv 結合情報
- * @return
- */
+    /**
+     * 結合情報を整形する
+     * @param array $argv 結合情報
+     * @return
+     */
 	private function set_join_request($argv) {
 		switch(count($argv)) {
         case 4:
@@ -417,12 +415,12 @@ class MySql implements SqlBuilderInterface
 	}
 
 
-/**
- * 結合テーブルの前後関係を決定する
- * @param object $target1 モデル１
- * @param object $target2 モデル２
- * @return
- */
+    /**
+     * 結合テーブルの前後関係を決定する
+     * @param object $target1 モデル１
+     * @param object $target2 モデル２
+     * @return
+     */
 	private function set_join_table($target1, $target2) {
 		$table1 = $target1->getTable(true);
 		$table2 = $target2->getTable(true);
