@@ -50,18 +50,23 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
      * @link
      */
     private $osInfo = [
+        "platform" = null,
         "name" => null,
         "version" => null,
         "isDetected" => false,
     ];
 
-    private $pattern = [
-        "Firefox" => "/Mozilla\/[\S]+ \((.+?) rv:[\S]+?\) Gecko\/([\S]+) Firefox\/([\S]+)/",
-        "Safari" => "",
-        "Chrome" => "",
-        "Opera" => "",
-        "IE" => "Mozilla/4.0 (compatible;)",
+    private $browserPatterns = [
+        "Firefox" => "/^Mozilla\/5.0 \((?<platform>.+?) rv:[\S]+?\) Gecko\/[\S]+ (?<name>Firefox)\/(?<version>[\S]+)/";
+        "Safari" => "/^Mozilla\/\S+ \((?<platform>.+?)\) AppleWebKit\/\S+ \(KHTML[^)]+\) Version\/(?<version>\S+) (?<name>Safari)/",
+        "SafariMobile" => "/^Mozilla\/\S+ \((?<platform>.+?)\) AppleWebKit\/\S+ \(KHTML[^)]+\) Version\/(?<version>\S+).+?(?<mobile>Mobile).+?(?<name>Safari)/",
+        "Opera1" => "/^(?<name>Opera)[^(]+?\(([^)]+)\).+?Version\/(?<version>[\d.]+)/",
+        "Opera2" => "/^Mozilla\/\S+ \((?<platform>.+?)\).+?(?<name>OPR)\/(?<version>[\d.]+)/",
+        "IE" => "/^Mozilla\/\S+ \(compatible; MS(?<name>IE) (?<version>[^;]+); (?<platform>[^)]+)/",
+        "Chrome" => "/^Mozilla\/\S+ \((?<platform>[^)]+)\) AppleWebKit\/\S+ \(KHTML, like Gecko\).*?(?<name>Chrome)\/(?<version>\S+) (?:Mobile )?Safari/",
     ];
+
+    private $osPatterns = [];
     
     /**
      * @return boolean true/false 
@@ -192,9 +197,11 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
         return $osInfo["version"];
     }
     
+    public function setUserAgent($userAgent)
+    {
+        $this->userAgent = $userAgent;
+    }
     /**
-     * まずapacheと仮定した上で取得する
-     * 取得できない場合は、nginxと仮定して取得する
      * @return string user_agent_string
      */
     public function getUserAgent()
@@ -306,32 +313,20 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
     {
         if($this->browserInfo["isDetected"] === false) {
             $userAgent = $this->getUserAgent();
-            switch(true) {
-                //FirefoxのUAが綺麗ので先に取る
-            case strpos($userAgent, "Firefox") :
-                $this->browserInfo["name"] = "Firefox";
-                $start = strpos($userAgent, "Firefox");
-                $end = strpos($userAgent, " ", $start);
-                if($end) {
-                    $sub = substr($ua, $start, $end - $start);
-                } else {
-                    $sub = substr($ua, $start);
+            $patterns = $this->getBrowserPatterns();
+            foreach($patterns as $pattern) {
+                if(preg_match($pattern, $userAgent, $info)) {
+                    //new Opera has name as OPR, wo have to fix it
+                    if($info["name"] === "OPR") {
+                        $info["name"] = "Opera";
+                    }
+                    $this->browserInfo["name"] = $info["name"];
+                    $this->browserInfo["version"] = $info["version"];
+                    $this->browserInfo["platform"] = $info["platform"];
                 }
-                $subs = explode("/", $sub);
-                $this->browserInfo["version"] = floatval($sub[1]);
-                break;
-                //次はSafari/Mobile Safari
-            case strpos($userAgent, "Safari") && strpos($userAgent, "Chrome") === false :
-                if(strpos($userAgent, "Mobile")) {
-                    $this->browserInfo["name"] = "Mobile Safari";
-                } else {
-                    $this->browserInfo["name"] = "Safari";
-                }
-                
-                break;
             }
             $this->browserInfo["isDetected"] = true;
-        }        
+        }
         return $this->browserInfo;
     }
 
@@ -356,11 +351,32 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
     private function getOsInfo ()
     {
         if($this->osInfo["isDetected"] === false) {
-            $userAgent = $this->getUserAgent();
+            $browserInfo = $this->getBrowserInfo();
+            $platform = $browserInfo["platform"];
+            $patterns = $this->getOsPatterns();
+            foreach($patterns as $pattern) {
+                if(preg_match($pattern, $platform, $info)) {
+                    //new Opera has name as OPR, wo have to fix it
+                    if($info["name"] === "OPR") {
+                        $info["name"] = "Opera";
+                    }
+                    $this->osInfo["name"] = $info["name"];
+                    $this->osInfo["version"] = $info["version"];
+                }
+            }
 
-            
             $this->osInfo["isDetected"] = true;
         }
         return $this->osInfo;
+    }
+
+    private function getBrowserPatterns()
+    {
+        return $this->browserPatterns;
+    }
+
+    private function getOsPatterns()
+    {
+        return $this->osPatterns;
     }
 }
