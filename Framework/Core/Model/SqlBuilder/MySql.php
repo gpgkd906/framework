@@ -369,18 +369,22 @@ class MySql implements SqlBuilderInterface
      * inner_joinの別名
      * @return
      */
-	public function join($Schema, $from, $to) {
-        return $this->innerJoin($joinModel, $leftCol, $rightCol);
+	public function join(SchemaInterface $Schema, $from, $to) {
+        return $this->innerJoin($Schema, $from, $to);
 	}
  
     /**
      * モデルを双方向で結合させる
      * @return
      */
-	public function innerJoin($joinModel, $leftCol, $rightCol = null) {
-		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
-		list($join, $from, $target) = $this->set_join_table($target1, $target2);
-		$this->set_join_meta($from, $col1, $col2, $join, "INNER JOIN");
+	public function innerJoin(SchemaInterface $Schema, $from, $to) {
+        $this->joinStack[] = [
+            "joinTable" => $Schema->getTable(true),
+            "fromColumn" => $this->getSchema()->getFormatColumn($from),
+            "toColumn" => $Schema->getFormatColumn($to),
+            "joinType" => "INNER JOIN",
+            "Schema" => $Schema,
+        ];
 		return $this;
 	}
 
@@ -388,10 +392,14 @@ class MySql implements SqlBuilderInterface
      * モデルを往方向で結合させる
      * @return
      */
-	public function leftJoin($joinModel, $leftCol, $rightCol = null) {
-		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
-		list($join, $from, $target) = $this->set_join_table($target1, $target2);
-		$this->set_join_meta($from, $col1, $col2, $join, "LEFT JOIN");
+	public function leftJoin(SchemaInterface $Schema, $from, $to) {
+        $this->joinStack[] = [
+            "joinTable" => $Schema->getTable(true),
+            "fromColumn" => $this->getSchema()->getFormatColumn($from),
+            "toColumn" => $Schema->getFormatColumn($to),
+            "joinType" => "LEFT JOIN",
+            "Schema" => $Schema,
+        ];
 		return $this;
 	}
 
@@ -399,199 +407,31 @@ class MySql implements SqlBuilderInterface
      * モデルを復方向で結合させる
      * @return
      */
-	public function rightJoin($joinModel, $leftCol, $rightCol = null) {
-		list($target1, $target2, $col1, $col2) = $this->set_join_request($joinModel, $leftCol, $rightCol);
-		list($join, $from, $target) = $this->set_join_table($target1, $target2);
-		$this->set_join_meta($from, $col1, $col2, $join, "RIGHT JOIN");
+	public function rightJoin(SchemaInterface $Schema, $from, $to) {
+        $this->joinStack[] = [
+            "joinTable" => $Schema->getTable(true),
+            "fromColumn" => $this->getSchema()->getFormatColumn($from),
+            "toColumn" => $Schema->getFormatColumn($to),
+            "joinType" => "RIGHT JOIN",
+            "Schema" => $Schema,
+        ];
 		return $this;
 	}
-
-    /**
-     * 結合情報を整形する
-     * @param array $argv 結合情報
-     * @return
-     */
-	private function set_join_request($argv) {
-		switch(count($argv)) {
-        case 4:
-            list($target1, $target2, $col1, $col2) = $argv;
-            break;
-        case 3:
-            $target1 = $this;
-            list($target2, $col1, $col2) = $argv;      
-            break;
-        case 2:
-            $target1 = $this;
-            $target2 = $argv[0];
-            $col1 = $col2 = $argv[1];
-            break;
-		}
-		return array($target1, $target2, $col1, $col2);
-	}
-
-
-    /**
-     * 結合テーブルの前後関係を決定する
-     * @param object $target1 モデル１
-     * @param object $target2 モデル２
-     * @return
-     */
-	private function set_join_table($target1, $target2) {
-		$table1 = $target1->getTable(true);
-		$table2 = $target2->getTable(true);
-		$this->relate_columns[$table1] = $target1->columns();
-		$this->relate_columns[$table2] = $target2->columns();
-	  
-		if(isset($this->join[$table1]) || $table1 === $this->from) {
-			$join=array(
-				"from_table"=>$table1,
-				"target_table"=>$table2,
-			);
-			$from = $target1;
-			$target = $target2;
-			$target_table = $table2;
-		} else {
-			$join=array(
-				"from_table"=>$table2,
-				"target_table"=>$table1,
-			);
-			$from = $target2;
-			$target = $target1;
-			$target_table = $table1;
-		}
-		$this->join_columns = array_merge($this->join_columns, $from->columns());
-		$target_columns = $target->columns();
-		//$intersect = array_intersect($this->join_columns, $target_columns);
-		foreach($target_columns as $_col) {
-			$_alias = "alias_" . str_replace('`', '', $target_table) . '_' . $_col;
-			$_col = $target_table . '.`' . $_col . '`';
-			$this->alias($_col, $_alias);
-		}
-		$this->join_columns = array_merge($this->join_columns, $target_columns);
-		//join table filter check
-		/**
-		 * todo: find: $where => find: $alias
-		 */
-		foreach($target->get_all_filter() as $filter) {
-			list($where, $bind, $opera) = $filter;
-			$where = $target_table . "." . $where;
-			$this->find($where, $bind, $opera);
-		}
-		return array($join, $from, $target);
-	}
-  
-
-/**
- * 結合情報の最終整形、結合するカラムの前後関係を決定する
- * @param object $from 結合元モデル
- * @param string $col1 結合カラム名1
- * @param string $col2 結合カラム名2
- * @param array $join 整形中結合情報
- * @param string $type 結合方向
- * @return array $join 整形済み結合情報
- */
-	private function set_join_meta($from, $col1, $col2, $join, $type) {
-		$from_columns = $from->columns();
-		$from_table = $from->getTable(true);
-		$check_from = in_array($col1, $from_columns) ? true : false;
-		if($check_from || $col1 === $col2) {
-			$join["from_column"] = $col1;
-			$join["target_column"] = $col2;
-		} else {
-			$join["from_column"] = $col2;
-			$join["target_column"] = $col1;        
-		}
-		$join["join_type"] = $type;
-		$this->join[$from_table . "_" . $join["target_table"]] = $join;
-	}
-  
-
-/**
- * 整形済み結合情報を取得する
- * @return array
- */
-	public function get_join() {
-		return $this->join;
-	}
-
-
-/**
- * 検索用出力カラム取得
- * @return string 
- */
-	private function select_column() {
-		if(empty($this->alias)) {
-			return "*";
-		}
-		$select = $this->make_all_column();
-		return join(", ", $select);
-	}
-
-
-/**
- * 検索用出力カラムの整形
- * @param boolean $use_alias 別名を利用するかしないか
- * @return array
- */
-	private function make_all_column($use_alias = true) {
-		$select = $this->make_column($this->from, $this->columns(), $use_alias);
-		$fored = array($this->from);
-		foreach($this->join as $join) {
-			$from = $join["from_table"];
-			$target = $join["target_table"];
-			if(!in_array($from, $fored)) {
-				$select = array_merge($select, $this->make_column($from, $this->relate_columns[$from], $use_alias));
-				$fored[] = $from;
-			}
-			if(!in_array($target, $fored)) {
-				$select = array_merge($select, $this->make_column($target, $this->relate_columns[$target], $use_alias));	
-				$fored[] = $target;
-			}
-		}
-		return $select;
-	}
-
-
-/**
- * 出力カラムを`テーブル`.`カラム`という形式に整形する
- * @param string $from テーブル名
- * @param string $cols カラム名
- * @param boolean $use_alias 別名をしようするかしないか
- * @return
- */
-	private function make_column($from, $cols, $use_alias = true) {
-		if($use_alias) {
-			foreach($cols as $key => $col) {
-				$_col = $from . '.`' . $col . '`';
-				if(isset($this->alias[$_col])) {
-					$cols[$key] = $_col . " as " . $this->alias[$_col];
-				} else {
-					$cols[$key] = $_col;
-				}
-			}
-		} else {
-			foreach($cols as $key => $col) {
-				$_col = $from . '.`' . $col . '`';
-				$cols[$key] = $_col;
-			}
-		}
-		return $cols;
-	}
-  
+    
     private function execJoin()
     {
         $joinQuery = [];
 		foreach($this->joinStack as $join) {
-			$joinQuery[] = $join["join_type"] . " " . $join["target_table"] . " ON " . $join["from_table"] . ".`".$join["from_column"]."` = ".$join["target_table"].".`".$join["target_column"]."`";
+			$joinQuery[] = $join["joinType"] . " " . $join["joinTable"] . " ON " . $join["fromColumn"] . " = " . $join["toColumn"];
 		}
         return join(" ", $joinQuery);
     }
   
-/**
- * 検索用SQL文を構成し、発行する
- * @api
- * @return $this
- */
+    /**
+     * 検索用SQL文を構成し、発行する
+     * @api
+     * @return $this
+     */
 	public function select($columns){
 		foreach($columns as $key => $col) {
 			$this->checkColumn($key);
@@ -648,12 +488,12 @@ class MySql implements SqlBuilderInterface
 		return $this->reset();
 	}
 
-/**
- * 削除用SQL文を構成し、発行する
- * @api
- * @param array $args 直指定するプリペア値 
- * @return
- */
+    /**
+     * 削除用SQL文を構成し、発行する
+     * @api
+     * @param array $args 直指定するプリペア値 
+     * @return
+     */
 	public function delete(){
 		$sql = array();
 		$sql[] = "DELETE FROM";
@@ -681,6 +521,7 @@ class MySql implements SqlBuilderInterface
         $whereQuery = [];
         foreach($this->findStack as $key => $find) {
             if($key > 0) {
+                //AND, OR
                 $whereQuery[] = $find[3];
             }
             $whereQuery[] = $this->execFind($find[0], $find[1], $find[2]);
@@ -702,15 +543,6 @@ class MySql implements SqlBuilderInterface
 			}
 		}
 		return $val;
-	}
-
-    /**
-     * 目標文字列に「`」で囲む
-     * @param string $str 目標文字列
-     * @return string
-     */
-	public function quote($str) {
-		return '`' . $str . '`';
 	}
 
     public function getSql()
