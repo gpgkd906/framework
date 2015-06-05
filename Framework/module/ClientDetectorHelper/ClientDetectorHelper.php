@@ -1,7 +1,7 @@
 <?php
 require "ClientDetectorHelperInterface.php";
 
-class ClientDetectorHelper extends ClientDetectorHelperInterface
+class ClientDetectorHelper implements ClientDetectorHelperInterface
 {
     /**
      *
@@ -50,14 +50,14 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
      * @link
      */
     private $osInfo = [
-        "platform" = null,
+        "platform" => null,
         "name" => null,
         "version" => null,
         "isDetected" => false,
     ];
 
     private $browserPatterns = [
-        "Firefox" => "/^Mozilla\/5.0 \((?<platform>.+?) rv:[\S]+?\) Gecko\/[\S]+ (?<name>Firefox)\/(?<version>[\S]+)/";
+        "Firefox" => "/^Mozilla\/5.0 \((?<platform>.+?) rv:[\S]+?\) Gecko\/[\S]+ (?<name>Firefox)\/(?<version>[\S]+)/",
         "Safari" => "/^Mozilla\/\S+ \((?<platform>.+?)\) AppleWebKit\/\S+ \(KHTML[^)]+\) Version\/(?<version>\S+) (?<name>Safari)/",
         "SafariMobile" => "/^Mozilla\/\S+ \((?<platform>.+?)\) AppleWebKit\/\S+ \(KHTML[^)]+\) Version\/(?<version>\S+).+?(?<mobile>Mobile).+?(?<name>Safari)/",
         "Opera1" => "/^(?<name>Opera)[^(]+?\(([^)]+)\).+?Version\/(?<version>[\d.]+)/",
@@ -66,7 +66,17 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
         "Chrome" => "/^Mozilla\/\S+ \((?<platform>[^)]+)\) AppleWebKit\/\S+ \(KHTML, like Gecko\).*?(?<name>Chrome)\/(?<version>\S+) (?:Mobile )?Safari/",
     ];
 
-    private $osPatterns = [];
+    private $osPatterns = [
+        'windows' => '/(?<name>Windows) NT (?<version>[\d.]+)/',
+        'mac' => '/Macintosh;.*? Intel (?<name>Mac OS X) (?<version>[\d_]+)/',
+        'ios' => '/(?<name>CPU OS) (?<version>[\d_]+) like Mac OS X/',
+        'android' => '/(?<name>Android) (?<version>[\d.]+);/',
+        'linux' => '/(?<name>Linux) (?<version>[^;]+);/',
+    ];
+
+    private $windowVersionTable = [
+        
+    ];
     
     /**
      * @return boolean true/false 
@@ -200,6 +210,17 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+        $this->clientInfo = [
+            "isPersonalComputer" => false,
+            "isSmartphone" => false,
+            "isTablet" => false,
+            "isIos" => false,
+            "isAndroid" => false,
+            "isWindows" => false,
+            "isDetected" => false,
+        ];
+        $this->browserInfo["isDetected"] = false;
+        $this->osInfo["isDetected"] = false;
     }
     /**
      * @return string user_agent_string
@@ -214,11 +235,6 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
         return $this->userAgent;
     }
 
-    private function setUserAgent($userAgent)
-    {
-        return $this->userAgent = $userAgent;
-    }
-    
     /**
      * 
      * @api
@@ -315,6 +331,7 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
             $userAgent = $this->getUserAgent();
             $patterns = $this->getBrowserPatterns();
             foreach($patterns as $pattern) {
+                $info = null;
                 if(preg_match($pattern, $userAgent, $info)) {
                     //new Opera has name as OPR, wo have to fix it
                     if($info["name"] === "OPR") {
@@ -355,13 +372,18 @@ class ClientDetectorHelper extends ClientDetectorHelperInterface
             $platform = $browserInfo["platform"];
             $patterns = $this->getOsPatterns();
             foreach($patterns as $pattern) {
+                $info = null;
                 if(preg_match($pattern, $platform, $info)) {
-                    //new Opera has name as OPR, wo have to fix it
-                    if($info["name"] === "OPR") {
-                        $info["name"] = "Opera";
+                    if($info["name"] === 'CPU OS') {
+                        $info["name"] = 'Ios';
+                    }
+                    if($info["name"] === 'Windows') {
+                        if(isset($this->windowVersionTable[$info['version']])) {
+                            $info['version'] = $this->windowVersionTable[$info['version']];
+                        }
                     }
                     $this->osInfo["name"] = $info["name"];
-                    $this->osInfo["version"] = $info["version"];
+                    $this->osInfo["version"] = str_replace('_', '.', $info["version"]);
                 }
             }
 
