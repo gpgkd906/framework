@@ -3,12 +3,14 @@
 namespace Framework\Core\Interfaces;
 
 interface ViewModelInterface 
-{    
+{
     public function setTemplate($template);
 
     public function getTemplate();
 
     public function setData($data);
+
+    public function getId();
 
     public function getData();
    
