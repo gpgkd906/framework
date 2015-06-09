@@ -12,10 +12,12 @@ class ViewModelManager implements ViewModelManagerInterface
         = "error: invalid viewmodel config";
     const ERROR_INVALID_VIEWMODEL = "error: invalid viewmodelname: %s";
     const ERROR_INVALID_TEMPLATE_VIEWMODEL = "error: invalid template viewModel";
-    
+    const ERROR_VIEWMODEL_DEFINED_ID = "error: viewId [%s] was defined before, change some new ID";
+
     static private $defaultViewModel = "Framework\Core\ViewModel\ViewModel";
     static private $templateViewModel = "Framework\Core\ViewModel\TemplateViewModel";
     static private $alias = [];
+    static private $viewModelPool = [];
     //
     static private $namespace = null;
     static private $templateDir = null;
@@ -69,6 +71,22 @@ class ViewModelManager implements ViewModelManagerInterface
             $ViewModel->setTemplateDir(self::getTemplateDir());
         }
         return $ViewModel;
+    }
+
+    static public function addView(ViewModelInterface $viewModel)
+    {
+        $viewId = $viewModel->getId();
+        if(isset(self::$viewModelPool[$viewId])) {
+            throw new Exception(sprintf(self::ERROR_VIEWMODEL_DEFINED_ID, $viewId));
+        }
+        self::$viewModelPool[$viewId] = $viewModel;
+    }
+
+    static public function getViewById($viewId)
+    {
+        if(isset(self::$viewModelPool[$viewId])) {
+            return self::$viewModelPool[$viewId];
+        }
     }
 
     static public function setAlias($alias, $viewModelName)
