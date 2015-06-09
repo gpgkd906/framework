@@ -12,9 +12,10 @@ abstract class AbstractSchema implements SchemaInterface
     
     const TIMESTAMP_DATE = "timestamp_date";
     const TIMESTAMP_TIME = "timestamp_time";
-    
-    protected $name = null;
 
+    protected $name = null;
+    private $table = null;
+    
     protected $columns = [];
     protected $timestamp = [
         "createDate" => "register_date",
@@ -35,6 +36,7 @@ abstract class AbstractSchema implements SchemaInterface
     private $nativeKeys = null;
     
     protected $indexs = [];
+    protected $relations = [];
 
     private $objectPrimaryKey = null;
     protected $primaryKey = null;
@@ -84,7 +86,7 @@ abstract class AbstractSchema implements SchemaInterface
         }
         return $this->formatColumns;
     }
-
+    
     public function getFormatColumn($key)
     {
         if(isset($this->columns[$key])) {
@@ -138,6 +140,13 @@ abstract class AbstractSchema implements SchemaInterface
         return $this->name;
     }
 
+	public function getTable(){
+        if($this->table == null) {
+            $this->table = $this->quote($this->name);
+        }
+        return $this->table;
+	}
+
     public function quote($string)
     {
         return '`' . $string . '`';
@@ -165,5 +174,10 @@ abstract class AbstractSchema implements SchemaInterface
              throw new Exception(sprintf(self::ERROR_INVALID_TIMESTAMP_KEY, $key, $this->getName()));
          }
          return $timestamp[$key];
+     }
+
+     public function getRelations()
+     {
+         return $this->relations;
      }
 }

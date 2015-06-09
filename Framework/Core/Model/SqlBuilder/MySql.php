@@ -121,19 +121,6 @@ class MySql implements SqlBuilderInterface
 		$this->alias[$col] = $alias;
 	}
   
-   /**
-    * モデルのテーブル名を取得
-    * @api
-    * @return string 
-    */
-	public function getTable($quoted = false){
-        if($quoted) {
-            return $this->from;
-        } else {
-            return $this->table;
-        }
-	}
-
     public function findBy($dataSet)
     {
         foreach($dataSet as $set) {
@@ -345,7 +332,7 @@ class MySql implements SqlBuilderInterface
      * @param integer $l2 制限値
      * @return $this
      */
-	public function limit($l1, $l2=null){
+	public function limit($l1, $l2 = null){
 		if(empty($l2)) {
 			$this->limit = array($l1);
 		} else {
@@ -379,7 +366,7 @@ class MySql implements SqlBuilderInterface
      */
 	public function innerJoin(SchemaInterface $Schema, $from, $to) {
         $this->joinStack[] = [
-            "joinTable" => $Schema->getTable(true),
+            "joinTable" => $Schema->getTable(),
             "fromColumn" => $this->getSchema()->getFormatColumn($from),
             "toColumn" => $Schema->getFormatColumn($to),
             "joinType" => "INNER JOIN",
@@ -394,7 +381,7 @@ class MySql implements SqlBuilderInterface
      */
 	public function leftJoin(SchemaInterface $Schema, $from, $to) {
         $this->joinStack[] = [
-            "joinTable" => $Schema->getTable(true),
+            "joinTable" => $Schema->getTable(),
             "fromColumn" => $this->getSchema()->getFormatColumn($from),
             "toColumn" => $Schema->getFormatColumn($to),
             "joinType" => "LEFT JOIN",
@@ -409,7 +396,7 @@ class MySql implements SqlBuilderInterface
      */
 	public function rightJoin(SchemaInterface $Schema, $from, $to) {
         $this->joinStack[] = [
-            "joinTable" => $Schema->getTable(true),
+            "joinTable" => $Schema->getTable(),
             "fromColumn" => $this->getSchema()->getFormatColumn($from),
             "toColumn" => $Schema->getFormatColumn($to),
             "joinType" => "RIGHT JOIN",
@@ -417,6 +404,11 @@ class MySql implements SqlBuilderInterface
         ];
 		return $this;
 	}
+
+    public function getJoin()
+    {
+        return $this->joinStack;
+    }
     
     private function execJoin()
     {
@@ -432,11 +424,12 @@ class MySql implements SqlBuilderInterface
      * @api
      * @return $this
      */
-	public function select($columns){
+	public function select($columns)
+    {
 		foreach($columns as $key => $col) {
 			$this->checkColumn($key);
 		}
-		$sql = array("SELECT", join(", ", $columns), "FROM " . $this->getTable(true));
+		$sql = array("SELECT", join(", ", $columns), "FROM " . $this->getSchema()->getTable());
         $sql[] = $this->execJoin();
         $sql[] = $this->execWhere();
         $sql[] = $this->getGroup();
@@ -461,7 +454,7 @@ class MySql implements SqlBuilderInterface
         $valueStack = array_pad([], count($this->setValueStack), "?");
         $this->sql = join(" ", [
             "INSERT INTO",
-            $this->getTable(true),
+            $this->getSchema()->getTable(),
             "(" . join(", ", $columnStack) . ")",
             "VALUES",
             "(" . join(", ", $valueStack) . ")"]);
@@ -479,7 +472,7 @@ class MySql implements SqlBuilderInterface
 	public function update(){
 		$this->sql = join(" ", [
 			"UPDATE",
-			$this->getTable(true),
+			$this->getSchema()->getTable(),
 			"SET",
             $this->makeUpdateParts(),
             $this->execWhere()
@@ -497,7 +490,7 @@ class MySql implements SqlBuilderInterface
 	public function delete(){
 		$sql = array();
 		$sql[] = "DELETE FROM";
-		$sql[] = $this->getTable(true);
+		$sql[] = $this->getSchema()->getTable();
 		$sql[] = $this->execWhere();
         $this->sql = join(" ", $sql);
 		return $this->reset();

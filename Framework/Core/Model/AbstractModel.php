@@ -94,6 +94,11 @@ abstract class AbstractModel implements ModelInterface
     {
         $this->getSqlBuilder()->find($column, $bind, $opera, "OR");
     }
+
+    public function limit($l1, $l2 = null)
+    {
+        $this->getSqlBuilder()->limit($l1, $l2);
+    }
     
     public function order($column, $order = "ASC")
     {
@@ -114,26 +119,22 @@ abstract class AbstractModel implements ModelInterface
             throw new Exception(self::ERROR_INVALID_SCHEMA_FOR_JOIN);
         }
         if(!$this->getSchema()->hasColumn($from)) {
-            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_JOIN, $this->getSchema()->getName(), $from));
+            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_JOIN, $from, $this->getSchema()->getName()));
         }
         if(!$Schema->hasColumn($to)) {
-            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_JOIN, $Schema->getName(), $to));
+            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_JOIN, $to, $Schema->getName()));
         }
         $this->getSqlBuilder()->join($Schema, $from, $to);
     }
     
-    public function select($column = null)
+    public function select()
     {
         $sqlBuilder = $this->getSqlBuilder();
-        if($column === null) {
+        $joinStack = $sqlBuilder->getJoin();
+        if(empty($joinStack)) {
             $column = $this->getSchema()->getFormatColumns();
         } else {
-            $columns = explode(",", $column);
-            $column = [];
-            foreach($columns as $key) {
-                $key = trim($key);
-                $column[$key] = $this->getSchema()->getFormatColumn($key);
-            }
+            throw new Exception("ERROR: select_join is not implements yes");
         }
         $this->stmt = $this->getSqlBuilder()->select($column)->query();
         return $this;
@@ -192,7 +193,7 @@ abstract class AbstractModel implements ModelInterface
     {
         //covert native keys to object keys;
         $recordClass = $this->recordLabel;
-        $tempStore = $recordClass::getNullStore();
+        $tempStore = $recordClass::getFormat();
         $keyMap = $this->getSchema()->getColumns();
         $isDirtyRecord = false;
         foreach($tempStore as $key => $null) {

@@ -4,6 +4,7 @@ namespace Framework\Core\Model;
 
 use Framework\Core\Interfaces\Model\RecordInterface;
 use Framework\Core\Interfaces\Model\ModelInterface;
+use Framework\Core\Interfaces\Model\SchemaInterface;
 use Exception;
 
 abstract class AbstractRecord implements RecordInterface
@@ -13,8 +14,8 @@ abstract class AbstractRecord implements RecordInterface
     const ERROR_INVALID_COLUMN_FOR_SET = "error: INVALID_COLUMN_FOR_SET [%s]";
     const ERROR_NONE_WRITABLE = "error: this is a dirty-record[a partially record or a deleted record]";
     const ERROR_PRIMARY_KEY_IS_CHANGED = "error: PRIMARY_KEY_IS_CHANGED";
-    
-    static private $nullStore = null;
+    const ERROR_DEFINE_SCHEMA_IN_RECORD = "error: DEFINE_SCHEMA_IN_RECORD";
+
     /**
 	 * テーブルカラムにあるデータセット
 	 * @api
@@ -39,14 +40,12 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	private $realChanged = false;
 
-    static private $Schema = null;
-
-    static private $Model = null;
-    
     static public $config = [
         "Model" => null,
     ];
-
+    
+    protected $relations = [];
+    
     private $isDirty = false;
     /**
 	 * ActiveRecord構造関数
@@ -58,40 +57,46 @@ abstract class AbstractRecord implements RecordInterface
 	public function __construct($isDirty = false)
     {
         $this->isDirty = $isDirty;
-        $this->store = self::getNullStore();
+        $this->store = static::getFormat();
 	}
 
     static public function getModel()
     {
-        if(self::$Model === null) {
-            if(!static::$config["Model"] || !class_exists(static::$config["Model"])) {
+        if(!static::$config["Model"]) {
+            throw new Exception(self::ERROR_INVALID_MODEL);
+        }
+        if(is_string(static::$config["Model"])) {
+            if(!class_exists(static::$config["Model"])) {
                 throw new Exception(self::ERROR_INVALID_MODEL);
             }
             $modelLabel = static::$config["Model"];
             $Model = $modelLabel::getSingleton();
             if($Model instanceof ModelInterface) {
-                self::$Model = $Model;
+                static::$config["Model"] = $Model;
             } else {
                 throw new Exception(self::ERROR_INVALID_MODEL);
             }
         }
-        return self::$Model;
+        return static::$config["Model"];
     }
 
     static public function getSchema()
     {
-        if(self::$Schema === null) {
-            self::$Schema = self::getModel()->getSchema();
+        if(!isset(static::$config["Schema"])) {
+            static::$config["Schema"] = static::getModel()->getSchema();
         }
-        return self::$Schema;
+        if(isset(static::$config["Schema"]) && is_string(static::$config["Schema"])) {
+            throw new Exception(self::ERROR_DEFINE_SCHEMA_IN_RECORD);
+        }
+        return static::$config["Schema"];
     }
     
-    static public function getNullStore()
+    static public function getFormat()
     {
-        if(self::$nullStore === null) {
-            self::$nullStore = array_fill_keys(self::getSchema()->getObjectKeys(), "");
+        if(!isset(static::$config["Format"])) {
+            static::$config["Format"] = array_fill_keys(static::getSchema()->getObjectKeys(), "");
         }
-        return self::$nullStore;
+        return static::$config["Format"];
     }
 
     public function isDirty()
@@ -152,7 +157,7 @@ abstract class AbstractRecord implements RecordInterface
 			$this->set($name, $value);
 		}
 
-        $primaryKey = self::getSchema()->getObjectPrimaryKey();
+        $primaryKey = static::getSchema()->getObjectPrimaryKey();
 		if(isset($data[$primaryKey])) {
 			$this->setPrimaryValue($data[$primaryKey]);
 		}
@@ -170,7 +175,7 @@ abstract class AbstractRecord implements RecordInterface
      */
     public function touch ()
     {
-        if(self::getSchema()->hasTimeStamp("updateDate")) {
+        if(static::getSchema()->hasTimeStamp("updateDate")) {
             $this->realChanged = true;
             $this->save();
         }
@@ -210,9 +215,9 @@ abstract class AbstractRecord implements RecordInterface
             throw new Exception(self::ERROR_INVALID_RECORD);
 			return false;
 		}
-        $Schema = self::getSchema();
+        $Schema = static::getSchema();
 		$primaryKey = $Schema->getObjectPrimaryKey();
-        $sqlBuilder = self::getModel()->getSqlBuilder();
+        $sqlBuilder = static::getModel()->getSqlBuilder();
 		if(isset($this->primaryValue)) {
 			if(!$this->realChanged) {
 				return false;
@@ -259,11 +264,42 @@ abstract class AbstractRecord implements RecordInterface
 			return false;            
         }
 		if($this->getPrimaryValue()) {
-			if(self::getModel()->find(self::getSchema()->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
-                $this->store = self::getNullStore();
+			if(static::getModel()->find(static::getSchema()->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
+                $this->store = static::getFormat();
                 $this->isDirty = true;
                 return true;
             }
 		}
 	}
+    
+    public function getRelationRecord($relation)
+    {
+        if(!isset($this->relations[$relation])) {
+            //sample: "table" => ["type" => "oneToMany", "from" => $from, "to" => $to]
+            $relationConfig = static::getSchema()->getRelations();
+            if(isset($relationConfig[$relation])) {
+                $relationTarget = $relationConfig[$relation];
+                $relationModel = $relationTarget["Model"]::getSingleton();
+                
+                $column = $relationTarget["to"];
+                $value = $this->get($relationTarget["from"]);
+                $relationModel->find($column, $value);
+                switch($relationTarget["type"]) {
+                case SchemaInterface::RELATION_TO_ONE:
+                    $relationModel->limit(1);
+                    $this->relations[$relation] = $relationModel->get();
+                    break;
+                case SchemaInterface::RELATION_TO_MANY:
+                    $this->relations[$relation] = $relationModel->getAll();
+                    break;
+                default:
+                    throw new Exception(sprintf(self::ERROR_INVALID_RELATION_TYPE, $relationConfig["type"], static::getSchema()->getName()));
+                    break;
+                }
+            } else {
+                throw new Exception(sprintf(self::ERROR_INVALID_RELATION, $relation, static::getSchema()->getName()));
+            }
+        }
+        return $this->relations[$relation];
+    }
 }
