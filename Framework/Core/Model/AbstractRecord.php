@@ -7,8 +7,10 @@ use Framework\Core\Interfaces\Model\ModelInterface;
 use Framework\Core\Interfaces\Model\SchemaInterface;
 use Exception;
 
-abstract class AbstractRecord implements RecordInterface
+abstract class AbstractRecord implements RecordInterface, EventInterface
 {
+    use \Framework\Core\EventManager\EventTrait;
+
     const ERROR_INVALID_RECORD = "error: invalid record";
     const ERROR_INVALID_MODEL = "error: invalid model";
     const ERROR_INVALID_COLUMN_FOR_SET = "error: INVALID_COLUMN_FOR_SET [%s]";
@@ -43,10 +45,19 @@ abstract class AbstractRecord implements RecordInterface
     static public $config = [
         "Model" => null,
     ];
+
+    const TRIGGER_SAVE = "Save";
+    
+    protected $eventTrigger = [
+        self::TRIGGER_INIT => null,
+        self::TRIGGER_INITED => null,
+        self::TRIGGER_SAVE => null,
+    ];
     
     protected $relations = [];
     
     private $isDirty = false;
+    
     /**
 	 * ActiveRecord構造関数
 	 * @api
@@ -56,8 +67,10 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	public function __construct($isDirty = false)
     {
+        $this->triggerEventTrigger(self::TRIGGER_INIT);
         $this->isDirty = $isDirty;
         $this->store = static::getFormat();
+        $this->triggerEventTrigger(self::TRIGGER_INITED);
 	}
 
     static public function getModel()
@@ -207,6 +220,7 @@ abstract class AbstractRecord implements RecordInterface
 	 */
 	public function save()
     {
+        $this->triggerEventTrigger(self::TRIGGER_SAVE);
         if($this->isDirty === true) {
             throw new Exception(self::ERROR_NONE_WRITABLE);
 			return false;            

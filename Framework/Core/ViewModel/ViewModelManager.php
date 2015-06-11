@@ -111,11 +111,11 @@ class ViewModelManager implements ViewModelManagerInterface
 
     static public function setDefaultViewModel($viewModelName)
     {
-        $this->defaultViewModel = $viewModelName;
+        self::$defaultViewModel = $viewModelName;
     }
 
     static public function getDefaultViewModel()
     {
-        return $this->defaultViewModel;
+        return self::$defaultViewModel;
     }
 }
