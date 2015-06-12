@@ -16,7 +16,7 @@ trait EventTrait
             $this->eventQueue[$eventName] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::EVENT_INVALID_CALLBACK_ADD_EVENT, $eventName));
+            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $eventName));
         }
         $this->eventQueue[$eventName][] = $callBack;
     }
@@ -28,7 +28,7 @@ trait EventTrait
             $this->eventQueue[$eventName] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::EVENT_INVALID_CALLBACK_REMOVE_EVENT, $eventName));
+            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $eventName));
         }
         foreach($this->eventQueue[$eventName] as $key => $call) {
             if($callBack == $call) {
@@ -82,5 +82,17 @@ trait EventTrait
     {
         $eventName = $this->getEventTrigger($event);
         return $this->triggerEvent($eventName, $parameters);
+    }
+
+    public function initEventTrigger()
+    {
+        if(isset($this->eventTrigger)) {
+            $classLabel = get_class($this);
+            foreach($this->eventTrigger as $key => $trigger) {
+                if($trigger === null) {
+                    $this->eventTrigger[$key] = $classLabel . "\\" . $key;
+                }
+            }
+        }
     }
 }
