@@ -9,48 +9,47 @@ trait EventTrait
     //
     private $eventStack = [];
 
-    public function addEventListener($eventName, $callBack)
+    public function addEventListener($event, $callBack)
     {
-        $this->checkEventTrigger($eventName);
-        if(!isset($this->eventQueue[$eventName])) {
-            $this->eventQueue[$eventName] = [];
+        $trigger = $this->getTrigger($event);
+        if(!isset($this->eventQueue[$trigger])) {
+            $this->eventQueue[$trigger] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $eventName));
+            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
         }
-        $this->eventQueue[$eventName][] = $callBack;
+        $this->eventQueue[$trigger][] = $callBack;
     }
 
-    public function removeEventListener($eventName, $callBack)
+    public function removeEventListener($event, $callBack)
     {
-        $this->checkEventTrigger($eventName);
-        if(!isset($this->eventQueue[$eventName])) {
-            $this->eventQueue[$eventName] = [];
+        $trigger = $this->getTrigger($event);
+        if(!isset($this->eventQueue[$trigger])) {
+            $this->eventQueue[$trigger] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $eventName));
+            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
         }
-        foreach($this->eventQueue[$eventName] as $key => $call) {
+        foreach($this->eventQueue[$trigger] as $key => $call) {
             if($callBack == $call) {
-                unset($this->eventQueue[$eventName][$key]);
+                unset($this->eventQueue[$trigger][$key]);
                 break;
             }
         }
     }
 
-    public function triggerEvent($eventName, $parameters = [])
+    private function triggerFire($trigger, $parameters = [])
     {
-        $this->checkEventTrigger($eventName);
-        if(in_array($eventName, $this->eventStack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $eventName, get_class($this)));
+        if(in_array($trigger, $this->eventStack)) {
+            throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
-        $this->eventStack[] = $eventName;
-        if(!isset($this->eventQueue[$eventName])) {
-            $this->eventQueue[$eventName] = [];
+        $this->eventStack[] = $trigger;
+        if(!isset($this->eventQueue[$trigger])) {
+            $this->eventQueue[$trigger] = [];
         }
         array_unshift($parameters, $this);
-        
-        foreach($this->eventQueue[$eventName] as $key => $call) {            
+
+        foreach($this->eventQueue[$trigger] as $key => $call) {
             $parameters = call_user_func_array($call, $parameters);
         }
         array_pop($this->eventStack);
@@ -62,15 +61,7 @@ trait EventTrait
         return $this->eventStack[count($this->eventStack) - 1];
     }
 
-    private function checkEventTrigger($eventName)
-    {
-        if(isset($this->eventTrigger) && in_array($eventName, $this->eventTrigger)) {
-            return true;
-        }
-        throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $eventName, get_class($this)));
-    }
-
-    private function getEventTrigger($event)
+    private function getTrigger($event)
     {
         if(isset($this->eventTrigger) && isset($this->eventTrigger[$event])) {
             return $this->eventTrigger[$event];
@@ -78,13 +69,13 @@ trait EventTrait
         throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $eventName, get_class($this)));        
     }
 
-    public function triggerEventTrigger($event, $parameters = [])
+    public function triggerEvent($event, $parameters = [])
     {
-        $eventName = $this->getEventTrigger($event);
-        return $this->triggerEvent($eventName, $parameters);
+        $trigger = $this->getTrigger($event);
+        return $this->triggerFire($trigger, $parameters);
     }
-
-    public function initEventTrigger()
+    
+    public function initTrigger()
     {
         if(isset($this->eventTrigger)) {
             $classLabel = get_class($this);

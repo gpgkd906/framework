@@ -20,6 +20,7 @@ class RouteModel implements RouteModelInterface
     private $request_param = [];
     private $default_req = 'index';
     private $max_depths = 10;
+    private $isConsole = null;
 
     static private $instance = null;
 
@@ -178,19 +179,42 @@ class RouteModel implements RouteModelInterface
         }
     }
 
+    public function setIsConsole($isConsole)
+    {
+        $this->isConsole = $isConsole;
+    }
+
     public function isConsole()
     {
-        return php_sapi_name() === "cli";
+        if($this->isConsole === null) {
+            $this->isConsole = php_sapi_name() === "cli";
+        }
+        return $this->isConsole;
     }
 
     public function parseCommand()
     {
         global $argv;
         array_shift($argv);
+        //controller, action, param
+        $request = [null, null, null];
         $param = [];
         foreach($argv as $arg) {
-            list($name, $val) = explode("=", $arg);
-            $param[$name] = $val;
+            if(strpos($arg, "=")) {
+                list($name, $val) = explode("=", $arg);
+                $param[$name] = $val;
+            } else {
+                //is controller?
+                if(!isset($request[0])) {
+                    $request[0] = $arg;
+                    //or is action?
+                } else if(!isset($request[0])) {
+                    $request[1] = $arg;
+                    //or is parame
+                } else {
+                    $param[$arg] = true;
+                }
+            }
         }
         return $param;
     }

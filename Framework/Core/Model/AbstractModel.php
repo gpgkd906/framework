@@ -77,7 +77,7 @@ abstract class AbstractModel implements ModelInterface, EventInterface
 
     private function __construct()
     {
-        $this->triggerEventTrigger(self::TRIGGER_INIT);
+        $this->triggerEvent(self::TRIGGER_INIT);
         $modelName = get_called_class();
         if(empty($this->config["Schema"])) {            
             throw new Exception(sprintf(self::ERROR_UNDEFINED_SCHEMA, $modelName));
@@ -88,7 +88,7 @@ abstract class AbstractModel implements ModelInterface, EventInterface
         $this->schemaLabel = $this->config["Schema"];
         $this->recordLabel = $this->config["Record"];
         $this->getSqlBuilder();
-        $this->triggerEventTrigger(self::TRIGGER_INITED);
+        $this->triggerEvent(self::TRIGGER_INITED);
     }
 
     public function setValue($column, $value)
@@ -148,7 +148,7 @@ abstract class AbstractModel implements ModelInterface, EventInterface
     
     public function select()
     {
-        $this->triggerEventTrigger(self::TRIGGER_SELECT);
+        $this->triggerEvent(self::TRIGGER_SELECT);
         $sqlBuilder = $this->getSqlBuilder();
         $joinStack = $sqlBuilder->getJoin();
         if(empty($joinStack)) {
@@ -162,19 +162,19 @@ abstract class AbstractModel implements ModelInterface, EventInterface
 
     public function insert()
     {
-        $this->triggerEventTrigger(self::TRIGGER_INSERT);
+        $this->triggerEvent(self::TRIGGER_INSERT);
         $this->getSqlBuilder()->insert()->query();
     }
 
     public function update()
     {
-        $this->triggerEventTrigger(self::TRIGGER_UPDATE);
+        $this->triggerEvent(self::TRIGGER_UPDATE);
         return $this->getSqlBuilder()->update()->query();
     }
     
     public function delete()
     {
-        $this->triggerEventTrigger(self::TRIGGER_DELETE);
+        $this->triggerEvent(self::TRIGGER_DELETE);
         return $this->getSqlBuilder()->delete()->query();
     }
 

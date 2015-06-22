@@ -67,10 +67,10 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 	 */
 	public function __construct($isDirty = false)
     {
-        $this->triggerEventTrigger(self::TRIGGER_INIT);
+        $this->triggerEvent(self::TRIGGER_INIT);
         $this->isDirty = $isDirty;
         $this->store = static::getFormat();
-        $this->triggerEventTrigger(self::TRIGGER_INITED);
+        $this->triggerEvent(self::TRIGGER_INITED);
 	}
 
     static public function getModel()
@@ -220,7 +220,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 	 */
 	public function save()
     {
-        $this->triggerEventTrigger(self::TRIGGER_SAVE);
+        $this->triggerEvent(self::TRIGGER_SAVE);
         if($this->isDirty === true) {
             throw new Exception(self::ERROR_NONE_WRITABLE);
 			return false;            
