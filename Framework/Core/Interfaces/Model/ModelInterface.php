@@ -12,9 +12,9 @@ interface ModelInterface
 
     public function group($column);
 
-    public function join();
+    public function join($Schema, $from, $to);
 
-    public function select($select);
+    public function select();
 
     public function update();
 

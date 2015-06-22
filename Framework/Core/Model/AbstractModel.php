@@ -4,12 +4,14 @@ namespace Framework\Core\Model;
 
 use Framework\Core\Interfaces\Model\ModelInterface;
 use Framework\Core\Interfaces\Model\SchemaInterface;
+use Framework\Core\Interfaces\EventInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
 abstract class AbstractModel implements ModelInterface, EventInterface
 {
     use \Framework\Core\EventManager\EventTrait;
+    use \Framework\Core\SingletonTrait;
     
     const ERROR_UNDEFINED_SCHEMA = "error: undefined schema in model [%s]";
     const ERROR_UNDEFINED_RECORD = "error: undefined record in model [%s]";
@@ -58,14 +60,6 @@ abstract class AbstractModel implements ModelInterface, EventInterface
         return self::$modelConfig;
     }
     
-    static public function getSingleton() {
-        $modelName = get_called_class();
-        if(!isset(self::$models[$modelName])) {
-            self::$models[$modelName] = new $modelName();
-        }
-        return self::$models[$modelName];
-    }
-
     private function __construct()
     {
         $this->triggerEvent(self::TRIGGER_INIT);

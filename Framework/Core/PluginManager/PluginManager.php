@@ -7,18 +7,12 @@ use Framework\Config\ConfigModel;
 class PluginManager implements EventInterface
 {
     use \Framework\Core\EventManager\EventTrait;
+    use \Framework\Core\SingletonTrait;
+    
+    const TRIGGER_PLUGININITED = "PluginInited";
     
     private $config = null;
     private $plugins = [];
-    static private $instance = null;
-
-    static public function getSingleton()
-    {
-        if(self::$instance === null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
 
     private function __construct()
     {
@@ -38,7 +32,7 @@ class PluginManager implements EventInterface
                 $plugin->init($this);
             }
         }
-        $this->triggerEvent("PluginInited");
+        $this->triggerEvent(self::TRIGGER_PLUGININITED);
     }
     
     public function isInstalledPlugin($plugin)

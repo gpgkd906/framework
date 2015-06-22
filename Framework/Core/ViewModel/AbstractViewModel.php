@@ -17,7 +17,10 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     //error
     const ERROR_INVALID_RENDER_TYPE = "error: invalid render-type";
     const ERROR_INVALID_RENDER_TEMPLATE = "error: invalid render template [%s]";
-
+    
+    //trigger
+    const TRIGGER_RENDER = "Render";
+    const TRIGGER_DISPLAY = "Display";
     
     protected $template = null;
     protected $data = [];
@@ -157,7 +160,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     
     public function render($renderType = null)
     {
-        $this->triggerEvent("Render");
+        $this->triggerEvent(self::TRIGGER_RENDER);
         if($renderType === null) {
             $renderType = $this->renderType;
         }
@@ -175,7 +178,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
             throw new Exception(self::ERROR_INVALID_RENDER_TYPE);
             break;
         }
-        $this->triggerEvent("Display");
+        $this->triggerEvent(self::TRIGGER_DISPLAY);
         return $display;
     }
 

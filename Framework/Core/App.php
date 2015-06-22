@@ -23,11 +23,20 @@ class App implements AppInterface
     static private $eventManager = null;
     static private $pluginManager = null;
 
-    static function setGlobalConfig($config)
+    static public function setGlobalConfig($config)
     {
         self::$globalConfig = $config;
     }
 
+    static public function getGlobalConfig($key = null)
+    {
+        if($key === null) {
+            return self::$globalConfig;
+        } else {
+            return self::$globalConfig->getConfig($key);
+        }
+    }
+    
     static public function run()
     {
         if(empty(self::$globalConfig)) {
@@ -46,7 +55,8 @@ class App implements AppInterface
 
         ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE));
         ViewModelManager::setTemplateDir(self::$globalConfig->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', self::DEFAULT_VIEWMODEL_NAMESPACE)));
-        self::$eventManager = new EventManager;
+        //eventManager
+        $eventManager = self::getEventManager();
         //plugin
         $pluginManager = self::getPluginManager();
         $pluginManager->initPlugins();
@@ -74,11 +84,6 @@ class App implements AppInterface
         return $modelLabel::getSingleton();        
     }
     
-    static public function getGlobalConfig($key)
-    {
-        return self::$$globalConfig->getConfig($key);
-    }
-    
     static public function getRouteModel($routeModelName = null)
     {
         if($routeModelName === null) {
@@ -94,6 +99,14 @@ class App implements AppInterface
             self::$pluginManager = $pluginManagerName::getSingleton();
         }
         return self::$pluginManager;
+    }
+
+    static public function getEventManager()
+    {
+        if(self::$eventManager === null) {
+            self::$eventManager = new EventManager;
+        }
+        return self::$eventManager;
     }
 
     static public function getHelper($helperName)

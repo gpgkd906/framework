@@ -15,22 +15,24 @@ class Console Extends App implements AppInterface
     
     static public function run()
     {
-        if(empty(self::$globalConfig)) {
+        $globalConfig = self::getGlobalConfig();
+        if(empty($globalConfig)) {
             throw new Exception(self::ERROR_NEED_GLOBAL_CONFIG);
         }
-        $useErrorHandler = self::$globalConfig->getConfig("ErrorHandler", true);
+        $useErrorHandler = $globalConfig->getConfig("ErrorHandler", true);
         if($useErrorHandler) {
             ErrorHandler::setup();
+            ErrorHandler::setHtmlFormatFlag(false);
         }
         //route
-        $routeName = self::$globalConfig->getConfig("route", self::DEFAULT_ROUTE);
+        $routeName = $globalConfig->getConfig("route", self::DEFAULT_ROUTE);
         $routeModel = self::getRouteModel($routeName);
         $routeModel->setIsConsole(true);
 
         //with console, we do not need view...
         /* ViewModelManager::setNamespace(self::$globalConfig->getConfig("viewModelNamespace", self::DEFAULT_VIEWMODEL_NAMESPACE)); */
         /* ViewModelManager::setTemplateDir(self::$globalConfig->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', self::DEFAULT_VIEWMODEL_NAMESPACE))); */
-        self::$eventManager = new EventManager;
+        $eventManager = self::getEventManager();
         //plugin
         $pluginManager = self::getPluginManager();
         $pluginManager->initPlugins();
@@ -41,7 +43,8 @@ class Console Extends App implements AppInterface
 
     static public function getController($controller)
     {
-        $controllerNamespace = self::$globalConfig->getConfig("consoleNamespace", self::DEFAULT_CONTROLLER_NAMESPACE);
+        $globalConfig = self::getGlobalConfig();
+        $controllerNamespace = $globalConfig->getConfig("consoleNamespace", self::DEFAULT_CONTROLLER_NAMESPACE);
         $controller = ucfirst($controller) . "Controller";
         $controllerLabel = $controllerNamespace . "\\" . $controller;
         if(!class_exists($controllerLabel)) {

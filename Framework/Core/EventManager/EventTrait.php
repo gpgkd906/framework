@@ -1,7 +1,9 @@
 <?php
 
 namespace Framework\Core\EventManager;
+
 use Framework\Core\Interfaces\EventInterface;
+use Exception;
 
 trait EventTrait
 {
@@ -65,10 +67,11 @@ trait EventTrait
 
     private function getTrigger($event)
     {
+        $this->initTrigger();
         if(isset($this->eventTrigger) && isset($this->eventTrigger[$event])) {
             return $this->eventTrigger[$event];
         }
-        throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $eventName, get_class($this)));        
+        throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, get_class($this)));        
     }
 
     public function triggerEvent($event, $parameters = [])
@@ -77,10 +80,10 @@ trait EventTrait
         return $this->triggerFire($trigger, $parameters);
     }
     
-    public function initTrigger()
+    private function initTrigger()
     {
         if(empty($this->eventTrigger)) {
-            $reflection = new ReflectionClass($this);
+            $reflection = new \ReflectionClass($this);
             $reflection->getConstants();
             $classLabel = $reflection->getName();
             foreach($reflection->getConstants() as $constantName => $val) {

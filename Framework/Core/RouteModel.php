@@ -105,7 +105,7 @@ class RouteModel implements RouteModelInterface
 
     public function parseRequest()
     {
-        //controller, action, param
+        //[controller, action, param]
         $request = [null, null, null];
         $req = $this->getReq();
         if(strpos($req, ".")) {
@@ -196,8 +196,8 @@ class RouteModel implements RouteModelInterface
     {
         global $argv;
         array_shift($argv);
-        //controller, action, param
-        $request = [null, null, null];
+        //[controller, action, param]
+        $request = [null, $this->default_req, null];
         $param = [];
         foreach($argv as $arg) {
             if(strpos($arg, "=")) {
@@ -216,7 +216,8 @@ class RouteModel implements RouteModelInterface
                 }
             }
         }
-        return $param;
+        $request[2] = $param;
+        return $request;
     }
 
     public function isFaviconRequest() 

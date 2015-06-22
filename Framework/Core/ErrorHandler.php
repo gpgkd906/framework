@@ -104,6 +104,8 @@ final class ErrorHandler {
     const DEFAULT_FILTER_HANDLER = "defaultFilter";
     private static $filterHandler = null;
 
+    private static $htmlFormatFlag = true;
+
 	/**
 	 * ハンドルするエラーレベルを変更する
 	 * @api
@@ -294,7 +296,11 @@ final class ErrorHandler {
 		$log[] = "Trace:".$e->getTraceAsString();
 		$content = join(PHP_EOL, $log);
 		self::write_log("except", $content);
-		echo nl2br("<div style = '".self::$style."'>".$content."</div>");
+        if(self::getHtmlFormatFlag()) {
+            echo nl2br("<div style = '".self::$style."'>".$content."</div>");
+        } else {
+            echo $content;
+        }
 		return true;
 	}
 
@@ -408,4 +414,13 @@ final class ErrorHandler {
 		return true;
 	}
 
+    static public function setHtmlFormatFlag($flag)
+    {
+        self::$htmlFormatFlag = $flag;
+    }
+
+    static public function getHtmlFormatFlag()
+    {
+        return self::$htmlFormatFlag;
+    }
 }

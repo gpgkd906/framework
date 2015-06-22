@@ -34,7 +34,7 @@ class AbstractConfigModel implements ConfigModelInterface
     
     static private $instances = [];
     
-    static private $dir = null;
+    static protected $dir = null;
     
     private $scope = null;
     private $config = [];
