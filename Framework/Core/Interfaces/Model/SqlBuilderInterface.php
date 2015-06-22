@@ -1,6 +1,7 @@
 <?php
 
 namespace Framework\Core\Interfaces\Model;
+use Framework\Core\Interfaces\Model\SchemaInterface;
 
 interface SqlBuilderInterface 
 {
@@ -30,5 +31,5 @@ interface SqlBuilderInterface
 
     public function find($where, $bind, $opera);
     
-    public function join($joinModel, $leftCol, $rightCol);
+    public function join(SchemaInterface $Schema, $from, $to);
 }

@@ -8,8 +8,6 @@ interface SchemaInterface
     
     public function getIndexs();
 
-    public function getForeignKeys();
-    
     public function getPrimaryKey();
 
     public function getName();
