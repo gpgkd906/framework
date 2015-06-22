@@ -9,6 +9,8 @@ trait EventTrait
     //
     private $eventStack = [];
 
+    private $eventTrigger = null;
+
     public function addEventListener($event, $callBack)
     {
         $trigger = $this->getTrigger($event);
@@ -77,11 +79,15 @@ trait EventTrait
     
     public function initTrigger()
     {
-        if(isset($this->eventTrigger)) {
-            $classLabel = get_class($this);
-            foreach($this->eventTrigger as $key => $trigger) {
-                if($trigger === null) {
-                    $this->eventTrigger[$key] = $classLabel . "\\" . $key;
+        if(empty($this->eventTrigger)) {
+            $reflection = new ReflectionClass($this);
+            $reflection->getConstants();
+            $classLabel = $reflection->getName();
+            foreach($reflection->getConstants() as $constantName => $val) {
+                //TRIGGER_が始まるトリッガを拾う
+                if(strpos($constantName, 'TRIGGER_') === 0) {
+                    //クラス情報をトリッガにセットする
+                    $this->eventTrigger[$val] = $classLabel . "\\" . $val;
                 }
             }
         }
