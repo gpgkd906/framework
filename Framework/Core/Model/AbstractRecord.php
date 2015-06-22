@@ -48,12 +48,6 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 
     const TRIGGER_SAVE = "Save";
     
-    protected $eventTrigger = [
-        self::TRIGGER_INIT => null,
-        self::TRIGGER_INITED => null,
-        self::TRIGGER_SAVE => null,
-    ];
-    
     protected $relations = [];
     
     private $isDirty = false;

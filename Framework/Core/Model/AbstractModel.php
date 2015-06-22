@@ -39,15 +39,6 @@ abstract class AbstractModel implements ModelInterface, EventInterface
     const TRIGGER_INSERT = "Insert";
     const TRIGGER_DELETE = "Delete";
     
-    protected $eventTrigger = [
-        self::TRIGGER_INIT => null,
-        self::TRIGGER_INITED => null,
-        self::TRIGGER_SELECT => null,
-        self::TRIGGER_UPDATE => null,
-        self::TRIGGER_INSERT => null,
-        self::TRIGGER_DELETE => null,
-    ];
-    
     static private $models = [];
 
     static protected function getModelConfig()
