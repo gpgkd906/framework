@@ -9,7 +9,8 @@ abstract class AbstractSchema implements SchemaInterface
 {
     const ERROR_CHECK_COLUMN = "error: check_column, has no column [%s] in table [%s]";
     const ERROR_INVALID_TIMESTAMP_KEY = "error: INVALID_TIMESTAMP_KEY [%s] in table [%s]";
-    
+    const ERROR_EMPTY_NAME = "error: undefined schema-name";
+
     const TIMESTAMP_DATE = "timestamp_date";
     const TIMESTAMP_TIME = "timestamp_time";
 
@@ -23,6 +24,7 @@ abstract class AbstractSchema implements SchemaInterface
         "updateDate" => "update_date",
         "updateTime" => "update_time",
     ];
+
     private $timestampFlag = [
         "createDate" => null,
         "createTime" => null,
@@ -137,6 +139,9 @@ abstract class AbstractSchema implements SchemaInterface
 
     public function getName()
     {
+        if(empty($this->name)) {
+            throw new Exception(self::ERROR_EMPTY_NAME);
+        }
         return $this->name;
     }
 

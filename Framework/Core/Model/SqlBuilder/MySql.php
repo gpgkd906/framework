@@ -519,7 +519,11 @@ class MySql implements SqlBuilderInterface
             }
             $whereQuery[] = $this->execFind($find[0], $find[1], $find[2]);
         }
-		return " WHERE " . join(" ", $whereQuery);
+        if(empty($whereQuery)) {
+            return "";
+        } else {
+            return " WHERE " . join(" ", $whereQuery);
+        }
 	}
     
     /**

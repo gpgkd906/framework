@@ -211,8 +211,7 @@ abstract class AbstractModel implements ModelInterface, EventInterface
                 $isDirtyRecord = true;
             }
         }
-        $record = new $recordClass($isDirtyRecord);
-        $record->assign($tempStore);
+        $record = new $recordClass($isDirtyRecord, $tempStore);
         return $record;
     }
         

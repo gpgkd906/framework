@@ -5,6 +5,7 @@ namespace Framework\Core\Model;
 use Framework\Core\Interfaces\Model\RecordInterface;
 use Framework\Core\Interfaces\Model\ModelInterface;
 use Framework\Core\Interfaces\Model\SchemaInterface;
+use Framework\Core\Interfaces\EventInterface;
 use Exception;
 
 abstract class AbstractRecord implements RecordInterface, EventInterface
@@ -59,11 +60,15 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 	 * @return
 	 * @link
 	 */
-	public function __construct($isDirty = false)
+	public function __construct($isDirty = false, $initStore = null)
     {
         $this->triggerEvent(self::TRIGGER_INIT);
         $this->isDirty = $isDirty;
         $this->store = static::getFormat();
+        if($initStore !== null) {
+            $this->assign($initStore);
+        }
+        $this->realChanged = false;
         $this->triggerEvent(self::TRIGGER_INITED);
 	}
 

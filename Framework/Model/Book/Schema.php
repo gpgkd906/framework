@@ -6,6 +6,8 @@ use Framework\Core\Model\AbstractSchema;
 
 class Schema extends AbstractSchema
 {
+    protected $name = "m_book";
+
     protected $columns = [
         "bookId" => "book_id",
         "title"  => "title",

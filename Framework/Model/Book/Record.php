@@ -6,7 +6,7 @@ use Framework\Core\Model\AbstractRecord;
 
 class Record extends AbstractRecord
 {
-    public $config = [
+    static public $config = [
         "Model" => "Framework\Model\Book\Model"
     ];
 }
