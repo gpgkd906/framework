@@ -1,0 +1,83 @@
+<!--{set
+    layout = testLayout
+    template =testTemplate
+    page = テスト
+    url = /test/
+}-->
+<!doctype html>
+<?php $RegisterService = $this->layout()->getVariable('RegisterService'); ?>
+<?php $pageInfo = $this->layout()->getVariable('PageInfo'); ?>
+<?php if( empty($pageInfo['trackPageview'])):?>
+<?php $pageInfo['trackPageview'] = $_SERVER['REQUEST_URI'];?>
+<?php endif;?>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title><?= $this->escapeHtml($pageInfo['pageName']); ?><?= $this->escapeHtml($pageInfo['pageTitle']); ?></title>
+  <meta name="description" content="<?= $this->escapeHtml($pageInfo['metaDescription']); ?>" />
+  <meta name="keywords" content="<?= $this->escapeHtml($pageInfo['metaKeyword']); ?>" />
+  <link rel="alternate" media="handheld" href="/m/" /> 
+  
+  <?php if (array_key_exists('metaProperty',$RegisterService)): ?>
+  <?php if (is_array($RegisterService['metaProperty'])):; ?>
+  <?php foreach ($RegisterService['metaProperty'] as $metaProperty_key => $metaProperty_value): ?>
+  <meta property="<?= $metaProperty_key; ?>" content="<?= $this->escapeHtml($metaProperty_value); ?>" />
+  <?php endforeach; ?>
+  <?php endif; ?>
+  <?php endif; ?>
+  
+
+  <!--{block id=meta name=meta}-->
+  <!--{style replace = $css }-->
+  <link type="text/css" rel="stylesheet" href="/commonMT/css/common.css" />
+  <link rel="stylesheet" href="/commonMT/css/mypage/mypage.css">
+  <!--{/style}-->
+  <!--{script}-->
+  <script type="text/javascript" src="/commonMT/js/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="/common/js/api_paginator.js"></script>
+  <script type="text/javascript" src="/common/js/default.js"></script>
+  <script type="text/javascript" src="/common/js/address_by_zipcode.js"></script>
+  <script type="text/javascript" src="/commonMT/js/megamenu.js"></script>
+  <script type="text/javascript" src="/commonMT/js/navi.js"></script>
+  <script type="text/javascript" src="/commonMT/js/pagetop.js"></script>
+  <!--{/script}-->
+  <?php if($pageInfo['useGoogleAnalytics'] == 1): ?>
+  <script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+  ga('create', '<?=$pageInfo['googleAcountPC']?>');
+  ga('require', 'displayfeatures');
+  ga('send', {
+  'hitType': 'pageview'
+  ,'page': '<?= $this->escapeHtml($pageInfo['trackPageview'])?>'
+  });
+  
+  </script>
+  <?php endif;?>
+  <!--{/block}-->
+</head>
+<body>
+  <div id="wrap">
+    <!--{block id=head name=ヘッド}-->
+    <!--{parts id=pc_common_head name=[PC]共通ヘッド}-->
+    [PC]共通ヘッド
+    <!--{/parts}-->
+    <!--{/block}-->
+    <div id="contents">
+    <!--{block id=main name=メイン}-->
+    <!--{parts id=pc_mypage_top name=[PC]マイページトップ}-->
+    [PC]マイページトップ
+    <!--{/parts}-->
+    <!--{/block}-->
+    </div>
+    <!--{block id=footer name=フッター}-->
+    <!--{parts id=pc_common_footer name=[PC]共通フッター}-->
+    [PC]共通フッター
+    <!--{/parts}-->
+    <!--{/block}-->
+  </div>
+</body>
