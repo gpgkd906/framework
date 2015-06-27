@@ -3,26 +3,11 @@
 //プロトタイプのため、nestして分解することができない
 class Parser
 {
+    const GLOBAL_BLOCK = "global";
     const END = "/";
     const SINGLE_TAG_FLAG = "single";
     const WRAP_TAG_FLAG = "wrap";
     
-    /**
-     * htmlを分解した情報
-     * @var mixed $data 
-     * @access private
-     * @link
-     */
-    private $data = [];
-    
-    /**
-     * 対象html情報
-     * @var mixed $content 
-     * @access private
-     * @link
-     */
-    private $content = null;
-
     /**
      * 分解用タグ
      * @var mixed $tag 
@@ -32,11 +17,11 @@ class Parser
     private $tag = [
         //singletagは{set layout=xxxx template=xxxx}のように使う
         "single" => [
-            "set",
+            "setf",
         ],
         //wraptagは{block name=xxx}yyyyy{/block}のように使う
         "wrap" => [
-            "style", "script", "block", "parts"
+            "style", "script", "block", "parts", "global"
         ]
     ];
 
@@ -52,29 +37,28 @@ class Parser
     ];
 
     /**
-     * 予約字
+     *
      * @api
-     * @var mixed $keyword 
+     * @var array $data 
      * @access private
      * @link
      */
-    private $keyword = [
-        "view", "child", "content"
-    ];
+    private $data = [];
 
     /**
      * 
+     * @api
      * @param mixed $data
      * @return mixed $data
      * @link
      */
-    private function setData ($data)
+    public function setData ($data)
     {
         return $this->data = $data;
     }
 
     /**
-     * htmlを分解した情報を取得
+     * 
      * @api
      * @return mixed $data
      * @link
@@ -82,29 +66,6 @@ class Parser
     public function getData ()
     {
         return $this->data;
-    }
-
-    /**
-     * 対象html情報をセットする
-     * @api
-     * @param mixed $content
-     * @return mixed $content
-     * @link
-     */
-    public function setContent ($content)
-    {
-        return $this->content = $content;
-    }
-
-    /**
-     * 対象html情報を取得する
-     * @api
-     * @return mixed $content
-     * @link
-     */
-    public function getContent ()
-    {
-        return $this->content;
     }
 
     /**
@@ -153,30 +114,7 @@ class Parser
         return $this->delimiter;
     }
 
-    /**
-     * 
-     * @api
-     * @param mixed $keyword
-     * @return mixed $keyword
-     * @link
-     */
-    public function setKeyword ($keyword)
-    {
-        return $this->keyword = $keyword;
-    }
-
-    /**
-     * 
-     * @api
-     * @return mixed $keyword
-     * @link
-     */
-    public function getKeyword ()
-    {
-        return $this->keyword;
-    }
-
-    static public function subString($string, $index, $offset)
+    static public function subString($string, $index, $offset = -1)
     {
         if($offset === -1) {
             $length = strlen($string) - $offset;
@@ -198,7 +136,7 @@ class Parser
         return in_array($tag, $tags["wrap"]);
     }
 
-    public function findTag($content, $index) {
+    final private function findTag($content, $index) {
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
         $stopDelimiter = $delimiter["stop"];
@@ -220,12 +158,7 @@ class Parser
             return ["tagName" => $tagName, "tag" => $tag, "tagFlag" => self::SINGLE_TAG_FLAG];
             break;
         case $this->isWrapTag($tagName):
-            $endTag = $startDelimiter . self::END . $tagName . $stopDelimiter;
-            $endIndex = strpos($content, $endTag, $index);
-            if($endTag === false) {
-                throw new \Exception(sprintf("not found endTag[%s]", $tagName));
-            }
-            $tag = self::subString($content, $index, $endIndex + strlen($endTag));
+            $tag = $this->findWrapTag($tagName, $content, $index);
             return ["tagName" => $tagName, "tag" => $tag, "tagFlag" => self::WRAP_TAG_FLAG];
             break;
         default:
@@ -234,7 +167,33 @@ class Parser
         }
     }
 
-    public function parseTag($tagData)
+    final private function findWrapTag($tagName, $content, $index)
+    {
+        $delimiter = $this->getDelimiter();
+        $startDelimiter = $delimiter["start"];
+        $stopDelimiter = $delimiter["stop"];
+        $startTag = $startDelimiter . $tagName;
+        $endTag = $startDelimiter . self::END . $tagName . $stopDelimiter;
+        $endTagLen = strlen($endTag);
+        $offset = $index;
+        $contentLen = strlen($content);
+        do {
+            $endIndex = strpos($content, $endTag, $offset);
+            if($endTag === false) {
+                throw new \Exception(sprintf("not found endTag[%s]", $tagName));
+            }
+            $offset = $endIndex + $endTagLen;
+            $startCount = substr_count($content, $startTag, 0, $offset);
+            $endCount = substr_count($content, $endTag, 0, $offset);
+            if($startCount === $endCount) {
+                break;
+            }
+        } while(true);
+        $tag = self::subString($content, $index, $endIndex + strlen($endTag));
+        return $tag;
+    }
+
+    final private function parseTag($tagData)
     {
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
@@ -242,42 +201,66 @@ class Parser
         $tag = $tagData["tag"];
         $tagName = $tagData["tagName"];
         $tagFlag = $tagData["tagFlag"];
-        $tagInfo = [];
         $start = $startDelimiter . $tagName;
+        $info = [];
         switch($tagFlag) {
         case self::SINGLE_TAG_FLAG:
-            $info = $this->getTagInfo($tag, $start, $stopDelimiter);
+            $info["attrs"] = $this->getTagInfo($tag, $start, $stopDelimiter);
             break;
         case self::WRAP_TAG_FLAG:
-            $firstStop = strpos($tag, $stopDelimiter);
-            $endTag = $startDelimiter . self::END . $tagName . $stopDelimiter;
-            $endTagIndex = strpos($tag, $endTag);
-            $startTag = self::subString($tag, 0, $firstStop + strlen($stopDelimiter));
-            $tagContent = self::subString($tag, $firstStop + strlen($stopDelimiter), $endTagIndex);
-            $info = $this->getTagInfo($startTag, $start, $stopDelimiter);
-            $tagContent = trim($tagContent);
-            if(!empty($tagContent)) {
-                $data = $this->parseContent($tagContent);
-                if(isset($data["content"])) {
-                    $info["content"] = $data["content"];
-                    unset($data["content"]);
-                }
-                if(!empty($data)) {
-                    $info["child"] = $data;
-                }
-            }
+            $info = $this->parseWrapTag($tag, $tagName);
             break;
         }
-        $tagInfo[$tagName] = $info;
+        if(isset($info["attrs"]["replace"])) {
+            $info["replace"] = $info["attrs"]["replace"];
+            unset($info["attrs"]["replace"]);
+        }
+        $tagInfo = $this->tagCall($tagName, $info);
         return $tagInfo;
     }
+
+    private function parseWrapTag($tag, $tagName)
+    {
+        $info = [];
+        $delimiter = $this->getDelimiter();
+        $startDelimiter = $delimiter["start"];
+        $stopDelimiter = $delimiter["stop"];
+        $start = $startDelimiter . $tagName;
+        $firstStop = strpos($tag, $stopDelimiter);
+        $endTag = $startDelimiter . self::END . $tagName . $stopDelimiter;
+        $startTag = self::subString($tag, 0, $firstStop + strlen($stopDelimiter));
+        $tagContent = self::subString($tag, $firstStop + strlen($stopDelimiter), strlen($tag) - strlen($endTag));
+        $info["attrs"] = $this->getTagInfo($startTag, $start, $stopDelimiter);
+        $tagContent = trim($tagContent);
+        if(!empty($tagContent)) {
+            $data = $this->parseContent($tagContent);
+            if(isset($data["content"])) {
+                $info["content"] = $data["content"];
+                unset($data["content"]);
+            }
+            if(!empty($data)) {
+                $info["child"] = $data;
+            }
+        }
+        return $info;
+    }
+
+    final public function parse($content)
+    {        
+        $delimiter = $this->getDelimiter();
+        $startDelimiter = $delimiter["start"];
+        $stopDelimiter = $delimiter["stop"];
+        $globalStart = $startDelimiter . self::GLOBAL_BLOCK . $stopDelimiter;
+        $globalEnd = $startDelimiter . self::END . self::GLOBAL_BLOCK . $stopDelimiter;
+        $content = $globalStart . $content . $globalEnd;
+        return $this->parseContent($content);
+    }
     
-    public function parseContent($content)
+    final public function parseContent($content)
     {
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
         $stopDelimiter = $delimiter["stop"];
-        $data = [];
         //前から順番に探していく
         do {
             $rest = null;
@@ -296,20 +279,26 @@ class Parser
             $tag = $tagData["tag"];
             $tagName = $tagData["tagName"];
             //タグをパースする
-            $tagInfo = $this->parseTag($tagData);          
+            $tagInfo = $this->parseTag($tagData);
             //コンテンツからパースしたタグを取り除く
             $content = self::subString($content, $index + strlen($tag), -1);
             //do the tag have some replace info?
-            if(isset($tagInfo[$tagName]["replace"])) {
-                $replace = $this->makeReplace($tagInfo[$tagName]["replace"]);
+            if(isset($tagInfo["replace"])) {
+                $replace = $this->makeReplace($tagInfo["replace"]);
                 $content = $replace . $content;
-                unset($tagInfo[$tagName]["replace"]);
+                unset($tagInfo["replace"]);
             }
             //do we have rest?
             if($rest !== null) {
                 $content = $rest . $content;
             }
-            $data = array_merge_recursive($data, $tagInfo);
+            if(empty($tagInfo)) {
+                continue;
+            }
+            if(!isset($data[$tagName])) {
+                $data[$tagName] = [];
+            }
+            $data[$tagName][] = $tagInfo;
         } while(true);
         if(!empty($content)) {
             $data["content"] = $content;
@@ -321,6 +310,8 @@ class Parser
     {
         //前後のタグを取り除く
         $target = trim(str_replace([$start, $stop], "", $tag));
+        //format space:zenkaku => hankaku
+        //$target = str_replace(" ", " ", $target);
         //=回りの空白を取り除く
         $target = preg_replace("/\s+=\s+/", "=", $target);
         //空白で分割してから&で再結合して、query文字列を仕上げる
@@ -342,6 +333,23 @@ class Parser
         } else {
             return "<?php echo " . $replaceInfo . " ?>";
         }
+    }
+    
+    final private function tagCall($tagName, $tagInfo)
+    {
+        $processer = "tag" . ucfirst($tagName);
+        if(is_callable([$this, $processer])) {
+            $tagInfo = call_user_func([$this, $processer], $tagInfo);
+        }
+        return $tagInfo;
+    }
+
+    final private function tagSetf($info)
+    {
+        $data = $info["attrs"];
+        $data = array_merge($this->getData(), $data);
+        $this->setData($data);
+        return [];
     }
 }
 

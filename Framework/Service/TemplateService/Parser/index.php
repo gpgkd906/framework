@@ -5,6 +5,6 @@ $html = file_get_contents("test.html");
 
 $parser = new Parser;
 
-$data = $parser->parseContent($html);
+$data = $parser->parse($html);
 
-var_dump($data);
+print_r($data);
