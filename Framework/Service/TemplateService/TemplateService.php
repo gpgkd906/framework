@@ -1,19 +1,31 @@
 <?php
 
-require "./Parser/Parser.php";
+namespace Framework\Service\TemplateService;
 
-class TemplateService extends Parser
+use Framework\Core\AbstractService;
+
+class TemplateService extends AbstractService
 {
-    public function tagBlock($tagInfo)
-    {
-        $tagInfo["replace"] = '$element' . $this->getId();
-        return $tagInfo;
-    }
+    /**
+     *
+     * @api
+     * @var mixed $parser 
+     * @access private
+     * @link
+     */
+    private $parser = null;
 
-    public function tagParts($tagInfo)
+    /**
+     * 
+     * @api
+     * @return mixed $parser
+     * @link
+     */
+    public function getParser ()
     {
-        $tagInfo["replace"] = '$element' . $this->getId();
-        return $tagInfo;
+        if($this->parser === null) {
+            $this->parser = new Engine;
+        }
+        return $this->parser;
     }
-
 }

@@ -1,8 +1,13 @@
 <?php
 
+namespace Framework\Service\TemplateService\Parser;
+use Framework\Service\TemplateService\Parser\Interfaces\TagInterface;
+use Framework\Service\TemplateService\Parser\Collection;
+use Exception;
+
 class Parser
 {
-    const GLOBAL_BLOCK = "global";
+    const GLOBAL_BLOCK = "common";
     const END = "/";
     const SINGLE_TAG_FLAG = "single";
     const WRAP_TAG_FLAG = "wrap";
@@ -13,16 +18,7 @@ class Parser
      * @access private
      * @link
      */
-    private $tag = [
-        //singletagは{setf layout=xxxx template=xxxx}のように使う
-        "single" => [
-            "setf",
-        ],
-        //wraptagは{block name=xxx}yyyyy{/block}のように使う
-        "wrap" => [
-            "style", "script", "block", "parts", "global"
-        ]
-    ];
+    public $tag = [];
 
     /**
      * デリミター
@@ -36,26 +32,6 @@ class Parser
     ];
 
     /**
-     * 自動生成idカウント
-     * @var mixed $delimiter 
-     * @access private
-     * @link
-     */
-    private $id = 0;
-    
-    /**
-     * 自動生成idカウント取得
-     * @var mixed $delimiter 
-     * @access private
-     * @link
-     */
-    public function getId()
-    {
-        ++$this->id;
-        return "tag_" . $this->id;
-    }
-
-    /**
      * tplデータ
      * @api
      * @var array $data 
@@ -63,6 +39,15 @@ class Parser
      * @link
      */
     private $data = [];
+
+    /**
+     *
+     * @api
+     * @var mixed $collection 
+     * @access private
+     * @link
+     */
+    private $collection = null;
 
     /**
      * tplデータ取得
@@ -151,18 +136,6 @@ class Parser
         return substr($string, $index, $length);
     }
 
-    public function isSingleTag($tag)
-    {
-        $tags = $this->getTag();
-        return in_array($tag, $tags["single"]);
-    }
-
-    public function isWrapTag($tag)
-    {
-        $tags = $this->getTag();
-        return in_array($tag, $tags["wrap"]);
-    }
-
     /**
      * タグを取得する、nestingタグ対応
      *
@@ -185,19 +158,26 @@ class Parser
         }
         $temp = trim($temp);
         $tagName = str_replace($startDelimiter, "", $temp);
+        $tags = $this->getTag();
+        $Tag = null;
+        if(isset($tags[$tagName])) {
+            $tagClass = $tags[$tagName];
+            $Tag = new $tagClass();
+        }
         switch(true) {
-        case $this->isSingleTag($tagName):
-            $tag = self::subString($content, $index, $firstStop + strlen($stopDelimiter));
-            return ["tagName" => $tagName, "tag" => $tag, "tagFlag" => self::SINGLE_TAG_FLAG];
+        case $Tag && $Tag::isSingleTag:
+            $raw = self::subString($content, $index, $firstStop + strlen($stopDelimiter));
             break;
-        case $this->isWrapTag($tagName):
-            $tag = $this->findWrapTag($tagName, $content, $index);
-            return ["tagName" => $tagName, "tag" => $tag, "tagFlag" => self::WRAP_TAG_FLAG];
+        case $Tag && $Tag::isWrapTag:
+            $raw = $this->findWrapTag($tagName, $content, $index);
             break;
         default:
-            throw new \Exception("invalid tag");
+            throw new \Exception(sprintf("invalid tag[%s]", $tagName));
             break;
         }
+        $Tag->setName($tagName);
+        $Tag->setRaw($raw);
+        return $Tag;
     }
 
     /**
@@ -235,61 +215,54 @@ class Parser
      * タグをパースする
      *
      */
-    final private function parseTag($tagData)
+    final private function parseTag($Tag)
     {
-        $delimiter = $this->getDelimiter();
-        $startDelimiter = $delimiter["start"];
-        $stopDelimiter = $delimiter["stop"];
-        $tag = $tagData["tag"];
-        $tagName = $tagData["tagName"];
-        $tagFlag = $tagData["tagFlag"];
-        $start = $startDelimiter . $tagName;
-        $info = [];
-        switch($tagFlag) {
-        case self::SINGLE_TAG_FLAG:
-            $info["attrs"] = $this->getTagInfo($tag, $start, $stopDelimiter);
+        switch(true) {
+        case $Tag::isSingleTag:
+            $delimiter = $this->getDelimiter();
+            $startDelimiter = $delimiter["start"];
+            $stopDelimiter = $delimiter["stop"];
+            $start = $startDelimiter . $Tag->getName();
+            $attrs = $this->getTagInfo($Tag->getRaw(), $start, $stopDelimiter);
+            $Tag->setAttrs($attrs);
             break;
-        case self::WRAP_TAG_FLAG:
-            $info = $this->parseWrapTag($tag, $tagName);
+        case $Tag::isWrapTag:
+            $Tag = $this->parseWrapTag($Tag);
             break;
         }
-        if(isset($info["attrs"]["replace"])) {
-            $info["replace"] = $info["attrs"]["replace"];
-            unset($info["attrs"]["replace"]);
-        }
-        $info["attrs"]["tag"] = $tagName;
-        $tagInfo = $this->tagCall($info);
-        return $tagInfo;
+        return $Tag->onParse($this);
     }
 
     /**
      * 回り込みタグをパースする
      *
      */
-    private function parseWrapTag($tag, $tagName)
+    private function parseWrapTag($Tag)
     {
-        $info = [];
+        $tagName = $Tag->getName();
+        $raw = $Tag->getRaw();
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
         $stopDelimiter = $delimiter["stop"];
         $start = $startDelimiter . $tagName;
-        $firstStop = strpos($tag, $stopDelimiter);
+        $firstStop = strpos($raw, $stopDelimiter);
         $endTag = $startDelimiter . self::END . $tagName . $stopDelimiter;
-        $startTag = self::subString($tag, 0, $firstStop + strlen($stopDelimiter));
-        $tagContent = self::subString($tag, $firstStop + strlen($stopDelimiter), strlen($tag) - strlen($endTag));
-        $info["attrs"] = $this->getTagInfo($startTag, $start, $stopDelimiter);
+        $startTag = self::subString($raw, 0, $firstStop + strlen($stopDelimiter));
+        $tagContent = self::subString($raw, $firstStop + strlen($stopDelimiter), strlen($raw) - strlen($endTag));
+        $attrs = $this->getTagInfo($startTag, $start, $stopDelimiter);
+        $Tag->setAttrs($attrs);
         $tagContent = trim($tagContent);
         if(!empty($tagContent)) {
             $data = $this->parseContent($tagContent);
             if(isset($data["content"])) {
-                $info["content"] = $data["content"];
+                $Tag->setContent($data["content"]);
                 unset($data["content"]);
             }
             if(!empty($data)) {
-                $info["child"] = $data;
+                $Tag->setChild($data);
             }
         }
-        return $info;
+        return $Tag;
     }
 
     /**
@@ -304,7 +277,10 @@ class Parser
         $globalStart = $startDelimiter . self::GLOBAL_BLOCK . $stopDelimiter;
         $globalEnd = $startDelimiter . self::END . self::GLOBAL_BLOCK . $stopDelimiter;
         $content = $globalStart . $content . $globalEnd;
-        return $this->parseContent($content);
+        $data = $this->parseContent($content);
+        $topTag = $data[0];
+        $this->getCollection()->addTag($topTag);
+        return $topTag;
     }
 
     /**
@@ -330,27 +306,25 @@ class Parser
             //タグまでのコンテンツを取得
             $rest = self::subString($content, 0, $index);
             //タグを取得する
-            $tagData = $this->findTag($content, $index);
-            $tag = $tagData["tag"];
-            $tagName = $tagData["tagName"];
-            //タグをパースする
-            $tagInfo = $this->parseTag($tagData);
+            $Tag = $this->findTag($content, $index);
             //コンテンツからパースしたタグを取り除く
-            $content = self::subString($content, $index + strlen($tag), -1);
-            //do the tag have some replace info?
-            if(isset($tagInfo["replace"])) {
-                $replace = $this->makeReplace($tagInfo["replace"]);
-                $content = $replace . $content;
-                unset($tagInfo["replace"]);
+            $content = self::subString($content, $index + strlen($Tag->getRaw()), -1);
+            //タグをパースする
+            $Tag = $this->parseTag($Tag);
+            if($Tag instanceof TagInterface) {
+                //do the tag have some replace info?
+                if($Tag->getReplace()) {
+                    $replace = $this->makeReplace($Tag->getReplace());
+                    $content = $replace . $content;
+                }
+                $data[] = $Tag;
+            } else if($Tag !== null) {
+                throw new Exception(sprintf("except for Tag or Null in [%s]", get_class($Tag)));
             }
             //do we have rest?
             if($rest !== null) {
                 $content = $rest . $content;
             }
-            if(empty($tagInfo)) {
-                continue;
-            }
-            $data[] = $tagInfo;
         } while(true);
         if(!empty($content)) {
             $data["content"] = $content;
@@ -362,18 +336,23 @@ class Parser
     {
         //前後のタグを取り除く
         $target = trim(str_replace([$start, $stop], "", $tag));
-        //format space:zenkaku => hankaku
-        //$target = str_replace(" ", " ", $target);
+        //if we have "|", convert it to "pipe[]="
+        $target = str_replace("|", " pipe[]=", $target);
         //=回りの空白を取り除く
-        $target = preg_replace("/\s+=\s+/", "=", $target);
+        while(strpos($target, " =") !== false) {
+            $target = str_replace(" =", "=", $target);
+        }
+        while(strpos($target, "= ") !== false) {
+            $target = str_replace("= ", "=", $target);
+        }
+        //convert repeats space to single space
+        while(strpos($target, "  ") !== false) {
+            $target = str_replace("  ", " ", $target);
+        }
         //空白で分割してから&で再結合して、query文字列を仕上げる
-        $target = join("&", preg_split("/\s+/", $target));
+        $target = str_replace(" ", "&", $target);
         //queryをparseしてパラメタを抽出
         parse_str($target, $data);
-        //idが指定されてない場合は、自動生成idを振る
-        if(!isset($data["id"])) {
-            $data["id"] = $this->getId();
-        }
         return $data;
     }
     
@@ -391,22 +370,38 @@ class Parser
         }
     }
     
-    final private function tagCall($tagInfo)
-    {
-        $tagName = $tagInfo["attrs"]["tag"];
-        $processer = "tag" . ucfirst($tagName);
-        if(is_callable([$this, $processer])) {
-            $tagInfo = call_user_func([$this, $processer], $tagInfo);
-        }
-        return $tagInfo;
-    }
-
     final private function tagSetf($info)
     {
         $data = $info["attrs"];
         $data = array_merge($this->getData(), $data);
         $this->setData($data);
         return [];
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $collection
+     * @return mixed $collection
+     * @link
+     */
+    public function setCollection (Collection $collection)
+    {
+        return $this->collection = $collection;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $collection
+     * @link
+     */
+    public function getCollection ()
+    {
+        if($this->collection === null) {
+            $this->collection = new Collection;
+        }
+        return $this->collection;
     }
 }
 
