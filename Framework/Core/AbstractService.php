@@ -1,8 +1,8 @@
 <?php
 
-namespace Framrwork\Core;
+namespace Framework\Core;
 
 class AbstractService 
 {
-    use \Framrwork\Core\SingletonTrait;
+    use \Framework\Core\SingletonTrait;
 }

@@ -67,7 +67,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
             if($param === null) {
                 $param = [];
             }
-            return call_user_func_array([$this, $action], $param);
+            return call_user_func([$this, $action], $param);
         }
     }
 

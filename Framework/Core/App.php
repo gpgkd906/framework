@@ -18,6 +18,7 @@ class App implements AppInterface
     const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Controller";
     const DEFAULT_MODEL_NAMESPACE = "Framework\Model";
     const DEFAULT_VIEWMODEL_NAMESPACE = "Framework\ViewModel";
+    const DEFAULT_SERVICE_NAMESPACE = "Framework\Service";
     
     static private $globalConfig = null;
     static private $eventManager = null;
@@ -114,19 +115,15 @@ class App implements AppInterface
         
     }
 
-    static public function getService($serviceName)
+    static public function getService($service)
     {
-        
-    }
-
-    static public function getPlugin($pluginName)
-    {
-        
-    }
-
-    static public function getModule($moduleName)
-    {
-        
+        $serviceNamespace = self::$globalConfig->getConfig("ServiceNamespace", self::DEFAULT_SERVICE_NAMESPACE);
+        $service = ucfirst($service) . "Service";
+        $serviceLabel = $serviceNamespace . "\\" . $service . "\\" . $service;
+        if(!class_exists($serviceLabel)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_CONTROLLER_LABEL, $serviceLabel));
+        }
+        return $serviceLabel::getSingleton();        
     }
 
     static public function import($namespace, $className)

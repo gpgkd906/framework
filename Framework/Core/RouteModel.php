@@ -187,7 +187,7 @@ class RouteModel implements RouteModelInterface
     public function isConsole()
     {
         if($this->isConsole === null) {
-            $this->isConsole = php_sapi_name() === "cli";
+            $this->isConsole = (php_sapi_name() === "cli");
         }
         return $this->isConsole;
     }
