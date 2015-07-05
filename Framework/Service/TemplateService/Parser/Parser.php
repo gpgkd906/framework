@@ -1,6 +1,5 @@
 <?php
 
-//プロトタイプのため、nestして分解することができない
 class Parser
 {
     const GLOBAL_BLOCK = "global";
@@ -15,7 +14,7 @@ class Parser
      * @link
      */
     private $tag = [
-        //singletagは{set layout=xxxx template=xxxx}のように使う
+        //singletagは{setf layout=xxxx template=xxxx}のように使う
         "single" => [
             "setf",
         ],
@@ -37,7 +36,27 @@ class Parser
     ];
 
     /**
-     *
+     * 自動生成idカウント
+     * @var mixed $delimiter 
+     * @access private
+     * @link
+     */
+    private $id = 0;
+    
+    /**
+     * 自動生成idカウント取得
+     * @var mixed $delimiter 
+     * @access private
+     * @link
+     */
+    public function getId()
+    {
+        ++$this->id;
+        return "tag_" . $this->id;
+    }
+
+    /**
+     * tplデータ
      * @api
      * @var array $data 
      * @access private
@@ -46,7 +65,7 @@ class Parser
     private $data = [];
 
     /**
-     * 
+     * tplデータ取得
      * @api
      * @param mixed $data
      * @return mixed $data
@@ -58,7 +77,7 @@ class Parser
     }
 
     /**
-     * 
+     * tplデータ追加
      * @api
      * @return mixed $data
      * @link
@@ -114,6 +133,14 @@ class Parser
         return $this->delimiter;
     }
 
+    /**
+     * 指定位置から指定位置までの文字列を取得する
+     * @api
+     * @param string 
+     * @param integer
+     * @param integer
+     * @return string
+     */
     static public function subString($string, $index, $offset = -1)
     {
         if($offset === -1) {
@@ -136,6 +163,12 @@ class Parser
         return in_array($tag, $tags["wrap"]);
     }
 
+    /**
+     * タグを取得する、nestingタグ対応
+     *
+     *
+     *
+     */
     final private function findTag($content, $index) {
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
@@ -167,6 +200,11 @@ class Parser
         }
     }
 
+    /**
+     * 回り込みタグを取得する
+     * 
+     *
+     */
     final private function findWrapTag($tagName, $content, $index)
     {
         $delimiter = $this->getDelimiter();
@@ -193,6 +231,10 @@ class Parser
         return $tag;
     }
 
+    /**
+     * タグをパースする
+     *
+     */
     final private function parseTag($tagData)
     {
         $delimiter = $this->getDelimiter();
@@ -215,10 +257,15 @@ class Parser
             $info["replace"] = $info["attrs"]["replace"];
             unset($info["attrs"]["replace"]);
         }
-        $tagInfo = $this->tagCall($tagName, $info);
+        $info["attrs"]["tag"] = $tagName;
+        $tagInfo = $this->tagCall($info);
         return $tagInfo;
     }
 
+    /**
+     * 回り込みタグをパースする
+     *
+     */
     private function parseWrapTag($tag, $tagName)
     {
         $info = [];
@@ -245,7 +292,11 @@ class Parser
         return $info;
     }
 
-    final public function parse($content)
+    /**
+     * パース処理エントリー
+     *
+     */
+    public function parse($content)
     {        
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
@@ -255,7 +306,11 @@ class Parser
         $content = $globalStart . $content . $globalEnd;
         return $this->parseContent($content);
     }
-    
+
+    /**
+     * タグパース処理
+     * 
+     */
     final public function parseContent($content)
     {
         $delimiter = $this->getDelimiter();
@@ -295,10 +350,7 @@ class Parser
             if(empty($tagInfo)) {
                 continue;
             }
-            if(!isset($data[$tagName])) {
-                $data[$tagName] = [];
-            }
-            $data[$tagName][] = $tagInfo;
+            $data[] = $tagInfo;
         } while(true);
         if(!empty($content)) {
             $data["content"] = $content;
@@ -318,6 +370,10 @@ class Parser
         $target = join("&", preg_split("/\s+/", $target));
         //queryをparseしてパラメタを抽出
         parse_str($target, $data);
+        //idが指定されてない場合は、自動生成idを振る
+        if(!isset($data["id"])) {
+            $data["id"] = $this->getId();
+        }
         return $data;
     }
     
@@ -335,8 +391,9 @@ class Parser
         }
     }
     
-    final private function tagCall($tagName, $tagInfo)
+    final private function tagCall($tagInfo)
     {
+        $tagName = $tagInfo["attrs"]["tag"];
         $processer = "tag" . ucfirst($tagName);
         if(is_callable([$this, $processer])) {
             $tagInfo = call_user_func([$this, $processer], $tagInfo);
