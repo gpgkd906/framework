@@ -6,6 +6,7 @@ use Framework\Service\TemplateService\Parser\Interfaces\TagInterface;
 
 abstract class AbstractTag implements TagInterface
 {
+    const isGlobalTag = false;
     const isSingleTag = false;
     const isWrapTag = false;
     

@@ -7,13 +7,10 @@ use Exception;
 
 class Parser
 {
-    const GLOBAL_BLOCK = "common";
     const END = "/";
-    const SINGLE_TAG_FLAG = "single";
-    const WRAP_TAG_FLAG = "wrap";
     
     /**
-     * 分解用タグ
+     * タグ定義、ここで定義しないタグはエラーとなる
      * @var mixed $tag 
      * @access private
      * @link
@@ -169,6 +166,7 @@ class Parser
             $raw = self::subString($content, $index, $firstStop + strlen($stopDelimiter));
             break;
         case $Tag && $Tag::isWrapTag:
+        case $Tag && $Tag::isGlobalTag:
             $raw = $this->findWrapTag($tagName, $content, $index);
             break;
         default:
@@ -227,6 +225,7 @@ class Parser
             $Tag->setAttrs($attrs);
             break;
         case $Tag::isWrapTag:
+        case $Tag::isGlobalTag:
             $Tag = $this->parseWrapTag($Tag);
             break;
         }
@@ -274,9 +273,19 @@ class Parser
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
         $stopDelimiter = $delimiter["stop"];
-        $globalStart = $startDelimiter . self::GLOBAL_BLOCK . $stopDelimiter;
-        $globalEnd = $startDelimiter . self::END . self::GLOBAL_BLOCK . $stopDelimiter;
-        $content = $globalStart . $content . $globalEnd;
+        $tags = $this->getTag();
+        $content = trim($content);
+        foreach($tags as $tag => $class) {
+            if($class::isGlobalTag) {
+                if(strpos($content, $startDelimiter . $tag) === 0) {
+                    $endTag = $startDelimiter . self::END . $tag . $stopDelimiter;
+                    if(strpos($content, $endTag) !== false) {
+                        throw new Exception(sprintf("Can not use GlobalTag[%s] as WrapTag", $tag));
+                    }
+                    $content = $content . $endTag;
+                }
+            }
+        }
         $data = $this->parseContent($content);
         $topTag = $data[0];
         $this->getCollection()->addTag($topTag);

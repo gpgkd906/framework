@@ -4,9 +4,9 @@ namespace Framework\Service\TemplateService\Tags;
 
 use Framework\Service\TemplateService\Parser\AbstractTag;
 
-class Setf extends AbstractTag
+class Page extends AbstractTag
 {
-    const isSingleTag = true;
+    const isGlobalTag = true;
 
     public function onParse($Parser)
     {
