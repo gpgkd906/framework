@@ -75,5 +75,5 @@ class Collection
         foreach($this->getCollection() as $id => $Tag) {
             call_user_func($callback, $id, $Tag);
         }
-    }
+    }    
 }

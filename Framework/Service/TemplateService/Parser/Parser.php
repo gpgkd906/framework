@@ -47,6 +47,15 @@ class Parser
     private $collection = null;
 
     /**
+     *
+     * @api
+     * @var mixed $expressionClass 
+     * @access private
+     * @link
+     */
+    private $expressionClass = Expression::class;
+
+    /**
      * tplデータ取得
      * @api
      * @param mixed $data
@@ -137,7 +146,6 @@ class Parser
      * タグを取得する、nestingタグ対応
      *
      *
-     *
      */
     final private function findTag($content, $index) {
         $delimiter = $this->getDelimiter();
@@ -155,6 +163,9 @@ class Parser
         }
         $temp = trim($temp);
         $tagName = str_replace($startDelimiter, "", $temp);
+        if(empty($tagName)) {
+            return null;
+        }
         $tags = $this->getTag();
         $Tag = null;
         if(isset($tags[$tagName])) {
@@ -207,6 +218,19 @@ class Parser
         } while(true);
         $tag = self::subString($content, $index, $endIndex + strlen($endTag));
         return $tag;
+    }
+
+    final private function findExpression($content, $index)
+    {
+        $delimiter = $this->getDelimiter();
+        $stopDelimiter = $delimiter["stop"];
+        $firstStop = strpos($content, $stopDelimiter, $index);
+        $expressionClass = $this->getExpressionClass();
+        $Tag = new $expressionClass();
+        $raw = self::subString($content, $index, $firstStop + strlen($stopDelimiter));
+        $Tag->setName('');
+        $Tag->setRaw($raw);
+        return $Tag;
     }
 
     /**
@@ -316,9 +340,13 @@ class Parser
             $rest = self::subString($content, 0, $index);
             //タグを取得する
             $Tag = $this->findTag($content, $index);
+            if($Tag === null) {
+                //ここで$Tagがnullというのは、式として評価する必要があること
+                $Tag = $this->findExpression($content, $index);
+            }
             //コンテンツからパースしたタグを取り除く
             $content = self::subString($content, $index + strlen($Tag->getRaw()), -1);
-            //タグをパースする
+            //タグをパースする、この処理でも$Tagがnullになる可能性もあるが、それはtag内容自体をコンテンツから取り除くを意味する
             $Tag = $this->parseTag($Tag);
             if($Tag instanceof TagInterface) {
                 //do the tag have some replace info?
@@ -330,6 +358,7 @@ class Parser
             } else if($Tag !== null) {
                 throw new Exception(sprintf("except for Tag or Null in [%s]", get_class($Tag)));
             }
+           
             //do we have rest?
             if($rest !== null) {
                 $content = $rest . $content;
@@ -379,14 +408,6 @@ class Parser
         }
     }
     
-    final private function tagSetf($info)
-    {
-        $data = $info["attrs"];
-        $data = array_merge($this->getData(), $data);
-        $this->setData($data);
-        return [];
-    }
-
     /**
      * 
      * @api
@@ -412,5 +433,37 @@ class Parser
         }
         return $this->collection;
     }
+
+    public function clear()
+    {
+        $this->data = [];
+        $this->collection = null;
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $expressionClass
+     * @return mixed $expressionClass
+     * @link
+     */
+    public function setExpressionClass ($expressionClass)
+    {
+        return $this->expressionClass = $expressionClass;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $expressionClass
+     * @link
+     */
+    public function getExpressionClass ()
+    {
+        if ($this->expressionClass === null) {
+            //do samething here if we need;
+        }
+        return $this->expressionClass;
+    }    
 }
 

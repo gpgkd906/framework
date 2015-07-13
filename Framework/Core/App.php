@@ -19,14 +19,20 @@ class App implements AppInterface
     const DEFAULT_MODEL_NAMESPACE = "Framework\Model";
     const DEFAULT_VIEWMODEL_NAMESPACE = "Framework\ViewModel";
     const DEFAULT_SERVICE_NAMESPACE = "Framework\Service";
-    
+    //
+    const DEFAULT_TIMEZONE = "Asia/Tokyo";
     static private $globalConfig = null;
     static private $eventManager = null;
     static private $pluginManager = null;
 
     static public function setGlobalConfig($config)
-    {
+    {        
         self::$globalConfig = $config;
+        if(self::$globalConfig->getConfig('timezon')) {
+            date_default_timezone_set(self::$globalConfig->getConfig('timezon'));
+        } else {
+            date_default_timezone_set(self::DEFAULT_TIMEZONE);
+        }
     }
 
     static public function getGlobalConfig($key = null)

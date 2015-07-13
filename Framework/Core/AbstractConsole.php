@@ -15,7 +15,6 @@ abstract class AbstractConsole Extends AbstractController implements ControllerI
         if(is_callable([$this, $action])) {
             $this->callAction("beforeAction");
             $this->callAction($action, $param);
-            $this->setViewModel($viewModel);
             $this->callAction("afterAction");
         } else {
             throw new Exception(sprintf("not found implementions for action[%s]", $action));
