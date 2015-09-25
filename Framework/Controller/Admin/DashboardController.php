@@ -10,7 +10,6 @@ class DashboardController extends AbstractController
     
     public function index()
     {
-        var_dump($this->getServiceManager()->getModel('Book'));
         return ViewModelManager::getViewModel([
             "viewModel" => "IndexViewModel",
         ]);
