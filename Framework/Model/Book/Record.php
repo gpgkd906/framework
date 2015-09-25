@@ -2,11 +2,11 @@
 
 namespace Framework\Model\Book;
 
-use Framework\Core\Model\AbstractRecord;
+use Framework\Model\Model\AbstractRecord;
 
 class Record extends AbstractRecord
 {
     static public $config = [
-        "Model" => "Framework\Model\Book\Model"
+        "Model" => Model::class
     ];
 }

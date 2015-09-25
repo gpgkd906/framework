@@ -349,7 +349,7 @@ class Parser
             //タグをパースする、この処理でも$Tagがnullになる可能性もあるが、それはtag内容自体をコンテンツから取り除くを意味する
             $Tag = $this->parseTag($Tag);
             if($Tag instanceof TagInterface) {
-                //do the tag have some replace info?
+                //replaceパラメタあるかな？
                 if($Tag->getReplace()) {
                     $replace = $this->makeReplace($Tag->getReplace());
                     $content = $replace . $content;
@@ -374,7 +374,7 @@ class Parser
     {
         //前後のタグを取り除く
         $target = trim(str_replace([$start, $stop], "", $tag));
-        //if we have "|", convert it to "pipe[]="
+        //"|"を"pipe[]="に変換する
         $target = str_replace("|", " pipe[]=", $target);
         //=回りの空白を取り除く
         while(strpos($target, " =") !== false) {
@@ -383,7 +383,7 @@ class Parser
         while(strpos($target, "= ") !== false) {
             $target = str_replace("= ", "=", $target);
         }
-        //convert repeats space to single space
+        //重複な空白を取り除く
         while(strpos($target, "  ") !== false) {
             $target = str_replace("  ", " ", $target);
         }
@@ -460,9 +460,6 @@ class Parser
      */
     public function getExpressionClass ()
     {
-        if ($this->expressionClass === null) {
-            //do samething here if we need;
-        }
         return $this->expressionClass;
     }    
 }

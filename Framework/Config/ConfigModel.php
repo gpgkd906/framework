@@ -2,10 +2,8 @@
 
 namespace Framework\Config;
 
-use Framework\Core\Interfaces\ConfigModelInterface;
-use Framework\Core\Interfaces\EventInterface;
-use Framework\Core\AbstractConfigModel;
-use Exception;
+use Framework\Config\ConfigModel\ConfigModelInterface;
+use Framework\Config\ConfigModel\AbstractConfigModel;
 
 class ConfigModel extends AbstractConfigModel implements ConfigModelInterface 
 {

@@ -2,9 +2,8 @@
 
 namespace Framework\Controller;
 
-use Framework\Core\AbstractController;
-use Framework\Core\App;
-use Framework\Core\ViewModel\ViewModelManager;
+use Framework\Controller\Controller\AbstractController;
+use Framework\ViewModel\ViewModel\ViewModelManager;
 
 class IndexController extends AbstractController
 {

@@ -2,7 +2,7 @@
 
 namespace Framework\ViewModel;
 
-use Framework\Core\ViewModel\AbstractViewModel;
+use Framework\ViewModel\ViewModel\AbstractViewModel;
 
 class FooterViewModel extends AbstractViewModel
 {

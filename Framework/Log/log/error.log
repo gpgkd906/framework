@@ -1,0 +1,51 @@
+2015-09-23 02:35:25
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Route/ConsoleRouteModel.php
+Line : 9
+Message : Class Framework\Route\ConsoleRouteModel contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\Route\AbstractRouteModel::redirect)
+
+2015-09-23 02:35:27
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Route/ConsoleRouteModel.php
+Line : 9
+Message : Class Framework\Route\ConsoleRouteModel contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\Route\AbstractRouteModel::redirect)
+
+2015-09-23 02:37:43
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Route/ConsoleRouteModel.php
+Line : 44
+Message : Undefined variable: action
+
+2015-09-23 02:37:43
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Console/TemplateController.php
+Line : 9
+Message : Class 'Framework\Core\AbstractConsole' not found
+
+2015-09-23 02:39:01
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Route/ConsoleRouteModel.php
+Line : 44
+Message : Undefined variable: action
+
+2015-09-23 02:39:01
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Console/Console/AbstractConsole.php
+Line : 17
+Message : not found implementions for action[]
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/ConsoleApplication.php(21): Framework\Console\Console\AbstractConsole->callActionFlow(NULL, Array)
+#1 /Users/gpgkd906/dev/framework/Framework/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#2 {main}
+
+2015-09-23 02:40:21
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Console/TemplateController.php
+Line : 13
+Message : file_get_contents(/home/chen/framework/Framework/Console/test.html): failed to open stream: No such file or directory
+
+2015-09-23 02:42:34
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Console/TemplateController.php
+Line : 13
+Message : file_get_contents(/home/chen/framework/Framework/Console/test.html): failed to open stream: No such file or directory
+

@@ -2,7 +2,7 @@
 
 namespace Framework\Model\Book;
 
-use Framework\Core\Model\AbstractSchema;
+use Framework\Model\Model\AbstractSchema;
 
 class Schema extends AbstractSchema
 {

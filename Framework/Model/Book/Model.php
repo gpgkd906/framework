@@ -2,7 +2,7 @@
 
 namespace Framework\Model\Book;
 
-use Framework\Core\Model\AbstractModel;
+use Framework\Model\Model\AbstractModel;
 
 class Model extends AbstractModel
 {
