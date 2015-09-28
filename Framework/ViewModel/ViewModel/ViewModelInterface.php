@@ -21,10 +21,4 @@ interface ViewModelInterface
     public function asXml();
 
     public function render();
-    
-    public function renderAsHtml();
-    
-    public function renderAsJson();
-    
-    public function renderAsXml();
 }

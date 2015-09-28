@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title><?php echo $title ?></title>
+
+    <?php $css = $this->getLayout()->getStyle(); ?>
+    <?php foreach($css as $link) { ?>
+        <link href="<?php echo $link; ?>" rel="stylesheet">
+    <?php } ?>
+</head>
+<body>
+
+    <div id="wrapper">
+
+      <!-- Navigation -->
+      <?php echo $this->getContainer('Head'); ?>
+
+      <div id="page-wrapper">
+            <?php echo $this->getContainer('Main'); ?>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <?php $scripts = $this->getLayout()->getScript(); ?>
+    <?php foreach($scripts as $link) { ?>
+        <script src="<?php echo $link ?>"></script>
+    <?php } ?>
+</body>
+
+</html>

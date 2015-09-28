@@ -1,22 +1,22 @@
 <?php
 
-namespace Framework\ViewModel;
+namespace Framework\ViewModel\Component;
 
-use Framework\Core\ViewModel\AbstractViewModel;
+use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\Lib\Form\FormManager;
 use Framework\Lib\Form\Validator;
 
 class FormViewModel extends AbstractViewModel
 {
-    private $id = "formView";
+    protected $id = "formView";
     
-    private $csrf = null;
+    protected $csrf = null;
 
-    private $method = "post";
+    protected $method = "post";
     
-    private $action = null;
+    protected $action = null;
     
-    private $elements = [
+    protected $elements = [
         "email" => [
             'type' => 'text',
             'validator' => [
@@ -26,14 +26,14 @@ class FormViewModel extends AbstractViewModel
         "password" => [
             'type' => 'password',
             'validator' => [
-                [Validator::Exists, "required"]
+                [Validator::Exists, "required"],
                 [Validator::Password, 'required']
             ]
         ],
         "passwordConfirm" => [
             'type' => 'password',
             'validator' => [
-                [Validator::Exists, "required"]
+                [Validator::Exists, "required"],
                 [Validator::Password, 'required']
             ]
         ]

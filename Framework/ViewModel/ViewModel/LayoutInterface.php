@@ -12,7 +12,11 @@ interface LayoutInterface
     
     public function getScript();
     
-    public function useStyle();
+    public function useStyle($style);
     
-    public function useScript();    
+    public function useScript($script);
+
+    public function setAsset($asset);
+
+    public function getAsset();
 }

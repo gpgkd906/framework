@@ -8,11 +8,11 @@ use Exception;
 class AbstractConfigModel implements ConfigModelInterface 
 {
     //scope
-    const SUPER = "global";
-    const ROUTE = "route";
-    const MODEL = "model";
-    const VIEW = "view";
-    const PLUGINS = "plugins";
+    const SUPER = "Global";
+    const ROUTE = "Route";
+    const MODEL = "Model";
+    const VIEW = "View";
+    const PLUGINS = "Plugins";
     //property
     const READONLY  = 10;
     const READWRITE = 11;

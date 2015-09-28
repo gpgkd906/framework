@@ -35,6 +35,11 @@ return [
     'Controller' => [
         'namespace' => 'Framework\Controller',
         'isSingleton' => true,
+        'classes' => [
+            'LoginController' => [
+                'Class' => 'Framework\Controller\Login\LoginController'
+            ],
+        ]
     ],
     'Model' => [
         'namespace' => 'Framework\Model',

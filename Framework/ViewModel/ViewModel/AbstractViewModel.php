@@ -22,7 +22,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     
     protected $template = null;
     protected $data = [];
-    protected $items = [];
     protected $renderType = "html";
     protected $templateDir = null;
     private $childs = [];
@@ -30,6 +29,56 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     static private $incrementId = 0;
     public $listeners = [];
 
+    /**
+     *
+     * @api
+     * @var mixed $config 
+     * @access private
+     * @link
+     */
+    protected $config = [];
+
+    /**
+     *
+     * @api
+     * @var mixed $layout 
+     * @access private
+     * @link
+     */
+    private $layout = null;
+
+    /**
+     *
+     * @api
+     * @var mixed $container 
+     * @access private
+     * @link
+     */
+    private $containers = null;
+
+    /**
+     * 
+     * @api
+     * @param mixed $config
+     * @return mixed $config
+     * @link
+     */
+    public function setConfig ($config)
+    {
+        return $this->config = $config;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $config
+     * @link
+     */
+    public function getConfig ()
+    {
+        return $this->config;
+    }
+    
     static private function getIncrementId()
     {
         self::$incrementId ++;
@@ -37,17 +86,33 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     }
 
     public function __construct($config) {
+        $config = array_merge($this->getConfig(), $config);
+        $this->setConfig($config);
         if(isset($config["id"])) {
             $this->id = $id;
         } else {
             $this->id = self::getIncrementId();
         }
-        if(isset($config["items"])) {
-            $this->setItems($config["items"]);
-        }
+        //data:template
         if(isset($config["data"])) {
             $this->setData($config["data"]);
         }
+        //layout;
+        if(isset($config['layout'])) {
+            $layoutClass = $config['layout'];
+            $this->setLayout($layoutClass::getSingleton());
+        } else {
+            $this->setLayout(Layout::getSingleton());
+        }
+        //container:template
+        if(isset($config['container'])) {
+            $containers = [];
+            foreach($config['container'] as $containerName => $containerConfig) {
+                $containers[$containerName] = new Container($containerConfig, $this);
+            }
+            $this->setContainers($containers);
+        }
+        //ViewModel Event init
         foreach($this->listeners as $event => $listener) {
             $this->addEventListener($event, [$this, $listener]);
         }
@@ -68,21 +133,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         return $this->renderType;
     }
 
-    public function addItem($item)
-    {
-        $this->items[] = $item;
-    }
-
-    public function setItems($items)
-    {
-        $this->items = $items;
-    }
-
-    public function getItems()
-    {
-        return $this->items;
-    }
-    
     public function setTemplate($template)
     {        
         $this->template = $template;
@@ -129,12 +179,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         return $this->data;
     }
 
-    public function addChild(ViewModelInterface $ViewModel)
-    {
-        $ViewModel->setRenderType($this->getRenderType());
-        $this->childs[$ViewModel->getId()] = $ViewModel;
-    }
-    
     public function getChild($id)
     {
         $childs = $this->getChilds();
@@ -144,13 +188,16 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         return null;
     }
 
+    public function setChilds($childs)
+    {
+        return $this->childs = $childs;
+    }
+
     public function getChilds()
     {
-        if(empty($this->childs) && !empty($this->items)) {
-            foreach($this->items as $item) {
-                $viewModel = ViewModelManager::getViewModel($item);
-                $viewModel->setRenderType($this->getRenderType());
-                $this->childs[$viewModel->getId()] = $viewModel;
+        if(empty($this->childs)) {
+            foreach($this->getContainers() as $container) {
+                $this->childs += $container->getItems();
             }
         }
         return $this->childs;
@@ -164,13 +211,13 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         }
         switch($renderType) {
         case static::renderAsHTML:
-            $display = $this->renderAsHTML();
+            $display = $this->asHtml();
             break;
         case static::renderAsJSON:
-            $display = $this->renderAsJSON();
+            $display = $this->asJson();
             break;
         case static::renderAsXML:
-            $display = $this->renderAsXML();
+            $display = $this->asXml();
             break;
         default:
             throw new Exception(self::ERROR_INVALID_RENDER_TYPE);
@@ -190,9 +237,11 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
             require $template;
             $htmls[] = ob_get_contents();
             ob_end_clean();
+        } else {
+            //templateがなければ....
             foreach($this->getChilds() as $child) {
                 $htmls[] = $child->asHtml();
-            }            
+            }
         }
         return join("", $htmls);
     }
@@ -217,28 +266,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         
     }
 
-    public function renderAsHtml()
-    {
-        if($template = $this->getTemplateForRender()) {
-            $data = $this->escapeHtml($this->getData());
-            extract($data);
-            require $template;
-        }
-        foreach($this->getChilds() as $child) {
-            $child->render();
-        }
-    }
-
-    public function renderAsJSON()
-    {
-        echo $this->asJson();
-    }
-
-    public function renderAsXML()
-    {
-        
-    }
-
     public function __toString()
     {
         return $this->render();
@@ -256,5 +283,64 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         }else{
             return $data;
         }        
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $layout
+     * @return mixed $layout
+     * @link
+     */
+    public function setLayout ($layout)
+    {
+        return $this->layout = $layout;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $layout
+     * @link
+     */
+    public function getLayout ()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $container
+     * @return mixed $container
+     * @link
+     */
+    public function setContainers ($containers)
+    {
+        foreach($containers as $index => $container) {
+            if(!($container instanceof ContainerInterface)) {
+                $containers[$index] = new Container($container, $this);
+            }
+        }        
+        return $this->containers = $containers;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $container
+     * @link
+     */
+    public function getContainers ()
+    {
+        return $this->containers;
+    }
+
+    public function getContainer($name)
+    {
+        if(isset($this->containers[$name])) {
+            return $this->containers[$name];
+        }
+        return null;
     }
 }

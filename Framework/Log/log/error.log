@@ -49,3 +49,1862 @@ File : /Users/gpgkd906/dev/framework/Framework/Console/TemplateController.php
 Line : 13
 Message : file_get_contents(/home/chen/framework/Framework/Console/test.html): failed to open stream: No such file or directory
 
+2015-09-26 14:43:05
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\FormViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Login/LoginController.php(20): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Login\LoginController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 14:43:33
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\LoginViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Login/LoginController.php(20): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Login\LoginController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 14:46:56
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\LoginViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Login/LoginController.php(16): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Login\LoginController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 14:49:26
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 62
+Message : error: invalid viewmodelname: Framework\ViewModel\Login
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Login/LoginController.php(16): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Login\LoginController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 14:50:03
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 63
+Message : error: invalid viewmodelname: Framework\ViewModel\Login
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Login/LoginController.php(16): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Login\LoginController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 14:56:01
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/Component/FormViewModel.php
+Line : 30
+Message : syntax error, unexpected ','
+
+2015-09-26 14:56:47
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/Component/FormViewModel.php
+Line : 37
+Message : syntax error, unexpected ','
+
+2015-09-26 14:56:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 72
+Message : Class 'Framework\Lib\Form\Validator' not found
+
+2015-09-26 16:37:52
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 72
+Message : Class 'Framework\Lib\Form\Validator' not found
+
+2015-09-26 16:40:01
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 72
+Message : Class 'Framework\Lib\Form\Validator' not found
+
+2015-09-26 16:40:02
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 68
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin/Dashboard\Admin/DashboardViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Admin/DashboardController.php(15): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Admin\DashboardController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 16:40:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\AdminController' not found
+
+2015-09-26 16:40:04
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 68
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin/Dashboard\Admin/DashboardViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Admin/DashboardController.php(15): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Admin\DashboardController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 16:40:40
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 68
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin\Dashboard\Admin\DashboardViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Admin/DashboardController.php(15): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Admin\DashboardController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 16:41:08
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 68
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin\DashboardViewModel\Admin\DashboardViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Admin/DashboardController.php(15): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Admin\DashboardController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 17:10:55
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 68
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin\DashboardViewModel\Admin\DashboardViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(50): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/Controller/Admin/DashboardController.php(15): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Controller\Admin\DashboardController->index(Array)
+#3 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#4 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(73): Framework\Controller\Controller\AbstractController->callAction('index', NULL)
+#5 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#6 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:10
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:10
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:10
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:10
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:29:10
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:29:10
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:51
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:58
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:58
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:58
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:58
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:38:58
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:38:58
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:09
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:09
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:09
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:09
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:09
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:09
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:16
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:16
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:16
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:16
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:16
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:16
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 17:40:55
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 17:40:55
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 18:10:29
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 14
+Message : Call to undefined method Framework\ViewModel\Admin\DashboardViewModel::getLayout()
+
+2015-09-26 18:35:21
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 14
+Message : Call to a member function getCss() on null
+
+2015-09-26 18:44:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 49
+Message : Non-abstract method Framework\ViewModel\ViewModel\Layout::getScript() must contain body
+
+2015-09-26 18:49:02
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 6
+Message : Declaration of Framework\ViewModel\ViewModel\Layout::getScript() must be compatible with Framework\ViewModel\ViewModel\LayoutInterface::getScript()
+
+2015-09-26 18:49:33
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 6
+Message : Declaration of Framework\ViewModel\ViewModel\Layout::setAsset() must be compatible with Framework\ViewModel\ViewModel\LayoutInterface::setAsset()
+
+2015-09-26 18:49:52
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 7
+Message : Trait 'Framework\ViewModel\ViewModel\Framework\Application\SingletonTrait' not found
+
+2015-09-26 18:50:05
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 14
+Message : Call to undefined method Framework\ViewModel\ViewModel\Layout::getCss()
+
+2015-09-26 19:51:57
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:51:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:51:57
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:51:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:51:57
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:51:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:51:57
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:51:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:04
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:04
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:04
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:04
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:04
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:04
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:06
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:06
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:06
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:06
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:06
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:06
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:06
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:06
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:13
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:13
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:13
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:13
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:13
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:13
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:42
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:42
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:42
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:42
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:42
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:42
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:42
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:42
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:49
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:49
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:49
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:49
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 29
+Message : Undefined index: controller
+
+2015-09-26 19:52:49
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:52:49
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-26 19:55:21
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-26 19:55:21
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-26 20:11:15
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-26 20:11:15
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-26 20:11:44
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-26 20:11:44
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-26 20:11:51
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-26 20:11:51
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:25:11
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:25:11
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:34:02
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:34:02
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:34:04
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:34:04
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:34:05
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:34:05
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:34:58
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:34:58
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:35:50
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 98
+Message : Class 'Admin' not found
+
+2015-09-27 00:36:07
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:36:07
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:48:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 7
+Message : syntax error, unexpected '}', expecting ';'
+
+2015-09-27 00:48:22
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 91
+Message : An alias (construct) was defined for method __construct(), but this method does not exist
+
+2015-09-27 00:50:07
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 24
+Message : Call to undefined method Framework\ViewModel\ViewModel\Layout::construct()
+
+2015-09-27 00:50:21
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:50:21
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 00:59:38
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 00:59:38
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:05:27
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 01:05:27
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:05:39
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 01:05:39
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:05:39
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:38:08
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Undefined variable: scripts
+
+2015-09-27 01:38:08
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 917
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:38:08
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:38:11
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:12
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/Admin/AdminLayout.php
+Line : 19
+Message : syntax error, unexpected 'protected' (T_PROTECTED), expecting variable (T_VARIABLE)
+
+2015-09-27 01:40:22
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 01:40:22
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:40:22
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('1', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:22
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('2', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:22
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('3', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:24
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 01:40:24
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:40:24
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:24
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('5', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:24
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('4', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:31
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('4', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:31
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:31
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('5', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:31
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('1', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:31
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('2', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:31
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('3', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:38
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 01:40:38
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:40:38
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:38
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('1', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:38
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('2', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:45
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('3', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:45
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('4', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:40:45
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('5', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:41:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 15
+Message : Use of undefined constant dir - assumed 'dir'
+
+2015-09-27 01:41:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 905
+Message : Undefined variable: scripts
+
+2015-09-27 01:41:03
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 905
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 01:41:03
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:41:03
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('1', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:41:03
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('2', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:41:10
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('3', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:41:10
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('4', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 01:41:10
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(30): Framework\Controller\Controller\AbstractController->callActionFlow('5', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 02:00:07
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 40
+Message : Using $this when not in object context
+
+2015-09-27 11:47:55
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Layout.php
+Line : 45
+Message : Undefined variable: styles
+
+2015-09-27 11:59:42
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 11:59:42
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 11:59:42
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('2', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 11:59:42
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('1', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 11:59:42
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('0', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 11:59:49
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('5', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 11:59:49
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('3', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 11:59:49
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php
+Line : 87
+Message : not implements for not_found
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('4', Array)
+#1 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#2 {main}
+
+2015-09-27 12:00:05
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 12:00:05
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 12:00:16
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 12:00:16
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 12:01:05
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Undefined variable: scripts
+
+2015-09-27 12:01:05
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 904
+Message : Invalid argument supplied for foreach()
+
+2015-09-27 13:21:57
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-27 13:21:57
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-27 13:29:16
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-27 13:29:16
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-27 15:51:42
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-27 15:51:42
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-27 23:29:03
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-27 23:29:03
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-27 23:34:02
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-27 23:34:02
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-27 23:34:31
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-27 23:34:31
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+
+2015-09-27 23:37:48
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 22
+Message : Call to undefined method Framework\ViewModel\Admin\DashboardViewModel::getContainer()
+
+2015-09-27 23:57:13
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 22
+Message : Call to undefined method Framework\ViewModel\Admin\DashboardViewModel::getContainer()
+
+2015-09-27 23:58:59
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/IndexViewModel.php
+Line : 21
+Message : Class Framework\ViewModel\IndexViewModel contains 2 abstract methods and must therefore be declared abstract or implement the remaining methods (Framework\ViewModel\ViewModel\ViewModelInterface::renderAsJson, Framework\ViewModel\ViewModel\ViewModelInterface::renderAsXml)
+
+2015-09-28 22:26:55
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 330
+Message : Undefined property: Framework\ViewModel\IndexViewModel::$containers
+
+2015-09-28 22:26:55
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 198
+Message : Invalid argument supplied for foreach()
+
+2015-09-28 22:27:20
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 198
+Message : Invalid argument supplied for foreach()
+
+2015-09-28 22:27:53
+実行時警告(waring)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 199
+Message : Invalid argument supplied for foreach()
+
+2015-09-28 22:29:01
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php
+Line : 76
+Message : Undefined variable: items
+
+2015-09-28 22:29:01
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php
+Line : 76
+Message : Call to a member function setRenderType() on null
+
+2015-09-28 22:30:20
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php
+Line : 76
+Message : Undefined variable: items
+
+2015-09-28 22:30:20
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php
+Line : 76
+Message : Call to a member function setRenderType() on null
+
+2015-09-28 22:37:04
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ContainerInterface.php
+Line : 6
+Message : Non-abstract method Framework\ViewModel\ViewModel\ContainerInterface::setItems() must contain body
+
+2015-09-28 22:37:05
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ContainerInterface.php
+Line : 6
+Message : Non-abstract method Framework\ViewModel\ViewModel\ContainerInterface::setItems() must contain body
+
+2015-09-28 22:39:33
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 323
+Message : syntax error, unexpected '}'
+
+2015-09-28 22:39:33
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 323
+Message : syntax error, unexpected '}'
+
+2015-09-28 22:39:34
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 323
+Message : syntax error, unexpected '}'
+
+2015-09-28 22:39:34
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 323
+Message : syntax error, unexpected '}'
+
+2015-09-28 22:52:18
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 0
+Message : Method Framework\ViewModel\ViewModel\Container::__toString() must not throw an exception
+
+2015-09-28 22:54:06
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php
+Line : 132
+Message : Class Framework\ViewModel\ViewModel\Container contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\ViewModel\ViewModel\ContainerInterface::__toString)
+
+2015-09-28 22:54:34
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 100
+Message : error: invalid viewmodelname: Framework\ViewModel\Framework\Core\ViewModel\ViewModel\Framework\Core\ViewModel\ViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(82): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(76): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(104): Framework\ViewModel\ViewModel\Container->getItems()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#5 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#6 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#7 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#9 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#10 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#11 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#12 {main}
+
+2015-09-28 22:56:25
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 100
+Message : error: invalid viewmodelname: Framework\ViewModel\Framework\Core\ViewModel\ViewModel\Framework\Core\ViewModel\ViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(82): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(76): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(104): Framework\ViewModel\ViewModel\Container->getItems()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#5 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#6 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#7 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#9 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#10 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#11 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#12 {main}
+
+2015-09-28 22:56:47
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 101
+Message : error: invalid viewmodelname: Framework\ViewModel\Framework\Core\ViewModel\ViewModel\Framework\Core\ViewModel\ViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(82): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(76): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(104): Framework\ViewModel\ViewModel\Container->getItems()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#5 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#6 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#7 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#9 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#10 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#11 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#12 {main}
+
+2015-09-28 22:57:34
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 100
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin/NavbarViewModel\Admin/NavbarViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(82): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(76): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(104): Framework\ViewModel\ViewModel\Container->getItems()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#5 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#6 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#7 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#9 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#10 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#11 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#12 {main}
+
+2015-09-28 22:57:34
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 100
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin/NavbarViewModel\Admin/NavbarViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(82): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(76): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(104): Framework\ViewModel\ViewModel\Container->getItems()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#5 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#6 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#7 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#9 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#10 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#11 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#12 {main}
+
+2015-09-28 22:57:34
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 100
+Message : error: invalid viewmodelname: Framework\ViewModel\Admin/NavbarViewModel\Admin/NavbarViewModelViewModel
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/ViewModelManager.php(82): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(76): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(104): Framework\ViewModel\ViewModel\Container->getItems()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#5 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#6 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#7 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#9 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#10 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#11 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#12 {main}
+
+2015-09-28 22:57:59
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 169
+Message : error: invalid render template [/Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/component/navbar.html]
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(233): Framework\ViewModel\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(105): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#5 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#6 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#7 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#9 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#10 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#11 {main}
+
+2015-09-28 22:58:00
+例外が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 169
+Message : error: invalid render template [/Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/component/navbar.html]
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(233): Framework\ViewModel\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/Container.php(105): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#2 /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html(22): Framework\ViewModel\ViewModel\Container->toString()
+#3 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(237): require('/Users/gpgkd906...')
+#4 /Users/gpgkd906/dev/framework/Framework/ViewModel/ViewModel/AbstractViewModel.php(214): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#5 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(120): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#6 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#7 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(97): call_user_func(Array, Array)
+#8 /Users/gpgkd906/dev/framework/Framework/Controller/Controller/AbstractController.php(80): Framework\Controller\Controller\AbstractController->callAction('response')
+#9 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\Controller\Controller\AbstractController->callActionFlow('index', NULL)
+#10 /Users/gpgkd906/dev/framework/index.php(17): Framework\Application\HttpApplication->run()
+#11 {main}
+
+2015-09-28 23:06:49
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 22
+Message : Call to undefined method Framework\ViewModel\ViewModel\Container::toString()
+
+2015-09-28 23:06:50
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 22
+Message : Call to undefined method Framework\ViewModel\ViewModel\Container::toString()
+
+2015-09-28 23:06:50
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 22
+Message : Call to undefined method Framework\ViewModel\ViewModel\Container::toString()
+
+2015-09-28 23:06:50
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/ViewModel/template/admin/dashboard.html
+Line : 22
+Message : Call to undefined method Framework\ViewModel\ViewModel\Container::toString()
+
+2015-09-28 23:08:40
+実行時警告(notice)が発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php
+Line : 30
+Message : Undefined index: controller
+
+2015-09-28 23:08:40
+回復不能なエラーが発生しました。
+File : /Users/gpgkd906/dev/framework/Framework/Application/serviceManager.php
+Line : 65
+Message : Class 'Framework\Controller\Controller' not found
+

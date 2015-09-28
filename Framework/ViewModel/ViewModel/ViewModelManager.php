@@ -19,6 +19,38 @@ class ViewModelManager implements ViewModelManagerInterface
     static private $namespace = null;
     static private $templateDir = null;
     
+    /**
+     *
+     * @api
+     * @var mixed $basePath 
+     * @access private
+     * @link
+     */
+    static private $basePath = null;
+
+    /**
+     * 
+     * @api
+     * @param mixed $basePath
+     * @return mixed $basePath
+     * @link
+     */
+    static public function setBasePath ($basePath)
+    {
+        return self::$basePath = $basePath;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $basePath
+     * @link
+     */
+    static public function getBasePath ()
+    {
+        return self::$basePath;
+    }
+
     static public function setNamespace($namespace) {
         self::$namespace = $namespace;
     }
@@ -52,16 +84,22 @@ class ViewModelManager implements ViewModelManagerInterface
     
     static private function getView($config)
     {
-        $viewModelName = $config["viewModel"];
+        $requestName = $config["viewModel"];
+        $viewModelName = $requestName;
         if($aliasViewModel = self::getAlias($viewModelName)) {
             $viewModelName = $aliasViewModel;
         }
         if(!class_exists($viewModelName)) {
+            //IndexViewModelで書く場合は上層に見つかる
             $viewModelName = self::$namespace . "\\" . $viewModelName;
+            //Indexで書く場合はは下層に見つかる
+            if(!class_exists($viewModelName)) {
+                $viewModelName = $viewModelName . '\\' . $requestName . 'ViewModel';
+            }
             if(!class_exists($viewModelName)) {
                 throw new Exception(sprintf(self::ERROR_INVALID_VIEWMODEL, $viewModelName));
             }
-            self::setAlias($config["viewModel"], $viewModelName);
+            self::setAlias($requestName, $viewModelName);
         }
         $ViewModel = new $viewModelName($config);
         if($ViewModel->getTemplateDir() === null) {

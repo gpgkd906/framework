@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\ViewModel;
+namespace Framework\ViewModel\Component;
 
-use Framework\Core\ViewModel\AbstractViewModel;
+use Framework\ViewModel\ViewModel\AbstractViewModel;
 
 class ListViewModel extends AbstractViewModel
 {

@@ -3,9 +3,9 @@
 return [
     'connection' => [
         'host' => 'localhost',
-        'user' => 'root',
-        'password' => '',
-        'dbname' => '',
+        'user' => 'test',
+        'password' => 'testtest',
+        'dbname' => 'framework',
         'charset' => 'utf8',
     ],
 ];

@@ -7,15 +7,13 @@ use Framework\ViewModel\ViewModel\AbstractViewModel;
 class IndexViewModel extends AbstractViewModel
 {
     
-    protected $items = [
-        [
-            'viewModel' => "HeaderViewModel",
+    protected $config = [
+        'container' => [
+            'main' => [
+                [ 'viewModel' => "HeaderViewModel", ],
+                [ 'viewModel' => "ContentViewModel", ],
+                [ 'viewModel' => "FooterViewModel" ],
+            ],
         ],
-        [
-            'viewModel' => "ContentViewModel",
-        ],
-        [
-            'viewModel' => "FooterViewModel"
-        ]
     ];
 }

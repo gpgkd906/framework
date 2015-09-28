@@ -117,7 +117,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
     
     public function response()
     {
-        $this->getViewModel()->render();
+        echo $this->getViewModel()->render();
     }
 
     public function setSelfName($controllerName)
