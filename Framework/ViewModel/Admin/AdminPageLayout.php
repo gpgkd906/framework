@@ -2,9 +2,9 @@
 
 namespace Framework\ViewModel\Admin;
 
-use Framework\ViewModel\ViewModel\Layout;
+use Framework\ViewModel\ViewModel\PageLayout;
 
-class AdminLayout extends Layout {
+class AdminPageLayout extends PageLayout {
 
     protected $asset = '/asset/sbadmin2';
 

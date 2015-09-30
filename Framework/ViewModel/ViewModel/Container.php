@@ -107,7 +107,7 @@ class Container implements ContainerInterface {
         try {
             $htmls = [];
             foreach($this->getItems() as $item) {            
-                $htmls[] = $item->asHtml();
+                $htmls[] = $item->render();
             }
             return join('', $htmls);
         } catch(Exception $e) {

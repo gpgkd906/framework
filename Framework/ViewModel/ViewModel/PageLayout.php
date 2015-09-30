@@ -4,7 +4,7 @@ namespace Framework\ViewModel\ViewModel;
 
 use \Exception;
 
-class Layout implements LayoutInterface
+class PageLayout implements LayoutInterface
 {
     const ERROR_REGISTER_STYLE_FOR_DIFFERENT_PRIORITY = 'register_style_for_different_priority: %s';
     const ERROR_REGISTER_SCRIPT_FOR_DIFFERENT_PRIORITY = 'register_script_for_different_priority: %s';
@@ -23,6 +23,15 @@ class Layout implements LayoutInterface
      * @link
      */
     protected $asset = null;
+
+    /**
+     *
+     * @api
+     * @var mixed $pageVar 
+     * @access private
+     * @link
+     */
+    private $pageVar = [];
 
     private function __construct ()
     {
@@ -112,5 +121,28 @@ class Layout implements LayoutInterface
     public function getAsset ()
     {
         return $this->asset;
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $pageVar
+     * @return mixed $pageVar
+     * @link
+     */
+    public function setPageVar ($varName, $value)
+    {
+        return $this->pageVar[$varName] = $value;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $pageVar
+     * @link
+     */
+    public function getPageVar ($varName)
+    {
+        return $this->pageVar[$varName];
     }
 }

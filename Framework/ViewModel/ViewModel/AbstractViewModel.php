@@ -102,7 +102,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
             $layoutClass = $config['layout'];
             $this->setLayout($layoutClass::getSingleton());
         } else {
-            $this->setLayout(Layout::getSingleton());
+            $this->setLayout(PageLayout::getSingleton());
         }
         //container:template
         if(isset($config['container'])) {
@@ -240,7 +240,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         } else {
             //templateがなければ....
             foreach($this->getChilds() as $child) {
-                $htmls[] = $child->asHtml();
+                $htmls[] = $child->render();
             }
         }
         return join("", $htmls);
@@ -292,7 +292,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
      * @return mixed $layout
      * @link
      */
-    public function setLayout ($layout)
+    public function setLayout (LayoutInterface $layout)
     {
         return $this->layout = $layout;
     }

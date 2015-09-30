@@ -9,7 +9,7 @@ class DashboardViewModel extends AbstractViewModel
     protected $template = '/template/admin/dashboard.html';
     
     protected $config = [
-        'layout' => AdminLayout::class,
+        'layout' => AdminPageLayout::class,
         'container' => [
             'Head' => [
                 [
@@ -21,7 +21,7 @@ class DashboardViewModel extends AbstractViewModel
                     'viewModel' => 'Admin\SummaryViewModel',
                 ],
                 [
-                    'viewModel' => 'Admin\ChartViewModel',
+                    'viewModel' => 'Admin\TopChartViewModel',
                 ],
             ],
 
@@ -31,4 +31,13 @@ class DashboardViewModel extends AbstractViewModel
     protected $data = [
         'title' => 'Dashboard',
     ];
+
+    public $listeners = [
+        'Render' => 'onRender',
+    ];
+
+    public function onRender()
+    {
+        $this->getLayout()->setPageVar('title', $this->getData()['title']);
+    }
 }
