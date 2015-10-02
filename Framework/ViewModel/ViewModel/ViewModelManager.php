@@ -29,6 +29,38 @@ class ViewModelManager implements ViewModelManagerInterface
     static private $basePath = null;
 
     /**
+     *
+     * @api
+     * @var mixed $serviceManager 
+     * @access private
+     * @link
+     */
+    static private $serviceManager = null;
+
+    /**
+     * 
+     * @api
+     * @param mixed $serviceManager
+     * @return mixed $serviceManager
+     * @link
+     */
+    static public function setServiceManager ($serviceManager)
+    {
+        return self::$serviceManager = $serviceManager;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $serviceManager
+     * @link
+     */
+    static public function getServiceManager ()
+    {
+        return self::$serviceManager;
+    }
+
+    /**
      * 
      * @api
      * @param mixed $basePath
@@ -105,6 +137,8 @@ class ViewModelManager implements ViewModelManagerInterface
         if($ViewModel->getTemplateDir() === null) {
             $ViewModel->setTemplateDir(self::getTemplateDir());
         }
+        $ViewModel->setServiceManager(self::getServiceManager());
+        self::addView($ViewModel);
         return $ViewModel;
     }
 

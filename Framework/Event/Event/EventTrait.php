@@ -50,6 +50,7 @@ trait EventTrait
         if(!isset($this->eventQueue[$trigger])) {
             $this->eventQueue[$trigger] = [];
         }
+
         array_unshift($parameters, $this);
 
         foreach($this->eventQueue[$trigger] as $key => $call) {

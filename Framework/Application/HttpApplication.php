@@ -25,7 +25,7 @@ class HttpApplication extends AbstractApplication
         ViewModelManager::setNamespace($config->getConfig("viewModelNamespace", $viewModelNamespace));
         ViewModelManager::setTemplateDir($config->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', $viewModelNamespace)));
         ViewModelManager::setBasePath($config->getConfig('ApplicationHost'));
-        
+        ViewModelManager::setServiceManager($this->getServiceManager());        
         $request = $routeModel->dispatch();
         $controller = $this->getServiceManager()->getComponent('Controller', $request['controller']);
         $controller->callActionFlow($request['action'], $request['param']);

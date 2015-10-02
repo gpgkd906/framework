@@ -1,12 +1,12 @@
 <?php
-namespace Framework\Core\Interfaces;
+namespace Framework\ViewModel\ViewModel;
 
-interface FormModelInterface {
+interface FormViewModelInterface {
 
-    public function setFieldset();
+    public function setFieldset($fieldset);
 
     public function getFieldset();
-
+/*
     public function setModel();
 
     public function getModel();
@@ -16,4 +16,5 @@ interface FormModelInterface {
     public function getData();
 
     public function setData();
+*/
 }

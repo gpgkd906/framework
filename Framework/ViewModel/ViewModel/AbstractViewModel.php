@@ -57,6 +57,38 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     private $containers = null;
 
     /**
+     *
+     * @api
+     * @var mixed $serviceManager 
+     * @access private
+     * @link
+     */
+    private $serviceManager = null;
+
+    /**
+     * 
+     * @api
+     * @param mixed $serviceManager
+     * @return mixed $serviceManager
+     * @link
+     */
+    public function setServiceManager ($serviceManager)
+    {
+        return $this->serviceManager = $serviceManager;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $serviceManager
+     * @link
+     */
+    public function getServiceManager ()
+    {
+        return $this->serviceManager;
+    }
+
+    /**
      * 
      * @api
      * @param mixed $config
@@ -342,5 +374,14 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
             return $this->containers[$name];
         }
         return null;
+    }
+
+    public function linkto($target, $param = [])
+    {
+        if(!empty($param)) {
+            $target = $target . '/' . join('/', $param);
+        }
+        $link = ViewModelManager::getBasePath() . '/' . $target;
+        return str_replace('//', '/', $target);
     }
 }

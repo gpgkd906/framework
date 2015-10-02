@@ -91,13 +91,6 @@ abstract class AbstractRouteModel implements RouteModelInterface
 
     public function refresh() {}
 
-    public function appMapping($req)
-    {
-        if(isset($this->appUrl[$req])) {
-            return $this->appUrl[$req];
-        }
-    }
-
     abstract public function parseRequest();
 
     protected function joinStep($array, $step = 1, $delimiter = "/")

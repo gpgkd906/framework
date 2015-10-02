@@ -143,4 +143,11 @@ class HttpRouteModel extends AbstractRouteModel
         header('Content-length: 0');
         die();
     }
+
+    public function appMapping($req)
+    {
+        if(isset($this->appUrl[$req])) {
+            return $this->appUrl[$req];
+        }
+    }
 }
