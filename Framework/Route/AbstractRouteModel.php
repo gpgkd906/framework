@@ -109,6 +109,9 @@ abstract class AbstractRouteModel implements RouteModelInterface
         if(isset($param["req"])) {
             return $param["req"];
         } else {
+            if(isset($_GET['req'])) {
+                return $_GET['req'];
+            }
             return $this->index;
         }
     }

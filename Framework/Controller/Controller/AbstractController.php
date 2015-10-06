@@ -23,7 +23,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
     private $controllerName = null;
     private $ViewModel = null;
 
-        /**
+    /**
      *
      * @api
      * @var mixed $serviceManager 
@@ -68,23 +68,34 @@ abstract class AbstractController implements ControllerInterface, EventInterface
     {
         $routeModel = $this->getServiceManager()->getApplication()->getRouteModel();
         $actionMethod = $routeModel->getAction();
-        if(is_callable([$this, $actionMethod])) {
-            $this->callAction("beforeAction");
-            $viewModel = $this->callAction($actionMethod, $param);
+        $baseActionMethod = $routeModel->getBaseAction();
+        if(!is_callable([$this, $actionMethod])) {
+            $actionMethod = null;
+        }
+        if($baseActionMethod && !is_callable([$this, $baseActionMethod])) {
+            $baseActionMethod = null;
+        }
+        if($actionMethod === null && $baseActionMethod === null) {
+            throw new Exception(sprintf("not implements for not_found: %s", $this->getSelfName() . '::' . $baseActionMethod));
+        }
+        $this->callAction("beforeAction");
+        if($actionMethod) {
+            $this->callAction($actionMethod, $param);
+        }
+        if($baseActionMethod) {
+            $viewModel = $this->callAction($baseActionMethod, $param);
             $this->setViewModel($viewModel);
-            $this->callAction("afterAction");
-            if(isset($viewModel)) {
-                if($viewModel instanceof ViewModelInterface) {
-                    $viewModel->setRenderType($this->responseType);
-                    $this->callAction("beforeResponse");
-                    $this->callAction("response");
-                    $this->callAction("afterResponse");
-                } else {
-                    throw new Exception(sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getSelfName() . "::" . $actionMethod));
-                }
+        }
+        $this->callAction("afterAction");
+        if(isset($viewModel)) {
+            if($viewModel instanceof ViewModelInterface) {
+                $viewModel->setRenderType($this->responseType);
+                $this->callAction("beforeResponse");
+                $this->callAction("response");
+                $this->callAction("afterResponse");
+            } else {
+                throw new Exception(sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getSelfName() . "::" . $actionMethod));
             }
-        } else {
-            throw new Exception("not implements for not_found");
         }
     }
 

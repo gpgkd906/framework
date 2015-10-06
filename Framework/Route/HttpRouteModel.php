@@ -15,6 +15,38 @@ class HttpRouteModel extends AbstractRouteModel
     private $request_method = null;
     private $request_param = [];
 
+    /**
+     *
+     * @api
+     * @var mixed $baseAction 
+     * @access private
+     * @link
+     */
+    private $baseAction = null;
+
+    /**
+     * 
+     * @api
+     * @param mixed $baseAction
+     * @return mixed $baseAction
+     * @link
+     */
+    public function setBaseAction ($baseAction)
+    {
+        return $this->baseAction = $baseAction;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $baseAction
+     * @link
+     */
+    public function getBaseAction ()
+    {
+        return $this->baseAction;
+    }
+
     private function getMethod()
     {
         if($this->request_method === null) {
@@ -30,6 +62,7 @@ class HttpRouteModel extends AbstractRouteModel
         $action = $request["action"];
         $method = $this->getMethod();
         if(self::GET !== $method) {
+            $this->setBaseAction($action);
             return $method . ucfirst($action);
         } else {
             return $action;
