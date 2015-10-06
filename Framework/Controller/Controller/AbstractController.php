@@ -67,23 +67,23 @@ abstract class AbstractController implements ControllerInterface, EventInterface
     public function callActionFlow($action, $param)
     {
         $routeModel = $this->getServiceManager()->getApplication()->getRouteModel();
+        $restActionMethod = $routeModel->getRestAction();
         $actionMethod = $routeModel->getAction();
-        $baseActionMethod = $routeModel->getBaseAction();
+        if($restActionMethod && !is_callable([$this, $restActionMethod])) {
+            $restActionMethod = false;
+        }
         if(!is_callable([$this, $actionMethod])) {
-            $actionMethod = null;
+            $actionMethod = false;
         }
-        if($baseActionMethod && !is_callable([$this, $baseActionMethod])) {
-            $baseActionMethod = null;
-        }
-        if($actionMethod === null && $baseActionMethod === null) {
-            throw new Exception(sprintf("not implements for not_found: %s", $this->getSelfName() . '::' . $baseActionMethod));
+        if($actionMethod === false && $restActionMethod === false) {
+            throw new Exception(sprintf("not implements for not_found: %s", $this->getSelfName() . '::' . $actionMethod));
         }
         $this->callAction("beforeAction");
-        if($actionMethod) {
-            $this->callAction($actionMethod, $param);
+        if($restActionMethod) {
+            $this->callAction($restActionMethod, $param);
         }
-        if($baseActionMethod) {
-            $viewModel = $this->callAction($baseActionMethod, $param);
+        if($actionMethod) {
+            $viewModel = $this->callAction($actionMethod, $param);
             $this->setViewModel($viewModel);
         }
         $this->callAction("afterAction");
