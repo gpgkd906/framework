@@ -32,9 +32,6 @@ abstract class AbstractPluginInfo
 
     final public function getIdentify()
     {
-        if($this->identify === null) {
-            $this->identify = get_called_class();
-        }
-        return $this->identify;
+        return static::class;
     }
 }
