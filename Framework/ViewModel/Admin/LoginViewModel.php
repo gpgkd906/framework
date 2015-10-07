@@ -3,6 +3,7 @@
 namespace Framework\ViewModel\Admin;
 
 use Framework\ViewModel\ViewModel\FormViewModel;
+use Form2\Validator;
 
 class LoginViewModel extends FormViewModel
 {
@@ -16,12 +17,47 @@ class LoginViewModel extends FormViewModel
         'title' => 'ログイン',
     ];
 
+    protected $fieldset = [
+        'login' => [
+            'type' => 'text',
+            'validator' => [
+                [Validator::Exists, "※必須入力"],
+            ],
+            'attrs' => [ 
+                'class' => 'form-control',
+                'placeholder' => 'Login',
+            ],
+        ],
+        'password' => [
+            'type' => 'password',
+            'validator' => [
+                [Validator::Exists, "※必須入力"],
+            ],
+            'attrs' => [
+                'class' => 'form-control',
+                'placeholder' => 'Password',
+            ]
+        ],
+        'remeber' => [
+            'type' => 'checkbox',
+            'value' => ['Remeber Me' => 0],
+            'attrs' => [
+
+            ],
+        ],
+    ];
+
     public $listeners = [
         'Render' => 'onRender',
+        'Complete' => 'onComplete',
     ];
 
     public function onRender()
     {
-        $this->getLayout()->setPageVar('title', $this->getData()['title']);
+    }
+
+    public function onComplete($event, $data)
+    {
+        var_dump('complete');
     }
 }

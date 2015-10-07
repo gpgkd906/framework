@@ -2,41 +2,40 @@
 
 namespace Framework\ViewModel\ViewModel;
 
-//use Framework\Lib\Form\FormManager;
-//use Framework\Lib\Form\Validator;
+use Form2\FormManager;
+use Form2\Validator;
 
 class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 {
-    protected $id = "formView";
+    const TRIGGER_FORMINIT = 'forminit';
+    const TRIGGER_FORMSUBMIT = 'Submit';
+    const TRIGGER_FORMCONFIRM = 'Confirm';
+    const TRIGGER_FORMCOMPLETE = 'Complete';
     
-    protected $csrf = null;
-
     protected $method = "post";
     
     protected $action = null;
 
-    protected $fieldset = [
-/*    
-        "csrf" => [
-            'type' => 'hidden',
-            'validator' => [
-                [Validator::Exists, "required"]
-            ]
-        ],
-        'login' => [
-            'type' => 'text',
-            'validator' => [
-                [Validator::Exists, "required"],
-            ]
-        ],
-        'password' => [
-            'type' => 'password',
-            'validator' => [
-                [Validator::Exists, "required"],
-            ]
-        ]
-*/
-    ];
+    protected $useConfirm = false;    
+    /**
+     *
+     * @api
+     * @var mixed $formManager 
+     * @access private
+     * @link
+     */
+    private $formManager = null;
+
+    /**
+     *
+     * @api
+     * @var mixed $form 
+     * @access private
+     * @link
+     */
+    private $form = null;
+
+    protected $fieldset = [];
 
     /**
      * 
@@ -61,12 +60,124 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
         return $this->fieldset;
     }
     
-    public $listeners = [
-        'Render' => 'onRender',
-    ];
-
-    public function onRender()
+    public function render()
     {
-        var_dump("FormViewModel");
+        $form = $this->getFormManager()->create($this->getId());
+        $this->setForm($form);
+        $action = str_replace('//', '/', '/' . $this->getServiceManager()->getApplication()->getRouteModel()->getReq());
+        $form->set('action', $action);
+        $form->set('method', $this->getMethod());
+        foreach($this->getFieldset() as $name => $field) {
+            $value = isset($field['value']) ? $field['value'] : null;
+            $element = $form->append($field['type'], $name, $value);
+            if(isset($field['validator'])) {
+                foreach($field['validator'] as list($rule, $message)) {
+                    $element->must_be($rule, $message);
+                }
+            }
+            if(isset($field['attrs'])) {
+                foreach($field['attrs'] as $key => $val) {
+                    $element->set($key, $val);
+                }
+            }
+        }
+        
+        $this->triggerEvent(self::TRIGGER_FORMINIT);
+        $form->submit([$this, 'triggerForSubmit']);
+        $confirm = false;
+        if($this->useConfirm) {
+            $confirm = [$this, 'triggerForConfirm'];
+        }
+
+        $form->confirm($confirm, [$this, 'triggerForComplete']);
+
+        return parent::render();
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $form
+     * @return mixed $form
+     * @link
+     */
+    public function setForm ($form)
+    {
+        return $this->form = $form;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $form
+     * @link
+     */
+    public function getForm ()
+    {
+        return $this->form;
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $formManager
+     * @return mixed $formManager
+     * @link
+     */
+    public function setFormManager ($formManager)
+    {
+        return $this->formManager = $formManager;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $formManager
+     * @link
+     */
+    public function getFormManager ()
+    {
+        if($this->formManager === null) {
+            $this->formManager = new FormManager;
+        }
+        return $this->formManager;
+    }
+
+    public function triggerForSubmit($data)
+    {
+        $this->triggerEvent(self::TRIGGER_FORMSUBMIT, [$data]);
+    }
+    
+    public function triggerForConfirm($data)
+    {
+        $this->triggerEvent(self::TRIGGER_FORMCONFIRM, [$data]);
+    }
+
+    public function triggerForComplete($data)
+    {
+        $this->triggerEvent(self::TRIGGER_FORMCOMPLETE, [$data]);
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $method
+     * @return mixed $method
+     * @link
+     */
+    public function setMethod ($method)
+    {
+        return $this->method = $method;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $method
+     * @link
+     */
+    public function getMethod ()
+    {
+        return $this->method;
     }
 }
