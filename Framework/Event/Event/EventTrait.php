@@ -8,7 +8,9 @@ trait EventTrait
 {
     private $eventQueue = [];
     //
-    private $eventStack = [];
+    private $triggerScope = [];
+    
+    static private $triggerStack = [];
 
     private $eventTrigger = null;
 
@@ -43,26 +45,24 @@ trait EventTrait
 
     private function triggerFire($trigger, $parameters = [])
     {
-        if(in_array($trigger, $this->eventStack)) {
+        if(in_array($trigger, $this->triggerScope)) {
             throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
-        $this->eventStack[] = $trigger;
+        $this->triggerScope[] = $trigger;
         if(!isset($this->eventQueue[$trigger])) {
             $this->eventQueue[$trigger] = [];
         }
-
         array_unshift($parameters, $this);
-
         foreach($this->eventQueue[$trigger] as $key => $call) {
-            $parameters = call_user_func_array($call, $parameters);
+            call_user_func_array($call, $parameters);
         }
-        array_pop($this->eventStack);
+        array_pop($this->triggerScope);
         return $parameters;
     }
 
     public function getCurrentEvent()
     {
-        return $this->eventStack[count($this->eventStack) - 1];
+        return $this->triggerScope[count($this->triggerScope) - 1];
     }
 
     private function getTrigger($event)
@@ -71,12 +71,13 @@ trait EventTrait
         if(isset($this->eventTrigger) && isset($this->eventTrigger[$event])) {
             return $this->eventTrigger[$event];
         }
-        throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, get_class($this)));        
+        throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
 
     public function triggerEvent($event, $parameters = [])
     {
         $trigger = $this->getTrigger($event);
+        self::$triggerStack[] = $trigger;
         return $this->triggerFire($trigger, $parameters);
     }
     
@@ -94,5 +95,10 @@ trait EventTrait
                 }
             }
         }
+    }
+
+    static public function traceEvent()
+    {
+        print_r(self::$triggerStack);
     }
 }

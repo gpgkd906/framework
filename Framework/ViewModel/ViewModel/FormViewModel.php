@@ -60,38 +60,28 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
         return $this->fieldset;
     }
     
-    public function render()
+    public function __construct($config)
     {
-        $form = $this->getFormManager()->create($this->getId());
-        $this->setForm($form);
-        $action = str_replace('//', '/', '/' . $this->getServiceManager()->getApplication()->getRouteModel()->getReq());
-        $form->set('action', $action);
-        $form->set('method', $this->getMethod());
-        foreach($this->getFieldset() as $name => $field) {
-            $value = isset($field['value']) ? $field['value'] : null;
-            $element = $form->append($field['type'], $name, $value);
-            if(isset($field['validator'])) {
-                foreach($field['validator'] as list($rule, $message)) {
-                    $element->must_be($rule, $message);
-                }
+        parent::__construct($config);
+        $this->addEventListener(self::TRIGGER_INIT, function () {
+            $form = $this->getFormManager()->create($this->getId());
+            $this->setForm($form);
+            $action = str_replace('//', '/', '/' . $this->getServiceManager()->getApplication()->getRouteModel()->getReq());
+            $form->set('action', $action);
+            $form->set('method', $this->getMethod());
+            foreach($this->getFieldset() as $name => $fieldset) {
+                $fieldset['name'] = $name;
+                $form->addFieldset($fieldset);
             }
-            if(isset($field['attrs'])) {
-                foreach($field['attrs'] as $key => $val) {
-                    $element->set($key, $val);
-                }
+            $this->triggerEvent(self::TRIGGER_FORMINIT);
+            $form->submit([$this, 'triggerForSubmit']);
+            $confirm = false;
+            if($this->useConfirm) {
+                $confirm = [$this, 'triggerForConfirm'];
             }
-        }
-        
-        $this->triggerEvent(self::TRIGGER_FORMINIT);
-        $form->submit([$this, 'triggerForSubmit']);
-        $confirm = false;
-        if($this->useConfirm) {
-            $confirm = [$this, 'triggerForConfirm'];
-        }
 
-        $form->confirm($confirm, [$this, 'triggerForComplete']);
-
-        return parent::render();
+            $form->confirm($confirm, [$this, 'triggerForComplete']);
+        });
     }
 
     /**

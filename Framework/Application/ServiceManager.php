@@ -96,6 +96,10 @@ class ServiceManager implements ServiceManagerInterface
         return $this->getComponent('Controller', $controller);
     }
 
+    public function getSessionService()
+    {
+        return $this->getService('Service', 'SessionService');
+    }
     /**
      * 
      * @api

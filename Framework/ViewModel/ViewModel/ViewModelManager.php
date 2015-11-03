@@ -2,6 +2,7 @@
 
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\Event\Event\EventInterface;
 use Exception;
 
 class ViewModelManager implements ViewModelManagerInterface
@@ -139,6 +140,7 @@ class ViewModelManager implements ViewModelManagerInterface
         }
         $ViewModel->setServiceManager(self::getServiceManager());
         self::addView($ViewModel);
+        $ViewModel->triggerEvent(EventInterface::TRIGGER_INIT);
         return $ViewModel;
     }
 

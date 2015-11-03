@@ -146,5 +146,4 @@ abstract class AbstractApplication implements ApplicationInterface
     {
         return $this->eventManager;
     }
-
- }
+}
