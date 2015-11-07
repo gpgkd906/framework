@@ -1,0 +1,27 @@
+<?php 
+$this->header("admin");
+?>
+    <div id="wrapper">
+      
+      <?php $this->parts("nav/header"); ?>
+      
+      <?php $this->parts("nav/side"); ?>
+      
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">カテゴリ：<?php echo $parent["cname"], " - ", $category["cname"] ?></h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <?php $this->parts("scaffold/display"); ?>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <?php $this->footer("admin"); ?>
