@@ -3,313 +3,475 @@
 namespace Framework\Model\Model;
 
 use Framework\Event\Event\EventInterface;
+use ReflectionClass;
 use Exception;
 
 abstract class AbstractRecord implements RecordInterface, EventInterface
 {
     use \Framework\Event\Event\EventTrait;
-
-    const ERROR_INVALID_RECORD = "error: invalid record";
-    const ERROR_INVALID_MODEL = "error: invalid model";
-    const ERROR_INVALID_COLUMN_FOR_SET = "error: INVALID_COLUMN_FOR_SET [%s]";
-    const ERROR_NONE_WRITABLE = "error: this is a dirty-record[a partially record or a deleted record]";
-    const ERROR_PRIMARY_KEY_IS_CHANGED = "error: PRIMARY_KEY_IS_CHANGED";
-    const ERROR_DEFINE_SCHEMA_IN_RECORD = "error: DEFINE_SCHEMA_IN_RECORD";
-
-    /**
-	 * テーブルカラムにあるデータセット
-	 * @api
-	 * @var Array
-	 * @link
-	 */
-	private $store = array();
-
-    /**
-	 * プライマリキーの値
-	 * @api
-	 * @var Mixed
-	 * @link
-	 */
-	private $primaryValue = null;
     
-    /**
-	 * レコードが実際に変更されたかどか
-	 * @api
-	 * @var 
-	 * @link
-	 */
-	private $realChanged = false;
-
-    static public $config = [
-        "Model" => null,
-    ];
-
-    const TRIGGER_SAVE = "Save";
+    const INSERT = 'Insert';
+    const UPDATE = 'Update';
+    const DELETE = 'Delete';
+    const SELECT = 'Selete';
+    //
+    const TABLE        = 'Table';
+    const COLUMN       = 'Column';
+    const ID           = 'Id';
+    const PRIMARY_KEY  = 'PrimaryKey';
+    const ENTITY       = 'Entity';
+    const PROPERTY     = 'Property';
+    const QUERY        = 'Query';
+    const NAME         = 'name';
+    const PROPERTY_MAP = 'propertyMap';
+    const COLUMN_MAP   = 'columnMap';
+    const MODEL_CLASS  = 'modelClass';
+    const PRIMARY_PROPERTY = 'primaryProperty';
+    const SETTER       = 'setter';
+    //
+    const ASSIOCIATE    = 'Assiociate';
+    const ONE_TO_ONE    = 'OneToOne';
+    const ONE_TO_MANY   = 'OneToMany';
+    const MANY_TO_ONE   = 'ManyToOne';
+    const FETCH         = 'fetch';
+    const LAZY          = 'LAZY';
+    const JOIN_COLUMN   = 'JoinColumn';
+    const TARGET_RECORD = 'targetRecord';
+    const REFERENCED_COLUMN_NAME = 'referencedColumnName';
+    const REFERENCED_COLUMN_VALUE = 'referencedColumnValue';
+    const REFERENCED_TABLE = 'referencedTable';
+    const ASSIOCIATE_LIST = 'assiociateList';
+    const ASSIOCIATE_RECORD = 'assiociateRecord';
+    const ASSIOCIATE_QUERY = 'assiociateQuery';
+    //
+    const TRIGGER_PREINSERT  = 'preInsert';
+    const TRIGGER_PREUPDATE  = 'preUpdate';
+    const TRIGGER_PREDELETE  = 'preDelete';
+    const TRIGGER_POSTINSERT = 'postInsert';
+    const TRIGGER_POSTUPDATE = 'postUpdate';
+    const TRIGGER_POSTDELETE = 'postDelete';
     
-    protected $relations = [];
+    static protected $info = [];
+    static private $Model = null;
+    private $isValid = true;
+    private $queryInfo = null;
     
-    private $isDirty = false;
-    
-    /**
-	 * ActiveRecord構造関数
-	 * @api
-	 * @param Array $row パッケージするデータセット  
-	 * @return
-	 * @link
-	 */
-	public function __construct($isDirty = false, $initStore = null)
+    public function __construct($primaryValue = null, $raw = null, $emptyRecord = false)
     {
-        $this->triggerEvent(self::TRIGGER_INIT);
-        $this->isDirty = $isDirty;
-        $this->store = static::getFormat();
-        if($initStore !== null) {
-            $this->assign($initStore);
+        $this->getQueryInfo();
+        if($emptyRecord) {
+            return false;
         }
-        $this->realChanged = false;
-        $this->triggerEvent(self::TRIGGER_INITED);
-	}
-
-    static public function getModel()
-    {
-        if(!static::$config["Model"]) {
-            throw new Exception(self::ERROR_INVALID_MODEL);
-        }
-        if(is_string(static::$config["Model"])) {
-            if(!class_exists(static::$config["Model"])) {
-                throw new Exception(self::ERROR_INVALID_MODEL);
+        if($raw !== null) {
+            $this->assign($raw);
+        } else {
+            if($primaryValue !== null) {
+                $this->fetchRaw($primaryValue);
             }
-            $modelLabel = static::$config["Model"];
-            $Model = $modelLabel::getSingleton();
-            if($Model instanceof ModelInterface) {
-                static::$config["Model"] = $Model;
+        }
+        if($this->isValid) {
+            $this->makeAssiocite();
+        }
+    }
+
+    public function save()
+    {
+        if($this->isValid) {
+            $recordInfo = self::getRecordInfo();
+            $queryInfo = $this->getQueryInfo();
+            $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
+            $getter = 'get' . ucfirst($primaryProperty);
+            $setter = 'set' . ucfirst($primaryProperty);
+            $primaryValue = call_user_func([$this, $getter]);
+            $Model = $this->getModel();
+            if($primaryValue) {
+                $queryData = call_user_func($queryInfo[self::UPDATE]);
+                $Model->query($queryData['query'], $queryData['param']);
             } else {
-                throw new Exception(self::ERROR_INVALID_MODEL);
+                $queryData = call_user_func($queryInfo[self::INSERT]);
+                $Model->query($queryData['query'], $queryData['param']);
+                $primaryValue = $Model->getLastId();
             }
+            call_user_func([$this, $setter], $primaryValue);
+            return $primaryValue;
         }
-        return static::$config["Model"];
     }
 
-    static public function getSchema()
+    public function remove()
     {
-        if(!isset(static::$config["Schema"])) {
-            static::$config["Schema"] = static::getModel()->getSchema();
+        $queryInfo = $this->getQueryInfo();
+        $queryData = call_user_func($queryInfo[self::DELETE]);
+        $Model = $this->getModel();
+        $Model->query($queryData['query'], $queryData['param']);
+        $this->isValid = false;
+    }
+
+    public function toArray()
+    {
+        if($this->isValid) {
+            $recordInfo = self::getRecordInfo();
+            $propertyMap = $recordInfo[self::PROPERTY_MAP];
+            $data = [];
+            foreach($propertyMap as $property => $column) {
+                $getter = 'get' . ucfirst($property);
+                $data[$property] = call_user_func([$this, $getter]);
+            }
+            return $data;
         }
-        if(isset(static::$config["Schema"]) && is_string(static::$config["Schema"])) {
-            throw new Exception(self::ERROR_DEFINE_SCHEMA_IN_RECORD);
+    }
+
+    public function isValid()
+    {
+        return $this->isValid;
+    }
+
+    protected function getAssiociate($joinColumn)
+    {
+        
+    }
+
+    protected function setAssiociate($joinColumn, $assiociteInfo)
+    {
+        $recordInfo = self::getRecordInfo();
+        $queryInfo = $this->getQueryInfo();
+        $propertyMap = $recordInfo[self::PROPERTY_MAP];
+        $assiociteRecord = $assiociteInfo[self::ASSIOCIATE_RECORD];
+        $joinProperty = array_search($joinColumn, $propertyMap);
+        $assiociteProperty = array_search(get_class($assiociteRecord) . '::' . $joinColumn, $propertyMap);
+        $getter = [$this, 'get' . ucfirst($assiociteProperty)];
+        if($assiociteRecord === call_user_func($getter)) {
+            return false;
         }
-        return static::$config["Schema"];
+        $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
+        $referencedTable = $assiociteInfo[self::REFERENCED_TABLE];
+        $referencedJoinKey = $referencedTable . '_' . $referencedJoinColumn;
+        if(isset($recordInfo[self::ASSIOCIATE_QUERY][$referencedJoinKey])) {
+            $referencedQuery = $queryInfo[self::ASSIOCIATE_QUERY][$referencedJoinKey];            
+        } else {
+            $referencedQuery = SqlBuilder::makeAssiociteQuery($joinColumn, $recordInfo[self::TABLE][self::NAME], $referencedJoinColumn, $referencedTable, $propertyMap);
+            self::$info[static::class][self::ASSIOCIATE_QUERY][$referencedJoinKey] = $referencedQuery;
+        }
+        //実際assiociateRecordにデータのマッピングはまだ実装してない、SqlBuilderの実装が必要ので、一旦stop
+        if($assiociteInfo[self::FETCH] === self::LAZY) {
+            
+        } else {
+            $referencedColumnValue = call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE]);
+        }
+        $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
+        $referencedJoinProperty = array_search(get_class($assiociteRecord) . '::' . $referencedJoinColumn, $propertyMap);
+        if($referencedJoinProperty) {
+            $setter = 'set' . ucfirst($referencedJoinProperty);
+            call_user_func([$this, $setter], $assiociteRecord);
+        }
+        $assiociteRecord->setAssiociate($referencedJoinColumn, [
+            self::ASSIOCIATE_RECORD => $this
+        ]);
+    }
+
+    private function fetchRaw($primaryValue) {
+        $recordInfo = self::getRecordInfo();
+        $queryInfo = $this->getQueryInfo();
+        $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
+        $setter = [$this, 'set' . ucfirst($primaryProperty)];
+        call_user_func($setter, $primaryValue);
+        $queryData = call_user_func($queryInfo[self::SELECT]);
+        $raw = QueryExecutor::queryAndFetch($queryData['query'], $queryData['param']);
+        if($raw) {
+            $this->assign($raw);
+        } else {
+            call_user_func($setter, null);
+            $this->isValid = false;
+        }
+    }
+
+    private function assign($raw)
+    {
+        $recordInfo = self::getRecordInfo();
+        $propertyMap = $recordInfo[self::PROPERTY_MAP];
+        foreach($propertyMap as $property => $column) {
+            if(isset($raw[$column])) {
+                $setter = 'set' . ucfirst($property);
+                call_user_func([$this, $setter], $raw[$column]);
+            }
+        }        
+    }
+            
+    private function getModel()
+    {
+        if(self::$Model === null) {
+            $recordInfo = self::getRecordInfo();
+            $modelClass = $recordInfo[self::ENTITY][self::MODEL_CLASS];
+            self::$Model = $modelClass::getSingleton();
+        }
+        return self::$Model;
+    }
+
+    static public function getRecordInfo()
+    {
+        if(empty(self::$info[static::class])) {
+            self::$info[static::class] = [
+                self::TABLE => false,
+                self::PRIMARY_KEY => false,
+                self::ENTITY => [],
+                self::PROPERTY => [],
+                self::PROPERTY_MAP => null,
+                self::ASSIOCIATE_LIST => null,
+                self::ASSIOCIATE_QUERY => [],
+                self::QUERY => [
+                    self::SELECT => null,
+                    self::INSERT => null,
+                    self::UPDATE => null,
+                    self::DELETE => null,
+                ],
+            ];
+            $reflection = new ReflectionClass(static::class);
+            self::makeEntityInfo($reflection->getDocComment());
+            $propertyList = array_diff_key(
+                get_class_vars(static::class),
+                get_class_vars(__CLASS__)
+            );
+            foreach($propertyList as $property => $dummy) {
+                $propertyDocComment = $reflection->getProperty($property)->getDocComment();
+                self::makePropertyInfo($property, $propertyDocComment);
+            }
+            if(self::makeTableInfo()) {
+                self::prepareQueryInfo();
+            }
+        }
+        return self::$info[static::class];        
     }
     
-    static public function getFormat()
+    private function getQueryInfo()
     {
-        if(!isset(static::$config["Format"])) {
-            static::$config["Format"] = array_fill_keys(static::getSchema()->getObjectKeys(), "");
+        if($this->queryInfo === null) {
+            $this->makeQueryInfo();
         }
-        return static::$config["Format"];
+        return $this->queryInfo;
     }
 
-    public function isDirty()
+    static private function makeEntityInfo($comment)
     {
-        return $this->isDirty;
-    }
-
-	public function get($name)
-    {
-		return isset($this->store[$name]) ? $this->store[$name] : null;
-	}
-    
-    /**
-	 * データセットにキーを指定して更新する
-	 * @api
-	 * @param String $name データキー
-	 * @param Mixed $value 値
-	 * @return
-	 * @link
-	 */
-	public function set($name, $value)
-    {
-        if(!isset($this->store[$name])) {
-            throw new Exception(sprintf(self::ERROR_INVALID_COLUMN_FOR_SET, $name));
-        }
-		if($this->store[$name] !== $value) {
-			$this->realChanged = true;
-		}
-		return $this->store[$name] = $value;
-	}
-	
-    /**
-	 * 主キー値取得
-	 * @api
-	 * @return
-	 * @link
-	 */
-	public function getPrimaryValue()
-    {
-		return $this->primaryValue;
-	}
-
-    private function setPrimaryValue($primaryValue)
-    {
-        $this->primaryValue = $primaryValue;
-    }
-	
-	/**
-	 * データ一括更新
-	 * @api
-	 * @param Array $data 更新するデータ
-	 * @return
-	 * @link
-	 */
-	public function assign($data)
-    {
-		foreach($data as $name => $value) {
-			$this->set($name, $value);
-		}
-
-        $primaryKey = static::getSchema()->getObjectPrimaryKey();
-		if(isset($data[$primaryKey])) {
-			$this->setPrimaryValue($data[$primaryKey]);
-		}
-
-	}
-
-    /**
-     * レコードのupdate_dtだけ更新する
-     * タイムスタンプを利用していなければ，touchメソッドは何もしません
-     * @api
-     * @param   
-     * @param    
-     * @return
-     * @link
-     */
-    public function touch ()
-    {
-        if(static::getSchema()->hasTimeStamp("updateDate")) {
-            $this->realChanged = true;
-            $this->save();
-        }
-    }
-    
-    /**
-	 * データセットを配列で取得
-	 * @api
-	 * @return
-	 * @link
-	 */
-	public function toArray()
-    {
-		return $this->store;
-	}
-	
-	/**
-	 * データセットの変更をデータベースに反映
-	 *
-	 *値が実質的に変更されてない場合はSQLの生成及び発行を飛ばす：「最も早いSQLはSQLを発行しないこと」
-	 * ※注意、明示的に値の変更がなくてもtouchメソッドがコールされるとタイムスタンプが更新されるのでSQLが発行される。
-     *
-	 *更新時の挙動は要検討、論理上プライマリキーは変更すべきものではない
-	 * 
-	 * * task: make primary value can not be changed
-	 * @api
-	 * @return
-	 * @link
-	 */
-	public function save()
-    {
-        $this->triggerEvent(self::TRIGGER_SAVE);
-        if($this->isDirty === true) {
-            throw new Exception(self::ERROR_NONE_WRITABLE);
-			return false;            
-        }
-		if(empty($this->store)) {
-            throw new Exception(self::ERROR_INVALID_RECORD);
-			return false;
-		}
-        $Schema = static::getSchema();
-		$primaryKey = $Schema->getObjectPrimaryKey();
-        $sqlBuilder = static::getModel()->getSqlBuilder();
-		if(isset($this->primaryValue)) {
-			if(!$this->realChanged) {
-				return false;
-			}
-			if($Schema->hasTimeStamp("updateDate")) {
-                $this->set($Schema->getObjectTimeStamp("updateDate"), date("Ymd", $_SERVER["REQUEST_TIME"]));
-			}
-			if($Schema->hasTimeStamp("updateTime")) {
-                $this->set($Schema->getObjectTimeStamp("updateTime"), date("His", $_SERVER["REQUEST_TIME"]));
-			}
-            $sqlBuilder->find($primaryKey, $this->getPrimaryValue());
-            foreach($this->store as $key => $value) {
-                $sqlBuilder->set($key, $value);
-            }
-            $sqlBuilder->update()->query();
-			$this->realChanged = false;
-		} else {
-			if($Schema->hasTimeStamp("createDate")) {
-                $this->set($Schema->getObjectTimeStamp("createDate"), date("Ymd", $_SERVER["REQUEST_TIME"]));
-            }
-			if($Schema->hasTimeStamp("createTime")) {
-                $this->set($Schema->getObjectTimeStamp("createTime"), date("His", $_SERVER["REQUEST_TIME"]));
-			}
-            foreach($this->store as $key => $value) {
-                $sqlBuilder->set($key, $value);
-            }
-            $sqlBuilder->insert()->query();
-            $this->setPrimaryValue($sqlBuilder->getLastId());
-        }
-		return $this->getPrimaryValue();
-	}
-	
-	/**
-	 * データ削除
-	 * 
-	 * @api
-	 * @return
-	 * @link
-	 */
-	public function delete()
-    {
-        if($this->isDirty === true) {
-            throw new Exception(self::ERROR_NONE_WRITABLE);
-			return false;            
-        }
-		if($this->getPrimaryValue()) {
-			if(static::getModel()->find(static::getSchema()->getPrimaryKey(), $this->getPrimaryValue())->delete()) {
-                $this->store = static::getFormat();
-                $this->isDirty = true;
+        array_map(function($line) {
+            if(strpos($line, '@ORM') == false) {
                 return true;
             }
-		}
-	}
-    
-    public function getRelationRecord($relation)
-    {
-        if(!isset($this->relations[$relation])) {
-            //sample: "table" => ["type" => "oneToMany", "from" => $from, "to" => $to]
-            $relationConfig = static::getSchema()->getRelations();
-            if(isset($relationConfig[$relation])) {
-                $relationTarget = $relationConfig[$relation];
-                $relationModel = $relationTarget["Model"]::getSingleton();
-                
-                $column = $relationTarget["to"];
-                $value = $this->get($relationTarget["from"]);
-                $relationModel->find($column, $value);
-                switch($relationTarget["type"]) {
-                case SchemaInterface::RELATION_TO_ONE:
-                    $relationModel->limit(1);
-                    $this->relations[$relation] = $relationModel->get();
-                    break;
-                case SchemaInterface::RELATION_TO_MANY:
-                    $this->relations[$relation] = $relationModel->getAll();
-                    break;
-                default:
-                    throw new Exception(sprintf(self::ERROR_INVALID_RELATION_TYPE, $relationConfig["type"], static::getSchema()->getName()));
-                    break;
-                }
+            $line = explode('@ORM\\', $line);
+            $line = trim(str_replace(';', '', array_pop($line)));
+            if(strpos($line, '(') && strpos($line, ')')) {
+                list($name, $query) = explode('(', str_replace(')', '', $line));
+                $query = str_replace([',', '\'', '"'], ['&', ''], $query);
+                parse_str($query, $data);
             } else {
-                throw new Exception(sprintf(self::ERROR_INVALID_RELATION, $relation, static::getSchema()->getName()));
+                $name = $line;
+                $data = null;
+            }
+            
+            if(isset(self::$info[static::class][$name])) {
+                self::$info[static::class][$name] = $data;
+            } else {
+                self::$info[static::class][self::ENTITY][$name] = $data;
+            }
+        }, explode(PHP_EOL, $comment));
+    }
+
+    static private function makePropertyInfo($property, $comment)
+    {
+        array_map(function($line) use ($property) {
+            if(strpos($line, '@ORM') == false) {
+                return true;
+            }
+            $line = explode('@ORM\\', $line);
+            $line = trim(str_replace(';', '', array_pop($line)));
+            If($line === self::ID) {                
+                self::$info[static::class][self::PRIMARY_PROPERTY] = $property;
+                return true;
+            }            
+            if(strpos($line, '(') && strpos($line, ')')) {
+                list($name, $query) = explode('(', str_replace(')', '', $line));
+            }
+            if(!isset(self::$info[static::class][self::PROPERTY][$property])) {
+                self::$info[static::class][self::PROPERTY][$property] = [];
+            }
+            $query = str_replace([',', '\'', '"'], ['&', ''], $query);
+            parse_str($query, $data);
+            self::$info[static::class][self::PROPERTY][$property][$name] = $data;            
+        }, explode(PHP_EOL, $comment));
+    }
+    
+    static private function makeTableInfo()
+    {
+        $info = self::$info[static::class];
+        if(!isset($info[self::TABLE])) {
+            return false;
+        }
+        if(!isset($info[self::TABLE][self::NAME])) {
+            return false;
+        }        
+        if(!$primaryProperty = $info[self::PRIMARY_PROPERTY]) {
+            return false;
+        }
+        if(!isset($info[self::PROPERTY][$primaryProperty])) {
+            return false;
+        }
+        if(!isset($info[self::PROPERTY][$primaryProperty][self::COLUMN])) {
+            return false;
+        }
+        if(!isset($info[self::PROPERTY][$primaryProperty][self::COLUMN][self::NAME])) {
+            return false;
+        }
+        self::$info[static::class][self::PRIMARY_KEY] = self::$info[static::class][self::PROPERTY][$primaryProperty][self::COLUMN][self::NAME];
+        return true;
+    }
+
+    static private function prepareQueryInfo()
+    {
+        $info = self::$info[static::class];
+        $propertyList = $info[self::PROPERTY];
+        $propertyMap = [];
+        $columnMap = [];
+        $assiociteList = [
+            self::ONE_TO_ONE => [],
+            self::ONE_TO_MANY => [],
+            self::MANY_TO_ONE => [],
+        ];
+        foreach($propertyList as $propertyName => $property) {
+            if(isset($property[self::COLUMN]) && isset($property[self::COLUMN][self::NAME])) {
+                $columnMap[$propertyName] = $propertyMap[$propertyName] = $property[self::COLUMN][self::NAME];                
+            }
+            if(isset($property[self::ONE_TO_ONE])) {
+                $assiociteList[self::ONE_TO_ONE][$propertyName] = $property;
+                $propertyMap[$propertyName] = $property[self::ONE_TO_ONE][self::TARGET_RECORD] . '::'. $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
+            } else if (isset($property[self::ONE_TO_MANY])) {
+                $assiociteList[self::ONE_TO_MANY][$propertyName] = $property;
+                $propertyMap[$propertyName] = $property[self::ONE_TO_MANY][self::TARGET_RECORD] . '::'. $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
+            } else if (isset($property[self::MANY_TO_ONE])) {
+                $assiociteList[self::MANY_TO_ONE][$propertyName] = $property;
+                $propertyMap[$propertyName] = $property[self::MANY_TO_ONE][self::TARGET_RECORD] . '::'. $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
             }
         }
-        return $this->relations[$relation];
+        $info[self::COLUMN_MAP] = $columnMap;
+        $info[self::PROPERTY_MAP] = $propertyMap;
+        foreach($info[self::QUERY] as $queryType => $query) {
+            $info[self::QUERY][$queryType] = self::prepareQuery($queryType, $columnMap, $info[self::TABLE][self::NAME], $info[self::PRIMARY_KEY]);
+        }
+        $info[self::ASSIOCIATE_LIST] = $assiociteList;
+        self::$info[static::class] = $info;
+    }
+
+    static private function prepareQuery($queryType, $propertyMap, $table, $primaryKey)
+    {
+        $query = null;
+        switch($queryType) {
+        case self::SELECT:
+            $query = SqlBuilder::makeSelectQuery($propertyMap, $table, $primaryKey);
+            break;
+        case self::INSERT:
+            $query = SqlBuilder::makeInsertQuery($propertyMap, $table, $primaryKey);
+            break;
+        case self::UPDATE:
+            $query = SqlBuilder::makeUpdateQuery($propertyMap, $table, $primaryKey);
+            break;
+        case self::DELETE:
+            $query = SqlBuilder::makeDeleteQuery($propertyMap, $table, $primaryKey);
+            break;
+        }
+        return $query;
+    }
+
+    private function makeQueryInfo()
+    {
+        $recordInfo = self::getRecordInfo();
+        $this->queryInfo = [];
+        foreach($recordInfo[self::QUERY] as $queryType => $query) {
+            $this->queryInfo[$queryType] = $this->makeQuery($query, $queryType, $recordInfo[self::COLUMN_MAP], $recordInfo[self::PRIMARY_KEY]);
+        }
+    }
+
+    public function makeQuery($query, $queryType, $columnMap, $primaryKey)
+    {
+        $recordInfo = self::getRecordInfo();
+        $propertyMap = $recordInfo[self::PROPERTY_MAP];
+        $executor = null;
+        $option = ['queryType' => $queryType];
+        switch($queryType) {
+        case self::INSERT:
+            $executor = $this->makeLazyQuery($query, $queryType, $columnMap, $option);
+            break;
+        case self::UPDATE:
+            $executor = $this->makeLazyQuery($query, $queryType, $columnMap, $option);
+            break;
+        case self::SELECT:
+            $primaryProperty = array_search($primaryKey, $propertyMap);
+            $executor = $this->makeLazyQuery($query, $queryType, [$primaryProperty => $primaryKey], $option);
+            break;
+        case self::DELETE:
+            $primaryProperty = array_search($primaryKey, $propertyMap);
+            $executor = $this->makeLazyQuery($query, $queryType, [$primaryProperty => $primaryKey], $option);
+            break;
+        }
+        return $executor;
+    }
+
+    private function makeAssiocite()
+    {
+        $assiociteList = self::$info[static::class][self::ASSIOCIATE_LIST];
+        $propertyMap = self::$info[static::class][self::PROPERTY_MAP];
+        foreach($assiociteList as $assiociteType => $assiocitePropertyList) {
+            foreach($assiocitePropertyList as $propertyName => $property) {
+                $getter = 'get' . ucfirst($propertyName);
+                if($assiociteRecord = call_user_func([$this, $getter])) {
+                    continue;
+                }
+                if(isset($property[$assiociteType][self::FETCH]) && $property[$assiociteType][self::FETCH] === self::LAZY) {
+                    $this->makeAssiociteRecord($assiociteType, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap, self::LAZY);
+                } else {
+                    $this->makeAssiociteRecord($assiociteType, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap);
+                }
+            }
+        }
+    }
+
+    /**
+     * 現在はOneToOneだけ対応、OneToMany, ManyToOneは追って追加
+     */
+    private function makeAssiociteRecord($assiociteType, $propertyName, $property, $table, $propertyMap, $fetch = null)
+    {
+        $setter = [$this, 'set' . ucfirst($propertyName)];
+        $targetRecord = $property[self::ONE_TO_MANY][self::TARGET_RECORD];
+        $joinColumn = $property[self::JOIN_COLUMN][self::NAME];
+        $referencedJoinColumn = $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
+        $referencedJoinProperty = array_search($referencedJoinColumn, $propertyMap);        
+        $assiociteRecord = new $targetRecord(null, null, true);
+        call_user_func($setter, $assiociteRecord);
+        $assiociteRecord->setAssiociate($joinColumn, [
+            self::ASSIOCIATE => $assiociteType,
+            self::ASSIOCIATE_RECORD => $this,
+            self::REFERENCED_COLUMN_NAME => $referencedJoinColumn,
+            self::REFERENCED_COLUMN_VALUE => [$this, 'get' . ucfirst($referencedJoinProperty)],
+            self::REFERENCED_TABLE => $table,
+            self::FETCH => $fetch,
+        ]);
+    }
+
+    private function makeLazyQuery($query, $queryType, $propertyMap, $option = null)
+    {
+        $paramGetter = [];
+        return function () use ($query, $queryType, $propertyMap, $option) {
+            foreach($propertyMap as $property => $column) {
+                $getter = 'get' . ucfirst($property);
+                $paramGetter[':' . $column] = [$this, $getter];
+            }
+            $this->queryInfo[$queryType] = function () use ($query, $paramGetter, $option) {
+                foreach($paramGetter as $key => $getter) {
+                    $paramGetter[$key] = call_user_func($getter);
+                }
+                return [
+                    'query' => $query,
+                    'param' => $paramGetter,
+                    'option' => $option
+                ];
+            };
+            return call_user_func($this->queryInfo[$queryType]);
+        };
     }
 }
