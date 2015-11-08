@@ -33,6 +33,33 @@ class QueryExecutor
     {
         return $this->prepareStatement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    static public function beginTransaction()
+    {
+        self::getConnection()->beginTransaction();
+    }
+
+    static public function commit()
+    {
+        self::getConnection()->commit();
+    }
+
+    static public function rollback()
+    {
+        self::getConnection()->rollback();
+    }
+
+    static public function transaction($transaction)
+    {
+        $connection = self::getConnection();
+        $connection->beginTransaction();
+        $result = call_user_func($transaction);
+        if($result) {
+            $connection->commit();
+        } else {
+            $connection->rollback();
+        }
+    }
     
     static public function queryAndFetch($query, $data)
     {

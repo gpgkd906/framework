@@ -3,6 +3,8 @@
 namespace Framework\Model\Model;
 
 use Framework\Event\Event\EventInterface;
+use Framework\Model\Model\ModelInterface;
+use Framework\Model\Model\SqlBuilderInterface;
 use ReflectionClass;
 use Exception;
 
@@ -53,6 +55,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     
     static protected $info = [];
     static private $Model = null;
+    static private $sqlbuilder = null;
     private $isValid = true;
     private $queryInfo = null;
     
@@ -96,7 +99,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
             return $primaryValue;
         }
     }
-
+    
     public function remove()
     {
         $queryInfo = $this->getQueryInfo();
@@ -125,11 +128,6 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         return $this->isValid;
     }
 
-    protected function getAssiociate($joinColumn)
-    {
-        
-    }
-
     protected function setAssiociate($joinColumn, $assiociteInfo)
     {
         $recordInfo = self::getRecordInfo();
@@ -145,20 +143,25 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
         $referencedTable = $assiociteInfo[self::REFERENCED_TABLE];
         $referencedJoinKey = $referencedTable . '_' . $referencedJoinColumn;
-        if(isset($recordInfo[self::ASSIOCIATE_QUERY][$referencedJoinKey])) {
-            $referencedQuery = $queryInfo[self::ASSIOCIATE_QUERY][$referencedJoinKey];            
-        } else {
-            $referencedQuery = SqlBuilder::makeAssiociteQuery($joinColumn, $recordInfo[self::TABLE][self::NAME], $referencedJoinColumn, $referencedTable, $propertyMap);
-            self::$info[static::class][self::ASSIOCIATE_QUERY][$referencedJoinKey] = $referencedQuery;
-        }
+        $referencedQuery = SqlBuilder::makeAssiociteQuery($joinColumn, $recordInfo[self::TABLE][self::NAME], $referencedJoinColumn, $referencedTable, $propertyMap);
+        $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
+        $referencedJoinProperty = array_search(get_class($assiociteRecord) . '::' . $referencedJoinColumn, $propertyMap);        
         //実際assiociateRecordにデータのマッピングはまだ実装してない、SqlBuilderの実装が必要ので、一旦stop
         if($assiociteInfo[self::FETCH] === self::LAZY) {
-            
+            self::$info[static::class][self::ASSIOCIATE_QUERY][self::LAZY] = [
+                'query' => $referencedQuery,
+                'param' => [':' . $referencedJoinColumn => $assiociteInfo[self::REFERENCED_COLUMN_VALUE]],
+            ];
+            $columnMap = $recordInfo[self::COLUMN_MAP];
+            foreach($columnMap as $property => $column) {
+                unset($this->{$property});
+            }
         } else {
+            //lazyでなければ、そのままassign
             $referencedColumnValue = call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE]);
+            $raw = QueryExecutor::queryAndFetch($referencedQuery, [':' . $referencedJoinColumn => $referencedColumnValue]);
+            $this->assign($raw);
         }
-        $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
-        $referencedJoinProperty = array_search(get_class($assiociteRecord) . '::' . $referencedJoinColumn, $propertyMap);
         if($referencedJoinProperty) {
             $setter = 'set' . ucfirst($referencedJoinProperty);
             call_user_func([$this, $setter], $assiociteRecord);
@@ -166,6 +169,23 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         $assiociteRecord->setAssiociate($referencedJoinColumn, [
             self::ASSIOCIATE_RECORD => $this
         ]);
+    }
+
+    public function __get($property)
+    {
+        $recordInfo = self::getRecordInfo();
+        $columnMap = $recordInfo[self::COLUMN_MAP];
+        
+        if(!isset($columnMap[$property])) {
+            trigger_error('private');
+        }
+        extract($recordInfo[self::ASSIOCIATE_QUERY][self::LAZY]);
+        foreach($param as $bindKey => $bindValue) {
+            $param[$bindKey] = call_user_func($bindValue);
+        }
+        $raw = QueryExecutor::queryAndFetch($query, $param);
+        $this->assign($raw);
+        return $this->{$property};
     }
 
     private function fetchRaw($primaryValue) {
@@ -195,8 +215,20 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
             }
         }        
     }
-            
-    private function getModel()
+
+    static public function setSqlBuilder(SqlBuilderInterface $sqlbuilder)
+    {
+        self::$sqlbuilder = $sqlbuilder;
+        $sqlbuilder->setRecordInfo(static::class, self::getRecordInfo());
+    }
+    
+    static public function setModel(ModelInterface $Model)
+    {
+        self::$Model = $Model;
+        $Model->setRecordInfo(self::getRecordInfo());
+    }
+    
+    static public function getModel()
     {
         if(self::$Model === null) {
             $recordInfo = self::getRecordInfo();
@@ -433,8 +465,9 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 
     /**
      * 現在はOneToOneだけ対応、OneToMany, ManyToOneは追って追加
+     * assiociteTypeを利用して対応
      */
-    private function makeAssiociteRecord($assiociteType, $propertyName, $property, $table, $propertyMap, $fetch = null)
+    private function makeAssiociteRecord($assiociateType, $propertyName, $property, $table, $propertyMap, $fetch = null)
     {
         $setter = [$this, 'set' . ucfirst($propertyName)];
         $targetRecord = $property[self::ONE_TO_MANY][self::TARGET_RECORD];
@@ -444,7 +477,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         $assiociteRecord = new $targetRecord(null, null, true);
         call_user_func($setter, $assiociteRecord);
         $assiociteRecord->setAssiociate($joinColumn, [
-            self::ASSIOCIATE => $assiociteType,
+            self::ASSIOCIATE => $assiociateType,
             self::ASSIOCIATE_RECORD => $this,
             self::REFERENCED_COLUMN_NAME => $referencedJoinColumn,
             self::REFERENCED_COLUMN_VALUE => [$this, 'get' . ucfirst($referencedJoinProperty)],
