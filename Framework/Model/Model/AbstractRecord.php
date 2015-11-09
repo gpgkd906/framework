@@ -5,6 +5,9 @@ namespace Framework\Model\Model;
 use Framework\Event\Event\EventInterface;
 use Framework\Model\Model\ModelInterface;
 use Framework\Model\Model\SqlBuilderInterface;
+use Framework\Model\Model\Collection;
+use Framework\Model\Model\AssiociateHelper;
+use Framework\Model\Model\AssiociateHelper\AssiociateHelperInterface as Assiociate;
 use ReflectionClass;
 use Exception;
 
@@ -31,21 +34,6 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     const PRIMARY_PROPERTY = 'primaryProperty';
     const SETTER       = 'setter';
     //
-    const ASSIOCIATE    = 'Assiociate';
-    const ONE_TO_ONE    = 'OneToOne';
-    const ONE_TO_MANY   = 'OneToMany';
-    const MANY_TO_ONE   = 'ManyToOne';
-    const FETCH         = 'fetch';
-    const LAZY          = 'LAZY';
-    const JOIN_COLUMN   = 'JoinColumn';
-    const TARGET_RECORD = 'targetRecord';
-    const REFERENCED_COLUMN_NAME = 'referencedColumnName';
-    const REFERENCED_COLUMN_VALUE = 'referencedColumnValue';
-    const REFERENCED_TABLE = 'referencedTable';
-    const ASSIOCIATE_LIST = 'assiociateList';
-    const ASSIOCIATE_RECORD = 'assiociateRecord';
-    const ASSIOCIATE_QUERY = 'assiociateQuery';
-    //
     const TRIGGER_PREINSERT  = 'preInsert';
     const TRIGGER_PREUPDATE  = 'preUpdate';
     const TRIGGER_PREDELETE  = 'preDelete';
@@ -55,14 +43,16 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     
     static protected $info = [];
     static private $Model = null;
+    static private $config = null;
     static private $sqlbuilder = null;
     private $isValid = true;
-    private $queryInfo = null;
+    private $queryInfo = null;    
+    private $assiociateInitedFlag = false;
     
-    public function __construct($primaryValue = null, $raw = null, $emptyRecord = false)
+    public function __construct($primaryValue = null, $raw = null)
     {
         $this->getQueryInfo();
-        if($emptyRecord) {
+        if($primaryValue === null && $raw === null) {
             return false;
         }
         if($raw !== null) {
@@ -71,9 +61,6 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
             if($primaryValue !== null) {
                 $this->fetchRaw($primaryValue);
             }
-        }
-        if($this->isValid) {
-            $this->makeAssiocite();
         }
     }
 
@@ -119,7 +106,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
                 $getter = 'get' . ucfirst($property);
                 $data[$property] = call_user_func([$this, $getter]);
             }
-            return $data;
+            Return $data;
         }
     }
 
@@ -128,47 +115,39 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         return $this->isValid;
     }
 
-    protected function setAssiociate($joinColumn, $assiociteInfo)
+    
+    protected function setAssiociate($assiociteInfo)
     {
         $recordInfo = self::getRecordInfo();
-        $queryInfo = $this->getQueryInfo();
-        $propertyMap = $recordInfo[self::PROPERTY_MAP];
-        $assiociteRecord = $assiociteInfo[self::ASSIOCIATE_RECORD];
-        $joinProperty = array_search($joinColumn, $propertyMap);
-        $assiociteProperty = array_search(get_class($assiociteRecord) . '::' . $joinColumn, $propertyMap);
-        $getter = [$this, 'get' . ucfirst($assiociteProperty)];
-        if($assiociteRecord === call_user_func($getter)) {
-            return false;
-        }
-        $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
-        $referencedTable = $assiociteInfo[self::REFERENCED_TABLE];
-        $referencedJoinKey = $referencedTable . '_' . $referencedJoinColumn;
-        $referencedQuery = SqlBuilder::makeAssiociteQuery($joinColumn, $recordInfo[self::TABLE][self::NAME], $referencedJoinColumn, $referencedTable, $propertyMap);
-        $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
-        $referencedJoinProperty = array_search(get_class($assiociteRecord) . '::' . $referencedJoinColumn, $propertyMap);        
-        //実際assiociateRecordにデータのマッピングはまだ実装してない、SqlBuilderの実装が必要ので、一旦stop
-        if($assiociteInfo[self::FETCH] === self::LAZY) {
-            self::$info[static::class][self::ASSIOCIATE_QUERY][self::LAZY] = [
-                'query' => $referencedQuery,
-                'param' => [':' . $referencedJoinColumn => $assiociteInfo[self::REFERENCED_COLUMN_VALUE]],
-            ];
-            $columnMap = $recordInfo[self::COLUMN_MAP];
-            foreach($columnMap as $property => $column) {
-                unset($this->{$property});
+        $assiociateList = $recordInfo[Assiociate::ASSIOCIATE_LIST];
+        foreach($assiociateList as $assiociateType => $assiociate) {
+            foreach($assiociate as $target) {
+                if($target[$assiociateType][Assiociate::TARGET_RECORD] === $assiociteInfo[Assiociate::ASSIOCIATE_RECORD_CLASS]) {
+                    break 2;
+                }
             }
-        } else {
-            //lazyでなければ、そのままassign
-            $referencedColumnValue = call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE]);
-            $raw = QueryExecutor::queryAndFetch($referencedQuery, [':' . $referencedJoinColumn => $referencedColumnValue]);
-            $this->assign($raw);
         }
-        if($referencedJoinProperty) {
-            $setter = 'set' . ucfirst($referencedJoinProperty);
-            call_user_func([$this, $setter], $assiociteRecord);
+        $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
+        if($assiociateHelper::setAssiociatedRecord($this, $recordInfo, $assiociteInfo, function($query, $param, $lazyFlag) use ($recordInfo) {
+            if($lazyFlag) {
+                self::$info[static::class][Assiociate::ASSIOCIATE_QUERY][Assiociate::LAZY] = [
+                    'query' => $query,
+                    'param' => $param,
+                ];
+                $columnMap = $recordInfo[self::COLUMN_MAP];
+                foreach($columnMap as $property => $column) {
+                    unset($this->{$property});
+                }                
+            } else {
+                $raw = QueryExecutor::queryAndFetch($query, $param);
+                $this->assign($raw);
+            }
+        })) {
+            $assiociteRecord->setAssiociate([
+                Assiociate::JOIN_COLUMN => $referencedJoinColumn,
+                Assiociate::ASSIOCIATE_RECORD => $this
+            ]);
         }
-        $assiociteRecord->setAssiociate($referencedJoinColumn, [
-            self::ASSIOCIATE_RECORD => $this
-        ]);
     }
 
     public function __get($property)
@@ -179,7 +158,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         if(!isset($columnMap[$property])) {
             trigger_error('private');
         }
-        extract($recordInfo[self::ASSIOCIATE_QUERY][self::LAZY]);
+        extract($recordInfo[Assiociate::ASSIOCIATE_QUERY][Assiociate::LAZY]);
         foreach($param as $bindKey => $bindValue) {
             $param[$bindKey] = call_user_func($bindValue);
         }
@@ -213,7 +192,10 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
                 $setter = 'set' . ucfirst($property);
                 call_user_func([$this, $setter], $raw[$column]);
             }
-        }        
+        }
+        if($this->isValid) {
+            $this->makeAssiociate();
+        }
     }
 
     static public function setSqlBuilder(SqlBuilderInterface $sqlbuilder)
@@ -247,8 +229,8 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
                 self::ENTITY => [],
                 self::PROPERTY => [],
                 self::PROPERTY_MAP => null,
-                self::ASSIOCIATE_LIST => null,
-                self::ASSIOCIATE_QUERY => [],
+                Assiociate::ASSIOCIATE_LIST => null,
+                Assiociate::ASSIOCIATE_QUERY => [],
                 self::QUERY => [
                     self::SELECT => null,
                     self::INSERT => null,
@@ -362,23 +344,23 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         $propertyMap = [];
         $columnMap = [];
         $assiociteList = [
-            self::ONE_TO_ONE => [],
-            self::ONE_TO_MANY => [],
-            self::MANY_TO_ONE => [],
+            Assiociate::ONE_TO_ONE => [],
+            Assiociate::ONE_TO_MANY => [],
+            Assiociate::MANY_TO_ONE => [],
         ];
         foreach($propertyList as $propertyName => $property) {
             if(isset($property[self::COLUMN]) && isset($property[self::COLUMN][self::NAME])) {
                 $columnMap[$propertyName] = $propertyMap[$propertyName] = $property[self::COLUMN][self::NAME];                
             }
-            if(isset($property[self::ONE_TO_ONE])) {
-                $assiociteList[self::ONE_TO_ONE][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[self::ONE_TO_ONE][self::TARGET_RECORD] . '::'. $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
-            } else if (isset($property[self::ONE_TO_MANY])) {
-                $assiociteList[self::ONE_TO_MANY][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[self::ONE_TO_MANY][self::TARGET_RECORD] . '::'. $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
-            } else if (isset($property[self::MANY_TO_ONE])) {
-                $assiociteList[self::MANY_TO_ONE][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[self::MANY_TO_ONE][self::TARGET_RECORD] . '::'. $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
+            if(isset($property[Assiociate::ONE_TO_ONE])) {
+                $assiociteList[Assiociate::ONE_TO_ONE][$propertyName] = $property;
+                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_ONE][Assiociate::TARGET_RECORD] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
+            } else if (isset($property[Assiociate::ONE_TO_MANY])) {
+                $assiociteList[Assiociate::ONE_TO_MANY][$propertyName] = $property;
+                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_MANY][Assiociate::TARGET_RECORD] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
+            } else if (isset($property[Assiociate::MANY_TO_ONE])) {
+                $assiociteList[Assiociate::MANY_TO_ONE][$propertyName] = $property;
+                $propertyMap[$propertyName] = $property[Assiociate::MANY_TO_ONE][Assiociate::TARGET_RECORD] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
             }
         }
         $info[self::COLUMN_MAP] = $columnMap;
@@ -386,7 +368,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         foreach($info[self::QUERY] as $queryType => $query) {
             $info[self::QUERY][$queryType] = self::prepareQuery($queryType, $columnMap, $info[self::TABLE][self::NAME], $info[self::PRIMARY_KEY]);
         }
-        $info[self::ASSIOCIATE_LIST] = $assiociteList;
+        $info[Assiociate::ASSIOCIATE_LIST] = $assiociteList;
         self::$info[static::class] = $info;
     }
 
@@ -444,46 +426,24 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         return $executor;
     }
 
-    private function makeAssiocite()
+    private function makeAssiociate()
     {
-        $assiociteList = self::$info[static::class][self::ASSIOCIATE_LIST];
-        $propertyMap = self::$info[static::class][self::PROPERTY_MAP];
-        foreach($assiociteList as $assiociteType => $assiocitePropertyList) {
-            foreach($assiocitePropertyList as $propertyName => $property) {
-                $getter = 'get' . ucfirst($propertyName);
-                if($assiociteRecord = call_user_func([$this, $getter])) {
-                    continue;
-                }
-                if(isset($property[$assiociteType][self::FETCH]) && $property[$assiociteType][self::FETCH] === self::LAZY) {
-                    $this->makeAssiociteRecord($assiociteType, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap, self::LAZY);
-                } else {
-                    $this->makeAssiociteRecord($assiociteType, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap);
+        if($this->assiociateInitedFlag === false) {
+            $assiociteList = self::$info[static::class][Assiociate::ASSIOCIATE_LIST];
+            $propertyMap = self::$info[static::class][self::PROPERTY_MAP];
+            foreach($assiociteList as $assiociateType => $assiocitePropertyList) {
+                foreach($assiocitePropertyList as $propertyName => $property) {
+                    $getter = 'get' . ucfirst($propertyName);
+                    if($assiocites = call_user_func([$this, $getter])) {
+                        continue;
+                    }
+                    $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
+                    list($RecordOrCollection, $param) = $assiociateHelper::makeAssiociateRecord($this, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap);
+                    $RecordOrCollection->setAssiociate($param);
                 }
             }
+            $this->assiociateInitedFlag = true;
         }
-    }
-
-    /**
-     * 現在はOneToOneだけ対応、OneToMany, ManyToOneは追って追加
-     * assiociteTypeを利用して対応
-     */
-    private function makeAssiociteRecord($assiociateType, $propertyName, $property, $table, $propertyMap, $fetch = null)
-    {
-        $setter = [$this, 'set' . ucfirst($propertyName)];
-        $targetRecord = $property[self::ONE_TO_MANY][self::TARGET_RECORD];
-        $joinColumn = $property[self::JOIN_COLUMN][self::NAME];
-        $referencedJoinColumn = $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
-        $referencedJoinProperty = array_search($referencedJoinColumn, $propertyMap);        
-        $assiociteRecord = new $targetRecord(null, null, true);
-        call_user_func($setter, $assiociteRecord);
-        $assiociteRecord->setAssiociate($joinColumn, [
-            self::ASSIOCIATE => $assiociateType,
-            self::ASSIOCIATE_RECORD => $this,
-            self::REFERENCED_COLUMN_NAME => $referencedJoinColumn,
-            self::REFERENCED_COLUMN_VALUE => [$this, 'get' . ucfirst($referencedJoinProperty)],
-            self::REFERENCED_TABLE => $table,
-            self::FETCH => $fetch,
-        ]);
     }
 
     private function makeLazyQuery($query, $queryType, $propertyMap, $option = null)
@@ -507,4 +467,14 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
             return call_user_func($this->queryInfo[$queryType]);
         };
     }
+
+    static public function setConfig ($config)
+    {
+        return self::$config = $config;
+    }
+
+    static public function getConfig ()
+    {
+        return self::$config;
+    }   
 }

@@ -94,7 +94,7 @@ class SqlBuilder implements SqlBuilderInterface
     public function from($table, $as = null)
     {
         if(!is_subclass_of($table, RecordInterface::class)) {
-            throw new Exception('invalid Record');
+            throw new Exception('invalid Entity:' . $table);
         }
         $this->recordClass = $table;
         $table = $this->getRecordInfo($table)['Table']['name'];
@@ -131,6 +131,21 @@ class SqlBuilder implements SqlBuilderInterface
         return $this;
     }
 
+    public function join($joinTable, $joinColumn, $withOrUse, $referencedJoinColumn)
+    {
+        return $this->makeJoin('INNER JOIN', $joinTable, $joinColumn, $withOrUse, $referencedJoinColumn);
+    }
+
+    public function leftJoin($joinTable, $joinColumn, $withOrUse, $referencedJoinColumn)
+    {
+        return $this->makeJoin('LEFT JOIN', $joinTable, $joinColumn, $withOrUse, $referencedJoinColumn);
+    }
+
+    public function rightJoin($joinTable, $joinColumn, $withOrUse, $referencedJoinColumn)
+    {
+        return $this->makeJoin('RIGHT JOIN', $joinTable, $joinColumn, $withOrUse, $referencedJoinColumn);
+    }
+
     private function makeJoin($joinType, $joinTable, $joinProperty, $with, $referencedJoinProperty = null)
     {
         $as = null;
@@ -139,7 +154,7 @@ class SqlBuilder implements SqlBuilderInterface
             list($joinTable, $as) = $joinTable;
         }
         if(!is_subclass_of($joinTable, RecordInterface::class)) {
-            throw new Exception('invalid Record');
+            throw new Exception('invalid Entity:' . $joinTable);
         }
         $this->joinRecordClass[] = $joinTable;
         $joinRecordInfo = $this->getRecordInfo($joinTable);
@@ -160,21 +175,6 @@ class SqlBuilder implements SqlBuilderInterface
         }
         $this->join[] = $join;
         return $this;
-    }
-
-    public function join($joinTable, $joinColumn, $withOrUse, $referencedJoinColumn)
-    {
-        return $this->makeJoin('INNER JOIN', $joinTable, $joinColumn, $withOrUse, $referencedJoinColumn);
-    }
-
-    public function leftJoin($joinTable, $joinColumn, $withOrUse, $referencedJoinColumn)
-    {
-        return $this->makeJoin('LEFT JOIN', $joinTable, $joinColumn, $withOrUse, $referencedJoinColumn);
-    }
-
-    public function rightJoin($joinTable, $joinColumn, $withOrUse, $referencedJoinColumn)
-    {
-        return $this->makeJoin('RIGHT JOIN', $joinTable, $joinColumn, $withOrUse, $referencedJoinColumn);
     }
 
     public function orderBy($orderBy)
@@ -339,7 +339,7 @@ class SqlBuilder implements SqlBuilderInterface
         return $query;
     }
     
-    static public function makeAssiociteQuery($joinColumn, $table, $referencedJoinColumn, $referencedTable, $propertyMap)
+    static public function makeAssiociateQuery($joinColumn, $table, $referencedJoinColumn, $referencedTable, $propertyMap)
     {
         $query = sprintf(
             'SELECT `%s`.* FROM `%s` JOIN `%s` ON `%s`.`%s` = `%s`.`%s` WHERE `%s`.`%s` = :%s',
