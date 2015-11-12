@@ -16,12 +16,18 @@ class QueryExecutor
     {
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
+        //var_dump($query);
         $ret = $prepareStatement->execute($data);
         if($ret) {
             $this->prepareStatement = $prepareStatement;
         } else {
             var_dump($prepareStatement->errorInfo());
         }        
+    }
+
+    public function execute($data)
+    {
+        $this->prepareStatement->execute($data);
     }
 
     public function fetch()
@@ -32,6 +38,11 @@ class QueryExecutor
     public function fetchAll()
     {
         return $this->prepareStatement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getLastId()
+    {
+        return self::getConnection()->lastInsertId();
     }
 
     static public function beginTransaction()
@@ -65,6 +76,7 @@ class QueryExecutor
     {
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
+        //var_dump($query);
         $ret = $prepareStatement->execute($data);
         if($ret) {
             return $prepareStatement->fetch(PDO::FETCH_ASSOC);
@@ -77,6 +89,7 @@ class QueryExecutor
     {
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
+        //var_dump($query);
         $ret = $prepareStatement->execute($data);
         if($ret) {
             return $prepareStatement->fetchAll(PDO::FETCH_ASSOC);

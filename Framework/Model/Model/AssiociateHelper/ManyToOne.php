@@ -13,7 +13,6 @@ class ManyToOne implements AssiociateHelperInterface
     
     static public function makeAssiociateRecord($record, $propertyName, $property, $table, $propertyMap)
     {
-        throw new Exception('not implements');        
         $fetch = null;
         if(isset($property[self::TYPE][self::FETCH]) && $property[self::TYPE][self::FETCH] === self::LAZY) {
             $fetch = self::LAZY;
@@ -39,16 +38,11 @@ class ManyToOne implements AssiociateHelperInterface
     
     static public function setAssiociatedRecord($Collection, $recordInfo, $assiociteInfo, $callback)
     {
-        throw new Exception('not implements');
         $joinColumn = $assiociteInfo[self::JOIN_COLUMN];
         $propertyMap = $recordInfo[Record::PROPERTY_MAP];
         $assiociteRecord = $assiociteInfo[self::ASSIOCIATE_RECORD];
         $joinProperty = array_search($joinColumn, $propertyMap);
         $assiociteProperty = array_search($assiociteInfo[self::ASSIOCIATE_RECORD_CLASS] . '::' . $joinColumn, $propertyMap);
-        $getter = [$record, 'get' . ucfirst($assiociteProperty)];
-        if($assiociteRecord === call_user_func($getter)) {
-            return false;
-        }
         $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
         $referencedTable = $assiociteInfo[self::REFERENCED_TABLE];
         $referencedJoinKey = $referencedTable . '_' . $referencedJoinColumn;
@@ -60,10 +54,7 @@ class ManyToOne implements AssiociateHelperInterface
         } else {
             $param = [':' . $referencedJoinColumn => call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE])];
         }
-        call_user_func($callBack, $referencedQuery, $param, $assiociteInfo[self::FETCH] === self::LAZY);
-        if($referencedJoinProperty) {
-            $setter = 'set' . ucfirst($referencedJoinProperty);
-            call_user_func([$record, $setter], $assiociteRecord);
-        }        
+        call_user_func($callback, $referencedQuery, $param, $assiociteInfo[self::FETCH] === self::LAZY);
+        return true;
     }
 }

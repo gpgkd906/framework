@@ -3,6 +3,7 @@
 namespace Framework\Model\Model\AssiociateHelper;
 
 use Framework\Model\Model\AssiociateHelper\AssiociateHelperInterface;
+use Framework\Model\Model\Collection;
 use Framework\Model\Model\AbstractRecord as Record;
 use Framework\Model\Model\SqlBuilder;
 use Exception;
@@ -13,7 +14,6 @@ class OneToMany implements AssiociateHelperInterface
     
     static public function makeAssiociateRecord($record, $propertyName, $property, $table, $propertyMap)
     {
-        throw new Exception('not implements');
         $fetch = null;
         if(isset($property[self::TYPE][self::FETCH]) && $property[self::TYPE][self::FETCH] === self::LAZY) {
             $fetch = self::LAZY;
@@ -22,11 +22,12 @@ class OneToMany implements AssiociateHelperInterface
         $targetRecord = $property[self::TYPE][self::TARGET_RECORD];
         $joinColumn = $property[self::JOIN_COLUMN][Record::NAME];
         $referencedJoinColumn = $property[self::JOIN_COLUMN][self::REFERENCED_COLUMN_NAME];
-        $referencedJoinProperty = array_search($referencedJoinColumn, $propertyMap);        
-        $assiociteRecord = new $targetRecord();
-        call_user_func($setter, $assiociteRecord);
+        $referencedJoinProperty = array_search($referencedJoinColumn, $propertyMap);
+        $Collection = new Collection;
+        call_user_func($setter, $Collection);
         $param = [
             self::JOIN_COLUMN => $joinColumn,
+            self::TARGET_RECORD_CLASS => $targetRecord,
             self::ASSIOCIATE_RECORD => $record,
             self::ASSIOCIATE_RECORD_CLASS => get_class($record),
             self::REFERENCED_COLUMN_NAME => $referencedJoinColumn,
@@ -34,12 +35,11 @@ class OneToMany implements AssiociateHelperInterface
             self::REFERENCED_TABLE => $table,
             self::FETCH => $fetch,
         ];
-        return [$assiociteRecord, $param];
+        return [$Collection, $param];
     }
 
-    static public function setAssiociatedRecord($Collection, $recordInfo, $assiociteInfo, $callBack)
+    static public function setAssiociatedRecord($record, $recordInfo, $assiociteInfo, $callBack)
     {
-        throw new Exception('not implements');
         $joinColumn = $assiociteInfo[self::JOIN_COLUMN];
         $propertyMap = $recordInfo[Record::PROPERTY_MAP];
         $assiociteRecord = $assiociteInfo[self::ASSIOCIATE_RECORD];
@@ -64,6 +64,6 @@ class OneToMany implements AssiociateHelperInterface
         if($referencedJoinProperty) {
             $setter = 'set' . ucfirst($referencedJoinProperty);
             call_user_func([$record, $setter], $assiociteRecord);
-        }        
+        }
     }    
 }

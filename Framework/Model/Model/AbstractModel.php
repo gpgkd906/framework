@@ -2,7 +2,6 @@
 
 namespace Framework\Model\Model;
 
-use Framework\Model\Model\QueryExecutor;
 use Framework\Model\Model\SqlBuilder;
 use Framework\Model\Model\AbstractRecord;
 use Exception;
@@ -92,12 +91,6 @@ abstract class AbstractModel implements ModelInterface
                 $result = $record;
             }
         }
-        return $result;
-    }
-    
-    public function query($query, $param, $option = null)
-    {
-        $result = QueryExecutor::query($query, $param);
         return $result;
     }
 }

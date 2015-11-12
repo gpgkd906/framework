@@ -49,18 +49,16 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     private $queryInfo = null;    
     private $assiociateInitedFlag = false;
     
-    public function __construct($primaryValue = null, $raw = null)
+    public function __construct($primaryValueOrRaw = null)
     {
         $this->getQueryInfo();
-        if($primaryValue === null && $raw === null) {
+        if($primaryValueOrRaw === null) {
             return false;
         }
-        if($raw !== null) {
-            $this->assign($raw);
+        if(is_array($primaryValueOrRaw)) {
+            $this->assign($primaryValueOrRaw);
         } else {
-            if($primaryValue !== null) {
-                $this->fetchRaw($primaryValue);
-            }
+            $this->fetchRaw($primaryValueOrRaw);
         }
     }
 
@@ -73,14 +71,14 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
             $getter = 'get' . ucfirst($primaryProperty);
             $setter = 'set' . ucfirst($primaryProperty);
             $primaryValue = call_user_func([$this, $getter]);
-            $Model = $this->getModel();
+            $QueryExecutor = new QueryExecutor;
             if($primaryValue) {
                 $queryData = call_user_func($queryInfo[self::UPDATE]);
-                $Model->query($queryData['query'], $queryData['param']);
+                $QueryExecutor->query($queryData['query'], $queryData['param']);
             } else {
                 $queryData = call_user_func($queryInfo[self::INSERT]);
-                $Model->query($queryData['query'], $queryData['param']);
-                $primaryValue = $Model->getLastId();
+                $QueryExecutor->query($queryData['query'], $queryData['param']);
+                $primaryValue = $QueryExecutor->getLastId();
             }
             call_user_func([$this, $setter], $primaryValue);
             return $primaryValue;
@@ -91,8 +89,8 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     {
         $queryInfo = $this->getQueryInfo();
         $queryData = call_user_func($queryInfo[self::DELETE]);
-        $Model = $this->getModel();
-        $Model->query($queryData['query'], $queryData['param']);
+        $QueryExecutor = new QueryExecutor;
+        $QueryExecutor->query($queryData['query'], $queryData['param']);
         $this->isValid = false;
     }
 
@@ -183,7 +181,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
         }
     }
 
-    private function assign($raw)
+    public function assign($raw)
     {
         $recordInfo = self::getRecordInfo();
         $propertyMap = $recordInfo[self::PROPERTY_MAP];
@@ -438,8 +436,10 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
                         continue;
                     }
                     $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
-                    list($RecordOrCollection, $param) = $assiociateHelper::makeAssiociateRecord($this, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap);
-                    $RecordOrCollection->setAssiociate($param);
+                    if($result = $assiociateHelper::makeAssiociateRecord($this, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap)) {
+                        list($RecordOrCollection, $param) = $result;
+                        $RecordOrCollection->setAssiociate($param);
+                    }
                 }
             }
             $this->assiociateInitedFlag = true;

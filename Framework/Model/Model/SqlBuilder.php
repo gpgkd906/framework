@@ -54,7 +54,7 @@ class SqlBuilder implements SqlBuilderInterface
         $record = $this->executor->fetch();
         if($this->selectRecord !== null) {
             $selectRecord = $this->selectRecord;
-            $record = new $selectRecord(null, $record);
+            $record = new $selectRecord($record);
         }
         return $record;
     }
@@ -68,7 +68,7 @@ class SqlBuilder implements SqlBuilderInterface
         if($this->selectRecord !== null) {
             $selectRecord = $this->selectRecord;
             foreach($result as $idx => $raw) {
-                $result[$idx] = new $selectRecord(null, $raw);
+                $result[$idx] = new $selectRecord($raw);
             }
         }
         return $result;
