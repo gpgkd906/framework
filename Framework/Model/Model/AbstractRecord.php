@@ -98,9 +98,9 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     {
         if($this->isValid) {
             $recordInfo = self::getRecordInfo();
-            $propertyMap = $recordInfo[self::PROPERTY_MAP];
+            $columnMap = $recordInfo[self::COLUMN_MAP];
             $data = [];
-            foreach($propertyMap as $property => $column) {
+            foreach($columnMap as $property => $column) {
                 $getter = 'get' . ucfirst($property);
                 $data[$property] = call_user_func([$this, $getter]);
             }

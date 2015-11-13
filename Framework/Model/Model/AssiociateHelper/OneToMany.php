@@ -61,9 +61,5 @@ class OneToMany implements AssiociateHelperInterface
             $param = [':' . $referencedJoinColumn => call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE])];
         }
         call_user_func($callBack, $referencedQuery, $param, $assiociteInfo[self::FETCH] === self::LAZY);
-        if($referencedJoinProperty) {
-            $setter = 'set' . ucfirst($referencedJoinProperty);
-            call_user_func([$record, $setter], $assiociteRecord);
-        }
-    }    
+    }
 }

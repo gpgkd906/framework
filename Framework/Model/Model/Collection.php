@@ -15,6 +15,8 @@ class Collection implements Countable, IteratorAggregate
     
     private $collection = null;
 
+    private $initFlag = false;
+
     public function __construct()
     {
         $this->collection = new ArrayIterator();
@@ -38,10 +40,15 @@ class Collection implements Countable, IteratorAggregate
 
     public function getCollection()
     {
-        if($this->collection->count() === 0) {
+        if($this->initFlag === false) {
             $lazyQueryInfo = $this->lazyQueryInfo;
             $targetRecordClass = $lazyQueryInfo['targetRecordClass'];
-            $raws = QueryExecutor::queryAndFetchAll($lazyQueryInfo['query'], $lazyQueryInfo['param']);
+            if($lazyQueryInfo['param'] instanceof \Closure) {
+                $param = call_user_func($lazyQueryInfo['param']);
+            } else {
+                $param = $lazyQueryInfo['param'];
+            }
+            $raws = QueryExecutor::queryAndFetchAll($lazyQueryInfo['query'], $param);
             $setter = $lazyQueryInfo['setter'];
             $assiociateRecord = $lazyQueryInfo['assiociateRecord'];
             foreach($raws as $raw) {
@@ -49,7 +56,8 @@ class Collection implements Countable, IteratorAggregate
                 call_user_func([$Record, $setter], $assiociateRecord);
                 $Record->assign($raw);
                 $this->add($Record);
-            }            
+            }
+            $this->initFlag = true;
         }
         return $this->collection;
     }
@@ -75,12 +83,17 @@ class Collection implements Countable, IteratorAggregate
         $setter = 'set' . ucfirst($joinProperty);
         $assiociateHelper::setAssiociatedRecord($this, $recordInfo, $assiociateInfo, function($query, $param, $lazyFlag) use ($recordInfo, $targetRecordClass, $assiociateRecord, $setter) {
             if($lazyFlag) {
+                $lazyParam = function() use ($param) {
+                    return array_map(function ($item) {
+                        return call_user_func($item);
+                    }, $param);                    
+                };
                 $this->lazyQueryInfo = [
                     'setter' => $setter,
                     'assiociateRecord' => $assiociateRecord,
                     'targetRecordClass' => $targetRecordClass,
                     'query' => $query,
-                    'param' => $param,
+                    'param' => $lazyParam
                 ];
             } else {
                 if($raws = QueryExecutor::queryAndFetchAll($query, $param)) {
