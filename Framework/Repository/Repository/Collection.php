@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\Model\Model;
+namespace Framework\Repository\Repository;
 
-use Framework\Model\Model\RecordInterface;
-use Framework\Model\Model\AssiociateHelper\AssiociateHelperInterface as Assiociate;
-use Framework\Model\Model\AbstractRecord;
+use Framework\Repository\Repository\EntityInterface;
+use Framework\Repository\Repository\AssiociateHelper\AssiociateHelperInterface as Assiociate;
+use Framework\Repository\Repository\AbstractEntity;
 use Countable;
 use IteratorAggregate;
 use ArrayIterator;
@@ -22,9 +22,9 @@ class Collection implements Countable, IteratorAggregate
         $this->collection = new ArrayIterator();
     }
     
-    public function add(RecordInterface $Record)
+    public function add(EntityInterface $Entity)
     {
-        $this->collection[] = $Record;
+        $this->collection[] = $Entity;
     }
     
     public function getIterator()
@@ -42,7 +42,7 @@ class Collection implements Countable, IteratorAggregate
     {
         if($this->initFlag === false) {
             $lazyQueryInfo = $this->lazyQueryInfo;
-            $targetRecordClass = $lazyQueryInfo['targetRecordClass'];
+            $targetEntityClass = $lazyQueryInfo['targetEntityClass'];
             if($lazyQueryInfo['param'] instanceof \Closure) {
                 $param = call_user_func($lazyQueryInfo['param']);
             } else {
@@ -50,12 +50,12 @@ class Collection implements Countable, IteratorAggregate
             }
             $raws = QueryExecutor::queryAndFetchAll($lazyQueryInfo['query'], $param);
             $setter = $lazyQueryInfo['setter'];
-            $assiociateRecord = $lazyQueryInfo['assiociateRecord'];
+            $assiociateEntity = $lazyQueryInfo['assiociateEntity'];
             foreach($raws as $raw) {
-                $Record = new $targetRecordClass();
-                call_user_func([$Record, $setter], $assiociateRecord);
-                $Record->assign($raw);
-                $this->add($Record);
+                $Entity = new $targetEntityClass();
+                call_user_func([$Entity, $setter], $assiociateEntity);
+                $Entity->assign($raw);
+                $this->add($Entity);
             }
             $this->initFlag = true;
         }
@@ -64,24 +64,24 @@ class Collection implements Countable, IteratorAggregate
 
     public function setAssiociate($assiociateInfo)
     {
-        $targetRecordClass = $assiociateInfo[Assiociate::TARGET_RECORD_CLASS];
+        $targetEntityClass = $assiociateInfo[Assiociate::TARGET_ENTITY_CLASS];
 
-        $recordInfo = $targetRecordClass::getRecordInfo();
-        $proprytyMap = $recordInfo[AbstractRecord::PROPERTY_MAP];
-        $assiociateRecord = $assiociateInfo[Assiociate::ASSIOCIATE_RECORD];
-        $assiociateRecordClass = $assiociateInfo[Assiociate::ASSIOCIATE_RECORD_CLASS];
-        $joinProperty = array_search($assiociateRecordClass . '::' . $assiociateInfo[Assiociate::JOIN_COLUMN], $proprytyMap);
+        $recordInfo = $targetEntityClass::getEntityInfo();
+        $proprytyMap = $recordInfo[AbstractEntity::PROPERTY_MAP];
+        $assiociateEntity = $assiociateInfo[Assiociate::ASSIOCIATE_ENTITY];
+        $assiociateEntityClass = $assiociateInfo[Assiociate::ASSIOCIATE_ENTITY_CLASS];
+        $joinProperty = array_search($assiociateEntityClass . '::' . $assiociateInfo[Assiociate::JOIN_COLUMN], $proprytyMap);
         $assiociateList = $recordInfo[Assiociate::ASSIOCIATE_LIST];
         foreach($assiociateList as $assiociateType => $assiociate) {
             foreach($assiociate as $target) {
-                if($target[$assiociateType][Assiociate::TARGET_RECORD] === $assiociateInfo[Assiociate::ASSIOCIATE_RECORD_CLASS]) {
+                if($target[$assiociateType][Assiociate::TARGET_ENTITY] === $assiociateInfo[Assiociate::ASSIOCIATE_ENTITY_CLASS]) {
                     break 2;
                 }
             }
         }
         $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
         $setter = 'set' . ucfirst($joinProperty);
-        $assiociateHelper::setAssiociatedRecord($this, $recordInfo, $assiociateInfo, function($query, $param, $lazyFlag) use ($recordInfo, $targetRecordClass, $assiociateRecord, $setter) {
+        $assiociateHelper::setAssiociatedEntity($this, $recordInfo, $assiociateInfo, function($query, $param, $lazyFlag) use ($recordInfo, $targetEntityClass, $assiociateEntity, $setter) {
             if($lazyFlag) {
                 $lazyParam = function() use ($param) {
                     return array_map(function ($item) {
@@ -90,18 +90,18 @@ class Collection implements Countable, IteratorAggregate
                 };
                 $this->lazyQueryInfo = [
                     'setter' => $setter,
-                    'assiociateRecord' => $assiociateRecord,
-                    'targetRecordClass' => $targetRecordClass,
+                    'assiociateEntity' => $assiociateEntity,
+                    'targetEntityClass' => $targetEntityClass,
                     'query' => $query,
                     'param' => $lazyParam
                 ];
             } else {
                 if($raws = QueryExecutor::queryAndFetchAll($query, $param)) {
                     foreach($raws as $raw) {
-                        $Record = new $targetRecordClass();
-                        call_user_func([$Record, $setter], $assiociateRecord);
-                        $Record->assign($raw);
-                        $this->add($Record);
+                        $Entity = new $targetEntityClass();
+                        call_user_func([$Entity, $setter], $assiociateEntity);
+                        $Entity->assign($raw);
+                        $this->add($Entity);
                     }
                 }                
             }

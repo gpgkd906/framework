@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Model\Model;
+namespace Framework\Repository\Repository;
 
 use Exception;
 use PDO;

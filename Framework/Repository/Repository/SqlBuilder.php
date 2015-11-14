@@ -1,16 +1,16 @@
 <?php
 
-namespace Framework\Model\Model;
+namespace Framework\Repository\Repository;
 
-use Framework\Model\Model\QueryExecutor;
-use Framework\Model\Model\RecordInterface;
+use Framework\Repository\Repository\QueryExecutor;
+use Framework\Repository\Repository\EntityInterface;
 
 /**
  * sample:
  *      $sqlBuilder = SqlBuilder::createSqlBuilder();
- *      $sqlBuilder->select(Users\Record::class)
- *                 ->from(Users\Record::class, 'u')
- *                 ->join([Tickets\Record::class, 't'], 'userId', 'WITH', 'userId')
+ *      $sqlBuilder->select(Users\Entity::class)
+ *                 ->from(Users\Entity::class, 'u')
+ *                 ->join([Tickets\Entity::class, 't'], 'userId', 'WITH', 'userId')
  *                 ->where('u.userId = :userId')
  *                 ->setParameter([
  *                     ':userId' => 1
@@ -21,12 +21,12 @@ class SqlBuilder implements SqlBuilderInterface
 {
     private $executor = null;
     private $head = null;
-    private $selectRecord = null;
+    private $selectEntity = null;
     private $from = null;
     private $table = null;
     private $recordClass = null;
     private $join = [];
-    private $joinRecordClass = [];
+    private $joinEntityClass = [];
     private $where = [];
     private $orderBy = '';
     private $groupBy = '';
@@ -52,9 +52,9 @@ class SqlBuilder implements SqlBuilderInterface
         $data = $this->getParameter();
         $this->executor->query($query, $data);
         $record = $this->executor->fetch();
-        if($this->selectRecord !== null) {
-            $selectRecord = $this->selectRecord;
-            $record = new $selectRecord($record);
+        if($this->selectEntity !== null) {
+            $selectEntity = $this->selectEntity;
+            $record = new $selectEntity($record);
         }
         return $record;
     }
@@ -65,10 +65,10 @@ class SqlBuilder implements SqlBuilderInterface
         $data = $this->getParameter();
         $this->executor->query($query, $data);
         $result = $this->executor->fetchAll();
-        if($this->selectRecord !== null) {
-            $selectRecord = $this->selectRecord;
+        if($this->selectEntity !== null) {
+            $selectEntity = $this->selectEntity;
             foreach($result as $idx => $raw) {
-                $result[$idx] = new $selectRecord($raw);
+                $result[$idx] = new $selectEntity($raw);
             }
         }
         return $result;
@@ -76,9 +76,9 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function select($column)
     {
-        if(is_subclass_of($column, RecordInterface::class)) {
-            $this->selectRecord = $column;
-            $recordInfo = $this->getRecordInfo($column);
+        if(is_subclass_of($column, EntityInterface::class)) {
+            $this->selectEntity = $column;
+            $recordInfo = $this->getEntityInfo($column);
             $columnMap = $recordInfo['columnMap'];
             $table = '`' . $recordInfo['Table']['name'] . '`';
             $column = [];
@@ -93,11 +93,11 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function from($table, $as = null)
     {
-        if(!is_subclass_of($table, RecordInterface::class)) {
+        if(!is_subclass_of($table, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $table);
         }
         $this->recordClass = $table;
-        $table = $this->getRecordInfo($table)['Table']['name'];
+        $table = $this->getEntityInfo($table)['Table']['name'];
         $this->table = $table;
         if($as) {
             $this->alias[$table] = $as;            
@@ -153,13 +153,13 @@ class SqlBuilder implements SqlBuilderInterface
         if(is_array($joinTable)) {
             list($joinTable, $as) = $joinTable;
         }
-        if(!is_subclass_of($joinTable, RecordInterface::class)) {
+        if(!is_subclass_of($joinTable, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $joinTable);
         }
-        $this->joinRecordClass[] = $joinTable;
-        $joinRecordInfo = $this->getRecordInfo($joinTable);
-        $joinTable = $joinRecordInfo['Table']['name'];
-        $joinColumn = $joinRecordInfo['columnMap'][$joinProperty];
+        $this->joinEntityClass[] = $joinTable;
+        $joinEntityInfo = $this->getEntityInfo($joinTable);
+        $joinTable = $joinEntityInfo['Table']['name'];
+        $joinColumn = $joinEntityInfo['columnMap'][$joinProperty];
         $join = sprintf('%s `%s`', $joinType, $joinTable);
         if(isset($as)) {
             $this->alias[$joinTable] = $as;
@@ -168,7 +168,7 @@ class SqlBuilder implements SqlBuilderInterface
         if(strtoupper($with) === 'WITH') {
             $table = isset($this->alias[$this->table]) ? $this->alias[$this->table] : '`' . $this->table . '`';
             $joinTable = isset($this->alias[$joinTable]) ? $this->alias[$joinTable] : '`' . $joinTable . '`';
-            $referencedJoinColumn = $this->getRecordInfo($this->recordClass)['columnMap'][$referencedJoinProperty];
+            $referencedJoinColumn = $this->getEntityInfo($this->recordClass)['columnMap'][$referencedJoinProperty];
             $join .= sprintf(' ON `%s`.`%s` = `%s`.`%s`', $joinTable, $joinColumn, $table, $referencedJoinColumn);
         } else {
             $join .= sprintf(' USING(%s)', $joinColumn);
@@ -250,13 +250,13 @@ class SqlBuilder implements SqlBuilderInterface
         $this->head = str_replace(',', ', ', $this->head);
         //2 pass: head, map, 
         $map = [];
-        if(empty($this->joinRecordClass)) {
-            $map = $this->getRecordInfo($this->recordClass)['columnMap'];
+        if(empty($this->joinEntityClass)) {
+            $map = $this->getEntityInfo($this->recordClass)['columnMap'];
         } else {
-            $recordClass = $this->joinRecordClass;
+            $recordClass = $this->joinEntityClass;
             $recordClass[] = $this->recordClass;
             foreach($recordClass as $record) {
-                $recordInfo = $this->getRecordInfo($record);
+                $recordInfo = $this->getEntityInfo($record);
                 $table = $recordInfo['Table']['name'];
                 if(isset($this->alias[$table])) {
                     $table = $this->alias[$table];
@@ -296,12 +296,12 @@ class SqlBuilder implements SqlBuilderInterface
         return $this->parameters;
     }
 
-    public function setRecordInfo($recordClass, $recordInfo)
+    public function setEntityInfo($recordClass, $recordInfo)
     {
         self::$recordInfo[$recordClass] = $recordInfo;
     }
 
-    public function getRecordInfo($recordClass)
+    public function getEntityInfo($recordClass)
     {
         if(!isset(self::$recordInfo[$recordClass])) {
             $recordClass::setSqlBuilder($this);

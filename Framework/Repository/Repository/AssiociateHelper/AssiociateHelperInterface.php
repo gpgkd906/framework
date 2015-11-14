@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Model\Model\AssiociateHelper;
+namespace Framework\Repository\Repository\AssiociateHelper;
 
 interface AssiociateHelperInterface
 {
@@ -12,13 +12,13 @@ interface AssiociateHelperInterface
     const FETCH         = 'fetch';
     const LAZY          = 'LAZY';
     const JOIN_COLUMN   = 'JoinColumn';
-    const TARGET_RECORD = 'targetRecord';
-    const TARGET_RECORD_CLASS = 'targetRecordClass';
+    const TARGET_ENTITY = 'targetEntity';
+    const TARGET_ENTITY_CLASS = 'targetEntityClass';
     const REFERENCED_COLUMN_NAME = 'referencedColumnName';
     const REFERENCED_COLUMN_VALUE = 'referencedColumnValue';
     const REFERENCED_TABLE = 'referencedTable';
     const ASSIOCIATE_LIST = 'assiociateList';
-    const ASSIOCIATE_RECORD = 'assiociateRecord';
-    const ASSIOCIATE_RECORD_CLASS = 'assiociateRecordClass';
+    const ASSIOCIATE_ENTITY = 'assiociateEntity';
+    const ASSIOCIATE_ENTITY_CLASS = 'assiociateEntityClass';
     const ASSIOCIATE_QUERY = 'assiociateQuery';    
 }

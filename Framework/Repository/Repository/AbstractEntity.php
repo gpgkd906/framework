@@ -1,17 +1,17 @@
 <?php
 
-namespace Framework\Model\Model;
+namespace Framework\Repository\Repository;
 
 use Framework\Event\Event\EventInterface;
-use Framework\Model\Model\ModelInterface;
-use Framework\Model\Model\SqlBuilderInterface;
-use Framework\Model\Model\Collection;
-use Framework\Model\Model\AssiociateHelper;
-use Framework\Model\Model\AssiociateHelper\AssiociateHelperInterface as Assiociate;
+use Framework\Repository\Repository\RepositoryInterface;
+use Framework\Repository\Repository\SqlBuilderInterface;
+use Framework\Repository\Repository\Collection;
+use Framework\Repository\Repository\AssiociateHelper;
+use Framework\Repository\Repository\AssiociateHelper\AssiociateHelperInterface as Assiociate;
 use ReflectionClass;
 use Exception;
 
-abstract class AbstractRecord implements RecordInterface, EventInterface
+abstract class AbstractEntity implements EntityInterface, EventInterface
 {
     use \Framework\Event\Event\EventTrait;
     
@@ -42,7 +42,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     const TRIGGER_POSTDELETE = 'postDelete';
     
     static protected $info = [];
-    static private $Model = null;
+    static private $Repository = null;
     static private $config = null;
     static private $sqlbuilder = null;
     private $isValid = true;
@@ -65,7 +65,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     public function save()
     {
         if($this->isValid) {
-            $recordInfo = self::getRecordInfo();
+            $recordInfo = self::getEntityInfo();
             $queryInfo = $this->getQueryInfo();
             $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
             $getter = 'get' . ucfirst($primaryProperty);
@@ -97,7 +97,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     public function toArray()
     {
         if($this->isValid) {
-            $recordInfo = self::getRecordInfo();
+            $recordInfo = self::getEntityInfo();
             $columnMap = $recordInfo[self::COLUMN_MAP];
             $data = [];
             foreach($columnMap as $property => $column) {
@@ -116,17 +116,17 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     
     protected function setAssiociate($assiociteInfo)
     {
-        $recordInfo = self::getRecordInfo();
+        $recordInfo = self::getEntityInfo();
         $assiociateList = $recordInfo[Assiociate::ASSIOCIATE_LIST];
         foreach($assiociateList as $assiociateType => $assiociate) {
             foreach($assiociate as $target) {
-                if($target[$assiociateType][Assiociate::TARGET_RECORD] === $assiociteInfo[Assiociate::ASSIOCIATE_RECORD_CLASS]) {
+                if($target[$assiociateType][Assiociate::TARGET_ENTITY] === $assiociteInfo[Assiociate::ASSIOCIATE_ENTITY_CLASS]) {
                     break 2;
                 }
             }
         }
         $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
-        if($assiociateHelper::setAssiociatedRecord($this, $recordInfo, $assiociteInfo, function($query, $param, $lazyFlag) use ($recordInfo) {
+        if($assiociateHelper::setAssiociatedEntity($this, $recordInfo, $assiociteInfo, function($query, $param, $lazyFlag) use ($recordInfo) {
             if($lazyFlag) {
                 self::$info[static::class][Assiociate::ASSIOCIATE_QUERY][Assiociate::LAZY] = [
                     'query' => $query,
@@ -141,16 +141,16 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
                 $this->assign($raw);
             }
         })) {
-            $assiociteRecord->setAssiociate([
+            $assiociteEntity->setAssiociate([
                 Assiociate::JOIN_COLUMN => $referencedJoinColumn,
-                Assiociate::ASSIOCIATE_RECORD => $this
+                Assiociate::ASSIOCIATE_ENTITY => $this
             ]);
         }
     }
 
     public function __get($property)
     {
-        $recordInfo = self::getRecordInfo();
+        $recordInfo = self::getEntityInfo();
         $columnMap = $recordInfo[self::COLUMN_MAP];
         
         if(!isset($columnMap[$property])) {
@@ -166,7 +166,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     }
 
     private function fetchRaw($primaryValue) {
-        $recordInfo = self::getRecordInfo();
+        $recordInfo = self::getEntityInfo();
         $queryInfo = $this->getQueryInfo();
         $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
         $setter = [$this, 'set' . ucfirst($primaryProperty)];
@@ -183,7 +183,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 
     public function assign($raw)
     {
-        $recordInfo = self::getRecordInfo();
+        $recordInfo = self::getEntityInfo();
         $propertyMap = $recordInfo[self::PROPERTY_MAP];
         foreach($propertyMap as $property => $column) {
             if(isset($raw[$column])) {
@@ -199,26 +199,26 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
     static public function setSqlBuilder(SqlBuilderInterface $sqlbuilder)
     {
         self::$sqlbuilder = $sqlbuilder;
-        $sqlbuilder->setRecordInfo(static::class, self::getRecordInfo());
+        $sqlbuilder->setEntityInfo(static::class, self::getEntityInfo());
     }
     
-    static public function setModel(ModelInterface $Model)
+    static public function setRepository(RepositoryInterface $Repository)
     {
-        self::$Model = $Model;
-        $Model->setRecordInfo(self::getRecordInfo());
+        self::$Repository = $Repository;
+        $Repository->setEntityInfo(self::getEntityInfo());
     }
     
-    static public function getModel()
+    static public function getRepository()
     {
-        if(self::$Model === null) {
-            $recordInfo = self::getRecordInfo();
+        if(self::$Repository === null) {
+            $recordInfo = self::getEntityInfo();
             $modelClass = $recordInfo[self::ENTITY][self::MODEL_CLASS];
-            self::$Model = $modelClass::getSingleton();
+            self::$Repository = $modelClass::getSingleton();
         }
-        return self::$Model;
+        return self::$Repository;
     }
 
-    static public function getRecordInfo()
+    static public function getEntityInfo()
     {
         if(empty(self::$info[static::class])) {
             self::$info[static::class] = [
@@ -352,13 +352,13 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
             }
             if(isset($property[Assiociate::ONE_TO_ONE])) {
                 $assiociteList[Assiociate::ONE_TO_ONE][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_ONE][Assiociate::TARGET_RECORD] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
+                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_ONE][Assiociate::TARGET_ENTITY] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
             } else if (isset($property[Assiociate::ONE_TO_MANY])) {
                 $assiociteList[Assiociate::ONE_TO_MANY][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_MANY][Assiociate::TARGET_RECORD] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
+                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_MANY][Assiociate::TARGET_ENTITY] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
             } else if (isset($property[Assiociate::MANY_TO_ONE])) {
                 $assiociteList[Assiociate::MANY_TO_ONE][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[Assiociate::MANY_TO_ONE][Assiociate::TARGET_RECORD] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
+                $propertyMap[$propertyName] = $property[Assiociate::MANY_TO_ONE][Assiociate::TARGET_ENTITY] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
             }
         }
         $info[self::COLUMN_MAP] = $columnMap;
@@ -392,7 +392,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 
     private function makeQueryInfo()
     {
-        $recordInfo = self::getRecordInfo();
+        $recordInfo = self::getEntityInfo();
         $this->queryInfo = [];
         foreach($recordInfo[self::QUERY] as $queryType => $query) {
             $this->queryInfo[$queryType] = $this->makeQuery($query, $queryType, $recordInfo[self::COLUMN_MAP], $recordInfo[self::PRIMARY_KEY]);
@@ -401,7 +401,7 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
 
     public function makeQuery($query, $queryType, $columnMap, $primaryKey)
     {
-        $recordInfo = self::getRecordInfo();
+        $recordInfo = self::getEntityInfo();
         $propertyMap = $recordInfo[self::PROPERTY_MAP];
         $executor = null;
         $option = ['queryType' => $queryType];
@@ -436,9 +436,9 @@ abstract class AbstractRecord implements RecordInterface, EventInterface
                         continue;
                     }
                     $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
-                    if($result = $assiociateHelper::makeAssiociateRecord($this, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap)) {
-                        list($RecordOrCollection, $param) = $result;
-                        $RecordOrCollection->setAssiociate($param);
+                    if($result = $assiociateHelper::makeAssiociateEntity($this, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap)) {
+                        list($EntityOrCollection, $param) = $result;
+                        $EntityOrCollection->setAssiociate($param);
                     }
                 }
             }

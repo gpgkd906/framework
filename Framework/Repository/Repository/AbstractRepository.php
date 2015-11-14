@@ -1,12 +1,12 @@
 <?php
 
-namespace Framework\Model\Model;
+namespace Framework\Repository\Repository;
 
-use Framework\Model\Model\SqlBuilder;
-use Framework\Model\Model\AbstractRecord;
+use Framework\Repository\Repository\SqlBuilder;
+use Framework\Repository\Repository\AbstractEntity;
 use Exception;
 
-abstract class AbstractModel implements ModelInterface
+abstract class AbstractRepository implements RepositoryInterface
 {
     use \Framework\Application\SingletonTrait;
 
@@ -26,7 +26,7 @@ abstract class AbstractModel implements ModelInterface
      * @return mixed $recordInfo
      * @link
      */
-    public function setRecordInfo ($recordInfo)
+    public function setEntityInfo ($recordInfo)
     {
         return $this->recordInfo = $recordInfo;
     }
@@ -37,7 +37,7 @@ abstract class AbstractModel implements ModelInterface
      * @return mixed $recordInfo
      * @link
      */
-    public function getRecordInfo ()
+    public function getEntityInfo ()
     {
         return $this->recordInfo;
     }
@@ -45,17 +45,17 @@ abstract class AbstractModel implements ModelInterface
     
     public function __construct()
     {
-        $record = static::RECORD;
-        $record::setModel($this);
+        $record = static::ENTITY;
+        $record::setRepository($this);
     }
     
     public function findBy($condition)
     {
         $sqlBuilder = SqlBuilder::createSqlBuilder();
-        $sqlBuilder->select(static::RECORD)
-                   ->from(static::RECORD);
-        $recordInfo = $this->getRecordInfo();
-        $propertyMap = $recordInfo[AbstractRecord::PROPERTY_MAP];
+        $sqlBuilder->select(static::ENTITY)
+                   ->from(static::ENTITY);
+        $recordInfo = $this->getEntityInfo();
+        $propertyMap = $recordInfo[AbstractEntity::PROPERTY_MAP];
         $where = [];
         $param = [];
         foreach($condition as $property => $value) {
@@ -85,7 +85,7 @@ abstract class AbstractModel implements ModelInterface
     {
         $result = false;
         if(is_numeric($id)) {
-            $record = static::RECORD;
+            $record = static::ENTITY;
             $record = new $record($id);
             if($record->isValid()) {
                 $result = $record;
