@@ -149,10 +149,17 @@ class HttpRouteModel extends AbstractRouteModel
             } else {
                 $_req = join("/", $reqs);
                 if(!$request = $this->appMapping($_req)) {
-                    $reqs = array_map('ucfirst', $reqs);
-                    $action = array_pop($reqs);
-                    $controller = join('\\', $reqs);
-                    $param = null;
+                    $tempParam = [];
+                    while($token = array_pop($reqs)) {
+                        if(is_numeric($token)) {
+                            $tempParam[] = $token;
+                        } else {
+                            $action = $token;
+                            break;
+                        }
+                    }
+                    $controller = join('\\', array_map('ucfirst', $reqs));
+                    $param = array_reverse($tempParam);
                 }
             }
             break;
