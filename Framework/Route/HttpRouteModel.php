@@ -151,7 +151,8 @@ class HttpRouteModel extends AbstractRouteModel
                 if(!$request = $this->appMapping($_req)) {
                     $tempParam = [];
                     while($token = array_pop($reqs)) {
-                        if(is_numeric($token)) {
+                        //数字で始まる文字列はクラス名やメソッド名になり得ないのでパラメタに退避させる
+                        if(is_numeric($token[0])) {
                             $tempParam[] = $token;
                         } else {
                             $action = $token;
