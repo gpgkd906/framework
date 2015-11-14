@@ -98,8 +98,8 @@ abstract class AbstractApplication implements ApplicationInterface
             ErrorHandler::setup();
         }
         $serviceManager = $this->getServiceManager();
-        $this->setEventManager($serviceManager->getService('Event', 'EventManager'));
-        $pluginManager = $serviceManager->getService('Plugin', 'PluginManager');        
+        $this->setEventManager($serviceManager->get('Event', 'EventManager'));
+        $pluginManager = $serviceManager->get('Plugin', 'PluginManager');        
         $pluginManager->initPlugins();
         $this->setPluginManager($pluginManager);
     }

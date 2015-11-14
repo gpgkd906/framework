@@ -19,45 +19,33 @@ class LoginViewModel extends FormViewModel
 
     protected $fieldset = [
         'login' => [
-            'type' => 'text',
-            'validator' => [
-                [Validator::Exists, "※必須入力"],
+            'login' => [
+                'type' => 'text',
+                'validator' => [
+                    [Validator::Exists, "※必須入力"],
+                ],
+                'attrs' => [ 
+                    'class' => 'form-control',
+                    'placeholder' => 'Login',
+                ],
             ],
-            'attrs' => [ 
-                'class' => 'form-control',
-                'placeholder' => 'Login',
+            'password' => [
+                'type' => 'password',
+                'validator' => [
+                    [Validator::Exists, "※必須入力"],
+                ],
+                'attrs' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Password',
+                ]
             ],
-        ],
-        'password' => [
-            'type' => 'password',
-            'validator' => [
-                [Validator::Exists, "※必須入力"],
-            ],
-            'attrs' => [
-                'class' => 'form-control',
-                'placeholder' => 'Password',
-            ]
-        ],
-        'remeber' => [
-            'type' => 'checkbox',
-            'value' => ['Remeber Me' => 0],
-            'attrs' => [
+            'remeber' => [
+                'type' => 'checkbox',
+                'value' => ['Remeber Me' => 0],
+                'attrs' => [
 
+                ],
             ],
-        ],
+        ]
     ];
-
-    public $listeners = [
-        'Render' => 'onRender',
-        'Complete' => 'onComplete',
-    ];
-
-    public function onRender()
-    {
-    }
-
-    public function onComplete($event, $data)
-    {
-        var_dump('complete');
-    }
 }

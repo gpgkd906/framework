@@ -1,12 +1,14 @@
 <?php
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\Application\ServiceManagerAwareInterface;
 use Framework\Event\Event\EventInterface;
 use Exception;
 
-abstract class AbstractViewModel implements ViewModelInterface, EventInterface
+abstract class AbstractViewModel implements ViewModelInterface, EventInterface, ServiceManagerAwareInterface
 {
     use \Framework\Event\Event\EventTrait;
+    use \Framework\Application\ServiceManagerAwareTrait;
     
     const renderAsHTML = "html";
     const renderAsJSON = "json";
@@ -14,7 +16,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
 
     //error
     const ERROR_INVALID_RENDER_TYPE = "error: invalid render-type";
-    const ERROR_INVALID_RENDER_TEMPLATE = "error: invalid render template [%s]";
+    const ERROR_INVALID_RENDER_TEMPLATE = "error: invalid render template [%s] for ViewModel [%s]";
     //trigger
     const TRIGGER_RENDER = "Render";
     const TRIGGER_DISPLAY = "Display";
@@ -23,11 +25,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     protected $data = [];
     protected $renderType = "html";
     protected $templateDir = null;
+    protected $Model = null;
     private $childs = [];
     private $id = null;
     static private $incrementId = 0;
     public $listeners = [];
-
+    
     /**
      *
      * @api
@@ -53,39 +56,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
      * @access private
      * @link
      */
-    private $containers = null;
-
-    /**
-     *
-     * @api
-     * @var mixed $serviceManager 
-     * @access private
-     * @link
-     */
-    private $serviceManager = null;
-
-    /**
-     * 
-     * @api
-     * @param mixed $serviceManager
-     * @return mixed $serviceManager
-     * @link
-     */
-    public function setServiceManager ($serviceManager)
-    {
-        return $this->serviceManager = $serviceManager;
-    }
-
-    /**
-     * 
-     * @api
-     * @return mixed $serviceManager
-     * @link
-     */
-    public function getServiceManager ()
-    {
-        return $this->serviceManager;
-    }
+    private $containers = [];
 
     /**
      * 
@@ -117,7 +88,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
     }
 
     public function __construct($config) {
-        $config = array_merge($this->getConfig(), $config);
+        $config = array_merge_recursive($this->getConfig(), $config);
         $this->setConfig($config);
         if(isset($config["id"])) {
             $this->id = $id;
@@ -128,10 +99,14 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         if(isset($config["data"])) {
             $this->setData($config["data"]);
         }
+        //Model
+        if(isset($config['model'])) {
+            $this->setModel($config['model']);
+        }
         //layout;
         if(isset($config['layout'])) {
             $layoutClass = $config['layout'];
-            $this->setLayout($layoutClass::getSingleton());
+            $this->setLayout($layoutClass::getSingleton(), $config);
         } else {
             $this->setLayout(PageLayout::getSingleton());
         }
@@ -202,7 +177,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         if(is_file($template)) {
             return $template;
         }
-        throw new Exception(sprintf(self::ERROR_INVALID_RENDER_TEMPLATE, $template));
+        throw new Exception(sprintf(self::ERROR_INVALID_RENDER_TEMPLATE, $template, static::class));
     }
     
     public function setData($data)
@@ -328,8 +303,20 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
      * @return mixed $layout
      * @link
      */
-    public function setLayout (LayoutInterface $layout)
+    public function setLayout (LayoutInterface $layout, $config = null)
     {
+        if($config) {
+            if(isset($config['script'])) {
+                foreach($config['script'] as $script) {
+                    $layout->registerScript($script);
+                }
+            }
+            if(isset($config['style'])) {
+                foreach($config['style'] as $style) {
+                    $layout->registerStyle($style);
+                }
+            }
+        }
         return $this->layout = $layout;
     }
 
@@ -379,6 +366,30 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface
         }
         return null;
     }
+    
+    /**
+     * 
+     * @api
+     * @param mixed $model
+     * @return mixed $model
+     * @link
+     */
+    public function setModel ($model)
+    {
+        return $this->model = $model;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $model
+     * @link
+     */
+    public function getModel ()
+    {
+        return $this->model;
+    }
+
 
     public function linkto($target, $param = [])
     {

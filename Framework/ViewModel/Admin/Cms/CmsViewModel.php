@@ -1,10 +1,12 @@
 <?php
 
-namespace Framework\ViewModel\Admin;
+namespace Framework\ViewModel\Admin\Cms;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\Admin\AdminPageLayout;
+use Form2\Validator;
 
-class DashboardViewModel extends AbstractViewModel
+class CmsViewModel extends AbstractViewModel
 {
     protected $template = '/template/admin/dashboard.html';
     
@@ -16,22 +18,11 @@ class DashboardViewModel extends AbstractViewModel
                     'viewModel' => 'Admin\NavbarViewModel',
                 ],
             ],
-            'Main' => [
-                [
-                    'viewModel' => 'Admin\SummaryViewModel',
-                ],
-                [
-                    'viewModel' => 'Admin\TopChartViewModel',
-                ],
-            ],            
         ],
-        'script' => [
-            '/js/morris-data.js'
-        ]
     ];
 
     protected $data = [
-        'title' => 'Dashboard',
+        'title' => 'Cms',
     ];
 
     public $listeners = [

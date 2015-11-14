@@ -1,0 +1,13 @@
+<?php
+
+namespace Framework\ViewModel\Admin\Cms;
+
+use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\Admin\AdminPageLayout;
+use Form2\Validator;
+
+class PageListViewModel extends AbstractViewModel
+{
+    
+
+}

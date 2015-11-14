@@ -9,7 +9,7 @@ class DashboardController extends AbstractController
 {
     
     public function index()
-    {
+    {        
         return ViewModelManager::getViewModel([
             "viewModel" => "Admin\DashboardViewModel",
         ]);

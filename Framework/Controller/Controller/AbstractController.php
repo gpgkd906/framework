@@ -3,14 +3,16 @@
 namespace Framework\Controller\Controller;
 
 use Framework\Application\HttpApplication;
+use Framework\Application\serviceManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\Event\Event\EventInterface;
 use Exception;
 
-abstract class AbstractController implements ControllerInterface, EventInterface
+abstract class AbstractController implements ControllerInterface, EventInterface, serviceManagerAwareInterface
 {    
     use \Framework\Event\Event\EventTrait;
+    use \Framework\Application\serviceManagerAwareTrait;
     
     static private $instance = [];
     
@@ -29,44 +31,12 @@ abstract class AbstractController implements ControllerInterface, EventInterface
 
     private $controllerName = null;
     private $ViewModel = null;
-
-    /**
-     *
-     * @api
-     * @var mixed $serviceManager 
-     * @access private
-     * @link
-     */
-    private $serviceManager = null;
-
-    /**
-     * 
-     * @api
-     * @param mixed $serviceManager
-     * @return mixed $serviceManager
-     * @link
-     */
-    public function setServiceManager ($serviceManager)
-    {
-        return $this->serviceManager = $serviceManager;
-    }
-
-    /**
-     * 
-     * @api
-     * @return mixed $serviceManager
-     * @link
-     */
-    public function getServiceManager ()
-    {
-        return $this->serviceManager;
-    }
     
     static public function getSingleton() {
         $controllerName = static::class;
         if(!isset(self::$instance[$controllerName])) {
             self::$instance[$controllerName] = new $controllerName();
-            self::$instance[$controllerName]->setSelfName($controllerName);
+            self::$instance[$controllerName]->setName($controllerName);
         }
         return self::$instance[$controllerName];
     }
@@ -83,15 +53,16 @@ abstract class AbstractController implements ControllerInterface, EventInterface
             $actionMethod = false;
         }
         if($actionMethod === false && $restActionMethod === false) {
-            throw new Exception(sprintf("not implements for not_found: %s", $this->getSelfName() . '::' . $actionMethod));
+            throw new Exception(sprintf("not implements for not_found: %s", $this->getName() . '::' . $actionMethod));
         }
         $this->triggerEvent(self::TRIGGER_BEFORE_ACTION);
         if($restActionMethod) {
             $this->callAction($restActionMethod, $param);
         }
         if($actionMethod) {
-            $viewModel = $this->callAction($actionMethod, $param);
-            $this->setViewModel($viewModel);
+            if($viewModel = $this->callAction($actionMethod, $param)) {
+                $this->setViewModel($viewModel);
+            }
         }
         $this->triggerEvent(self::TRIGGER_AFTER_ACTION);
         $viewModel = $this->getViewModel();
@@ -102,7 +73,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
                 $this->callAction("response");
                 $this->triggerEvent(self::TRIGGER_AFTER_RESPONSE);
             } else {
-                throw new Exception(sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getSelfName() . "::" . $actionMethod));
+                throw new Exception(sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getName() . "::" . $actionMethod));
             }
         }
     }
@@ -139,12 +110,12 @@ abstract class AbstractController implements ControllerInterface, EventInterface
         echo $this->getViewModel()->render();
     }
 
-    public function setSelfName($controllerName)
+    public function setName($controllerName)
     {
         $this->controllerName = $controllerName;
     }
 
-    public function getSelfName()
+    public function getName()
     {
         return $this->controllerName;
     }

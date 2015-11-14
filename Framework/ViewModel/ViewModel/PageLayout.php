@@ -57,7 +57,7 @@ class PageLayout implements LayoutInterface
         $this->styles = array_merge(array_slice($this->styles, 0, $priority), [$style], array_slice($this->styles, $priority));
     }
     
-    public function registerScript($script, $priority)
+    public function registerScript($script, $priority = null)
     {
         if($priority === null) {
             $priority = 99;

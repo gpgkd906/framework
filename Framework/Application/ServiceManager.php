@@ -2,6 +2,7 @@
 
 namespace Framework\Application;
 
+use Framework\Application\ServiceManagerAwareInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
@@ -40,7 +41,7 @@ class ServiceManager implements ServiceManagerInterface
         return $this->config;
     }
     
-    public function getService($type, $name)
+    public function get($type, $name)
     {
         $config = $this->getConfig();
         $loadInfo = $config->getConfig($type);
@@ -49,7 +50,7 @@ class ServiceManager implements ServiceManagerInterface
         $isSingleton = isset($loadInfo['isSingleton']) ? $loadInfo['isSingleton'] : false;
         if(isset($loadInfo['Factory'])) {
             $Factory = $loadInfo['Factory'];
-            return $Factory::MakeObject($name);
+            return $Factory::getService($name);
         } else {
             $Class = $Namespace . '\\' . $name;
             if(isset($loadInfo['classes'])
@@ -62,18 +63,21 @@ class ServiceManager implements ServiceManagerInterface
                 }
             }
             if($isSingleton) {
-                return $Class::getSingleton();
+                $Service = $Class::getSingleton();
             } else {
-                return new $Class;
+                $Service = new $Class;
             }
+            if($Service instanceof ServiceManagerAwareInterface) {
+                $Service->setServiceManager($this);
+            }
+            return $Service;
         }
     }
 
     public function getComponent($type, $name)
     {
         $name = ucfirst($name) . ucfirst($type);
-        $Component = $this->getService($type, $name);
-        $Component->setServiceManager($this);
+        $Component = $this->get($type, $name);
         return $Component;
     }
     
@@ -84,13 +88,7 @@ class ServiceManager implements ServiceManagerInterface
 
         return isset($loadInfo['namespace']) ? $loadInfo['namespace'] : $type;
     }
-
-    public function getModel($model)
-    {
-        $model = $model . '\Model';
-        return $this->getService("Model", $model);
-    }
-
+    
     public function getController($controller)
     {
         return $this->getComponent('Controller', $controller);
@@ -98,8 +96,9 @@ class ServiceManager implements ServiceManagerInterface
 
     public function getSessionService()
     {
-        return $this->getService('Service', 'SessionService');
+        return $this->get('Service', 'SessionService');
     }
+    
     /**
      * 
      * @api

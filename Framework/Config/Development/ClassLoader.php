@@ -19,6 +19,21 @@ return [
             ],
         ]
     ],
+    'Service' => [
+        'namespace' => 'Framework\Service',
+        'isSingleton' => true,
+        'classes' => [
+            'SessionService' => [
+                'Class' => 'Framework\Service\SessionService\SessionService',
+            ],
+            'EntityService' => [
+                'Class' => 'Framework\Service\EntityService\EntityService',
+            ],
+            'CodeService' => [
+                'Class' => 'Framework\Service\CodeService\CodeService',
+            ],
+        ],
+    ],
     'RouteModel' => [
         'namespace' => 'Framework\Route',
         'isSingleton' => true,
@@ -36,9 +51,6 @@ return [
         'namespace' => 'Framework\Controller',
         'isSingleton' => true,
         'classes' => [
-            'LoginController' => [
-                'Class' => 'Framework\Controller\Login\LoginController'
-            ],
         ]
     ],
     'Model' => [

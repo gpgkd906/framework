@@ -27,23 +27,23 @@
                 <h3 class="panel-title">Please Sign In</h3>
               </div>
               <div class="panel-body">
-                <form role="form">
+		<?php $form = $this->getForm(); ?>
+                <?php $form->start(); ?>
                   <fieldset>
                     <div class="form-group">
-                      <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                      <?php echo $form->login, $form->login->error; ?>
                     </div>
                     <div class="form-group">
-                      <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                      <?php echo $form->password, $form->password->error; ?>
                     </div>
                     <div class="checkbox">
-                      <label>
-                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                      </label>
+		      <?php echo $form->remeber, $form->remeber->error; ?>
                     </div>
                     <!-- Change this to a button or input when using this as a form -->
-                    <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                    <!--<a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
+		    <?php echo $form->submit; ?>
                   </fieldset>
-                </form>
+                <?php $form->end(); ?>
               </div>
             </div>
           </div>

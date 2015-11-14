@@ -2,4 +2,5 @@
 
 return [
     'ApplicationHost' => 'framework.local',
+    'dummy' => null,
 ];
