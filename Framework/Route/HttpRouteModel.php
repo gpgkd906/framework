@@ -97,9 +97,9 @@ class HttpRouteModel extends AbstractRouteModel
         return $this->request_param;
     }
 
-    public function redirect($controller, $action, $param = null)
+    public function redirect($controller, $action = 'index', $param = null)
     {
-        
+        var_dump($controller);
     }
     
     public function parseRequest()
@@ -113,7 +113,7 @@ class HttpRouteModel extends AbstractRouteModel
             return [null, null, null];
         }
         if(substr($req, -1, 1) === "/") {
-            $req = substr($req, 0, -1);
+            $req .= $this->getIndex();
         }
         $reqs = explode("/", $req);
         $reqLenth = count($reqs);
@@ -124,7 +124,7 @@ class HttpRouteModel extends AbstractRouteModel
         case 1: //sample: index
             $_req = $reqs[0];
             if(!$request = $this->appMapping($_req)) {
-                $controller = ucfirst($_req);
+                $controller = ucfirst($_req) . '\\Index';
                 $action = $this->getIndex();
                 $param = null;
             }
@@ -143,19 +143,17 @@ class HttpRouteModel extends AbstractRouteModel
             }
             break;
         default: //count($reqs) >= 3: product/detail/1, admin/product/list
-            $mapped = false;
-            for($i = 1; $i < $reqLenth; $i++) {
-                list($_req, $rest) = $this->joinStep($reqs, $i);
-                if($request = $this->appMapping($_req)) {
-                    $param = $rest;
-                    $mapped = true;
-                    break;
+            $_req = $reqs[0];
+            if($request = $this->appMapping($_req)) {
+                $param = $reqs[1];
+            } else {
+                $_req = join("/", $reqs);
+                if(!$request = $this->appMapping($_req)) {
+                    $reqs = array_map('ucfirst', $reqs);
+                    $action = array_pop($reqs);
+                    $controller = join('\\', $reqs);
+                    $param = null;
                 }
-            }
-            if($mapped === false) {
-                $controller = ucfirst($reqs[0]) . "\\" .  ucfirst($reqs[1]);
-                $action = $reqs[2];
-                $param = array_slice($reqs, 3);
             }
             break;
         }

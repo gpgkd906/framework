@@ -2,12 +2,15 @@
 
 namespace Framework\Route;
 
+use Framework\Application\ServiceManagerAwareInterface;
 use Framework\Route\RouteModelInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
-abstract class AbstractRouteModel implements RouteModelInterface
+abstract class AbstractRouteModel implements RouteModelInterface, ServiceManagerAwareInterface
 {
+    use \Framework\Application\ServiceManagerAwareTrait;
+    
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
 
@@ -19,38 +22,6 @@ abstract class AbstractRouteModel implements RouteModelInterface
     private $config = null;
     private $appUrl = [];
     private $request = [];
-
-    /**
-     *
-     * @api
-     * @var mixed $ServiceManager 
-     * @access private
-     * @link
-     */
-    private $ServiceManager = null;
-
-    /**
-     * 
-     * @api
-     * @param mixed $ServiceManager
-     * @return mixed $ServiceManager
-     * @link
-     */
-    public function setServiceManager ($ServiceManager)
-    {
-        return $this->ServiceManager = $ServiceManager;
-    }
-
-    /**
-     * 
-     * @api
-     * @return mixed $ServiceManager
-     * @link
-     */
-    public function getServiceManager ()
-    {
-        return $this->ServiceManager;
-    }
     
     private function __construct() {
         $this->config = ConfigModel::getConfigModel([
