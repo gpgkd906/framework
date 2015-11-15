@@ -1,79 +1,101 @@
                     <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div>
-                        </li>
                         <li>
                             <a href="/admin/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                          <a href="#"><i class="fa fa-wrench fa-fw"></i> Cms<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                  <a href="/admin/cms/page/">Page</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                          <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Tools<span class="fa arrow"></span></a>
+                          <a href="#"><i class="fa fa-users fa-fw"></i> 会員管理<span class="fa arrow"></span></a>
                           <ul class="nav nav-second-level">
                             <li>
-                              <a href="pageQuery">Page Query</a>
+                              <a href="/admin/customer/">会員一覧</a>
                             </li>
                             <li>
-                              <a href="productSearch">Product Search</a>
+                              <a href="#">ダミ</a>
                             </li>
                           </ul>
                         </li> 
                         <li>
-                          <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                        </li>
-			<li>
-                          <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                          <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> チケット管理<span class="fa arrow"></span></a>
+                          <ul class="nav nav-second-level">
+                            <li>
+                              <a href="/admin/ticket/">チケット一覧</a>
+                            </li>
+                            <li>
+                              <a href="#">ダミ</a>
+                            </li>
+                          </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+                          <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> タスク管理<span class="fa arrow"></span></a>
+                          <ul class="nav nav-second-level">
+                            <li>
+                              <a href="/admin/task/">タスク一覧</a>
+                            </li>
+                            <li>
+                              <a href="#">ダミ</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#"><i class="fa fa-wrench fa-fw"></i> コンテンツ管理<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Second Level Item</a>
+                                  <a href="/admin/cms/page/">ページ管理</a>
                                 </li>
                                 <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
+                                  <a href="/admin/cms/view/">画面管理</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                          <a href="#"><i class="fa fa-wrench fa-fw"></i> プラグイン管理<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="blank.html">Blank Page</a>
+                                  <a href="/admin/plugin/">プラグイン一覧</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo $this->linkto('/admin/login'); ?>">Login Page</a>
+                                  <a href="#">ダミ</a>
                                 </li>
                             </ul>
                         </li>
+                       <li>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> 設定<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                              <li>
+                                <a href="#">基本設定 <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                  <li>
+                                    <a href="/admin/setting/base/">基本設定1</a>
+                                  </li>
+                                  <li>
+                                    <a href="/admin/setting/base/">基本設定2</a>
+                                  </li>
+                                  <li>
+                                    <a href="/admin/setting/base/">基本設定3</a>
+                                  </li>
+                                  <li>
+                                    <a href="/admin/setting/base/">基本設定4</a>
+                                  </li>
+                                </ul>
+                                <!-- /.nav-third-level -->
+                              </li>
+                              <li>
+                                <a href="#">システム設定 <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                  <li>
+                                    <a href="/admin/setting/system/">システム設定1</a>
+                                  </li>
+                                  <li>
+                                    <a href="/admin/setting/system/">システム設定2</a>
+                                  </li>
+                                  <li>
+                                    <a href="/admin/setting/system/">システム設定3</a>
+                                  </li>
+                                  <li>
+                                    <a href="/admin/setting/system/">システム設定4</a>
+                                  </li>
+                                </ul>
+                                <!-- /.nav-third-level -->
+                              </li>
+			    </ul>
+		       </li>
                     </ul>

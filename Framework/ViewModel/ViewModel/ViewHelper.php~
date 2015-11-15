@@ -1,0 +1,9 @@
+<?php
+
+namespace Framework\ViewModel\ViewModel;
+
+class ViewHelper
+{
+    use \Framework\Application\SingletonTrait;
+
+}

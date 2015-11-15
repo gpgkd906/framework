@@ -1,0 +1,9 @@
+<?php
+
+namespace Framework\ViewModel\ViewModel;
+
+class SubFormViewModel extends FormViewModel implements FormViewModelInterface
+{
+
+
+}

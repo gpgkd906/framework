@@ -1,0 +1,80 @@
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"><?php echo $this->getLayout()->getPageVar('title'); ?></h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+   
+	    <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                          Page Manager
+                        </div>
+                        <!-- .panel-heading -->
+                        <div class="panel-body">
+                          <div class="panel-group" id="accordion">
+			    <?php foreach($this->getData() as $idx => $entity) : ?>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                          <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo 'entity' . $idx ?>"><?php echo $entity['folder'] ?></a>
+                                        </h4>
+                                    </div>
+                                    <div id="<?php echo 'entity' . $idx ?>" class="panel-collapse collapse">
+                                      <div class="panel-body">
+					<div class="table-responsive table-bordered">
+					  <table class="table">
+					    <thead>
+                                              <tr>
+						<th>#</th>
+						<th>フォルダー</th>
+						<th>ファイルパス</th>
+						<th>アクション</th>
+                                              </tr>
+					    </thead>
+					    <tbody>
+					      <?php $this->getViewHelper()->mapRecursive($entity['list'], function($key, $file, $level, $dir) { ?>
+					      <tr>
+						<td><?php echo $level . '.' . $key ?></td>
+						<td></td>
+						<td><?php echo $file; ?></td>
+						<td>
+						  <a href="#" class="btn btn-primary btn-circle"><i class="fa fa-edit"></i></a>
+						  <a href="#" class="btn btn-success btn-circle"><i class="fa fa-paste"></i></a>
+						  <a href="#" class="btn btn-info btn-circle"><i class="fa fa-info"></i></a>
+						  <a href="#" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></a>
+ 						</td>
+                                              </tr>					      
+					      <?php }, function($dir, $level) { ?>
+					      <tr>
+						<td><?php echo $level ?></td>
+						<td><?php echo $dir ?></td>
+						<td></td>
+						<td>
+						  <a href="#" class="btn btn-primary btn-circle"><i class="fa fa-edit"></i></a>
+						  <a href="#" class="btn btn-success btn-circle"><i class="fa fa-paste"></i></a>
+						  <a href="#" class="btn btn-info btn-circle"><i class="fa fa-info"></i></a>
+						  <a href="#" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></a>
+ 						</td>
+                                              </tr>					      
+					      <?php }); ?>
+					    </tbody>
+					  </table>
+					</div>
+					<br/>
+					<a href="/admin/cms/page/register/" class="btn btn-success btn-block">[<?php echo $entity['folder'] ?>]セクションで新しいページを作成</a>
+				      </div>
+                                    </div>
+                                </div>
+				<?php endforeach; ?>
+				<br />
+				<a href="/admin/cms/page/register/" class="btn btn-warning btn-lg btn-block">新しいセクションでページを作成</a>
+                          </div>
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>

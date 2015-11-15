@@ -126,6 +126,18 @@ class PageLayout implements LayoutInterface
     /**
      * 
      * @api
+     * @param array $pageVars
+     * @return
+     * @link
+     */
+    public function setPageVars ($pageVars)
+    {
+        $this->pageVar = $pageVars;
+    }
+
+    /**
+     * 
+     * @api
      * @param mixed $pageVar
      * @return mixed $pageVar
      * @link

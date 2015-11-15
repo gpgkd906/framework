@@ -1,9 +1,14 @@
 <?php
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\ViewModel\ViewModel\ViewModelInterface;
+use Framework\ViewModel\ViewModel\FormViewModelInterface;
+use Framework\ViewModel\ViewModel\SubFormViewModel;
+use ArrayAccess;
 use Exception;
-
-class Container implements ContainerInterface {
+    
+class Container implements ContainerInterface, ArrayAccess
+{
 
     /**
      *
@@ -75,9 +80,9 @@ class Container implements ContainerInterface {
         $exportViewRenderType = $this->getExportView()->getRenderType();
         $exportViewLayout = $this->getExportView()->getLayout();
         foreach($this->items as $key => $item) {
-            $this->items[$key] = ViewModelManager::getViewModel($item);
-            $this->items[$key]->setRenderType($exportViewRenderType);
-            $this->items[$key]->setLayout($exportViewLayout);
+            if(!$item instanceof ViewModelInterface) {
+                $this->items[$key] = $this->getViewModel($item);
+            }
         }
         return $this->items;
     }
@@ -93,9 +98,7 @@ class Container implements ContainerInterface {
     public function addItem ($item, $forceView = false)
     {
         if($forceView) {
-            $item = ViewModelManager::getViewModel($item);
-            $item->setRenderType($this->getExportView()->getRenderType());
-            $item->setLayout($this->getExportView()->getLayout());
+            $item = $this->getViewModel($item);
         }
         $this->items[] = $item;
     }
@@ -136,5 +139,45 @@ class Container implements ContainerInterface {
     public function getExportView ()
     {
         return $this->exportView;
+    }
+
+    public function offsetSet($offset, $value) {
+        if (is_null($offset)) {
+            $this->items[] = $value;
+        } else {
+            $this->items[$offset] = $value;
+        }
+    }
+    
+    public function offsetExists($offset) {
+        return isset($this->items[$offset]);
+    }
+    
+    public function offsetUnset($offset) {
+        unset($this->items[$offset]);
+    }
+    
+    public function offsetGet($offset) {
+        if(isset($this->items[$offset])) {
+            $item = $this->items[$offset];
+            if(!$item instanceof ViewModelInterface) {
+                $this->items[$offset] = $this->getViewModel($item);
+            }
+            return $this->items[$offset];
+        }
+        return null;
+    }
+
+    private function getViewModel($item)
+    {
+        $exportView = $this->getExportView();
+        $item = ViewModelManager::getViewModel($item);
+        $item->setRenderType($exportView->getRenderType());
+        $item->setLayout($exportView->getLayout());
+        if($exportView instanceof FormViewModelInterface && $item instanceof SubFormViewModel) {
+            $item->setForm($exportView->getForm());
+            $item->setFieldset($exportView->getFieldset());
+        }
+        return $item;
     }
 }

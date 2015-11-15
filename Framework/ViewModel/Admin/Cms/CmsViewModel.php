@@ -24,13 +24,4 @@ class CmsViewModel extends AbstractViewModel
     protected $data = [
         'title' => 'Cms',
     ];
-
-    public $listeners = [
-        'Render' => 'onRender',
-    ];
-
-    public function onRender()
-    {
-        $this->getLayout()->setPageVar('title', $this->getData()['title']);
-    }
 }

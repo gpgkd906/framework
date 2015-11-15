@@ -33,28 +33,47 @@ class CodeService extends AbstractService
         });
     }
 
-    public function ls($dir, $func, $pass = array()) {
-        $_check = preg_replace("/\/$/", "", $dir);
-        if(in_array($_check, $pass)) {
+    public function scan($dir, $exclude = [], $fullPathFlag = true, $basePath = null) {
+        if($basePath === null) {
+            $basePath = $dir;
+        }
+        $exclude = (array) $exclude;
+        while($dir[strlen($dir) - 1] === '/') {
+            $dir = substr($dir, 0, -1);
+        }
+        if(in_array($dir, $exclude)) {
             return false;
         }
+
         if(is_dir($dir)) {
             $handler = opendir($dir);
+            $result = [];
             while($file = readdir($handler)) {
-                if($file === "." || $file === ".." || preg_match("/~$/", $file)) {
+                if($file === '.'
+                || $file === '..'
+                || $file[0] === '.'
+                || $file[0] === '#'
+                || preg_match('/~$/', $file)) {
                     continue;
                 }
-                $_file = str_replace("//", "/", $dir . "/" . $file);
-                if(is_dir($_file)) {
-                    call_user_func("self::ls", $_file, $func, $pass);
+                $file = str_replace('//', '/', $dir . '/' . $file);
+                if(is_dir($file)) {
+                    $subdir = $file;
+                    if($fullPathFlag === false) {
+                        $file = substr($file, strlen($basePath));;
+                    }
+                    $result[$file] = $this->scan($subdir, $exclude, $fullPathFlag, $basePath);
                 } else {
-                    if(in_array($_file, $pass)) {
-                        //skip the file                                                                                                                                                                     
+                    if(in_array($file, $exclude)) {
                         continue;
                     }
-                    call_user_func($func, $file, $_file);
+                    if($fullPathFlag === false) {
+                        $file = substr($file, strlen($basePath));;
+                    }
+                    $result[] = $file;
                 }
             }
+            return $result;
         }
     }
 }

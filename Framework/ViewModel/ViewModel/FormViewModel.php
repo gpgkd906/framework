@@ -60,9 +60,9 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
         return $this->fieldset;
     }
     
-    public function __construct($config)
+    public function __construct($config, $serviceManager)
     {
-        parent::__construct($config);
+        parent::__construct($config, $serviceManager);
         $this->addEventListener(self::TRIGGER_INIT, function () {
             $form = $this->getFormManager()->create($this->getId());
             $this->setForm($form);

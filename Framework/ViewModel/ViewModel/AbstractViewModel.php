@@ -3,6 +3,8 @@ namespace Framework\ViewModel\ViewModel;
 
 use Framework\Application\ServiceManagerAwareInterface;
 use Framework\Event\Event\EventInterface;
+use Framework\Model\ModelInterface;
+use Framework\ViewModel\ViewModel\ViewHelper;
 use Exception;
 
 abstract class AbstractViewModel implements ViewModelInterface, EventInterface, ServiceManagerAwareInterface
@@ -59,6 +61,15 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     private $containers = [];
 
     /**
+     *
+     * @api
+     * @var mixed $viewHelper 
+     * @access private
+     * @link
+     */
+    private $viewHelper = null;
+
+    /**
      * 
      * @api
      * @param mixed $config
@@ -87,9 +98,10 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         return "ViewModel_" . self::$incrementId;
     }
 
-    public function __construct($config) {
+    public function __construct($config, $serviceManager) {
         $config = array_merge_recursive($this->getConfig(), $config);
         $this->setConfig($config);
+        $this->setServiceManager($serviceManager);
         if(isset($config["id"])) {
             $this->id = $id;
         } else {
@@ -120,7 +132,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         }
         //ViewModel Event init
         foreach($this->listeners as $event => $listener) {            
-            $this->addEventListener($event, [$this, $listener]);
+            $this->Addeventlistener($event, [$this, $listener]);
         }
         if(isset($config['listeners'])) {
             foreach($config['listeners'] as $event => $listener) {
@@ -187,6 +199,9 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
 
     public function getData()
     {
+        if(empty($this->data) && $this->getModel()) {
+            $this->data = (array)$this->getModel()->getEntities();
+        }
         return $this->data;
     }
 
@@ -376,6 +391,13 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
      */
     public function setModel ($model)
     {
+        if(!$model instanceof ModelInterface) {
+            if(is_subclass_of($model, ModelInterface::class)) {
+                $model = $this->getServiceManager()->get('Model', $model);
+            } elseif($model instanceof \Closure) {
+                $model = call_user_func($model);
+            }           
+        }
         return $this->model = $model;
     }
 
@@ -387,7 +409,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
      */
     public function getModel ()
     {
-        return $this->model;
+        return isset($this->model) ? $this->model : null;
     }
 
 
@@ -398,5 +420,31 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         }
         $link = ViewModelManager::getBasePath() . '/' . $target;
         return str_replace('//', '/', $target);
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $viewHelper
+     * @return mixed $viewHelper
+     * @link
+     */
+    public function setViewHelper ($viewHelper)
+    {
+        return $this->viewHelper = $viewHelper;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $viewHelper
+     * @link
+     */
+    public function getViewHelper ()
+    {
+        if($this->viewHelper === null) {
+            $this->viewHelper = ViewHelper::getSingleton();           
+        }
+        return $this->viewHelper;
     }
 }

@@ -6,6 +6,8 @@ interface FormViewModelInterface {
     public function setFieldset($fieldset);
 
     public function getFieldset();
+
+    public function getForm();
 /*
     public function setModel();
 
