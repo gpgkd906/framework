@@ -12,7 +12,7 @@ use Framework\Repository\Repository\EntityInterface;
  *                 ->from(Users\Entity::class, 'u')
  *                 ->join([Tickets\Entity::class, 't'], 'userId', 'WITH', 'userId')
  *                 ->where('u.userId = :userId')
- *                 ->setParameter([
+ *                 ->setParameters([
  *                     ':userId' => 1
  *                 ]);
  *      var_dump($sqlBuilder->getOneResult());
@@ -26,6 +26,7 @@ class SqlBuilder implements SqlBuilderInterface
     
     private $executor = null;
     private $head = null;
+    private $set = [];
     private $selectEntity = null;
     private $from = null;
     private $table = null;
@@ -87,7 +88,49 @@ class SqlBuilder implements SqlBuilderInterface
         $this->head = $head;
         return $this;
     }
+    
+    public function update($table, $as = null)
+    {
+        if(!is_subclass_of($table, EntityInterface::class)) {
+            throw new Exception('invalid Entity:' . $table);
+        }
+        $this->recordClass = $table;
+        $table = $this->getEntityInfo($table)['Table']['name'];
+        $this->table = $table;
+        if($as) {
+            $this->alias[$table] = $as;            
+            $table = '`' . $table . '` as ' . $as;
+        }
+        $this->headType = self::UPDATE;
+        $this->head = $table;
+        return $this;
+    }
 
+    public function delete($table, $as = null)
+    {
+        if(!is_subclass_of($table, EntityInterface::class)) {
+            throw new Exception('invalid Entity:' . $table);
+        }
+        $this->recordClass = $table;
+        $table = $this->getEntityInfo($table)['Table']['name'];
+        $this->table = $table;
+        if($as) {
+            $this->alias[$table] = $as;            
+            $table = '`' . $table . '` as ' . $as;
+        }
+        $this->headType = self::DELETE;
+        $this->head = $table;
+        return $this;
+    }
+
+    public function set($set, $value)
+    {
+        $setNo = count($this->set);
+        $setLabel = ':set' . $setNo;
+        $this->set[] = $set . '=' . $setLabel;
+        $this->setParameter($setLabel, $value);
+    }
+    
     public function from($table, $as = null)
     {
         if(!is_subclass_of($table, EntityInterface::class)) {
@@ -211,8 +254,7 @@ class SqlBuilder implements SqlBuilderInterface
         $this->makeMap();
         $query = trim(join(' ', [
             $this->getHead(),
-            'FROM',
-            $this->from,
+            $this->getFrom(),
             $this->getJoin(),
             $this->getWhere(),
             $this->getGroupBy(),
@@ -227,7 +269,7 @@ class SqlBuilder implements SqlBuilderInterface
     {
         switch($this->headType) {
         case self::SELECT: $head = $this->getSelect(); break;
-        case self::INSERT: $head = $this->getInsert(); break;
+            //case self::INSERT: $head = $this->getInsert(); break;
         case self::UPDATE: $head = $this->getUpdate(); break;
         case self::DELETE: $head = $this->getDelete(); break;
         }
@@ -260,6 +302,24 @@ class SqlBuilder implements SqlBuilderInterface
         }
         $head = 'SELECT ' . $head;
         return $head;
+    }
+
+    private function getUpdate()
+    {
+        return 'UPDATE ' . $this->head;
+    }
+
+    private function getDelete()
+    {
+        return 'DELETE FROM ' . $this->head;        
+    }
+
+    private function getFrom()
+    {
+        if($this->headType === self::SELECT) {
+            return 'FROM ' . $this->from;
+        }
+        return '';
     }
 
     private function getJoin()
@@ -333,9 +393,14 @@ class SqlBuilder implements SqlBuilderInterface
         return $partSql;
     }
 
-    public function setParameter($parameters)
+    public function setParameter($param, $value)
     {
-        $this->parameters = $parameters;
+        $this->parameters[$param] = $value;
+    }
+
+    public function setParameters($parameters)
+    {
+        $this->parameters = array_merge($this->parameters, $parameters);
     }
 
     public function getParameter()
