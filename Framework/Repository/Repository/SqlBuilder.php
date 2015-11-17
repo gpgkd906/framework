@@ -19,6 +19,11 @@ use Framework\Repository\Repository\EntityInterface;
  */
 class SqlBuilder implements SqlBuilderInterface
 {
+    const SELECT = 'SELECT';
+    const INSERT = 'INSERT';
+    const UPDATE = 'UPDATE';
+    const DELETE = 'DELETE';
+    
     private $executor = null;
     private $head = null;
     private $selectEntity = null;
@@ -35,6 +40,8 @@ class SqlBuilder implements SqlBuilderInterface
     private $parameters = [];
     static $recordInfo = [];
     private $alias = [];
+    private $map = [];
+    private $headType = 'SELECT';
     
     private function __construct()
     {
@@ -74,20 +81,10 @@ class SqlBuilder implements SqlBuilderInterface
         return $result;
     }
 
-    public function select($column)
+    public function select($head)
     {
-        if(is_subclass_of($column, EntityInterface::class)) {
-            $this->selectEntity = $column;
-            $recordInfo = $this->getEntityInfo($column);
-            $columnMap = $recordInfo['columnMap'];
-            $table = '`' . $recordInfo['Table']['name'] . '`';
-            $column = [];
-            foreach($columnMap as $property => $col) {
-                $column[] = $table . '.`' . $col . '`'; 
-            }
-            $column = join(', ', $column);
-        }
-        $this->head = 'SELECT ' . $column;
+        $this->headType = self::SELECT;
+        $this->head = $head;
         return $this;
     }
 
@@ -156,7 +153,7 @@ class SqlBuilder implements SqlBuilderInterface
         if(!is_subclass_of($joinTable, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $joinTable);
         }
-        $this->joinEntityClass[] = $joinTable;
+        $joinTableEntity = $joinTable;
         $joinEntityInfo = $this->getEntityInfo($joinTable);
         $joinTable = $joinEntityInfo['Table']['name'];
         $joinColumn = $joinEntityInfo['columnMap'][$joinProperty];
@@ -166,14 +163,12 @@ class SqlBuilder implements SqlBuilderInterface
             $join .= ' AS ' . $as;
         }
         if(strtoupper($with) === 'WITH') {
-            $table = isset($this->alias[$this->table]) ? $this->alias[$this->table] : '`' . $this->table . '`';
-            $joinTable = isset($this->alias[$joinTable]) ? $this->alias[$joinTable] : '`' . $joinTable . '`';
-            $referencedJoinColumn = $this->getEntityInfo($this->recordClass)['columnMap'][$referencedJoinProperty];
-            $join .= sprintf(' ON `%s`.`%s` = `%s`.`%s`', $joinTable, $joinColumn, $table, $referencedJoinColumn);
+            $join .= sprintf(' ON %s', $referencedJoinProperty);
         } else {
             $join .= sprintf(' USING(%s)', $joinColumn);
         }
         $this->join[] = $join;
+        $this->joinEntityClass[$joinTable] = $joinTableEntity;
         return $this;
     }
 
@@ -187,7 +182,7 @@ class SqlBuilder implements SqlBuilderInterface
         return $this;
     }
 
-    public function groupBy($groupby)
+    public function groupBy($groupBy)
     {
         $this->groupBy = 'GROUP By ' .$groupBy;
         return $this;
@@ -213,45 +208,98 @@ class SqlBuilder implements SqlBuilderInterface
     
     public function getQuery()
     {
-        $this->mapHeadWhere();
+        $this->makeMap();
         $query = trim(join(' ', [
-            $this->head,
+            $this->getHead(),
             'FROM',
             $this->from,
-            join(' ', $this->join),
-            empty($this->where) ? '' : 'WHERE ' . $this->where,
-            $this->groupBy,
-            $this->having,
-            $this->orderBy,
-            $this->limit,            
+            $this->getJoin(),
+            $this->getWhere(),
+            $this->getGroupBy(),
+            $this->getHaving(),
+            $this->getOrderBy(),
+            $this->limit,
         ]));
         return $query;
     }
 
-    private function mapHeadWhere()
+    private function getHead()
     {
-        //1 pass: head;
+        switch($this->headType) {
+        case self::SELECT: $head = $this->getSelect(); break;
+        case self::INSERT: $head = $this->getInsert(); break;
+        case self::UPDATE: $head = $this->getUpdate(); break;
+        case self::DELETE: $head = $this->getDelete(); break;
+        }
+        return $this->mapping($head);
+    }
+
+    private function getSelect()
+    {
+        $head = $this->head;
+        if(in_array($head, $this->alias)) {
+            $table = array_search($head, $this->alias);
+            if($table === $this->table) {
+                $head = $this->recordClass;
+            } elseif(isset($this->alias[$head])) {
+                $head = $this->alias[$head];
+            } else {
+                throw new Exception('invalid schema: [%s] for select', $head);
+            }
+        }
+        if(is_subclass_of($head, EntityInterface::class)) {
+            $this->selectEntity = $head;
+            $recordInfo = $this->getEntityInfo($head);
+            $columnMap = $recordInfo['columnMap'];
+            $table = '`' . $recordInfo['Table']['name'] . '`';
+            $column = [];
+            foreach($columnMap as $property => $col) {
+                $column[] = $table . '.`' . $property . '`'; 
+            }
+            $head = join(', ', $column);
+        }
+        $head = 'SELECT ' . $head;
+        return $head;
+    }
+
+    private function getJoin()
+    {
+        return $this->mapping(join(' ', $this->join));
+    }
+    
+    private function getGroupBy()
+    {
+        return $this->mapping($this->groupBy);        
+    }
+
+    private function getHaving()
+    {
+        return $this->mapping($this->having);
+    }
+
+    private function getOrderBy()
+    {
+        return $this->mapping($this->orderBy);
+    }
+
+    private function getWhere()
+    {
+        return empty($this->where) ? '' : 'WHERE ' . $this->mapping(join(' AND ', $this->where));
+    }
+
+    private function makeMap()
+    {
         $search = [];
         $replace = [];
         foreach($this->alias as $table => $alias) {
             $search[] = '`' . $table . '`.';
             $search[] = $table . '.';
-            $replace[] = '`' . $alias . '`.';
+            $replace[] = $alias . '.';
             $replace[] = $alias . '.';
         }
-        $this->head = str_replace($search, $replace, $this->head);
-        //カンマ整形
-        while(strpos($this->head, ' ,')) {
-            $this->head = str_replace(' ,', ',', $this->head);
-        }
-        while(strpos($this->head, ', ')) {
-            $this->head = str_replace(', ', ',', $this->head);
-        }
-        $this->head = str_replace(',', ', ', $this->head);
-        //2 pass: head, map, 
-        $map = [];
+        $temp = [];
         if(empty($this->joinEntityClass)) {
-            $map = $this->getEntityInfo($this->recordClass)['columnMap'];
+            $temp = $this->getEntityInfo($this->recordClass)['columnMap'];
         } else {
             $recordClass = $this->joinEntityClass;
             $recordClass[] = $this->recordClass;
@@ -263,27 +311,26 @@ class SqlBuilder implements SqlBuilderInterface
                 }
                 $_map = $recordInfo['columnMap'];
                 foreach($_map as $property => $column) {
-                    $map[$table . '.' . $property] = sprintf('`%s`.`%s`', $table, $column);
-                    $map[$table . '.' . $property . ','] = sprintf('`%s`.`%s`,', $table, $column);
+                    $temp[$table . '.' . $property] = sprintf('`%s`.`%s`', $table, $column);
                 }
-            }            
-        }
-        $head = explode(' ', $this->head);
-        foreach($head as $idx => $token) {
-            $token = str_replace('`', '', $token);
-            if(isset($map[$token])) {
-                $head[$idx] = $map[$token];
-            }            
-        }
-        $this->head = join(' ', $head);
-        $where = explode(' ', join(' ', $this->where));
-        foreach($where as $idx => $token) {
-            $token = str_replace('`', '', $token);
-            if(isset($map[$token])) {
-                $where[$idx] = $map[$token];
             }
         }
-        $this->where = join(' ', $where);
+        foreach($temp as $key => $val) {
+            $search[] = $key;
+            $replace[] = $val;
+        }
+        $this->map = [
+            'search' => $search,
+            'replace' => $replace,
+        ];
+    }
+
+    private function mapping($partSql)
+    {
+        if(!empty($partSql)) {
+            return str_replace($this->map['search'], $this->map['replace'], str_replace('`', '', $partSql));
+        }
+        return $partSql;
     }
 
     public function setParameter($parameters)
