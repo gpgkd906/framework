@@ -33,18 +33,16 @@ class EntityService extends AbstractService
     private function testSqlBuilder()
     {
         $sqlBuilder = SqlBuilder::createSqlBuilder();
-        $sqlBuilder->select(Tickets\Entity::class)
+        $sqlBuilder->select('u.userId, t.ticketId')
                    ->from(Users\Entity::class, 'u')
-                   ->join([Tickets\Entity::class, 't'], 'userId', 'WITH', 'userId')
+                   ->join([Tickets\Entity::class, 't'], 'userId', 'WITH', 't.userId=u.userId')
                    ->where('u.userId = :userId')
-                   ->setParameter([
+                   ->groupBy('u.userId')
+                   ->having('MAX(t.ticketId) < 2')
+                   ->setParameters([
                        ':userId' => 1
                    ]);
-        
         $Ticket = $sqlBuilder->getOneResult();
-        $User = $Ticket->getUser();
-        foreach($User->getTicket() as $Tt) {
-            var_dump($Tt->toArray(), $Ticket->toArray());
-        }
+        var_dump($Ticket);
     }
 }

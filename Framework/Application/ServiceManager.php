@@ -40,7 +40,7 @@ class ServiceManager implements ServiceManagerInterface
         }
         return $this->config;
     }
-    
+
     public function get($type, $name)
     {
         $config = $this->getConfig();
@@ -52,14 +52,18 @@ class ServiceManager implements ServiceManagerInterface
             $Factory = $loadInfo['Factory'];
             return $Factory::getService($name);
         } else {
-            $Class = $Namespace . '\\' . $name;
-            if(isset($loadInfo['classes'])
-            && isset($loadInfo['classes'][$name])) {
-                if(isset($loadInfo['classes'][$name]['Class'])) {
-                    $Class = $loadInfo['classes'][$name]['Class'];
-                }
-                if(isset($loadInfo['classes'][$name]['isSingleton'])) {
-                    $isSingleton = $loadInfo['classes'][$name]['isSingleton'];
+            if(class_exists($name)) {
+                $Class = $name;
+            } else {
+                $Class = $Namespace . '\\' . $name;
+                if(isset($loadInfo['classes'])
+                && isset($loadInfo['classes'][$name])) {
+                    if(isset($loadInfo['classes'][$name]['Class'])) {
+                        $Class = $loadInfo['classes'][$name]['Class'];
+                    }
+                    if(isset($loadInfo['classes'][$name]['isSingleton'])) {
+                        $isSingleton = $loadInfo['classes'][$name]['isSingleton'];
+                    }
                 }
             }
             if($isSingleton) {

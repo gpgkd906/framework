@@ -25,15 +25,11 @@ class CodeService extends AbstractService
             $traverser->addVisitor(new NodeVisitor);
             $stmts = $parser->parse(file_get_contents($filePath));
             $stmts = $traverser->traverse($stmts);            
-            /* var_dump( */
-            /*     get_class_methods($stmts[0]) */
-            /*     , $stmts[0] */
-            /* ); */
             die;
         });
     }
 
-    public function scan($dir, $exclude = [], $fullPathFlag = true, $basePath = null) {
+    public function scan($dir, $exclude = [], $basePath = null, $maxFileSize = 40000) {
         if($basePath === null) {
             $basePath = $dir;
         }
@@ -59,21 +55,48 @@ class CodeService extends AbstractService
                 $file = str_replace('//', '/', $dir . '/' . $file);
                 if(is_dir($file)) {
                     $subdir = $file;
-                    if($fullPathFlag === false) {
+                    if(!in_array($subdir, $exclude)) {
+                        //フォルダーを追加した後に、フォルダーの中身をスキャンする
+                        $fullPath = $file;
                         $file = substr($file, strlen($basePath));;
+                        $folder = [
+                            'dir' => $dir,
+                            'file' => $file,
+                            'fullPath' => $fullPath,
+                            'fileSize' => -1,
+                            'nameHash' => md5($file),
+                            'fileHash' => null,
+                        ];
+                        $result[] = $folder;
+                        $result = array_merge($result, $this->scan($subdir, $exclude, $basePath));
                     }
-                    $result[$file] = $this->scan($subdir, $exclude, $fullPathFlag, $basePath);
                 } else {
                     if(in_array($file, $exclude)) {
                         continue;
                     }
-                    if($fullPathFlag === false) {
-                        $file = substr($file, strlen($basePath));;
+                    $filesize = filesize($file);
+                    if($filesize > $maxFileSize) {
+                        //大きなファイルを処理しない、誰がそんな大きなソースを書くんだ
+                        continue;
                     }
-                    $result[] = $file;
+                    $fullPath = $file;
+                    $file = substr($file, strlen($basePath));;
+                    $result[] = [
+                        'dir' => $dir,
+                        'file' => $file,
+                        'fullPath' => $fullPath,
+                        'fileSize' => $filesize,
+                        'nameHash' => md5($file),
+                        'fileHash' => md5_file($fullPath),
+                    ];
                 }
             }
             return $result;
         }
+    }
+
+    public function analysis($file)
+    {
+
     }
 }
