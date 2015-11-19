@@ -103,7 +103,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         $this->setConfig($config);
         $this->setServiceManager($serviceManager);
         if(isset($config["id"])) {
-            $this->id = $id;
+            $this->id = $config["id"];
         } else {
             $this->id = self::getIncrementId();
         }
@@ -117,18 +117,16 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         }
         //layout;
         if(isset($config['layout'])) {
-            $layoutClass = $config['layout'];
-            $this->setLayout($layoutClass::getSingleton(), $config);
-        } else {
-            $this->setLayout(PageLayout::getSingleton());
+            $layout = $config['layout'];
+            if($layout instanceof LayoutInterface) {
+                $this->setLayout($layout, $config);
+            } else {
+                $this->setLayout($layout::getSingleton(), $config);
+            }
         }
         //container:template
         if(isset($config['container'])) {
-            $containers = [];
-            foreach($config['container'] as $containerName => $containerConfig) {
-                $containers[$containerName] = new Container($containerConfig, $this);
-            }
-            $this->setContainers($containers);
+            $this->setContainers($config['container']);
         }
         //ViewModel Event init
         foreach($this->listeners as $event => $listener) {            
@@ -208,10 +206,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     public function getChild($id)
     {
         $childs = $this->getChilds();
-        if(isset($childs[$id])) {
-            return $childs[$id];
+        $targetView = ViewModelManager::getViewById($id);
+        if(in_array($targetView, $childs)) {
+            return $targetView;
+        } else {
+            return null;
         }
-        return null;
     }
 
     public function setChilds($childs)
@@ -320,16 +320,17 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
      */
     public function setLayout (LayoutInterface $layout, $config = null)
     {
-        if($config) {
-            if(isset($config['script'])) {
-                foreach($config['script'] as $script) {
-                    $layout->registerScript($script);
-                }
+        if($config === null) {
+            $config = $this->getConfig();
+        }
+        if(isset($config['script'])) {
+            foreach($config['script'] as $script) {
+                $layout->registerScript($script);
             }
-            if(isset($config['style'])) {
-                foreach($config['style'] as $style) {
-                    $layout->registerStyle($style);
-                }
+        }
+        if(isset($config['style'])) {
+            foreach($config['style'] as $style) {
+                $layout->registerStyle($style);
             }
         }
         return $this->layout = $layout;

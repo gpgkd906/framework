@@ -5,7 +5,7 @@ namespace Framework\ViewModel\Admin\Cms;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\ViewModel\Layout\AdminPageLayout;
 
-class PageListViewModel extends CmsViewModel
+class ViewListViewModel extends CmsViewModel
 {
     protected $template = '/template/admin/dashboard.html';
         
@@ -19,13 +19,13 @@ class PageListViewModel extends CmsViewModel
             ],
             'Main' => [
                 [
-                    'viewModel' => Page\ListViewModel::class,
+                    'viewModel' => View\ListViewModel::class,
                 ]
             ]
         ],
     ];
 
     protected $data = [
-        'title' => 'ページ一覧',
+        'title' => 'ビュー管理',
     ];
 }

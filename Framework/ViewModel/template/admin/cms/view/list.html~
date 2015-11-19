@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                          Page Manager
+                          View Manager
                         </div>
                         <!-- .panel-heading -->
                         <div class="panel-body">
@@ -63,13 +63,13 @@
 					  </table>
 					</div>
 					<br/>
-					<a href="/admin/cms/page/register" class="btn btn-success btn-block">[<?php echo $entity['folder'] ?>]セクションで新しいページを作成</a>
+					<a href="/admin/cms/page/register/" class="btn btn-success btn-block">[<?php echo $entity['folder'] ?>]セクションで新しいページを作成</a>
 				      </div>
                                     </div>
                                 </div>
 				<?php endforeach; ?>
 				<br />
-				<a href="/admin/cms/page/register" class="btn btn-warning btn-lg btn-block">新しいセクションでページを作成</a>
+				<a href="/admin/cms/page/register/" class="btn btn-warning btn-lg btn-block">新しいセクションでページを作成</a>
                           </div>
                         </div>
                         <!-- .panel-body -->

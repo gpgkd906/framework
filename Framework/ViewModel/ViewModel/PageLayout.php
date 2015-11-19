@@ -14,7 +14,7 @@ class PageLayout implements LayoutInterface
     protected $styles = [];
     
     protected $scripts = [];
-    
+
     /**
      *
      * @api
@@ -37,13 +37,6 @@ class PageLayout implements LayoutInterface
     {
         $styles = $this->styles;
         $scripts = $this->scripts;
-        /* $this->styles = $this->scripts = []; */
-        /* foreach($styles as $key => $style) { */
-        /*     $this->styles[$style] = $key;             */
-        /* } */
-        /* foreach($scripts as $key => $script) { */
-        /*     $this->scripts[$script] = $key; */
-        /* } */
     }
 
     public function registerStyle($style, $priority = null)
@@ -51,8 +44,8 @@ class PageLayout implements LayoutInterface
         if($priority === null) {
             $priority = 99;
         }
-        if(in_array($style, $this->styles) && array_search($style, $this->styles) == $priority) {
-            throw new Exception(sprintf(self::ERROR_REGISTER_STYLE_FOR_DIFFERENT_PRIORITY, $style));
+        if(in_array($style, $this->styles)) {
+            return false;
         }
         $this->styles = array_merge(array_slice($this->styles, 0, $priority), [$style], array_slice($this->styles, $priority));
     }
@@ -62,8 +55,8 @@ class PageLayout implements LayoutInterface
         if($priority === null) {
             $priority = 99;
         }
-        if(in_array($script, $this->scripts) && array_search($script, $this->scripts) == $priority) {
-            throw new Exception(sprintf(self::ERROR_REGISTER_SCRIPT_FOR_DIFFERENT_PRIORITY, $script));
+        if(in_array($script, $this->scripts)) {
+            return false;
         }
         $this->scripts = array_merge(array_slice($this->scripts, 0, $priority), [$script], array_slice($this->scripts, $priority));
     }
@@ -90,16 +83,6 @@ class PageLayout implements LayoutInterface
         return $scripts;
     }
     
-    public function useStyle($style)
-    {
-
-    }
-    
-    public function useScript($script)
-    {
-
-    }
-
     /**
      * 
      * @api

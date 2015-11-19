@@ -32,6 +32,7 @@ class Container implements ContainerInterface, ArrayAccess
     {
         $this->setExportView($exportView);
         $this->setItems($config);
+        $this->getItems();
     }
     
     /**
@@ -77,8 +78,6 @@ class Container implements ContainerInterface, ArrayAccess
      */
     public function getItems ()
     {
-        $exportViewRenderType = $this->getExportView()->getRenderType();
-        $exportViewLayout = $this->getExportView()->getLayout();
         foreach($this->items as $key => $item) {
             if(!$item instanceof ViewModelInterface) {
                 $this->items[$key] = $this->getViewModel($item);
@@ -171,9 +170,10 @@ class Container implements ContainerInterface, ArrayAccess
     private function getViewModel($item)
     {
         $exportView = $this->getExportView();
+        $item['layout'] = $exportView->getLayout();
         $item = ViewModelManager::getViewModel($item);
         $item->setRenderType($exportView->getRenderType());
-        $item->setLayout($exportView->getLayout());
+        //$item->setLayout($exportView->getLayout());
         if($exportView instanceof FormViewModelInterface && $item instanceof SubFormViewModel) {
             $item->setForm($exportView->getForm());
             $item->setFieldset($exportView->getFieldset());

@@ -4,7 +4,7 @@ namespace Framework\ViewModel\Admin\Cms;
 
 use Framework\ViewModel\ViewModel\FormViewModel;
 use Framework\ViewModel\Admin\Cms\Component;
-use Framework\ViewModel\Admin\AdminPageLayout;
+use Framework\ViewModel\Layout\AdminPageLayout;
 use Form2\Validator;
 
 class PageRegisterViewModel extends FormViewModel

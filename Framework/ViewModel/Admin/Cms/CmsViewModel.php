@@ -3,7 +3,7 @@
 namespace Framework\ViewModel\Admin\Cms;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
-use Framework\ViewModel\Admin\AdminPageLayout;
+use Framework\ViewModel\Layout\AdminPageLayout;
 use Form2\Validator;
 
 class CmsViewModel extends AbstractViewModel

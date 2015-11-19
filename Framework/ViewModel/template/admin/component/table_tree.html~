@@ -1,0 +1,32 @@
+			    <?php $entities = $this->getData(); ?>
+			    <?php $sections = array_shift($entities); ?>
+			    <?php foreach($sections as $section) : ?>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                          <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section['nameHash'] ?>"><?php echo $section['file'] ?></a>
+                                        </h4>
+                                    </div>
+                                    <div id="<?php echo $section['nameHash'] ?>" class="panel-collapse collapse">
+                                      <div class="panel-body">
+					<div class="table-responsive table-bordered">
+					  <table class="table">
+					    <thead>
+                                              <tr>
+						<th>#</th>
+						<th>フォルダー</th>
+						<th>ファイルパス</th>
+						<th>アクション</th>
+                                              </tr>
+					    </thead>
+					    <tbody>
+
+					    </tbody>
+					  </table>
+					</div>
+					<br/>
+					<a href="/admin/cms/page/register/" class="btn btn-success btn-block">[<?php echo $section['file'] ?>]セクションで新しいページを作成</a>
+				      </div>
+                                    </div>
+                                </div>
+				<?php endforeach; ?>
