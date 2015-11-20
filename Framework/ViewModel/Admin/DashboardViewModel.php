@@ -3,6 +3,7 @@
 namespace Framework\ViewModel\Admin;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\Layout\AdminPageLayout;
 
 class DashboardViewModel extends AbstractViewModel
 {
@@ -26,7 +27,7 @@ class DashboardViewModel extends AbstractViewModel
             ],            
         ],
         'script' => [
-            '/js/morris-data.js'
+            '/sbadmin2/js/morris-data.js'
         ]
     ];
 

@@ -14,25 +14,6 @@ use Exception;
 abstract class AbstractEntity implements EntityInterface, EventInterface
 {
     use \Framework\Event\Event\EventTrait;
-    
-    const INSERT = 'Insert';
-    const UPDATE = 'Update';
-    const DELETE = 'Delete';
-    const SELECT = 'Selete';
-    //
-    const TABLE        = 'Table';
-    const COLUMN       = 'Column';
-    const ID           = 'Id';
-    const PRIMARY_KEY  = 'PrimaryKey';
-    const ENTITY       = 'Entity';
-    const PROPERTY     = 'Property';
-    const QUERY        = 'Query';
-    const NAME         = 'name';
-    const PROPERTY_MAP = 'propertyMap';
-    const COLUMN_MAP   = 'columnMap';
-    const MODEL_CLASS  = 'modelClass';
-    const PRIMARY_PROPERTY = 'primaryProperty';
-    const SETTER       = 'setter';
     //
     const TRIGGER_PREINSERT  = 'preInsert';
     const TRIGGER_PREUPDATE  = 'preUpdate';
@@ -65,7 +46,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     public function save()
     {
         if($this->isValid) {
-            $recordInfo = self::getEntityInfo();
+            $recordInfo = static::getEntityInfo();
             $queryInfo = $this->getQueryInfo();
             $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
             $getter = 'get' . ucfirst($primaryProperty);
@@ -97,7 +78,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     public function toArray()
     {
         if($this->isValid) {
-            $recordInfo = self::getEntityInfo();
+            $recordInfo = static::getEntityInfo();
             $columnMap = $recordInfo[self::COLUMN_MAP];
             $data = [];
             foreach($columnMap as $property => $column) {
@@ -116,7 +97,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     
     protected function setAssiociate($assiociteInfo)
     {
-        $recordInfo = self::getEntityInfo();
+        $recordInfo = static::getEntityInfo();
         $assiociateList = $recordInfo[Assiociate::ASSIOCIATE_LIST];
         foreach($assiociateList as $assiociateType => $assiociate) {
             foreach($assiociate as $target) {
@@ -150,7 +131,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
 
     public function __get($property)
     {
-        $recordInfo = self::getEntityInfo();
+        $recordInfo = static::getEntityInfo();
         $columnMap = $recordInfo[self::COLUMN_MAP];
         
         if(!isset($columnMap[$property])) {
@@ -166,7 +147,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     }
 
     private function fetchRaw($primaryValue) {
-        $recordInfo = self::getEntityInfo();
+        $recordInfo = static::getEntityInfo();
         $queryInfo = $this->getQueryInfo();
         $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
         $setter = [$this, 'set' . ucfirst($primaryProperty)];
@@ -183,7 +164,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
 
     public function assign($raw)
     {
-        $recordInfo = self::getEntityInfo();
+        $recordInfo = static::getEntityInfo();
         $propertyMap = $recordInfo[self::PROPERTY_MAP];
         foreach($propertyMap as $property => $column) {
             if(isset($raw[$column])) {
@@ -196,22 +177,16 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
         }
     }
 
-    static public function setSqlBuilder(SqlBuilderInterface $sqlbuilder)
-    {
-        self::$sqlbuilder = $sqlbuilder;
-        $sqlbuilder->setEntityInfo(static::class, self::getEntityInfo());
-    }
-    
     static public function setRepository(RepositoryInterface $Repository)
     {
         self::$Repository = $Repository;
-        $Repository->setEntityInfo(self::getEntityInfo());
+        $Repository->setEntityInfo(static::getEntityInfo());
     }
     
     static public function getRepository()
     {
         if(self::$Repository === null) {
-            $recordInfo = self::getEntityInfo();
+            $recordInfo = static::getEntityInfo();
             $modelClass = $recordInfo[self::ENTITY][self::MODEL_CLASS];
             self::$Repository = $modelClass::getSingleton();
         }
@@ -220,39 +195,9 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
 
     static public function getEntityInfo()
     {
-        if(empty(self::$info[static::class])) {
-            self::$info[static::class] = [
-                self::TABLE => false,
-                self::PRIMARY_KEY => false,
-                self::ENTITY => [],
-                self::PROPERTY => [],
-                self::PROPERTY_MAP => null,
-                Assiociate::ASSIOCIATE_LIST => null,
-                Assiociate::ASSIOCIATE_QUERY => [],
-                self::QUERY => [
-                    self::SELECT => null,
-                    self::INSERT => null,
-                    self::UPDATE => null,
-                    self::DELETE => null,
-                ],
-            ];
-            $reflection = new ReflectionClass(static::class);
-            self::makeEntityInfo($reflection->getDocComment());
-            $propertyList = array_diff_key(
-                get_class_vars(static::class),
-                get_class_vars(__CLASS__)
-            );
-            foreach($propertyList as $property => $dummy) {
-                $propertyDocComment = $reflection->getProperty($property)->getDocComment();
-                self::makePropertyInfo($property, $propertyDocComment);
-            }
-            if(self::makeTableInfo()) {
-                self::prepareQueryInfo();
-            }
-        }
-        return self::$info[static::class];        
+        return MetaInfoManager::getEntityInfo(static::class);
     }
-    
+        
     private function getQueryInfo()
     {
         if($this->queryInfo === null) {
@@ -261,138 +206,9 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
         return $this->queryInfo;
     }
 
-    static private function makeEntityInfo($comment)
-    {
-        array_map(function($line) {
-            if(strpos($line, '@ORM') == false) {
-                return true;
-            }
-            $line = explode('@ORM\\', $line);
-            $line = trim(str_replace(';', '', array_pop($line)));
-            if(strpos($line, '(') && strpos($line, ')')) {
-                list($name, $query) = explode('(', str_replace(')', '', $line));
-                $query = str_replace([',', '\'', '"'], ['&', ''], $query);
-                parse_str($query, $data);
-            } else {
-                $name = $line;
-                $data = null;
-            }
-            
-            if(isset(self::$info[static::class][$name])) {
-                self::$info[static::class][$name] = $data;
-            } else {
-                self::$info[static::class][self::ENTITY][$name] = $data;
-            }
-        }, explode(PHP_EOL, $comment));
-    }
-
-    static private function makePropertyInfo($property, $comment)
-    {
-        array_map(function($line) use ($property) {
-            if(strpos($line, '@ORM') == false) {
-                return true;
-            }
-            $line = explode('@ORM\\', $line);
-            $line = trim(str_replace(';', '', array_pop($line)));
-            If($line === self::ID) {                
-                self::$info[static::class][self::PRIMARY_PROPERTY] = $property;
-                return true;
-            }            
-            if(strpos($line, '(') && strpos($line, ')')) {
-                list($name, $query) = explode('(', str_replace(')', '', $line));
-            }
-            if(!isset(self::$info[static::class][self::PROPERTY][$property])) {
-                self::$info[static::class][self::PROPERTY][$property] = [];
-            }
-            $query = str_replace([',', '\'', '"'], ['&', ''], $query);
-            parse_str($query, $data);
-            self::$info[static::class][self::PROPERTY][$property][$name] = $data;            
-        }, explode(PHP_EOL, $comment));
-    }
-    
-    static private function makeTableInfo()
-    {
-        $info = self::$info[static::class];
-        if(!isset($info[self::TABLE])) {
-            return false;
-        }
-        if(!isset($info[self::TABLE][self::NAME])) {
-            return false;
-        }        
-        if(!$primaryProperty = $info[self::PRIMARY_PROPERTY]) {
-            return false;
-        }
-        if(!isset($info[self::PROPERTY][$primaryProperty])) {
-            return false;
-        }
-        if(!isset($info[self::PROPERTY][$primaryProperty][self::COLUMN])) {
-            return false;
-        }
-        if(!isset($info[self::PROPERTY][$primaryProperty][self::COLUMN][self::NAME])) {
-            return false;
-        }
-        self::$info[static::class][self::PRIMARY_KEY] = self::$info[static::class][self::PROPERTY][$primaryProperty][self::COLUMN][self::NAME];
-        return true;
-    }
-
-    static private function prepareQueryInfo()
-    {
-        $info = self::$info[static::class];
-        $propertyList = $info[self::PROPERTY];
-        $propertyMap = [];
-        $columnMap = [];
-        $assiociteList = [
-            Assiociate::ONE_TO_ONE => [],
-            Assiociate::ONE_TO_MANY => [],
-            Assiociate::MANY_TO_ONE => [],
-        ];
-        foreach($propertyList as $propertyName => $property) {
-            if(isset($property[self::COLUMN]) && isset($property[self::COLUMN][self::NAME])) {
-                $columnMap[$propertyName] = $propertyMap[$propertyName] = $property[self::COLUMN][self::NAME];                
-            }
-            if(isset($property[Assiociate::ONE_TO_ONE])) {
-                $assiociteList[Assiociate::ONE_TO_ONE][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_ONE][Assiociate::TARGET_ENTITY] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
-            } else if (isset($property[Assiociate::ONE_TO_MANY])) {
-                $assiociteList[Assiociate::ONE_TO_MANY][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[Assiociate::ONE_TO_MANY][Assiociate::TARGET_ENTITY] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
-            } else if (isset($property[Assiociate::MANY_TO_ONE])) {
-                $assiociteList[Assiociate::MANY_TO_ONE][$propertyName] = $property;
-                $propertyMap[$propertyName] = $property[Assiociate::MANY_TO_ONE][Assiociate::TARGET_ENTITY] . '::'. $property[Assiociate::JOIN_COLUMN][Assiociate::REFERENCED_COLUMN_NAME];
-            }
-        }
-        $info[self::COLUMN_MAP] = $columnMap;
-        $info[self::PROPERTY_MAP] = $propertyMap;
-        foreach($info[self::QUERY] as $queryType => $query) {
-            $info[self::QUERY][$queryType] = self::prepareQuery($queryType, $columnMap, $info[self::TABLE][self::NAME], $info[self::PRIMARY_KEY]);
-        }
-        $info[Assiociate::ASSIOCIATE_LIST] = $assiociteList;
-        self::$info[static::class] = $info;
-    }
-
-    static private function prepareQuery($queryType, $propertyMap, $table, $primaryKey)
-    {
-        $query = null;
-        switch($queryType) {
-        case self::SELECT:
-            $query = SqlBuilder::makeSelectQuery($propertyMap, $table, $primaryKey);
-            break;
-        case self::INSERT:
-            $query = SqlBuilder::makeInsertQuery($propertyMap, $table, $primaryKey);
-            break;
-        case self::UPDATE:
-            $query = SqlBuilder::makeUpdateQuery($propertyMap, $table, $primaryKey);
-            break;
-        case self::DELETE:
-            $query = SqlBuilder::makeDeleteQuery($propertyMap, $table, $primaryKey);
-            break;
-        }
-        return $query;
-    }
-
     private function makeQueryInfo()
     {
-        $recordInfo = self::getEntityInfo();
+        $recordInfo = static::getEntityInfo();
         $this->queryInfo = [];
         foreach($recordInfo[self::QUERY] as $queryType => $query) {
             $this->queryInfo[$queryType] = $this->makeQuery($query, $queryType, $recordInfo[self::COLUMN_MAP], $recordInfo[self::PRIMARY_KEY]);
@@ -401,7 +217,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
 
     public function makeQuery($query, $queryType, $columnMap, $primaryKey)
     {
-        $recordInfo = self::getEntityInfo();
+        $recordInfo = static::getEntityInfo();
         $propertyMap = $recordInfo[self::PROPERTY_MAP];
         $executor = null;
         $option = ['queryType' => $queryType];
@@ -427,8 +243,9 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     private function makeAssiociate()
     {
         if($this->assiociateInitedFlag === false) {
-            $assiociteList = self::$info[static::class][Assiociate::ASSIOCIATE_LIST];
-            $propertyMap = self::$info[static::class][self::PROPERTY_MAP];
+            $info = static::getEntityInfo();
+            $assiociteList = $info[Assiociate::ASSIOCIATE_LIST];
+            $propertyMap = $info[self::PROPERTY_MAP];
             foreach($assiociteList as $assiociateType => $assiocitePropertyList) {
                 foreach($assiocitePropertyList as $propertyName => $property) {
                     $getter = 'get' . ucfirst($propertyName);
@@ -436,7 +253,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
                         continue;
                     }
                     $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
-                    if($result = $assiociateHelper::makeAssiociateEntity($this, $propertyName, $property, self::$info[static::class][self::TABLE][self::NAME], $propertyMap)) {
+                    if($result = $assiociateHelper::makeAssiociateEntity($this, $propertyName, $property, $info[self::TABLE][self::NAME], $propertyMap)) {
                         list($EntityOrCollection, $param) = $result;
                         $EntityOrCollection->setAssiociate($param);
                     }
@@ -476,5 +293,15 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     static public function getConfig ()
     {
         return self::$config;
-    }   
+    }
+
+    static public function getReflection()
+    {
+        return new ReflectionClass(static::class);
+    }
+    
+    static public function getBaseReflection()
+    {
+        return new ReflectionClass(__CLASS__);
+    }
 }
