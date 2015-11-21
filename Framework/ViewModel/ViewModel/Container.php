@@ -173,11 +173,7 @@ class Container implements ContainerInterface, ArrayAccess
         $item['layout'] = $exportView->getLayout();
         $item = ViewModelManager::getViewModel($item);
         $item->setRenderType($exportView->getRenderType());
-        //$item->setLayout($exportView->getLayout());
-        if($exportView instanceof FormViewModelInterface && $item instanceof SubFormViewModel) {
-            $item->setForm($exportView->getForm());
-            $item->setFieldset($exportView->getFieldset());
-        }
+        $item->setExportView($exportView);
         return $item;
     }
 }

@@ -30,6 +30,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     protected $Model = null;
     private $childs = [];
     private $id = null;
+    private $exportView = null;
     static private $incrementId = 0;
     public $listeners = [];
     
@@ -448,4 +449,29 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         }
         return $this->viewHelper;
     }
+
+    /**
+     * 
+     * @api
+     * @param mixed $exportView
+     * @return mixed $exportView
+     * @link
+     */
+    public function setExportView ($exportView)
+    {
+        return $this->exportView = $exportView;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $exportView
+     * @link
+     */
+    public function getExportView ()
+    {
+        return $this->exportView;
+    }
+
+    
 }

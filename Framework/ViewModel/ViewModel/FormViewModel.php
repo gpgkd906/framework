@@ -79,7 +79,6 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
             if($this->useConfirm) {
                 $confirm = [$this, 'triggerForConfirm'];
             }
-
             $form->confirm($confirm, [$this, 'triggerForComplete']);
         });
     }

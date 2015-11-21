@@ -2,6 +2,8 @@
 
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\ViewModel\ViewModel\FormViewModel;
+
 class SubFormViewModel extends AbstractViewModel implements FormViewModelInterface
 {
     /**
@@ -47,6 +49,9 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
      */
     public function setForm ($form)
     {
+        if($this->getFieldset()) {
+            $form->addFieldset($this->getFieldset());
+        }
         return $this->form = $form;
     }
 
@@ -59,5 +64,15 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     public function getForm ()
     {
         return $this->form;
+    }
+
+    public function setExportView($exportView)
+    {
+        if($exportView instanceof FormViewModelInterface) {
+            $exportView->addEventListener(FormViewModel::TRIGGER_FORMINIT, function($exportView) {
+                $this->setForm($exportView->getForm());
+            });
+        }
+        return parent::setExportView($exportView);
     }
 }
