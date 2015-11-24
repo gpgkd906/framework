@@ -10,6 +10,12 @@ class PageFieldset extends AbstractFieldset
     protected $name = 'page';
 
     protected $fieldset = [
+        'pid' => [
+            'type' => 'hidden',
+            'attrs' => [
+                'class' => 'form-control'
+            ],
+        ],
         'url' => [
             'type' => 'text',
             'validator' => [
