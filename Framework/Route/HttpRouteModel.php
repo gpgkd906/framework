@@ -88,13 +88,24 @@ class HttpRouteModel extends AbstractRouteModel
             break;
         case self::POST:
             $this->request_param = $_POST;
+            if(!empty($_GET)) {
+                $this->request_param = array_merge($_GET, $this->request_param);
+            }
             break;
         case self::PUT:
         case self::DELETE:
             parse_str(file_get_contents('php://input'), $this->request_param);
+            if(!empty($_GET)) {
+                $this->request_param = array_merge($_GET, $this->request_param);
+            }
             break;
         }
         return $this->request_param;
+    }
+
+    public function getRequestUri()
+    {
+        return $_SERVER['REQUEST_URI'];
     }
 
     public function redirect($controller, $action = 'index', $param = null)
@@ -150,17 +161,19 @@ class HttpRouteModel extends AbstractRouteModel
                 $_req = join("/", $reqs);
                 if(!$request = $this->appMapping($_req)) {
                     $tempParam = [];
-                    while($token = array_pop($reqs)) {
-                        //数字で始まる文字列はクラス名やメソッド名になり得ないのでパラメタに退避させる
+                    $parts = [];
+                    
+                    foreach($reqs as $idx => $token) {
+                        //数字で始まる文字列は名前空間やクラス名やメソッド名になり得ないのでパラメタに退避させる
                         if(is_numeric($token[0])) {
-                            $tempParam[] = $token;
-                        } else {
-                            $action = $token;
                             break;
                         }
+                        $parts[] = $token;
+                        unset($reqs[$idx]);
                     }
-                    $controller = join('\\', array_map('ucfirst', $reqs));
-                    $param = array_reverse($tempParam);
+                    $action = array_pop($parts);
+                    $controller = join('\\', array_map('ucfirst', $parts));
+                    $param = $reqs;
                 }
             }
             break;
