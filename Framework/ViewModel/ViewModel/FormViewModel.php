@@ -7,16 +7,11 @@ use Form2\Validator;
 
 class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 {
-    const TRIGGER_FORMINIT = 'forminit';
-    const TRIGGER_FORMSUBMIT = 'Submit';
-    const TRIGGER_FORMCONFIRM = 'Confirm';
-    const TRIGGER_FORMCOMPLETE = 'Complete';
-    
     protected $method = "post";
     
     protected $action = null;
-
-    protected $useConfirm = false;    
+    
+    protected $useConfirm = false;
     /**
      *
      * @api
@@ -66,8 +61,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
         $this->addEventListener(self::TRIGGER_INIT, function () {
             $form = $this->getFormManager()->create($this->getId());
             $this->setForm($form);
-            $action = str_replace('//', '/', '/' . $this->getServiceManager()->getApplication()->getRouteModel()->getReq());
-            $form->set('action', $action);
+            $form->set('action', $this->getServiceManager()->getApplication()->getRouteModel()->getRequestUri());
             $form->set('method', $this->getMethod());
             foreach($this->getFieldset() as $name => $fieldset) {
                 $fieldset['name'] = $name;

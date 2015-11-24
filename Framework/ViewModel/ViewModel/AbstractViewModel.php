@@ -31,6 +31,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     private $childs = [];
     private $id = null;
     private $exportView = null;
+    private $entities = null;
     static private $incrementId = 0;
     public $listeners = [];
     
@@ -103,10 +104,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         $config = array_merge_recursive($this->getConfig(), $config);
         $this->setConfig($config);
         $this->setServiceManager($serviceManager);
-        if(isset($config["id"])) {
-            $this->id = $config["id"];
-        } else {
-            $this->id = self::getIncrementId();
+        if($this->id === null) {
+            if(isset($config["id"])) {
+                $this->id = $config["id"];
+            } else {
+                $this->id = self::getIncrementId();
+            }
         }
         //data:template
         if(isset($config["data"])) {
@@ -125,12 +128,15 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
                 $this->setLayout($layout::getSingleton(), $config);
             }
         }
+        if(isset($config['exportView']) && $config['exportView'] instanceof ViewModelInterface) {
+            $this->setExportView($config['exportView']);
+        }
         //container:template
         if(isset($config['container'])) {
             $this->setContainers($config['container']);
         }
         //ViewModel Event init
-        foreach($this->listeners as $event => $listener) {            
+        foreach($this->listeners as $event => $listener) {
             $this->Addeventlistener($event, [$this, $listener]);
         }
         if(isset($config['listeners'])) {
@@ -196,14 +202,36 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
         $this->data = $data;
     }
 
-    public function getData()
+    public function getData($key = null)
     {
-        if(empty($this->data) && $this->getModel()) {
-            $this->data = (array)$this->getModel()->getEntities();
+        if($key !== null) {
+            if(isset($this->data[$key])) {
+                return $this->data[$key];
+            } elseif ($this->getExportView()) {
+                return $this->getExportView()->getData($key);
+            } 
+            return null;
         }
         return $this->data;
     }
 
+    public function setEntities($entities)
+    {
+        $this->entities = $entities;
+    }
+
+    public function getEntities()
+    {
+        if(empty($this->entities)) {
+            if($this->getLocalModel()) {
+                $this->entities = (array)$this->getLocalModel()->getEntities();
+            } elseif ($this->getExportView()) {
+                return $this->getExportView()->getEntities();
+            }            
+        }
+        return $this->entities;
+    }
+    
     public function getChild($id)
     {
         $childs = $this->getChilds();
@@ -411,9 +439,27 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
      */
     public function getModel ()
     {
-        return isset($this->model) ? $this->model : null;
+        if(!isset($this->model)) {
+            if($this->getExportView()) {
+                return $this->getExportView()->getModel();
+            }
+        }
+        return $this->model;
     }
 
+    /**
+     * 
+     * @api
+     * @return mixed $model
+     * @link
+     */
+    private function getLocalModel ()
+    {
+        if(!isset($this->model)) {
+            return null;
+        }
+        return $this->model;
+    }
 
     public function linkto($target, $param = [])
     {
@@ -471,7 +517,5 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     public function getExportView ()
     {
         return $this->exportView;
-    }
-
-    
+    }    
 }

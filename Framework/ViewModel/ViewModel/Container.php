@@ -171,9 +171,9 @@ class Container implements ContainerInterface, ArrayAccess
     {
         $exportView = $this->getExportView();
         $item['layout'] = $exportView->getLayout();
+        $item['exportView'] = $exportView;
         $item = ViewModelManager::getViewModel($item);
         $item->setRenderType($exportView->getRenderType());
-        $item->setExportView($exportView);
         return $item;
     }
 }

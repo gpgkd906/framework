@@ -8,24 +8,42 @@ class ViewHelper
 {
     use \Framework\Application\SingletonTrait;
 
-    public function mapRecursive($data, Closure $Closure, Closure $levelUpClosure = null)
+    public function makeAttrs($config)
     {
-        if(is_array($data)) {
-            $this->mapApply($data, 0, $Closure, $levelUpClosure);
+        $attrs = [];
+        foreach($config as $key => $val) {
+            if(empty($val)) continue;
+            $attrs[] = $key . '="' . str_replace('"', '\'', $val) . '"';
         }
+        return join(' ', $attrs);
+    }
+    
+    public function makeLink($config)
+    {
+        $config = array_merge([
+            'href' => '#',
+            'class' => '',
+            'html' => '',
+        ], $config);
+        return '<a href="' . $config['href'] . '" class="' . $config['class'] . '">' . $config['html'] . '</a>';
     }
 
-    private function mapApply($data, $level, Closure $Closure, Closure $levelUpClosure = null, $parentKey = null)
+    public function makeButtonLink($config)
     {
-        foreach($data as $key => $value) {
-            if(is_array($value)) {
-                if($levelUpClosure) {
-                    call_user_func($levelUpClosure, $key, $level);
-                }
-                $this->mapApply($value, $level + 1, $Closure, $levelUpClosure, $key);
-            } else {
-                call_user_func($Closure, $key, $value, $level, $parentKey);
-            }
-        }
+        $config = array_merge([
+            'href' => '#',
+            'class' => '',
+            'icon'  => '',
+        ], $config);
+        return '<a href="' . $config['href'] . '" class="btn ' . $config['class'] . '"><i class="fa ' . $config['icon'] . '"></i></a>';
+    }
+
+    public function makeMessage($config)
+    {
+        $config = array_merge([
+            'msg' => '',
+            'type' => 'danger',
+        ], $config);
+        return '<div class="alert alert-' . $config['type'] . '">' . $config['msg'] . '</div>';
     }
 }
