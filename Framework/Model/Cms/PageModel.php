@@ -23,7 +23,7 @@ class PageModel extends AbstractModel
         return $fileList;
     }
 
-    public function getFile($identify = null)
+    public function getEntity($identify = null)
     {
         if($identify === null){
             if($this->getIdentify()) {
