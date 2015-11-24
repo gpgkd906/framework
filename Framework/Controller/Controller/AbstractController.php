@@ -107,6 +107,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
     
     public function response()
     {
+        $this->getServiceManager()->get('Service', 'SessionService')->close();
         echo $this->getViewModel()->render();
     }
 
@@ -128,6 +129,18 @@ abstract class AbstractController implements ControllerInterface, EventInterface
     public function getViewModel()
     {
         return $this->ViewModel;
+    }
+
+    public function getRouteModel()
+    {
+        return $this->getServiceManager()->getApplication()->getRouteModel();
+    }
+
+    public function getParam()
+    {
+        $param = $this->getServiceManager()->getApplication()->getRouteModel()->getParam();
+        unset($param['req']);
+        return $param;
     }
 
     public function exChange($targetController, $action = 'index', $param = null)
