@@ -2,34 +2,13 @@
 
 namespace Framework\Service\CodeService;
 
+use Framework\Service\CodeService\Code\Analytic;
 use Framework\Service\AbstractService;
 use Framework\Config\ConfigModel;
 
-use PhpParser\Lexer;
-use PhpParser\Error;
-use PhpParser\Parser;
-use PhpParser\NodeTraverser;
-use PhpParser\PrettyPrinter;
-
 class CodeService extends AbstractService
 {
-    public function __construct()
-    {
-    }
-
-    public function demo()
-    {        
-        $this->ls(ROOT_DIR . 'Framework/Controller/Controller', function($fileName, $filePath) {
-            $parser = new Parser(new Lexer);
-            $traverser = new NodeTraverser;
-            $traverser->addVisitor(new NodeVisitor);
-            $stmts = $parser->parse(file_get_contents($filePath));
-            $stmts = $traverser->traverse($stmts);            
-            die;
-        });
-    }
-
-    public function scan($dir, $exclude = [], $basePath = null, $maxFileSize = 40000) {
+    public function scan($dir, $exclude = [], $basePath = null, $maxFileSize = 40000, $depth = 0) {
         if($basePath === null) {
             $basePath = $dir;
         }
@@ -61,14 +40,16 @@ class CodeService extends AbstractService
                         $file = substr($file, strlen($basePath));;
                         $folder = [
                             'dir' => $dir,
+                            'dirHash' => md5($dir),
                             'file' => $file,
                             'fullPath' => $fullPath,
                             'fileSize' => -1,
                             'nameHash' => md5($file),
-                            'fileHash' => null,
+                            'fileHash' => md5($fullPath),
+                            'depth'    => $depth,
                         ];
                         $result[] = $folder;
-                        $result = array_merge($result, $this->scan($subdir, $exclude, $basePath));
+                        $result = array_merge($result, $this->scan($subdir, $exclude, $basePath, $maxFileSize, $depth + 1));
                     }
                 } else {
                     if(in_array($file, $exclude)) {
@@ -82,12 +63,14 @@ class CodeService extends AbstractService
                     $fullPath = $file;
                     $file = substr($file, strlen($basePath));;
                     $result[] = [
-                        'dir' => $dir,
+                        'dir' => $dir, 
+                        'dirHash' => md5($dir),
                         'file' => $file,
                         'fullPath' => $fullPath,
                         'fileSize' => $filesize,
                         'nameHash' => md5($file),
                         'fileHash' => md5_file($fullPath),
+                        'depth'    => $depth,
                     ];
                 }
             }
@@ -95,8 +78,23 @@ class CodeService extends AbstractService
         }
     }
 
-    public function analysis($file)
+    public function analysis($fileInfo)
     {
-
+        global $bm;
+        $bm->set('a1');
+        $ast = Analytic::analytic($fileInfo['fullPath']);
+        $ast->getClass()->extend('AbstractService');
+        $ast->getClass()->appendImplement('ServiceManagerAwareInterface');
+        $ast->getClass()->appendConst('Test', false);
+        $ast->getClass()->appendProperty('serviceManager');
+        $ast->getClass()->appendMethod('onRender', 'public');
+        $ast->getClass()->getMethod('index')->setReturn("ViewModelManager::getViewModel([ 'viewModel' => PageViewModel::class ]);");
+        $ast->getClass()->getTrait('Framework\Event\Event\EventTrait');
+        echo '<pre><code>';
+        print($ast->toHtml());
+        echo '</code></pre>';
+        $bm->display();
+        die;
+        return $fileInfo;
     }
 }
