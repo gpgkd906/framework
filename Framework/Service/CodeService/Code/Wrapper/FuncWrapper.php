@@ -2,6 +2,7 @@
 
 namespace Framework\Service\CodeService\Code\Wrapper;
 
+use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar;
@@ -13,7 +14,8 @@ class FuncWrapper extends AbstractWrapper
 {
     
     public function setReturn($return)
-    {        
+    {
+        $return .= ';';        
         $ast = Code\Analytic::analyticCode('<?php return ' . $return);
         $returnNode = $ast->getStmts()[0];
         $node = $this->getNode();
@@ -24,13 +26,35 @@ class FuncWrapper extends AbstractWrapper
         }
     }
 
-    public function appendParam()
+    public function appendProcess($process)
     {
-        
+        $process .= ';';
+        $ast = Code\Analytic::analyticCode('<?php ' . $process);
+        $processNode = $ast->getStmts()[0];        
+        $node = $this->getNode();
+        $count = count($node->stmts);
+        $node->stmts = array_merge(
+            array_slice($node->stmts, 0, -1),
+            [$processNode],
+            array_slice($node->stmts, -1)
+        );
     }
 
-    public function getParam()
+    public function appendParam($param)
     {
-        
+        $ast = Code\Analytic::analyticCode('<?php function(' . $param . '){};');
+        $paramNode = $ast->getStmts()[0]->params[0];
+        $this->getNode()->params[] = $paramNode;
+    }
+
+    public function getParam($param)
+    {
+        $param = substr($param, 1);
+        $node = $this->getNode();
+        foreach($node->params as $paramNode) {
+            if($paramNode->name === $param) {
+                return new ParamWrapper($paramNode);
+            }
+        }
     }
 }
