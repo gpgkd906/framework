@@ -12,7 +12,7 @@ trait EventTrait
     
     static private $triggerStack = [];
 
-    private $eventTrigger = null;
+    static private $eventTrigger = [];
 
     public function addEventListener($event, $callBack)
     {
@@ -68,8 +68,8 @@ trait EventTrait
     private function getTrigger($event)
     {
         $this->initTrigger();
-        if(isset($this->eventTrigger) && isset($this->eventTrigger[$event])) {
-            return $this->eventTrigger[$event];
+        if(isset($this->eventTrigger[static::class]) && isset($this->eventTrigger[static::class][$event])) {
+            return $this->eventTrigger[static::class][$event];
         }
         throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
@@ -83,17 +83,18 @@ trait EventTrait
     
     private function initTrigger()
     {
-        if(empty($this->eventTrigger)) {
+        if(empty(self::$eventTrigger[static::class])) {
+            $eventTrigger = [];
             $reflection = new \ReflectionClass($this);
-            $reflection->getConstants();
-            $classLabel = $reflection->getName();
+            $classLabel = static::class;
             foreach($reflection->getConstants() as $constantName => $val) {
                 //TRIGGER_が始まるトリッガを拾う
                 if(strpos($constantName, 'TRIGGER_') === 0) {
                     //クラス情報をトリッガにセットする
-                    $this->eventTrigger[$val] = $classLabel . "\\" . $val;
+                    $eventTrigger[$val] = $classLabel . "\\" . $val;
                 }
             }
+            self::$eventTrigger[static::class] = $eventTrigger;
         }
     }
 
