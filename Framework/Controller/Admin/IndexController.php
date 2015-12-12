@@ -8,7 +8,7 @@ class IndexController extends AbstractController
 {
     public function index()
     {
-        $this->getServiceManager()->get('Service', 'EntityService')->getEntityManager();
+        $this->getServiceManager()->get('Service', 'EntityService')->getRepository('Users')->find(1);
         $this->exChange(DashboardController::class);
     }    
 }
