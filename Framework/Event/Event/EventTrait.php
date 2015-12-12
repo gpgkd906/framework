@@ -68,8 +68,8 @@ trait EventTrait
     private function getTrigger($event)
     {
         $this->initTrigger();
-        if(isset($this->eventTrigger[static::class]) && isset($this->eventTrigger[static::class][$event])) {
-            return $this->eventTrigger[static::class][$event];
+        if(isset(self::$eventTrigger[static::class]) && isset(self::$eventTrigger[static::class][$event])) {
+            return self::$eventTrigger[static::class][$event];
         }
         throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
@@ -91,7 +91,7 @@ trait EventTrait
                 //TRIGGER_が始まるトリッガを拾う
                 if(strpos($constantName, 'TRIGGER_') === 0) {
                     //クラス情報をトリッガにセットする
-                    $eventTrigger[$val] = $classLabel . "\\" . $val;
+                    $eventTrigger[$val] = $classLabel . "::" . $val;
                 }
             }
             self::$eventTrigger[static::class] = $eventTrigger;

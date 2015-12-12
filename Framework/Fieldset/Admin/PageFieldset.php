@@ -29,8 +29,8 @@ class PageFieldset extends AbstractFieldset
         'layout' => [
             'type' => 'select',
             'value' => [
-                '管理画面' => '管理画面',
-                'フロント' => 'フロント',
+                '管理画面' => 'admin',
+                'フロント' => 'front',
             ],
             'attrs' => [
                 'class' => 'form-control',
@@ -39,7 +39,7 @@ class PageFieldset extends AbstractFieldset
         'model' => [
             'type' => 'select',
             'value' => [
-                'モデル1' => 'モデル1', 'モデル2' => 'モデル2', 'モデル3' => 'モデル3', 'モデル4' => 'モデル4',
+                
             ],
             'validator' => [
                 [Validator::Exists, "※必須入力"],
@@ -48,11 +48,18 @@ class PageFieldset extends AbstractFieldset
                 'class' => 'form-control',
             ]
         ],
+        'view' => [
+            'type' => 'select',
+            'value' => [],
+            'attrs' => [
+                'class' => 'form-control'
+            ],
+        ],
         'pageStatus' => [
             'type' => 'inLineRadio',
             'value' => ['非公開' => '0', '公開' => 1],
             'attrs' => [
-                    
+                
             ],
         ],
         'authorizeType' => [

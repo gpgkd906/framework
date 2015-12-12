@@ -16,12 +16,11 @@ class QueryExecutor
     {
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
-        //var_dump($query);
         $ret = $prepareStatement->execute($data);
         if($ret) {
             $this->prepareStatement = $prepareStatement;
         } else {
-            var_dump($prepareStatement->errorInfo());
+            throw new Exception($this->formatMessage($prepareStatement));
         }        
     }
 
@@ -76,12 +75,11 @@ class QueryExecutor
     {
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
-        //var_dump($query);
         $ret = $prepareStatement->execute($data);
         if($ret) {
             return $prepareStatement->fetch(PDO::FETCH_ASSOC);
         } else {
-            var_dump($prepareStatement->errorInfo());
+            throw new Exception($this->formatMessage($prepareStatement));
         }
     }
 
@@ -89,12 +87,11 @@ class QueryExecutor
     {
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
-        //var_dump($query);
         $ret = $prepareStatement->execute($data);
         if($ret) {
             return $prepareStatement->fetchAll(PDO::FETCH_ASSOC);
         } else {
-            var_dump($prepareStatement->errorInfo());
+            throw new Exception($this->formatMessage($prepareStatement));
         }
     }
 
@@ -122,5 +119,10 @@ class QueryExecutor
     static public function setConfig($config)
     {
         self::$config = $config;
+    }
+
+    static private function formatMessage($prepareStatement)
+    {
+        return $prepareStatement->errorInfo();
     }
 }

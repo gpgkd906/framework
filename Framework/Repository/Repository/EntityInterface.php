@@ -2,6 +2,8 @@
 
 namespace Framework\Repository\Repository;
 
+use Closure;
+
 interface EntityInterface
 {
     const INSERT = 'Insert';
@@ -22,4 +24,6 @@ interface EntityInterface
     const MODEL_CLASS  = 'modelClass';
     const PRIMARY_PROPERTY = 'primaryProperty';
     const SETTER       = 'setter';
+
+    public function propertyWalk(Closure $closure);    
 }

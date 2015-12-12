@@ -9,6 +9,7 @@ use Framework\Repository\Repository\Collection;
 use Framework\Repository\Repository\AssiociateHelper;
 use Framework\Repository\Repository\AssiociateHelper\AssiociateHelperInterface as Assiociate;
 use ReflectionClass;
+use Closure;
 use Exception;
 
 abstract class AbstractEntity implements EntityInterface, EventInterface
@@ -29,6 +30,7 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
     private $isValid = true;
     private $queryInfo = null;    
     private $assiociateInitedFlag = false;
+    private $propertyAccessors = null;
     
     public function __construct($primaryValueOrRaw = null)
     {
@@ -176,6 +178,30 @@ abstract class AbstractEntity implements EntityInterface, EventInterface
             $this->makeAssiociate();
         }
     }
+
+    public function propertyWalk(Closure $closure)
+    {
+        if($this->propertyAccessors === null) {
+            $this->propertyAccessors = [];
+            $recordInfo = static::getEntityInfo();
+            $propertyMap = $recordInfo[self::PROPERTY_MAP];
+            foreach($propertyMap as $property => $column) {
+                $getter = 'get' . ucfirst($property);
+                $setter = 'set' . ucfirst($property);
+                $this->propertyAccessors[$property] = [
+                    'getter' => [$this, $getter],
+                    'setter' => [$this, $setter],
+                ];
+            }
+        }
+        foreach($this->propertyAccessors as $property => $accessor) {
+            $propertyValue = call_user_func($accessor['getter']);
+            $newValue = call_user_func($closure, $property, $propertyValue);
+            if($newValue !== null && $newValue !== false) {
+                call_user_func($accessor['setter'], $newValue);
+            }
+        }
+    }    
 
     static public function setRepository(RepositoryInterface $Repository)
     {
