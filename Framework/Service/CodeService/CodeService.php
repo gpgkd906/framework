@@ -61,8 +61,8 @@ class CodeService extends AbstractService
                         continue;
                     }
                     $fullPath = $file;
-                    $file = substr($file, strlen($basePath));;
-                    $result[] = [
+                    $file = substr($file, strlen($basePath));
+                    $temp = [
                         'dir' => $dir, 
                         'dirHash' => md5($dir),
                         'file' => $file,
@@ -72,29 +72,36 @@ class CodeService extends AbstractService
                         'fileHash' => md5_file($fullPath),
                         'depth'    => $depth,
                     ];
+                    $result[] = $temp;
                 }
             }
             return $result;
         }
     }
 
-    public function analysis($fileInfo)
+    public function analysis($file)
     {
-        global $bm;
-        $bm->set('a1');
-        $ast = Analytic::analytic($fileInfo['fullPath']);
+        $ast = Analytic::analytic($file);
+        return $ast;
+    }
+    
+
+    public function test()
+    {
+        $file = "/Users/gpgkd906/dev/framework/Framework/Controller/Admin/CustomerController.php";
+        $ast = Analytic::analytic($file);
         $ast->getClass()->extend('AbstractService');
         $ast->getClass()->appendImplement('ServiceManagerAwareInterface');
         $ast->getClass()->appendConst('Test', false);
         $ast->getClass()->appendProperty('serviceManager');
         $ast->getClass()->appendMethod('onRender', 'public');
         $ast->getClass()->getMethod('index')->setReturn("ViewModelManager::getViewModel([ 'viewModel' => PageViewModel::class ]);");
+        $ast->getClass()->getMethod('index')->appendProcess('$Model = new Test;');
+        $ast->getClass()->getMethod('index')->appendParam('$dir = "/test/"');
+        $ast->getClass()->getMethod('index')->getParam('$dir');
         $ast->getClass()->getTrait('Framework\Event\Event\EventTrait');
         echo '<pre><code>';
         print($ast->toHtml());
         echo '</code></pre>';
-        $bm->display();
-        die;
-        return $fileInfo;
     }
 }

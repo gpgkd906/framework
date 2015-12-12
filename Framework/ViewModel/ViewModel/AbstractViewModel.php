@@ -72,6 +72,15 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     private $viewHelper = null;
 
     /**
+     *
+     * @api
+     * @var mixed $numberFormatter 
+     * @access private
+     * @link
+     */
+    private $numberFormatter = null;
+
+    /**
      * 
      * @api
      * @param mixed $config
@@ -517,5 +526,31 @@ abstract class AbstractViewModel implements ViewModelInterface, EventInterface, 
     public function getExportView ()
     {
         return $this->exportView;
-    }    
+    }
+
+    /**
+     * 
+     * @api
+     * @param mixed $numberFormatter
+     * @return mixed $numberFormatter
+     * @link
+     */
+    public function setNumberFormatter ($numberFormatter)
+    {
+        return $this->numberFormatter = $numberFormatter;
+    }
+
+    /**
+     * 
+     * @api
+     * @return mixed $numberFormatter
+     * @link
+     */
+    public function getNumberFormatter ()
+    {
+        if($this->numberFormatter === null) {
+            $this->numberFormatter = NumberFormatter::getSingleton();
+        }
+        return $this->numberFormatter;
+    }
 }

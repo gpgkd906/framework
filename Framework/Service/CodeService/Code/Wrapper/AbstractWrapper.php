@@ -19,18 +19,16 @@ class AbstractWrapper
     static private $factory = null;
     private $stmts = null;
     
-    private $node = null;
-
     public function __construct($node = null)
     {
         if($node) {
-            $this->node = $node;
+            $this->stmts = $node;
         }
     }
 
     public function getNode()
     {
-        return $this->node;
+        return $this->stmts;
     }
     
     protected function getFactory()

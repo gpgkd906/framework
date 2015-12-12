@@ -54,6 +54,10 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     {
         return $this->fieldset;
     }
+
+    public function getAction() {
+        return $this->getServiceManager()->getApplication()->getRouteModel()->getRequestUri();
+    }
     
     public function __construct($config, $serviceManager)
     {
@@ -61,13 +65,12 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
         $this->addEventListener(self::TRIGGER_INIT, function () {
             $form = $this->getFormManager()->create($this->getId());
             $this->setForm($form);
-            $form->set('action', $this->getServiceManager()->getApplication()->getRouteModel()->getRequestUri());
+            $form->set('action', $this->getAction());
             $form->set('method', $this->getMethod());
-            foreach($this->getFieldset() as $name => $fieldset) {
-                $fieldset['name'] = $name;
+            foreach($this->getFieldset() as $fieldset) {
                 $form->addFieldset($fieldset);
             }
-            $this->triggerEvent(self::TRIGGER_FORMINIT);
+            $this->triggerEvent(self::TRIGGER_FORMINIT);            
             $form->submit([$this, 'triggerForSubmit']);
             $confirm = false;
             if($this->useConfirm) {

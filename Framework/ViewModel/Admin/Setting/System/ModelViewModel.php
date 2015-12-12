@@ -1,12 +1,11 @@
 <?php
 
-namespace Framework\ViewModel\Admin\Cms;
+namespace Framework\ViewModel\Admin\Setting\System;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\ViewModel\Layout\AdminPageLayout;
-use Framework\ViewModel\Admin\Cms\CmsViewModel;
 
-class ViewListViewModel extends CmsViewModel
+class ModelViewModel extends AbstractViewModel
 {
     protected $template = '/template/admin/dashboard.html';
         
@@ -19,14 +18,14 @@ class ViewListViewModel extends CmsViewModel
                 ],
             ],
             'Main' => [
-                [
-                    'viewModel' => View\ListViewModel::class,
-                ]
+                /* [ */
+                /*     'viewModel' => Page\ListViewModel::class, */
+                /* ] */
             ]
         ],
     ];
 
     protected $data = [
-        'title' => 'ビュー管理',
+        'title' => 'ページ一覧',
     ];
 }

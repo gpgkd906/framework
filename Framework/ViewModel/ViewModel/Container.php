@@ -113,7 +113,7 @@ class Container implements ContainerInterface, ArrayAccess
             }
             return join('', $htmls);
         } catch(Exception $e) {
-            echo $e;
+            echo nl2br($e);
         }
     }
 

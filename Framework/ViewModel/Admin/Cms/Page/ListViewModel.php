@@ -13,10 +13,10 @@ class ListViewModel extends AbstractViewModel
     protected $config = [
         'model' => PageModel::class,
         'container' => [
-            'PageTableTree' => [
+            'TableTree' => [
                 [
                     'viewModel' => TableViewModel::class,
-                    'id' => 'PageTableTree',
+                    'id' => 'TableTree',
                     'head' => [
                         'パス' => 'file',
                         '場所' => 'dir',
@@ -64,7 +64,7 @@ class ListViewModel extends AbstractViewModel
             }, $entity);
             $entities[$sectionName] = $entity;
         }
-        $tableViewModel = $this->getChild('PageTableTree');
+        $tableViewModel = $this->getChild('TableTree');
         $tableViewModel->setSection($sections);
         return $entities;
     }
@@ -75,7 +75,7 @@ class ListViewModel extends AbstractViewModel
         $section['title'] = $section['file'];
         $section['key']  = $section['fullPath'];
         $section['action'] = $this->getViewHelper()->makeLink([
-            'href' => '/admin/cms/page/register/?id=' . $section['nameHash'],
+            'href' => '/admin/cms/page/register/?pid=' . $section['nameHash'],
             'class' => 'btn btn-success btn-lg btn-block',
             'html' => 'セクション[' . $section['title'] . ']でページを作成',
         ]);
@@ -91,28 +91,36 @@ class ListViewModel extends AbstractViewModel
             'data-reference' => $row['dirHash'],
             'data-depth' => $row['depth'],
         ]);
-        $row['action'] = join('', [
-            $this->getViewHelper()->makeButtonLink([
-                'href' => '/admin/cms/page/edit/?id=' . $row['nameHash'],
+        if($row['fileSize'] < 0) {
+            $row['action'] = $this->getViewHelper()->makeButtonLink([
+                'href' => '/admin/cms/page/register/?pid=' . $row['nameHash'],
                 'class' => 'btn-primary btn-circle',
-                'icon' => 'fa-edit',
-            ]),
-            $this->getViewHelper()->makeButtonLink([
-                'href' => '/admin/cms/page/copy/?id=' . $row['nameHash'],
-                'class' => 'btn-success btn-circle',
-                'icon' => 'fa-paste',
-            ]),
-            $this->getViewHelper()->makeButtonLink([
-                'href' => '/admin/cms/page/show/?id=' . $row['nameHash'],
-                'class' => 'btn-info btn-circle',
-                'icon' => 'fa-info',
-            ]),
-            $this->getViewHelper()->makeButtonLink([
-                'href' => '/admin/cms/page/delete/?id=' . $row['nameHash'],
-                'class' => 'btn-danger btn-circle',
-                'icon' => 'fa-times',
-            ]),
-        ]);
+                'icon' => 'fa-pencil',
+            ]);
+        } else {
+            $row['action'] = join('', [
+                $this->getViewHelper()->makeButtonLink([
+                    'href' => '/admin/cms/page/edit/?pid=' . $row['nameHash'],
+                    'class' => 'btn-primary btn-circle',
+                    'icon' => 'fa-edit',
+                ]),
+                $this->getViewHelper()->makeButtonLink([
+                    'href' => '/admin/cms/page/copy/?pid=' . $row['nameHash'],
+                    'class' => 'btn-success btn-circle',
+                    'icon' => 'fa-paste',
+                ]),
+                $this->getViewHelper()->makeButtonLink([
+                    'href' => '/admin/cms/page/show/?pid=' . $row['nameHash'],
+                    'class' => 'btn-info btn-circle',
+                    'icon' => 'fa-info',
+                ]),
+                $this->getViewHelper()->makeButtonLink([
+                    'href' => '/admin/cms/page/delete/?pid=' . $row['nameHash'],
+                    'class' => 'btn-danger btn-circle',
+                    'icon' => 'fa-times',
+                ]),
+            ]);
+        }
         return $row;
     }
 }

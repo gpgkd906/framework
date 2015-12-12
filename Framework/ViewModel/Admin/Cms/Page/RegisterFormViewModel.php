@@ -11,5 +11,18 @@ class RegisterFormViewModel extends SubFormViewModel
 
     private $id = 'cms_page_register';
     
-    protected $fieldset = PageFieldset::class;    
+    protected $fieldset = PageFieldset::class;
+    
+    public $listeners = [
+        self::TRIGGER_FORMINIT => 'onFormInit',
+    ];
+
+    public function onFormInit()
+    {
+        $fieldset = $this->getForm()->getFieldset('page');        
+        $entity = $this->getModel()->getEntity();
+        $fieldset->get('model')->val(['新規作成' => 0 ] + $entity['options']['model'] ?? []);
+        $fieldset->get('view')->val(['新規作成' => 0 ] + $entity['options']['viewModel'] ?? []);
+        $fieldset->bind($entity);
+    }
 }

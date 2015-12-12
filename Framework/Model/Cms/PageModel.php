@@ -2,25 +2,11 @@
 
 namespace Framework\Model\Cms;
 
-use Framework\Model\AbstractModel;
-
-class PageModel extends AbstractModel
+class PageModel extends AbstractCmsModel
 {
-    /**
-     *
-     * @api
-     * @var mixed $identify 
-     * @access private
-     * @link
-     */
-    private $identify = null;
-    
     public function getEntities()
     {
-        $CodeService = $this->getServiceManager()->get('Service', 'CodeService');
-        $controllerDir = ROOT_DIR . 'Framework/Controller';
-        $fileList = $CodeService->scan($controllerDir, $controllerDir . '/Controller');
-        return $fileList;
+        return parent::getController();
     }
 
     public function getEntity($identify = null)
@@ -32,9 +18,12 @@ class PageModel extends AbstractModel
                 return null;
             }
         }
-        $CodeService = $this->getServiceManager()->get('Service', 'CodeService');
-        $controllerDir = ROOT_DIR . 'Framework/Controller';
-        $fileList = $CodeService->scan($controllerDir, $controllerDir . '/Controller');
+        return $this->getController($identify);
+    }
+    
+    public function getController($identify = null)
+    {
+        $fileList = parent::getController();
         $find = null;
         foreach($fileList as $file) {
             if($file['nameHash'] === $identify) {
@@ -43,31 +32,49 @@ class PageModel extends AbstractModel
             }
         }
         if($find !== null) {
-            $find = $CodeService->analysis($find);
+            $Ast = $this->getCodeService()->analysis($find['fullPath']);
         }
+        $find['pid'] = $find['nameHash'];
+        $find['url'] = $this->getUrl($find);
+        $find['options']['model'] = $this->getModel();
+        $find['options']['viewModel'] = $this->getViewModel();
+        if($find['fileSize'] > 0) {
+            $ActionAst = $Ast->getClass()->getMethod($find['action']);        
+            if($ActionAst->getReturn()->isStaticCall()) {
+                
+            }
+        }
+        //var_Dump($find, $ActionAst->getReturn()->getNode()->expr);
+        /* $fieldset->bind([ */
+        /*     'pid' => $entity['nameHash'], */
+        /*     'layout' => $entity['layout'], */
+        /*     'model' => $entity['model'], */
+        /*     'view' => $entity['view'], */        
+        /*     'pageStatus' => $entity['pageStatus'], */
+        /*     'authorizeType' => $entity['authorizeType'], */
+        /*     'keyword' => '', */
+        /*     'description' => '',             */
+        /* ]); */
+        
         return $find;
     }
 
-    /**
-     * 
-     * @api
-     * @param mixed $identify
-     * @return mixed $identify
-     * @link
-     */
-    public function setIdentify ($identify)
+    public function saveNewPage($data)
     {
-        return $this->identify = $identify;
+        var_dump($data);
     }
 
-    /**
-     * 
-     * @api
-     * @return mixed $identify
-     * @link
-     */
-    public function getIdentify ()
+    private function getUrl($find)
     {
-        return $this->identify;
+        $url = strtolower(str_replace('Controller.php', '', $find['file']));
+        
+        if(isset($find['action']) && $find['action'] !== 'index') {
+            $url = $url . '/' . $find['action'];
+        }
+        if($url[0] === '/') {
+            $url = substr($url, 1);
+        }
+        return $url;
     }
+
 }

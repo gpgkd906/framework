@@ -12,6 +12,7 @@ use Framework\Service\CodeService\Code;
 
 class FuncWrapper extends AbstractWrapper
 {
+    const RETURN_TYPE = 'Stmt_Return';
     
     public function setReturn($return)
     {
@@ -19,11 +20,27 @@ class FuncWrapper extends AbstractWrapper
         $ast = Code\Analytic::analyticCode('<?php return ' . $return);
         $returnNode = $ast->getStmts()[0];
         $node = $this->getNode();
+        $setFlag = false;
         foreach($node->stmts as $key => $stmt) {
-            if($stmt->getType() === $returnNode->getType()) {
+            if($stmt->getType() === self::RETURN_TYPE) {
                 $node->stmts[$key] = $returnNode;
+                $setFlag = true;
+                break;
             }
         }
+        if($setFlag === false) {
+            $node->stmts[] = $returnNode;
+        }
+    }
+
+    public function getReturn()
+    {
+        $node = $this->getNode();
+        foreach($node->stmts as $key => $stmt) {
+            if($stmt->getType() === self::RETURN_TYPE) {
+                return new ReturnWrapper($stmt);
+            }
+        }        
     }
 
     public function appendProcess($process)
