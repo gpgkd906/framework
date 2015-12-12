@@ -10,7 +10,7 @@ use Framework\Event\Event\EventInterface;
 use Exception;
 
 abstract class AbstractController implements ControllerInterface, EventInterface, serviceManagerAwareInterface
-{    
+{
     use \Framework\Event\Event\EventTrait;
     use \Framework\Application\serviceManagerAwareTrait;
     
