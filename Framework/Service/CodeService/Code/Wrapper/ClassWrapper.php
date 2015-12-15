@@ -21,6 +21,11 @@ class ClassWrapper extends AbstractWrapper
         'Stmt_ClassMethod' => [],        
     ];
 
+    public function getName()
+    {
+        return $this->getNode()->name;
+    }
+
     public function setName($newClass)
     {
         $this->getNode()->name = $newClass;
