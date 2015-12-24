@@ -85,7 +85,7 @@ class EventManager
         return self::$triggerPool[$class];
     }
 
-    static public function getPropationChain($class)
+    static public function getPropagationChain($class)
     {
         if(!isset(self::$propagationChainPool[$class])) {
             self::$propagationChainPool[$class] = [$class] + class_parents($class) + class_implements($class);
