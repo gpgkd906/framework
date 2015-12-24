@@ -10,7 +10,7 @@ trait EventTrait
     //
     private $triggerScope = [];
     private $propagationStopped = false;
-    private $preventDefault = false;
+    private $preventEvent = false;
     static private $eventTrigger = [];
     
     public function addEventListener($event, $callBack)
@@ -77,9 +77,9 @@ trait EventTrait
             $this->eventQueue[$trigger] = [];
         }
         array_unshift($parameters, $this);
-        $this->preventDefault = false;
+        $this->preventEvent = false;
         foreach($this->eventQueue[$trigger] as $key => $call) {
-            if($this->preventDefault) {
+            if($this->preventEvent) {
                 break;
             }
             call_user_func_array($call, $parameters);
@@ -100,9 +100,14 @@ trait EventTrait
         $this->propagationStopped = true;
     }
 
-    public function preventDefault()
+    public function preventEvent()
     {
-        $this->preventDefault = true;
+        $this->preventEvent = true;
     }
 
+    public function stopImmediatePropagation()
+    {
+        $this->preventEvent = true;
+        $this->propagationStopped = true;
+    }
 }
