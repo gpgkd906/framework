@@ -13,50 +13,49 @@
                     <div class="row">
                       <div class="col-lg-10">
                         <div class="form-group">
+			  <?php echo $form->pid, $form->pid->error; ?>
                           <label>URL</label>
                           <div class="input-group">
                             <span class="input-group-addon">http://framework.local/</span>
-			    <?php echo $form->url; ?>
+			    <?php echo $form->url, $form->url->error; ?>
                           </div>
                         </div> 
                         <div class="form-group">
                           <label>レイヤアウト</label>
-			  <?php echo $form->layout; ?>
+			  <?php echo $form->layout, $form->layout->error; ?>
                         </div>
                         <div class="form-group">
                           <label>モデル選択</label>
                           <label class="radio-inline">
-			    <?php echo $form->model ?>
+			    <?php echo $form->model, $form->model->error; ?>
+			  </label>
+                        </div>
+                        <div class="form-group">
+                          <label>画面選択</label>
+                          <label class="radio-inline">
+			    <?php echo $form->view, $form->view->error; ?>
 			  </label>
                         </div>
                         <div class="form-group">
                           <label>ページ状態</label>
 			  <div>
-			    <?php echo $form->pageStatus; ?>
+			    <?php echo $form->pageStatus, $form->pageStatus->error; ?>
 			  </div>
                         </div>
                         <div class="form-group">
                           <label>認証方法</label>
 			  <div>
-			    <?php echo $form->authorizeType; ?>
+			    <?php echo $form->authorizeType, $form->authorizeType->error; ?>
 			  </div>
                         </div>			
-                        <div class="form-group">
-                          <label>keyword</label>
-			  <?php echo $form->keyword; ?>
-                        </div> 
-			<div class="form-group">
-                          <label>description</label>
-			  <?php echo $form->description; ?>
-                        </div>
 			<?php echo $form->submit; ?>
-                        <button type="submit" class="btn btn-success btn-lg">戻る</button>			
+			<?php echo $form->reset; ?>
                       </div>
                       <!-- /.col-lg-4 (nested) -->
                       <div class="col-lg-2">
 			<br/>
 			<?php echo $form->submitBlock; ?>
-                        <button type="submit" class="btn btn-success btn-block btn-lg">戻る</button>			
+			<?php echo $form->reset; ?>
                       </div>
                       <!-- /.col-lg-4 (nested) -->
                     </div>
