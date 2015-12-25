@@ -6,40 +6,56 @@ use Exception;
 
 trait EventTargetTrait
 {
-    private $eventQueue = [];
-    //
+    private $eventListeners = [];
     private $triggerScope = [];
-    private $propagationStopped = false;
-    private $preventEvent = false;
-    static private $eventTrigger = [];
     
-    public function addEventListener($event, $callBack)
+    public function addEventListener($event, $listener)
     {
         $trigger = $this->getTrigger($event);
-        if(!isset($this->eventQueue[$trigger])) {
-            $this->eventQueue[$trigger] = [];
+        if(!isset($this->eventListeners[$trigger])) {
+            $this->eventListeners[$trigger] = [];
         }
-        if(!is_callable($callBack)) {
+        if(!is_callable($listener)) {
             throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
         }
-        $this->eventQueue[$trigger][] = $callBack;
+        $this->eventListeners[$trigger][] = $listener;
     }
     
-    public function removeEventListener($event, $callBack)
+    public function removeEventListener($event, $listener)
     {
         $trigger = $this->getTrigger($event);
-        if(!isset($this->eventQueue[$trigger])) {
-            $this->eventQueue[$trigger] = [];
+        if(!isset($this->eventListeners[$trigger])) {
+            $this->eventListeners[$trigger] = [];
         }
-        if(!is_callable($callBack)) {
+        if(!is_callable($listener)) {
             throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
         }
-        foreach($this->eventQueue[$trigger] as $key => $call) {
-            if($callBack == $call) {
-                unset($this->eventQueue[$trigger][$key]);
+        foreach($this->eventListeners[$trigger] as $key => $call) {
+            if($listener == $call) {
+                unset($this->eventListeners[$trigger][$key]);
                 break;
             }
         }
+    }
+
+    public function dispatchEvent(Event $Event)
+    {
+        $Event->setTarget($this);
+        $parameters = $Event->getData();
+        $this->triggerFire($Event, $parameters);
+        foreach(EventManager::getPropagationChain(static::class) as $propagation) {
+            if($Event->isBubbles() === false) {
+                break;
+            }
+            EventManager::triggerEvent($propagation, $Event, $parameters);
+        }
+    }
+    
+    public function triggerEvent($event, $parameters = [])
+    {
+        $Event = EventManager::createEvent($event);
+        $Event->setData($parameters);
+        $this->dispatchEvent($Event);
     }
 
     public function getCurrentEvent()
@@ -50,25 +66,7 @@ trait EventTargetTrait
     public function traceEvent()
     {
         print_r($this->triggerScope);
-    }
-
-    private function dispatchEvent(Event $Event, $parameters = [])
-    {
-        $Event->setTarget($this);
-        $this->triggerFire($Event, $parameters);
-        foreach(EventManager::getPropagationChain(static::class) as $propagation) {
-            if($Event->isBubbles() === false) {
-                break;
-            }
-            EventManager::triggerEvent($propagation, $Event, $parameters);
-        }
-    }
-
-    public function triggerEvent($event, $parameters = [])
-    {
-        $Event = EventManager::createEvent($event);
-        $this->dispatchEvent($Event, $parameters);
-    }
+    }    
     
     private function triggerFire(Event $Event, $parameters = [])
     {
@@ -77,12 +75,12 @@ trait EventTargetTrait
             throw new Exception(sprintf(EventTargetInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
         $this->triggerScope[] = $Event;
-        if(!isset($this->eventQueue[$trigger])) {
+        if(!isset($this->eventListeners[$trigger])) {
             array_pop($this->triggerScope);
             return false;
         }
         array_unshift($parameters, $Event);
-        foreach($this->eventQueue[$trigger] as $key => $call) {
+        foreach($this->eventListeners[$trigger] as $key => $call) {
             if($Event->isDefaultPrevented()) {
                 break;
             }
@@ -97,21 +95,5 @@ trait EventTargetTrait
             return $trigger;
         }
         throw new Exception(sprintf(EventTargetInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
-    }
-
-    public function stopPropagation()
-    {
-        $this->propagationStopped = true;
-    }
-
-    public function preventEvent()
-    {
-        $this->preventEvent = true;
-    }
-
-    public function stopImmediatePropagation()
-    {
-        $this->preventEvent = true;
-        $this->propagationStopped = true;
     }
 }

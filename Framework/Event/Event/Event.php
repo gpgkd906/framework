@@ -66,4 +66,12 @@ class Event
             $this->bubbles = false;
         }
     }
+
+    public function stopImmediatePropagation()
+    {
+        if($this->cancelable) {
+            $this->defaultPrevented = true;
+            $this->bubbles = false;
+        }
+    }    
 }

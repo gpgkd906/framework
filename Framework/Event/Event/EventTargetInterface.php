@@ -13,9 +13,9 @@ interface EventTargetInterface
     const TRIGGER_INITED = "Initialized";
     const TRIGGER_DEINIT = "Deinitiation";
     
-    public function addEventListener($eventName, $callback);
+    public function addEventListener($eventName, $listener);
     
-    public function removeEventListener($eventName, $callback);
+    public function removeEventListener($eventName, $listener);
     
-    public function triggerEvent($eventName);
+    public function dispatchEvent(Event $event);
 }
