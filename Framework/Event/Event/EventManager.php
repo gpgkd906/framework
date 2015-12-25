@@ -38,30 +38,41 @@ class EventManager
         }        
     }
     
-    static public function triggerEvent($class, $event, $instance, $parameters = [])
+    static public function triggerEvent($class, Event $Event, $parameters = [])
     {
-        $trigger = self::getTrigger($class, $event);
+        $trigger = self::getTrigger($class, $Event);
         if(empty($trigger)) {
             return false;
         }
         if(!isset(self::$eventQueue[$trigger])) {
             return false;
         }
-        $instanceId = spl_object_hash($instance);
-        $triggerKey = $trigger . $instanceId;
-        if(in_array($triggerKey, self::$triggerScope)) {
+        if(in_array($Event, self::$triggerScope)) {
             throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
-        self::$triggerScope[] = $triggerKey;
-        array_unshift($parameters, $instance);        
+        self::$triggerScope[] = $Event;
+        array_unshift($parameters, $Event);
         foreach(self::$eventQueue[$trigger] as $key => $call) {
             call_user_func_array($call, $parameters);
         }
         array_pop(self::$triggerScope);
     }
 
+    public function getCurrentEvent()
+    {
+        return self::$triggerScope[count(self::$triggerScope) - 1] ?? null;
+    }
+    
+    public function traceEvent()
+    {        
+        print_r(self::$triggerScope);
+    }    
+
     static public function getTrigger($class, $event)
     {
+        if($event instanceof Event) {
+            $event = $event->getName();
+        }
         $triggerPool = self::initTrigger($class);
         if(isset($triggerPool[$event])) {
             return $triggerPool[$event];

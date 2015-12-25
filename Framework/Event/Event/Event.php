@@ -27,17 +27,17 @@ class Event
     {
         return $this->data = $data;
     }
-
+    
     public function getData ()
     {
         return $this->data;
     }
-
+    
     public function setTarget ($target)
     {
         return $this->target = $target;
     }
-
+    
     public function getTarget ()
     {
         return $this->target;

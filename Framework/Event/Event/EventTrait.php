@@ -24,7 +24,7 @@ trait EventTrait
         }
         $this->eventQueue[$trigger][] = $callBack;
     }
-
+    
     public function removeEventListener($event, $callBack)
     {
         $trigger = $this->getTrigger($event);
@@ -44,12 +44,12 @@ trait EventTrait
 
     public function getCurrentEvent()
     {
-        return $this->triggerScope[count($this->triggerScope) - 1];
+        return $this->triggerScope[count($this->triggerScope) - 1] ?? EventManager::getCurrentEvent();
     }
 
-    static public function traceEvent()
+    public function traceEvent()
     {
-        print_r(self::$triggerScope);
+        print_r($this->triggerScope);
     }
 
     private function dispatchEvent(Event $Event, $parameters = [])
@@ -60,7 +60,7 @@ trait EventTrait
             if($Event->isBubbles() === false) {
                 break;
             }
-            EventManager::triggerEvent($propagation, $Event, $this, $parameters);
+            EventManager::triggerEvent($propagation, $Event, $parameters);
         }
     }
 
@@ -93,9 +93,6 @@ trait EventTrait
     
     private function getTrigger($event)
     {
-        if($event instanceof Event) {
-            $event = $event->getName();
-        }
         if($trigger = EventManager::getTrigger(static::class, $event)) {
             return $trigger;
         }
