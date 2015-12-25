@@ -2,7 +2,7 @@
 
 namespace Framework\ViewModel\ViewModel;
 
-use Framework\Event\Event\EventInterface;
+use Framework\Event\Event\EventTargetInterface;
 use Exception;
 
 class ViewModelManager implements ViewModelManagerInterface
@@ -142,7 +142,7 @@ class ViewModelManager implements ViewModelManagerInterface
             $ViewModel->getLayout()->setPageVars($ViewModel->getData());
         }
         self::addView($ViewModel);
-        $ViewModel->triggerEvent(EventInterface::TRIGGER_INIT);
+        $ViewModel->triggerEvent(EventTargetInterface::TRIGGER_INIT);
         return $ViewModel;
     }
 

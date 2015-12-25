@@ -1,12 +1,12 @@
 <?php
 namespace Framework\Plugin\Plugin;
 
-use Framework\Event\Event\EventInterface;
+use Framework\Event\Event\EventTargetInterface;
 use Framework\Config\ConfigModel;
 
-class PluginManager implements EventInterface
+class PluginManager implements EventTargetInterface
 {
-    use \Framework\Event\Event\EventTrait;
+    use \Framework\Event\Event\EventTargetTrait;
     use \Framework\Application\SingletonTrait;
     
     const TRIGGER_PLUGININITED = "PluginInited";

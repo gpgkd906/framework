@@ -6,12 +6,12 @@ use Framework\Application\HttpApplication;
 use Framework\Application\serviceManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
-use Framework\Event\Event\EventInterface;
+use Framework\Event\Event\EventTargetInterface;
 use Exception;
 
-abstract class AbstractController implements ControllerInterface, EventInterface, serviceManagerAwareInterface
+abstract class AbstractController implements ControllerInterface, EventTargetInterface, serviceManagerAwareInterface
 {
-    use \Framework\Event\Event\EventTrait;
+    use \Framework\Event\Event\EventTargetTrait;
     use \Framework\Application\serviceManagerAwareTrait;
     
     static private $instance = [];
@@ -53,7 +53,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
             $actionMethod = false;
         }
         if($actionMethod === false && $restActionMethod === false) {
-            throw new Exception(sprintf("not implements for not_found: %s", $this->getName() . '::' . $actionMethod));
+            return $this->getServiceManager()->getApplication()->sendNotFound();
         }
         $this->triggerEvent(self::TRIGGER_BEFORE_ACTION);
         if($restActionMethod) {
@@ -77,7 +77,7 @@ abstract class AbstractController implements ControllerInterface, EventInterface
             }
         }
     }
-
+    
     protected function callAction($action, $param = [])
     {
         if(is_callable([$this, $action])) {

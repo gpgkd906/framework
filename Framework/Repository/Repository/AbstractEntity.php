@@ -2,7 +2,7 @@
 
 namespace Framework\Repository\Repository;
 
-use Framework\Event\Event\EventInterface;
+use Framework\Event\Event\EventTargetInterface;
 use Framework\Repository\Repository\RepositoryInterface;
 use Framework\Repository\Repository\SqlBuilderInterface;
 use Framework\Repository\Repository\Collection;
@@ -12,9 +12,9 @@ use ReflectionClass;
 use Closure;
 use Exception;
 
-abstract class AbstractEntity implements EntityInterface, EventInterface
+abstract class AbstractEntity implements EntityTargetInterface, EventInterface
 {
-    use \Framework\Event\Event\EventTrait;
+    use \Framework\Event\Event\EventTargetTrait;
     //
     const TRIGGER_PREINSERT  = 'preInsert';
     const TRIGGER_PREUPDATE  = 'preUpdate';

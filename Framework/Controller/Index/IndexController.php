@@ -15,7 +15,7 @@ class IndexController extends AbstractController
         
 
         $viewModel = ViewModelManager::getViewModel([
-            "viewModel" => "IndexViewModel",
+            "viewModel" => "Front\IndexViewModel",
             "Model" => "Book"
         ]);
         return $viewModel;

@@ -3,6 +3,7 @@
 namespace Framework\ViewModel\Admin;
 
 use Framework\ViewModel\ViewModel\FormViewModel;
+use Framework\ViewModel\Layout\AdminPageLayout;
 use Form2\Validator;
 
 class LoginViewModel extends FormViewModel

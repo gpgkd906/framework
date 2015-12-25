@@ -2,9 +2,9 @@
 
 namespace Framework\ViewModel\Admin\Component;
 
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\Admin\Component\TableViewModel;
 
-class TableTreeViewModel extends AbstractViewModel
+class TableTreeViewModel extends TableViewModel
 {
     protected $template = '/template/admin/component/table_tree.html';    
 
@@ -18,19 +18,4 @@ class TableTreeViewModel extends AbstractViewModel
             '/css/jquery.treegrid.css'
         ],
     ];
-
-    private $head = null;
-
-    public function setHead ($head)
-    {
-        return $this->head = $head;
-    }
-
-    public function getHead ()
-    {
-        if($this->head === null) {
-            $this->head = $this->getConfig()['head'];
-        }
-        return $this->head;
-    }    
 }

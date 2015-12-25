@@ -5,11 +5,11 @@ namespace Framework\Controller\Admin;
 use Framework\Controller\Controller\ControllerInterface;
 use Framework\Controller\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\Event\Event\EventInterface;
+use Framework\Event\Event\EventTargetInterface;
     
-class CustomerController extends AbstractController implements ControllerInterface, EventInterface
+class CustomerController extends AbstractController implements ControllerInterface, EventTargetInterface
 {
-    use \Framework\Event\Event\EventTrait;
+    use \Framework\Event\Event\EventTargetTrait;
     use \Framework\Event\Event\TestTrait;
         
     private $test = [1, 2, 3];

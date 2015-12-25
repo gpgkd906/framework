@@ -70,7 +70,8 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     public function setExportView($exportView)
     {
         if($exportView instanceof FormViewModelInterface) {
-            $exportView->addEventListener(FormViewModel::TRIGGER_FORMINIT, function($exportView) {
+            $exportView->addEventListener(FormViewModel::TRIGGER_FORMINIT, function($event) {
+                $exportView = $event->getTarget();
                 $this->setForm($exportView->getForm());
                 $this->triggerEvent(FormViewModel::TRIGGER_FORMINIT);
             });

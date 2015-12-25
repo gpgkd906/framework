@@ -3,6 +3,7 @@
 namespace Framework\Service\SessionService;
 
 use Framework\Service\AbstractService;
+use Exception;
     
 class SessionService extends AbstractService
 {
@@ -14,6 +15,8 @@ class SessionService extends AbstractService
      * @link
      */
     private $session = null;
+
+    private $closeFlag = false;
 
     /**
      * 
@@ -47,6 +50,9 @@ class SessionService extends AbstractService
 
     public function setSection($name, $section)
     {
+        if($this->closeFlag) {
+            throw new Exception('Cannot send session cookie - headers already send');
+        }
         $this->session[$name] = $section;
     }
     
@@ -57,20 +63,30 @@ class SessionService extends AbstractService
 
     public function __destruct()
     {
-        $this->writeAndClose();
+        $this->write();
     }
 
     public function reload()
     {
-        session_start();
-        $this->setSession($_SESSION);
-        session_write_close();
+        if($this->closeFlag === false) {
+            session_start();
+            $this->setSession($_SESSION);
+            session_abort();
+        }
     }
 
-    public function writeAndClose()
+    public function write()
     {
-        session_start();
-        $_SESSION = $this->getSession();
-        session_write_close();
-    }    
+        if($this->closeFlag === false) {
+            session_start();
+            $_SESSION = array_merge($_SESSION, $this->getSession());
+            session_write_close();
+        }
+    }
+
+    public function close()
+    {
+        $this->write();
+        $this->closeFlag = true;
+    }
 }

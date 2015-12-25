@@ -38,21 +38,5 @@ class EntityService extends AbstractService
             }
         }
         return $repository::getSingleton();
-    }
-    
-    private function testSqlBuilder()
-    {
-        $sqlBuilder = SqlBuilder::createSqlBuilder();
-        $sqlBuilder->select('u.userId, t.ticketId')
-                   ->from(Users\Entity::class, 'u')
-                   ->join([Tickets\Entity::class, 't'], 'userId', 'WITH', 't.userId=u.userId')
-                   ->where('u.userId = :userId')
-                   ->groupBy('u.userId')
-                   ->having('MAX(t.ticketId) < 2')
-                   ->setParameters([
-                       ':userId' => 1
-                   ]);
-        $Ticket = $sqlBuilder->getOneResult();
-        var_dump($Ticket);
-    }
+    }    
 }

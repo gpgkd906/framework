@@ -66,6 +66,9 @@ class ServiceManager implements ServiceManagerInterface
                     }
                 }
             }
+            if(!class_exists($Class)) {
+                return false;
+            }
             if($isSingleton) {
                 $Service = $Class::getSingleton();
             } else {

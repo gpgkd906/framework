@@ -3,6 +3,7 @@
 namespace Framework\Service\CodeService;
 
 use Framework\Service\CodeService\Code\Analytic;
+use Framework\Service\CodeService\Code\Wrapper\AstWrapper;
 use Framework\Service\AbstractService;
 use Framework\Config\ConfigModel;
 
@@ -79,12 +80,24 @@ class CodeService extends AbstractService
         }
     }
 
+    public function scanFile($filePath)
+    {
+        
+    }
+
     public function analysis($file)
     {
-        $ast = Analytic::analytic($file);
-        return $ast;
+        return Analytic::analytic($file);
     }
     
+    public function newAst()
+    {
+        return Analytic::analyticCode(join('', [
+            '<?php', PHP_EOL,
+            'namespace ', __FUNCTION__, ';', PHP_EOL,
+            'class ', __FUNCTION__, '{}'
+        ]));
+    }
 
     public function test()
     {
@@ -99,7 +112,7 @@ class CodeService extends AbstractService
         $ast->getClass()->getMethod('index')->appendProcess('$Model = new Test;');
         $ast->getClass()->getMethod('index')->appendParam('$dir = "/test/"');
         $ast->getClass()->getMethod('index')->getParam('$dir');
-        $ast->getClass()->getTrait('Framework\Event\Event\EventTrait');
+        $ast->getClass()->getTrait('Framework\Event\Event\EventTargetTrait');
         echo '<pre><code>';
         print($ast->toHtml());
         echo '</code></pre>';

@@ -22,7 +22,9 @@ class AstWrapper extends AbstractWrapper
     private $method = [];
     private $property = [];
     private $classConst = [];
-
+    private $classWrapper = null;
+    private $namespaceWrapper = null;
+    
     public function setUseNode ($use)
     {
         return $this->use = $use;
@@ -117,9 +119,7 @@ class AstWrapper extends AbstractWrapper
     {
         return $this->classConst[$name] = $classConst;
     }
-
-    private $namespaceWrapper = null;
-
+    
     public function getNamespace ()
     {
         if($this->namespaceWrapper === null) {
@@ -128,13 +128,21 @@ class AstWrapper extends AbstractWrapper
         return $this->namespaceWrapper;
     }
 
-    private $classWrapper = null;
-
     public function getClass ()
     {
         if($this->classWrapper === null) {
             $this->classWrapper = new ClassWrapper($this->class);
         }
         return $this->classWrapper;
+    }
+
+    public function setNamespace($namespace)
+    {
+        $this->getNamespace()->setName($namespace);
+    }
+
+    public function setClass($class)
+    {
+        $this->getClass()->setName($class);
     }
 }

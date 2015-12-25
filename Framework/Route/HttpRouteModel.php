@@ -116,9 +116,7 @@ class HttpRouteModel extends AbstractRouteModel
     public function parseRequest()
     {
         //[controller, action, param]
-        $controller = null;
-        $action = null;
-        $param = null;
+        $controller = $action = $param = null;
         $req = $this->getReq();
         if(strpos($req, ".")) {
             return [null, null, null];
@@ -140,19 +138,6 @@ class HttpRouteModel extends AbstractRouteModel
                 $param = null;
             }
             break;
-        case 2: //sample: mypage/bookmarks, product/1
-            $_req = $reqs[0];
-            if($request = $this->appMapping($_req)) {
-                $param = $reqs[1];
-            } else {
-                $_req = join("/", $reqs);
-                if(!$request = $this->appMapping($_req)) {
-                    $controller = ucfirst($reqs[0]) . "\\" .  ucfirst($reqs[1]);
-                    $action = $this->getIndex();
-                    $param = null;
-                }
-            }
-            break;
         default: //count($reqs) >= 3: product/detail/1, admin/product/list
             $_req = $reqs[0];
             if($request = $this->appMapping($_req)) {
@@ -160,12 +145,11 @@ class HttpRouteModel extends AbstractRouteModel
             } else {
                 $_req = join("/", $reqs);
                 if(!$request = $this->appMapping($_req)) {
-                    $tempParam = [];
                     $parts = [];
-                    
                     foreach($reqs as $idx => $token) {
-                        //数字で始まる文字列は名前空間やクラス名やメソッド名になり得ないのでパラメタに退避させる
+                        //数字で始まる文字列は名前空間やクラス名やメソッド名になり得ないのでパラメタに退避させる                        
                         if(is_numeric($token[0])) {
+                            $parts[] = $this->getIndex();
                             break;
                         }
                         $parts[] = $token;
@@ -173,7 +157,7 @@ class HttpRouteModel extends AbstractRouteModel
                     }
                     $action = array_pop($parts);
                     $controller = join('\\', array_map('ucfirst', $parts));
-                    $param = $reqs;
+                    $param = array_values($reqs);
                 }
             }
             break;
@@ -183,22 +167,16 @@ class HttpRouteModel extends AbstractRouteModel
         }
         $request = [
             'controller' => $controller,
-            'action' => $action,
-            'param' => $param
-        ];        
+            'action'     => $action,
+            'param'      => $param,
+            'req'        => $req,
+        ];
         return $request;
     }
 
     public function isFaviconRequest() 
     {
         return $_SERVER["REQUEST_URI"] === "/favicon.ico";
-    }
-
-    public function sendDummyFavicon()
-    {
-        header('Content-Type: image/vnd.microsoft.icon');
-        header('Content-length: 0');
-        die();
     }
 
     public function appMapping($req)

@@ -63,39 +63,32 @@ class PageModel extends AbstractCmsModel
         $controllerDir = 'Framework/Controller/';
         $urlParts = array_map('ucfirst', explode('/', $data['url']));
         $name = array_pop($urlParts);
-        $controller['name'] = $name . 'Controller';
-        $controller['dir']  = ROOT_DIR . $controllerDir . join('/', $urlParts) . '/';
-        $controller['path'] = $controller['dir'] . $controller['name'] . '.php';
-        $controller['namespace'] = str_replace('/', '\\', $controllerDir . join('/', $urlParts));
+        $controller = $this->newControllerEntity($name, $urlParts);
         if(empty($data['model'])) {
             $model = $this->newModelEntity($name, $urlParts);
         } else {
             $model = $this->matchEntity($data['model'], parent::scanModel());
-        }
+        }        
         if(empty($data['view'])) {
-            $viewmodel = $this->newModelEntity($name, $urlParts);
+            $viewmodel = $this->newViewModelEntity($name, $urlParts);
         } else {
             $viewmodel = $this->matchEntity($data['view'], parent::scanViewModel());
         }
+        $controller['model']     = $model;
+        $controller['viewModel'] = $viewmodel;
+        $controllerAst = $this->makeControllerAst($controller);
+        $viewmodelAst = $this->makeViewModelAst($viewmodel);
         var_dump(
-            $controller,
-            $model,
-            $viewmodel,
-            $data
+            //$controllerAst->toString()
+            $viewmodelAst->toString()
+            //$controller
+            //$controller,
+            , $model
+            //$viewmodel,
+            , $data
         );
     }
-
-    public function newModelEntity($name, $namespaceparts)
-    {
-        $modelDir = 'Framework/Model/';
-        $model = [];
-        $model['name'] = $name . 'Model';
-        $model['namespace'] = str_replace('/', '\\', $modelDir . join('/', $namespaceparts));
-        $model['dir']  = ROOT_DIR . $modelDir . join('/', $namespaceparts) . '/';
-        $model['path'] = $model['dir'] . $model['name'] . '.php';
-        return $model;
-    }
-
+    
     private function getUrl($find)
     {
         $url = strtolower(str_replace('Controller.php', '', $find['file']));
@@ -109,4 +102,37 @@ class PageModel extends AbstractCmsModel
         return $url;
     }
 
+    public function makeControllerAst($controller)
+    {
+        $model = $controller['model'];
+        $viewmodel = $controller['viewModel'];
+        $Ast = $this->getCodeService()->newAst();
+        $Ast->setNamespace($controller['namespace']);
+        $Ast->getNamespace()->appendUse($this->getAbstractController());
+        $Ast->getNamespace()->appendUse($this->getViewModelManager());
+        $Ast->getNamespace()->appendUse($model['namespace'] . '\\' . $model['name']);
+        $Ast->getNamespace()->appendUse($viewmodel['namespace'] . '\\' . $viewmodel['name']);
+        $Ast->setClass($controller['name']);
+        $Ast->getClass()->extend('AbstractController');
+        $Ast->getClass()->appendMethod('index');        
+        $Ast->getClass()->getMethod('index')->setReturn("ViewModelManager::getViewModel([ 'viewModel' => " . $viewmodel['name'] . "::class ]);");
+        return $Ast;
+    }
+    
+    public function makeViewModelAst($viewmodel)
+    {
+        $Ast = $this->getCodeService()->newAst();
+        $Ast->setNamespace($viewmodel['namespace']);
+        $Ast->getNamespace()->appendUse($this->getAbstractViewModel());
+        $Ast->getNamespace()->appendUse($this->getEventTargetInterface());
+        $Ast->setClass($viewmodel['name']);
+        $Ast->getClass()->extend('AbstractViewModel');
+        $Ast->getClass()->appendImplement('EventTargetInterface');
+        $Ast->getClass()->appendTrait($this->getEventTargetTrait());
+        $Ast->getClass()->appendProperty('template', 123);
+        $Ast->getClass()->getProperty('template')->setAccess('private');
+        $Ast->getClass()->getProperty('template')->setStatic(true);
+        $Ast->getClass()->getProperty('template')->setValue([1, 2, 3]);
+        return $Ast;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\ViewModel;
+namespace Framework\ViewModel\Front;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 
@@ -10,9 +10,9 @@ class IndexViewModel extends AbstractViewModel
     protected $config = [
         'container' => [
             'main' => [
-                [ 'viewModel' => "HeaderViewModel", ],
-                [ 'viewModel' => "ContentViewModel", ],
-                [ 'viewModel' => "FooterViewModel" ],
+                [ 'viewModel' => HeaderViewModel::class, ],
+                [ 'viewModel' => ContentViewModel::class, ],
+                [ 'viewModel' => FooterViewModel::class ],
             ],
         ],
     ];

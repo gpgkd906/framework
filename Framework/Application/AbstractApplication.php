@@ -124,8 +124,8 @@ abstract class AbstractApplication implements ApplicationInterface
     }
     
     abstract  public function run();
-
-    abstract  public function getController($controller);
+    
+    abstract  public function getController();
 
     public function setPluginManager($pluginManager)
     {

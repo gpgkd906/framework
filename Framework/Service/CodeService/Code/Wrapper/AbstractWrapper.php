@@ -46,7 +46,7 @@ class AbstractWrapper
 
     public function toHtml()
     {
-        return '&lt?php' . PHP_EOL . $this->toString();
+        return nl2br('&lt?php' . PHP_EOL . $this->toString());
     }
 
     public function setStmts ($stmts)

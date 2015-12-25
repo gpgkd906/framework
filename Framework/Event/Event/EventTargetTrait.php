@@ -4,7 +4,7 @@ namespace Framework\Event\Event;
 
 use Exception;
 
-trait EventTrait
+trait EventTargetTrait
 {
     private $eventQueue = [];
     //

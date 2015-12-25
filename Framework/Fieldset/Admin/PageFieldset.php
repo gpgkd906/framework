@@ -68,20 +68,12 @@ class PageFieldset extends AbstractFieldset
                 '管理者認証' => 'admin', '会員認証' => 'member', '認証なし' => ''
             ],
         ],
-        'keyword' => [
-            'type' => 'text',
+        'reset' => [
+            'type' => 'reset',
             'attrs' => [
-                'class' => 'form-control',
-                'placeholder' => 'keyword',
-            ]
-        ],
-        'description' => [
-            'type' => 'textarea',
-            'attrs' => [
-                'class' => 'form-control',
-                'rows' => 3,
-                'placeholder' => 'description',
-            ]
+                'class' => 'btn btn-success btn-lg',
+            ],
+            'value' => '戻る',
         ],
         'submit' => [
             'type' => 'submit',

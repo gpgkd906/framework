@@ -4,12 +4,25 @@ namespace Framework\Application;
 
 use Framework\Core\ErrorHandler;
 use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\Event\EventManager\EventManager;
+use Framework\Event\Event\EventTargetInterface;
+use Framework\Controller\Controller\ControllerInterface;
 use Exception;
 
-class HttpApplication extends AbstractApplication
+class HttpApplication extends AbstractApplication implements EventTargetInterface
 {
+    
+    use \Framework\Event\Event\EventTargetTrait;
     const DEFAULT_ROUTE = "Http";
+    const TRIGGER_ROUTEMISS = 'routemiss';
+
+    /**
+     *
+     * @api
+     * @var mixed $controller 
+     * @access private
+     * @link
+     */
+    private $controller = null;
     
     public function run()
     {
@@ -18,7 +31,7 @@ class HttpApplication extends AbstractApplication
         $routeModel = $this->getServiceManager()->getComponent('RouteModel', $routeName);
         $this->setRouteModel($routeModel);
         if($routeModel->isFaviconRequest()) {
-            $routeModel->sendDummyFavicon();
+            $this->sendDummyFavicon();
         }
 
         $viewModelNamespace = $this->getServiceManager()->getServiceNamespace('ViewModel');
@@ -26,20 +39,40 @@ class HttpApplication extends AbstractApplication
         ViewModelManager::setTemplateDir($config->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', $viewModelNamespace)));
         ViewModelManager::setBasePath($config->getConfig('ApplicationHost'));
         ViewModelManager::setServiceManager($this->getServiceManager());        
-        $request = $routeModel->dispatch();
+        $request = $routeModel->dispatch();        
         $controller = $this->getServiceManager()->getComponent('Controller', $request['controller']);
+        $action = $request['action'];
+        if(!$controller || !is_callable([$controller, $action])) {
+            $this->triggerEvent(self::TRIGGER_ROUTEMISS, $request);
+            $controller = $this->getController();
+            if(!$controller instanceof ControllerInterface) {
+                $this->sendNotFound();
+            }
+        }
         $controller->callActionFlow($request['action'], $request['param']);
     }
 
-    public function getController($controller)
+    public function setController ($controller)
     {
-        $config = $this->getConfig();
-        $controllerNamespace = $config->getConfig("controllerNamespace", self::DEFAULT_CONTROLLER_NAMESPACE);
-        $controller = ucfirst($controller) . "Controller";
-        $controllerLabel = $controllerNamespace . "\\" . $controller;
-        if(!class_exists($controllerLabel)) {
-            throw new Exception(sprintf(self::ERROR_INVALID_CONTROLLER_LABEL, $controllerLabel));
-        }
-        return $controllerLabel::getSingleton();
+        return $this->controller = $controller;
     }
+
+    public function getController ()
+    {
+        return $this->controller;
+    }
+
+    public function sendDummyFavicon()
+    {
+        header('Content-Type: image/vnd.microsoft.icon');
+        header('Content-length: 0');
+        die();
+    }
+
+    public function sendNotFound()
+    {
+        header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+        echo '404 Not Found';
+        die;
+    }   
 }

@@ -17,12 +17,19 @@ class NamespaceWrapper extends AbstractWrapper
         if($as !== null) {
             $use->as($as);
         }
-        array_unshift($this->getNode()->stmts, $use->getNode());
+        $this->getNode()->stmts[] = $use->getNode();
+        usort($this->getNode()->stmts, function($a, $b) {
+            if($a->getType() === 'Stmt_Use') {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
     }
 
     public function addStmt($stmt)
     {
-
+        $this->getNode()->stmts[] = $stmt;
     }
 
     public function getNameSpace()

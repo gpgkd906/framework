@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\ViewModel;
+namespace Framework\ViewModel\Front;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 

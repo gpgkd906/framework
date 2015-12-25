@@ -2,7 +2,7 @@
 
 namespace Framework\Event\Event;
 
-interface EventInterface 
+interface EventTargetInterface 
 {
     const ERROR_EVENT_STACK_EXISTS = "error: event [%s] is loop-triggered in class [%s]'s eventStack;";
     const ERROR_UNDEFINED_EVENT_TRIGGER = "error: undefiend event trigger [%s] in class [%s]";

@@ -3,6 +3,11 @@
 namespace Framework\Model\Cms;
 
 use Framework\Model\AbstractModel;
+use Framework\Controller\Controller\AbstractController;
+use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\Event\Event\EventTargetInterface;
+use Framework\Event\Event\EventTargetTrait;
 
 abstract class AbstractCmsModel extends AbstractModel
 {
@@ -84,7 +89,7 @@ abstract class AbstractCmsModel extends AbstractModel
     {
         $find = null;
         foreach($fileList as $file) {
-            if($file['nameHash'] === $identify) {
+            if(isset($file['nameHash']) && $file['nameHash'] === $identify) {
                 return $file;
             }
         }
@@ -94,7 +99,7 @@ abstract class AbstractCmsModel extends AbstractModel
     {
         $find = null;
         foreach($fileList as $file) {
-            if($file['nameHash'] === $identify) {
+            if(isset($file['nameHash']) && $file['nameHash'] === $identify) {
                 return $this->getCodeService()->analysis($file['fullPath']);
             }
         }
@@ -112,6 +117,39 @@ abstract class AbstractCmsModel extends AbstractModel
                 'path' => $file['fullPath'],
             ];
         }
+    }    
+
+    public function newControllerEntity($name, $namespaceparts)
+    {
+        $controllerDir = 'Framework/Controller/';
+        $controller = [];
+        $controller['name'] = $name . 'Controller';
+        $controller['namespace'] = str_replace('/', '\\', $controllerDir . join('/', $namespaceparts));
+        $controller['dir']  = ROOT_DIR . $controllerDir . join('/', $namespaceparts) . '/';
+        $controller['path'] = $controller['dir'] . $controller['name'] . '.php';
+        return $controller;
+    }
+    
+    public function newModelEntity($name, $namespaceparts)
+    {
+        $modelDir = 'Framework/Model/';
+        $model = [];
+        $model['name'] = $name . 'Model';
+        $model['namespace'] = str_replace('/', '\\', $modelDir . join('/', $namespaceparts));
+        $model['dir']  = ROOT_DIR . $modelDir . join('/', $namespaceparts) . '/';
+        $model['path'] = $model['dir'] . $model['name'] . '.php';
+        return $model;
+    }
+
+    public function newViewModelEntity($name, $namespaceparts)
+    {
+        $viewDir = 'Framework/ViewModel/';
+        $view = [];
+        $view['name'] = $name . 'ViewModel';
+        $view['namespace'] = str_replace('/', '\\', $viewDir . join('/', $namespaceparts));
+        $view['dir']  = ROOT_DIR . $viewDir . join('/', $namespaceparts) . '/';
+        $view['path'] = $view['dir'] . $view['name'] . '.php';
+        return $view;
     }
     
     private function getFileEntities($dir, $exclude = null)
@@ -157,5 +195,30 @@ abstract class AbstractCmsModel extends AbstractModel
     public function getIdentify ()
     {
         return $this->identify;
-    }    
+    }
+
+    public function getAbstractController()
+    {
+        return AbstractController::class;
+    }
+
+    public function getAbstractViewModel()
+    {
+        return AbstractViewModel::class;
+    }
+
+    public function getViewModelManager()
+    {
+        return ViewModelManager::class;
+    }
+
+    public function getEventTargetInterface()
+    {
+        return EventTargetInterface::class;
+    }
+
+    public function getEventTargetTrait()
+    {
+        return EventTargetTrait::class;
+    }
 }

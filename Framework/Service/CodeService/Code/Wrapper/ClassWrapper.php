@@ -33,7 +33,11 @@ class ClassWrapper extends AbstractWrapper
 
     public function extend($extend)
     {
-        $this->getNode()->extends->parts = explode('\\', $extend);
+        if($this->getNode()->extends === null) {
+            $this->getNode()->extends = new Name($extend);
+        } else {
+            $this->getNode()->extends->parts = explode('\\', $extend);
+        }
     }
 
     public function appendImplement($interface)
@@ -102,7 +106,7 @@ class ClassWrapper extends AbstractWrapper
         $property->setDefault($value);
         $this->addStmt($property->getNode());
     }
-
+    
     public function getProperty($property)
     {
         $node = $this->findNode('Stmt_Property', function($stmt) use($property) {
