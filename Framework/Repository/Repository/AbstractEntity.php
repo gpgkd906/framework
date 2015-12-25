@@ -12,7 +12,7 @@ use ReflectionClass;
 use Closure;
 use Exception;
 
-abstract class AbstractEntity implements EntityTargetInterface, EventInterface
+abstract class AbstractEntity implements EntityInterface, EventTargetInterface
 {
     use \Framework\Event\Event\EventTargetTrait;
     //

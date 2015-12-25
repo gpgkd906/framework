@@ -16,7 +16,7 @@ class EventManager
             self::$eventQueue[$trigger] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
+            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
         }
         self::$eventQueue[$trigger][] = $callBack;
     }
@@ -28,7 +28,7 @@ class EventManager
             return false;
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
+            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
         }
         foreach(self::$eventQueue[$trigger] as $key => $call) {
             if($callBack == $call) {
@@ -48,7 +48,7 @@ class EventManager
             return false;
         }
         if(in_array($Event, self::$triggerScope)) {
-            throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
+            throw new Exception(sprintf(EventTargetInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
         self::$triggerScope[] = $Event;
         array_unshift($parameters, $Event);

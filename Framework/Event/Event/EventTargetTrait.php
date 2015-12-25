@@ -20,7 +20,7 @@ trait EventTargetTrait
             $this->eventQueue[$trigger] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
+            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
         }
         $this->eventQueue[$trigger][] = $callBack;
     }
@@ -32,7 +32,7 @@ trait EventTargetTrait
             $this->eventQueue[$trigger] = [];
         }
         if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
+            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
         }
         foreach($this->eventQueue[$trigger] as $key => $call) {
             if($callBack == $call) {
@@ -74,7 +74,7 @@ trait EventTargetTrait
     {
         $trigger = $this->getTrigger($Event);
         if(in_array($Event, $this->triggerScope)) {
-            throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
+            throw new Exception(sprintf(EventTargetInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
         $this->triggerScope[] = $Event;
         if(!isset($this->eventQueue[$trigger])) {
@@ -96,7 +96,7 @@ trait EventTargetTrait
         if($trigger = EventManager::getTrigger(static::class, $event)) {
             return $trigger;
         }
-        throw new Exception(sprintf(EventInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
+        throw new Exception(sprintf(EventTargetInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
 
     public function stopPropagation()

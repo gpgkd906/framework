@@ -2,7 +2,6 @@
 
 namespace Framework\Config\ConfigModel;
 
-use Framework\Event\Event\EventInterface;
 use Exception;
 
 class AbstractConfigModel implements ConfigModelInterface 
