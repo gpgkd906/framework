@@ -52,34 +52,38 @@ trait EventTrait
         print_r(self::$triggerScope);
     }
 
-    public function triggerEvent($event, $parameters = [])
+    private function dispatchEvent(Event $Event, $parameters = [])
     {
-        $trigger = $this->getTrigger($event);
-        $oldPropagationStopped = $this->propagationStopped;
-        $this->propagationStopped = false;
-        $this->triggerFire($trigger, $parameters);
+        $Event->setTarget($this);
+        $this->triggerFire($Event, $parameters);
         foreach(EventManager::getPropagationChain(static::class) as $propagation) {
-            if($this->propagationStopped) {
+            if($Event->isBubbles() === false) {
                 break;
             }
-            EventManager::triggerEvent($propagation, $event, $this, $parameters);
+            EventManager::triggerEvent($propagation, $Event, $this, $parameters);
         }
-        $this->propagationStopped = $oldPropagationStopped;
+    }
+
+    public function triggerEvent($event, $parameters = [])
+    {
+        $Event = EventManager::createEvent($event);
+        $this->dispatchEvent($Event, $parameters);
     }
     
-    private function triggerFire($trigger, $parameters = [])
+    private function triggerFire(Event $Event, $parameters = [])
     {
-        if(in_array($trigger, $this->triggerScope)) {
+        $trigger = $this->getTrigger($Event);
+        if(in_array($Event, $this->triggerScope)) {
             throw new Exception(sprintf(EventInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
-        $this->triggerScope[] = $trigger;
+        $this->triggerScope[] = $Event;
         if(!isset($this->eventQueue[$trigger])) {
-            $this->eventQueue[$trigger] = [];
+            array_pop($this->triggerScope);
+            return false;
         }
-        array_unshift($parameters, $this);
-        $this->preventEvent = false;
+        array_unshift($parameters, $Event);
         foreach($this->eventQueue[$trigger] as $key => $call) {
-            if($this->preventEvent) {
+            if($Event->isDefaultPrevented()) {
                 break;
             }
             call_user_func_array($call, $parameters);
@@ -89,6 +93,9 @@ trait EventTrait
     
     private function getTrigger($event)
     {
+        if($event instanceof Event) {
+            $event = $event->getName();
+        }
         if($trigger = EventManager::getTrigger(static::class, $event)) {
             return $trigger;
         }

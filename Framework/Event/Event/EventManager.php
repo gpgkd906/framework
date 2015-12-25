@@ -92,4 +92,9 @@ class EventManager
         }
         return self::$propagationChainPool[$class];
     }
+
+    static public function createEvent($name)
+    {
+        return new Event($name);
+    }
 }
