@@ -4,41 +4,50 @@ namespace Framework\Event\Event;
 
 class EventManager
 {
+    const ERROR_EVENT_STACK_EXISTS = "error: event [%s] is loop-triggered in class [%s]'s eventStack;";
+    const ERROR_UNDEFINED_EVENT_TRIGGER = "error: undefiend event trigger [%s] in class [%s]";
+    const ERROR_INVALID_CALLBACK_ADD_EVENT = "error: invalid callback with add event [%s]";
+    const ERROR_INVALID_CALLBACK_REMOVE_EVENT = "error: invalid callback with remove event [%s]";
+    const ERROR_LISTENERS_IS_ADDING_TO_EVENT_WHICH_IS_ADDED = 'error: LISTENERS_IS_ADDING_TO_EVENT_WHICH_IS_ADDED';
+    
     static private $eventQueue = [];
     static private $triggerScope = [];
     static private $triggerPool = [];
     static private $propagationChainPool = [];
     
-    static public function addEventListener($class, $event, $callBack)
+    static public function addEventListener($class, $event, $listener)
     {
         $trigger = self::getTrigger($class, $event);
         if(!isset(self::$eventQueue[$trigger])) {
             self::$eventQueue[$trigger] = [];
         }
-        if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
+        if(!is_callable($listener)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
         }
-        self::$eventQueue[$trigger][] = $callBack;
+        if(in_array($listener, self::$eventQueue[$trigger])) {
+            throw new Exception(sprintf(self::ERROR_LISTENERS_IS_ADDING_TO_EVENT_WHICH_IS_ADDED, $trigger));
+        }
+        self::$eventQueue[$trigger][] = $listener;
     }
     
-    static public function removeEventListener($class, $event, $callBack)
+    static public function removeEventListener($class, $event, $listener)
     {
         $trigger = self::getTrigger($class, $event);
         if(!isset(self::$eventQueue[$trigger])) {
             return false;
         }
-        if(!is_callable($callBack)) {
-            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
+        if(!is_callable($listener)) {
+            throw new Exception(sprintf(self::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
         }
         foreach(self::$eventQueue[$trigger] as $key => $call) {
-            if($callBack == $call) {
+            if($listener == $call) {
                 unset(self::$eventQueue[$trigger][$key]);
                 break;
             }
         }        
     }
     
-    static public function triggerEvent($class, Event $Event, $parameters = [])
+    static public function dispatchEvent($class, Event $Event)
     {
         $trigger = self::getTrigger($class, $Event);
         if(empty($trigger)) {
@@ -48,22 +57,24 @@ class EventManager
             return false;
         }
         if(in_array($Event, self::$triggerScope)) {
-            throw new Exception(sprintf(EventTargetInterface::ERROR_EVENT_STACK_EXISTS, $trigger));
+            throw new Exception(sprintf(self::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
         self::$triggerScope[] = $Event;
-        array_unshift($parameters, $Event);
         foreach(self::$eventQueue[$trigger] as $key => $call) {
-            call_user_func_array($call, $parameters);
+            if($Event->isDefaultPrevented()) {
+                break;
+            }
+            call_user_func($call, $Event);
         }
         array_pop(self::$triggerScope);
     }
 
-    public function getCurrentEvent()
+    static public function getCurrentEvent()
     {
         return self::$triggerScope[count(self::$triggerScope) - 1] ?? null;
     }
     
-    public function traceEvent()
+    static public function traceEvent()
     {        
         print_r(self::$triggerScope);
     }    
