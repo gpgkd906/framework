@@ -47,11 +47,19 @@ class EventManager
         }    
     }
 
-    static public function getEventListeners($class)
+    static public function getEventListeners($class, $event)
     {
-        if($class instanceof EventTargetInterface) {
-            return $class->getEventListeners();
+        $trigger = self::getTrigger($class, $event);
+        if(empty($trigger)) {
+            return [];
         }
+        if($class instanceof EventTargetInterface) {
+            return $class->getEventListeners($event, $trigger);
+        }
+        if(!isset(self::$eventQueue[$trigger])) {
+            self::$eventQueue[$trigger] = [];
+        }
+        return self::$eventQueue[$trigger];
     }
     
     static public function dispatchEvent($class, Event $Event)
