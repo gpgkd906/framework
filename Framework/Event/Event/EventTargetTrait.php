@@ -4,20 +4,56 @@ namespace Framework\Event\Event;
 
 trait EventTargetTrait
 {
-
+    private $eventListeners = [];
+    private $triggerScope = [];
+ 
     public function addEventListener($event, $listener)
     {
-        EventManager::addEventListener(static::class, $event, $listener);
+        $trigger = self::getTrigger($event);
+        if(!isset($this->eventListeners[$trigger])) {
+            $this->eventListeners[$trigger] = [];
+        }
+        if(!is_callable($listener)) {
+            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
+        }
+        $this->eventListeners[$trigger][] = $listener;
+        //EventManager::addEventListener($this, $event, $listener);
     }
     
     public function removeEventListener($event, $listener)
     {
-        EventManager::removeEventListener(static::class, $event, $listener);
+        $trigger = self::getTrigger($event);
+        if(!isset($this->eventListeners[$trigger])) {
+            $this->eventListeners[$trigger] = [];
+        }
+        if(!is_callable($listener)) {
+            throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_REMOVE_EVENT, $trigger));
+        }
+        foreach($this->eventListeners[$trigger] as $key => $call) {
+            if($listener == $call) {
+                unset($this->eventListeners[$trigger][$key]);
+                break;
+            }
+        }        
+        EventManager::removeEventListener($this, $event, $listener);
+    }
+
+    public function getEventListeners($event, $trigger = null)
+    {
+        $trigger = $trigger ?? self::getTrigger($event);
+        if(empty($trigger)) {
+            return [];
+        }
+        if(!isset($this->eventListeners[$trigger])) {
+            $this->eventListeners[$trigger] = [];
+        }
+        return $this->eventListeners[$trigger];
     }
 
     public function dispatchEvent(Event $Event)
     {
         $Event->setTarget($this);
+        EventManager::dispatchTargetEvent($this, static::class, $Event);
         foreach(EventManager::getPropagationChain(static::class) as $propagation) {
             if($Event->isBubbles() === false) {
                 break;
@@ -36,5 +72,13 @@ trait EventTargetTrait
     public function getCurrentEvent()
     {
         return EventManager::getCurrentEvent();
+    }
+
+    static private function getTrigger($event)
+    {
+        if($trigger = EventManager::getTrigger(static::class, $event)) {
+            return $trigger;
+        }
+        throw new Exception(sprintf(EventTargetInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
 }

@@ -44,7 +44,14 @@ class EventManager
                 unset(self::$eventQueue[$trigger][$key]);
                 break;
             }
-        }        
+        }    
+    }
+
+    static public function getEventListeners($class)
+    {
+        if($class instanceof EventTargetInterface) {
+            return $class->getEventListeners();
+        }
     }
     
     static public function dispatchEvent($class, Event $Event)
@@ -68,6 +75,29 @@ class EventManager
         }
         array_pop(self::$triggerScope);
     }
+
+    static public function dispatchTargetEvent($target, $class, Event $Event)
+    {
+        $trigger = self::getTrigger($class, $Event);
+        if(empty($trigger)) {
+            return false;
+        }
+        $eventListeners = $target->getEventListeners($Event->getName(), $trigger);
+        if(empty($eventListeners)) {
+            return false;
+        }
+        if(in_array($Event, self::$triggerScope)) {
+            throw new Exception(sprintf(self::ERROR_EVENT_STACK_EXISTS, $trigger));
+        }
+        self::$triggerScope[] = $Event;
+        foreach($eventListeners as $key => $call) {
+            if($Event->isDefaultPrevented()) {
+                break;
+            }
+            call_user_func($call, $Event);
+        }
+        array_pop(self::$triggerScope);
+    }    
 
     static public function getCurrentEvent()
     {
