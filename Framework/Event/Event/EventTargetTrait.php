@@ -17,7 +17,6 @@ trait EventTargetTrait
             throw new Exception(sprintf(EventTargetInterface::ERROR_INVALID_CALLBACK_ADD_EVENT, $trigger));
         }
         $this->eventListeners[$trigger][] = $listener;
-        //EventManager::addEventListener($this, $event, $listener);
     }
     
     public function removeEventListener($event, $listener)
@@ -54,12 +53,6 @@ trait EventTargetTrait
     {
         $Event->setTarget($this);
         EventManager::dispatchTargetEvent($this, static::class, $Event);
-        foreach(EventManager::getPropagationChain(static::class) as $propagation) {
-            if($Event->isBubbles() === false) {
-                break;
-            }
-            EventManager::dispatchEvent($propagation, $Event);
-        }
     }
     
     public function triggerEvent($event, $parameters = [])

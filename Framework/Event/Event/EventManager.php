@@ -64,49 +64,53 @@ class EventManager
     
     static public function dispatchEvent($class, Event $Event)
     {
-        $trigger = self::getTrigger($class, $Event);
-        if(empty($trigger)) {
-            return false;
-        }
-        if(!isset(self::$eventQueue[$trigger])) {
-            return false;
-        }
         if(in_array($Event, self::$triggerScope)) {
             throw new Exception(sprintf(self::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
         self::$triggerScope[] = $Event;
-        foreach(self::$eventQueue[$trigger] as $key => $call) {
-            if($Event->isDefaultPrevented()) {
+        foreach(self::getPropagationChain($class) as $propagation) {
+            if($Event->isBubbles() === false) {
                 break;
             }
-            call_user_func($call, $Event);
+            $trigger = self::getTrigger($propagation, $Event);
+            if(empty($trigger)) {
+                continue;
+            }
+            if(!isset(self::$eventQueue[$trigger])) {
+                continue;
+            }
+            foreach(self::$eventQueue[$trigger] as $key => $call) {
+                if($Event->isDefaultPrevented()) {
+                    break;
+                }
+                call_user_func($call, $Event);
+            }
         }
-        array_pop(self::$triggerScope);
+        return array_pop(self::$triggerScope);
     }
 
-    static public function dispatchTargetEvent($target, $class, Event $Event)
+    static public function dispatchTargetEvent(EventTargetInterface $target, $targetClass, Event $Event)
     {
-        $trigger = self::getTrigger($class, $Event);
-        if(empty($trigger)) {
-            return false;
-        }
-        $eventListeners = $target->getEventListeners($Event->getName(), $trigger);
-        if(empty($eventListeners)) {
-            return false;
-        }
         if(in_array($Event, self::$triggerScope)) {
             throw new Exception(sprintf(self::ERROR_EVENT_STACK_EXISTS, $trigger));
         }
         self::$triggerScope[] = $Event;
-        foreach($eventListeners as $key => $call) {
-            if($Event->isDefaultPrevented()) {
-                break;
+        $trigger = self::getTrigger($targetClass, $Event);
+        if(!empty($trigger)) {
+            $eventListeners = $target->getEventListeners($Event->getName(), $trigger);
+            if(!empty($eventListeners)) {
+                foreach($eventListeners as $key => $call) {
+                    if($Event->isDefaultPrevented()) {
+                        break;
+                    }
+                    call_user_func($call, $Event);
+                }
             }
-            call_user_func($call, $Event);
         }
         array_pop(self::$triggerScope);
-    }    
-
+        return self::dispatchEvent($targetClass, $Event);
+    }
+    
     static public function getCurrentEvent()
     {
         return self::$triggerScope[count(self::$triggerScope) - 1] ?? null;
