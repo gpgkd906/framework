@@ -73,5 +73,10 @@ class Event
             $this->defaultPrevented = true;
             $this->bubbles = false;
         }
-    }    
+    }
+
+    public function resetDefaultPrevent()
+    {
+        $this->defaultPrevented = false;
+    }
 }

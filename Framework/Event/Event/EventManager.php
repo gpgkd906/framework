@@ -81,6 +81,7 @@ class EventManager
             }
             foreach(self::$eventQueue[$trigger] as $key => $call) {
                 if($Event->isDefaultPrevented()) {
+                    $Event->resetDefaultPrevent();
                     break;
                 }
                 call_user_func($call, $Event);
@@ -101,6 +102,7 @@ class EventManager
             if(!empty($eventListeners)) {
                 foreach($eventListeners as $key => $call) {
                     if($Event->isDefaultPrevented()) {
+                        $Event->resetDefaultPrevent();
                         break;
                     }
                     call_user_func($call, $Event);
