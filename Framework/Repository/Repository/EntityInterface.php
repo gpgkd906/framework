@@ -25,5 +25,8 @@ interface EntityInterface
     const PRIMARY_PROPERTY = 'primaryProperty';
     const SETTER       = 'setter';
 
+    const FLAG_OFF = 0;
+    const FLAG_ON  = 1;    
+    
     public function propertyWalk(Closure $closure);    
 }
