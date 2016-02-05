@@ -46,26 +46,17 @@ class ServiceManager implements ServiceManagerInterface
         $config = $this->getConfig();
         $loadInfo = $config->getConfig($type);
 
-        $Namespace = isset($loadInfo['namespace']) ? $loadInfo['namespace'] : $type;
+        $Namespace = 'Framework\\' . $type;
         $isSingleton = isset($loadInfo['isSingleton']) ? $loadInfo['isSingleton'] : false;
         if(isset($loadInfo['Factory'])) {
             $Factory = $loadInfo['Factory'];
             return $Factory::getService($name);
         } else {
-            if(class_exists($name)) {
-                $Class = $name;
-            } else {
-                $Class = $Namespace . '\\' . $name;
-                if(isset($loadInfo['classes'])
-                && isset($loadInfo['classes'][$name])) {
-                    if(isset($loadInfo['classes'][$name]['Class'])) {
-                        $Class = $loadInfo['classes'][$name]['Class'];
-                    }
-                    if(isset($loadInfo['classes'][$name]['isSingleton'])) {
-                        $isSingleton = $loadInfo['classes'][$name]['isSingleton'];
-                    }
-                }
+            $Class = $Namespace . '\\' . $name;
+            if(!class_exists($Class)) {
+                $Class = $Class . '\\' . $name;
             }
+            var_dump($Class);
             if(!class_exists($Class)) {
                 return false;
             }

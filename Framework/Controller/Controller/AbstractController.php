@@ -6,12 +6,12 @@ use Framework\Application\HttpApplication;
 use Framework\Application\serviceManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
-use Framework\Event\Event\EventTargetInterface;
+use Framework\Event\EventManager\EventTargetInterface;
 use Exception;
 
 abstract class AbstractController implements ControllerInterface, EventTargetInterface, serviceManagerAwareInterface
 {
-    use \Framework\Event\Event\EventTargetTrait;
+    use \Framework\Event\EventManager\EventTargetTrait;
     use \Framework\Application\serviceManagerAwareTrait;
     
     static private $instance = [];

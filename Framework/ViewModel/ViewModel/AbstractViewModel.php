@@ -2,14 +2,14 @@
 namespace Framework\ViewModel\ViewModel;
 
 use Framework\Application\ServiceManagerAwareInterface;
-use Framework\Event\Event\EventTargetInterface;
+use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Model\ModelInterface;
 use Framework\ViewModel\ViewModel\ViewHelper;
 use Exception;
 
 abstract class AbstractViewModel implements ViewModelInterface, EventTargetInterface, ServiceManagerAwareInterface
 {
-    use \Framework\Event\Event\EventTargetTrait;
+    use \Framework\Event\EventManager\EventTargetTrait;
     use \Framework\Application\ServiceManagerAwareTrait;
     
     const renderAsHTML = "html";

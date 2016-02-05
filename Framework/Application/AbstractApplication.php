@@ -4,7 +4,7 @@ namespace Framework\Application;
 
 use Framework\Config\ConfigModel\ConfigModelInterface;
 use Framework\Log\ErrorHandler;
-use Framework\Event\Event\EventManager;
+use Framework\Event\EventManager\EventManager;
 use Exception;
 
 abstract class AbstractApplication implements ApplicationInterface

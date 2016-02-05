@@ -4,14 +4,14 @@ namespace Framework\Application;
 
 use Framework\Core\ErrorHandler;
 use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\Event\Event\EventTargetInterface;
+use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Controller\Controller\ControllerInterface;
 use Exception;
 
 class HttpApplication extends AbstractApplication implements EventTargetInterface
 {
     
-    use \Framework\Event\Event\EventTargetTrait;
+    use \Framework\Event\EventManager\EventTargetTrait;
     const DEFAULT_ROUTE = "Http";
     const TRIGGER_ROUTEMISS = 'routemiss';
 

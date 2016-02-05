@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Event\Event;
+namespace Framework\Event\EventManager;
 
 class Event
 {

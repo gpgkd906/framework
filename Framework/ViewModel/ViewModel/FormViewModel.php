@@ -131,17 +131,17 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 
     public function triggerForSubmit($data)
     {
-        $this->triggerEvent(self::TRIGGER_FORMSUBMIT, [$data]);
+        $this->triggerEvent(self::TRIGGER_FORMSUBMIT, $data);
     }
     
     public function triggerForConfirm($data)
     {
-        $this->triggerEvent(self::TRIGGER_FORMCONFIRM, [$data]);
+        $this->triggerEvent(self::TRIGGER_FORMCONFIRM, $data);
     }
 
     public function triggerForComplete($data)
     {
-        $this->triggerEvent(self::TRIGGER_FORMCOMPLETE, [$data]);
+        $this->triggerEvent(self::TRIGGER_FORMCOMPLETE, $data);
     }
 
     /**
