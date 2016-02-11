@@ -7,7 +7,7 @@ use Exception;
 
 class ConsoleApplication Extends AbstractApplication
 {
-    const DEFAULT_ROUTE = "Framework\Route\ConsoleRouteModel";
+    const DEFAULT_ROUTE = "Console";
     const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Console";
     
     public function run()
@@ -16,23 +16,27 @@ class ConsoleApplication Extends AbstractApplication
         $config = $this->getConfig();
         //route
         $routeName = $config->getConfig("console_route", self::DEFAULT_ROUTE);
-        $routeModel = $this->getRouteModel($routeName);
+        $routeModel = $this->getServiceManager()->getComponent('RouteModel', $routeName);
+        $this->setRouteModel($routeModel);
 
-        $request = $routeModel->dispatch();
-        $controller = $this->getController($request['controller']);
-        $controller->callActionFlow($request['action'], $request['param']);
+        $request = $routeModel->dispatch();        
+        $controller = $this->getServiceManager()->getComponent('Console', $request['controller']);
+        if($controller) {
+            $action = $request['action'];
+            $controller->callActionFlow($request['action'], $request['param']);
+        } else {
+            throw new Exception("invalid console application");
+        }
+    }
+    
+    public function setController ($controller)
+    {
+        return $this->controller = $controller;
     }
 
-    public function getController($controller)
+    public function getController ()
     {
-        $config = $this->getConfig();
-        $controllerNamespace = $config->getConfig("consoleNamespace", self::DEFAULT_CONTROLLER_NAMESPACE);
-        $controller = ucfirst($controller) . "Controller";
-        $controllerLabel = $controllerNamespace . "\\" . $controller;
-        if(!class_exists($controllerLabel)) {
-            throw new Exception(sprintf(self::ERROR_INVALID_CONTROLLER_LABEL, $controllerLabel));
-        }
-        return $controllerLabel::getSingleton();
+        return $this->controller;
     }
 
     public function redirect($controller, $action = null, $param = null)
