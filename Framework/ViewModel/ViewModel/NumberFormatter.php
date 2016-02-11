@@ -2,10 +2,11 @@
 
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\Application\SingletonInterface;
 use Closure;
 use NumberFormatter;
 
-class NumberFormatter
+class NumberFormatter implements SingletonInterface
 {
     use \Framework\Application\SingletonTrait;
 

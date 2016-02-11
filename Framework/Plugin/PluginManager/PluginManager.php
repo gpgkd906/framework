@@ -1,10 +1,11 @@
 <?php
 namespace Framework\Plugin\PluginManager;
 
+use Framework\Application\SingletonInterface;
 use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Config\ConfigModel;
 
-class PluginManager implements EventTargetInterface
+class PluginManager implements EventTargetInterface, SingletonInterface
 {
     use \Framework\Event\EventManager\EventTargetTrait;
     use \Framework\Application\SingletonTrait;

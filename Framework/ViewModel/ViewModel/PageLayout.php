@@ -2,9 +2,10 @@
 
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\Application\SingletonInterface;
 use \Exception;
 
-class PageLayout implements LayoutInterface
+class PageLayout implements LayoutInterface, SingletonInterface
 {
     const ERROR_REGISTER_STYLE_FOR_DIFFERENT_PRIORITY = 'register_style_for_different_priority: %s';
     const ERROR_REGISTER_SCRIPT_FOR_DIFFERENT_PRIORITY = 'register_script_for_different_priority: %s';

@@ -2,11 +2,12 @@
 
 namespace Framework\Repository\Repository;
 
+use Framework\Application\SingletonInterface;
 use Framework\Repository\Repository\SqlBuilder;
 use Framework\Repository\Repository\AbstractEntity;
 use Exception;
 
-abstract class AbstractRepository implements RepositoryInterface
+abstract class AbstractRepository implements RepositoryInterface, SingletonInterface
 {
     use \Framework\Application\SingletonTrait;
 

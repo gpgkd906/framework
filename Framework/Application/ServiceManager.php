@@ -56,11 +56,10 @@ class ServiceManager implements ServiceManagerInterface
             if(!class_exists($Class)) {
                 $Class = $Class . '\\' . $name;
             }
-            var_dump($Class);
             if(!class_exists($Class)) {
                 return false;
             }
-            if($isSingleton) {
+            if(is_subclass_of($Class, SingletonInterface::class)) {
                 $Service = $Class::getSingleton();
             } else {
                 $Service = new $Class;

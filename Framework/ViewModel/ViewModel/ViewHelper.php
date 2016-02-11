@@ -2,9 +2,10 @@
 
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\Application\SingletonInterface;
 use Closure;
 
-class ViewHelper
+class ViewHelper implements SingletonInterface
 {
     use \Framework\Application\SingletonTrait;
 

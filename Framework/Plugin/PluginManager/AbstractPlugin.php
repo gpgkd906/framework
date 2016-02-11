@@ -2,7 +2,9 @@
 
 namespace Framework\Plugin\PluginManager;
 
-abstract class AbstractPlugin
+use Framework\Application\SingletonInterface;
+
+abstract class AbstractPlugin implements SingletonInterface
 {
     use \Framework\Application\SingletonTrait;
     

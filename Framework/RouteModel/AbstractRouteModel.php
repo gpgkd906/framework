@@ -3,12 +3,14 @@
 namespace Framework\RouteModel;
 
 use Framework\Application\ServiceManagerAwareInterface;
+use Framework\Application\SingletonInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
-abstract class AbstractRouteModel implements RouteModelInterface, ServiceManagerAwareInterface
+abstract class AbstractRouteModel implements RouteModelInterface, ServiceManagerAwareInterface, SingletonInterface
 {
     use \Framework\Application\ServiceManagerAwareTrait;
+    use \Framework\Application\SingletonTrait;
     
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
@@ -30,15 +32,6 @@ abstract class AbstractRouteModel implements RouteModelInterface, ServiceManager
         $this->appUrl = $this->config->getConfig("appUrl", []);
         $this->index = $this->config->getConfig("index", $this->index);
         $this->depths = $this->config->getConfig("max_depths", $this->depths);
-    }
-    
-    public static function getSingleton()
-    {
-        $className = static::class;
-        if(!isset(self::$instances[$className])) {
-            self::$instances[$className] = new $className();
-        }
-        return self::$instances[$className];        
     }
     
     public function dispatch()

@@ -2,7 +2,9 @@
 
 namespace Framework\Service;
 
-class AbstractService 
+use Framework\Application\SingletonInterface;
+
+class AbstractService implements SingletonInterface
 {
     use \Framework\Application\SingletonTrait;
 
