@@ -39,18 +39,6 @@ class PageModel extends AbstractCmsModel
                 
             }
         }
-        //var_Dump($find, $ActionAst->getReturn()->getNode()->expr);
-        /* $fieldset->bind([ */
-        /*     'pid' => $entity['nameHash'], */
-        /*     'layout' => $entity['layout'], */
-        /*     'model' => $entity['model'], */
-        /*     'view' => $entity['view'], */        
-        /*     'pageStatus' => $entity['pageStatus'], */
-        /*     'authorizeType' => $entity['authorizeType'], */
-        /*     'keyword' => '', */
-        /*     'description' => '',             */
-        /* ]); */
-        
         return $find;
     }
 
@@ -76,8 +64,8 @@ class PageModel extends AbstractCmsModel
         }
         $controller['model']     = $model;
         $controller['viewModel'] = $viewmodel;
-        $controllerAst = $this->makeControllerAst($controller);
-        $viewmodelAst = $this->makeViewModelAst($viewmodel);
+        $controllerAst = $this->makeControllerAst($controller, $data);
+        $viewmodelAst = $this->makeViewModelAst($viewmodel, $data);
         var_dump(
             //$controllerAst->toString()
             $viewmodelAst->toString()
@@ -119,8 +107,9 @@ class PageModel extends AbstractCmsModel
         return $Ast;
     }
     
-    public function makeViewModelAst($viewmodel)
+    public function makeViewModelAst($viewmodel, $data)
     {
+        var_Dump($data['url']);
         $Ast = $this->getCodeService()->newAst();
         $Ast->setNamespace($viewmodel['namespace']);
         $Ast->getNamespace()->appendUse($this->getAbstractViewModel());
@@ -132,7 +121,7 @@ class PageModel extends AbstractCmsModel
         $Ast->getClass()->appendProperty('template', 123);
         $Ast->getClass()->getProperty('template')->setAccess('private');
         $Ast->getClass()->getProperty('template')->setStatic(true);
-        $Ast->getClass()->getProperty('template')->setValue([1, 2, 3]);
+        $Ast->getClass()->getProperty('template')->setValue('/template/' . $data['url'] . '.html');
         return $Ast;
     }
 }

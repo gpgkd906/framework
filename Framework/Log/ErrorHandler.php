@@ -111,7 +111,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param  $level
-	 * @return
 	 * @link
 	 */
 	public static function setHandlerLevel($level){
@@ -124,7 +123,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param   $level
-	 * @return
 	 * @link
 	 */
 	public static function setup($level = null) {
@@ -139,7 +137,6 @@ final class ErrorHandler {
 	 * エラー追跡サブシステムをオフにする
 	 * @api
 	 *
-	 * @return
 	 * @link
 	 */
 	public static function off() {
@@ -150,7 +147,6 @@ final class ErrorHandler {
 	 * エラー追跡サブシステムをオンにする
 	 * @api
 	 *
-	 * @return
 	 * @link
 	 */
 	public static function on() {
@@ -163,7 +159,6 @@ final class ErrorHandler {
 	 *
 	 * @param  $level
 	 * @param   $content
-	 * @return
 	 * @link
 	 */
 	public static function write_log($level, $content) {
@@ -182,7 +177,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param  $logger
-	 * @return
 	 * @link
 	 */
 	public static function setHandlerLogger($logger){
@@ -194,7 +188,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param  $filter
-	 * @return
 	 * @link
 	 */
 	public static function setFilterHandler($filter){
@@ -214,7 +207,6 @@ final class ErrorHandler {
 	 * ハンドラーレベルを取得する
 	 * @api
 	 *
-	 * @return
 	 * @link
 	 */
 	public static function getHandlerLevel(){
@@ -226,7 +218,6 @@ final class ErrorHandler {
 	 * @api
 	 * 
 	 * @param  $handler
-	 * @return
 	 * @link
 	 */
 	public static function setErrorHandler($handler){
@@ -238,7 +229,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param  $handler
-	 * @return
 	 * @link
 	 */
 	public static function setExceptionHandler($handler){
@@ -249,7 +239,6 @@ final class ErrorHandler {
 	 * デフォールトハンドラー設定
 	 * @api
 	 *
-	 * @return
 	 * @link
 	 */
 	public static function setDefaultHandler(){
@@ -264,7 +253,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param Exception $e 言語Exception
-	 * @return
 	 * @link
 	 */
 	public static function proxyExceptionHandler($e){
@@ -284,7 +272,6 @@ final class ErrorHandler {
 	 * @api
 	 *
 	 * @param Exception $e 言語Exception
-	 * @return
 	 * @link
 	 */
 	public static function defaultExceptionHandler($e){
@@ -313,7 +300,6 @@ final class ErrorHandler {
 	 * @param  $errfile エラーが発生したファイル
 	 * @param  $errline エラーが発生した行
 	 * @param  $errcontext エラー詳細
-	 * @return
 	 * @link
 	 */
 	public static function proxyErrorHandler($errno,$errstr,$errfile,$errline,$errcontext){
@@ -340,7 +326,6 @@ final class ErrorHandler {
 	 * @param  $errfile エラーが発生したファイル
 	 * @param  $errline エラーが発生した行
 	 * @param  $errcontext エラー詳細
-	 * @return
 	 * @link
 	 */
 	public static function defaultErrorHandler($errno,$errstr,$errfile,$errline,$errcontext){
@@ -363,7 +348,6 @@ final class ErrorHandler {
 	 * デフォールト致命エラーハンドラー代理
 	 *@api
 	 *
-	 * @return
 	 * @link
 	 */
 	public static function proxyFatalErrorHandler(){
@@ -382,7 +366,6 @@ final class ErrorHandler {
 	 * デフォールト致命エラーハンドラー処理
 	 *@api
 	 *
-	 * @return
 	 * @link
 	 */
 	public static function defaultFatalErrorHandler(){
@@ -407,7 +390,6 @@ final class ErrorHandler {
 	 * デフォールトハンドラーフィルター
 	 *@api
 	 *
-	 * @return
 	 * @link
 	 */
 	private static function defaultFilter(){

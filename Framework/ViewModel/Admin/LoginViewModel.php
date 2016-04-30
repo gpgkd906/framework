@@ -12,6 +12,9 @@ class LoginViewModel extends FormViewModel
     
     protected $config = [
         'layout' => AdminPageLayout::class,
+        'script' => [
+            '/place.js'
+        ]
     ];
 
     protected $data = [

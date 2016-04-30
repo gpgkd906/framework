@@ -27,7 +27,7 @@ class EditController extends AbstractController
         ]);
     }
 
-    public function onEditComplete($formViewModel, $data)
+    public function onEditComplete($event)
     {
         //var_dump($data, 'complete');
         /* $Session = $this->getServiceManager()->getSessionService(); */

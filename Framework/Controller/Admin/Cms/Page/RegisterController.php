@@ -24,8 +24,9 @@ class RegisterController extends AbstractController
         ]);
     }
 
-    public function onRegisterComplete($formViewModel, $data)
+    public function onRegisterComplete($event)
     {
+        $data = $event->getData();
         $this->getPageModel()->saveNewPage($data['page']);
     }
 

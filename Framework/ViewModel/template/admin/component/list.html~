@@ -1,0 +1,8 @@
+<div class="list-group">
+  <?php foreach($this->getEntities() as $row) : ?>
+  <a href="#" class="list-group-item active">
+    <h4 class="list-group-item-heading">First List Group Item Heading</h4>
+    <p class="list-group-item-text">List Group Item Text</p>
+  </a>
+  <?php endforeach; ?>
+</div>

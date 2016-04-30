@@ -17,7 +17,6 @@ abstract class AbstractFieldset extends Fieldset implements EventTargetInterface
     /**
      * 生成した要素をアクセスする
      * @param string $name 要素名
-     * @return
      */
 	public function get($name) {
 		if(isset($this->elements[$name])) {

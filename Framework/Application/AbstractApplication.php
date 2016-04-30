@@ -23,7 +23,8 @@ abstract class AbstractApplication implements ApplicationInterface
     private $pluginManager = null;
 
     /**
-     *
+     * summary
+     * content 
      * @api
      * @var mixed $routeModel 
      * @access private

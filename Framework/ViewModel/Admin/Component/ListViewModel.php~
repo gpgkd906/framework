@@ -1,0 +1,10 @@
+<?php
+
+namespace Framework\ViewModel\Admin\Component;
+
+use Framework\ViewModel\ViewModel\AbstractViewModel;
+
+class ListViewModel extends AbstractViewModel
+{
+    
+}
