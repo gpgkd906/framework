@@ -52,15 +52,9 @@ class ServiceManager implements ServiceManagerInterface
             $Factory = $loadInfo['Factory'];
             return $Factory::getService($name);
         } else {
-            $Class = $name;
-            if(!class_exists($Class)) {
-                $Class = $Namespace . '\\' . $name;
-            }
-            if(!class_exists($Class)) {
-                $Class = $Class . '\\' . $name;
-            }
-            if(!class_exists($Class)) {
-                return false;
+            $Class = $this->resolveClass($name, $Namespace);
+            if($Class === false) {
+                Throw new \Exception("Class can not resolved : " . $name);
             }
             if(is_subclass_of($Class, SingletonInterface::class)) {
                 $Service = $Class::getSingleton();
@@ -71,6 +65,26 @@ class ServiceManager implements ServiceManagerInterface
                 $Service->setServiceManager($this);
             }
             return $Service;
+        }
+    }
+
+    private function resolveClass($name, $Namespace)
+    {
+        $Class = $name;
+        if(class_exists($Class)) {
+            return $Class;
+        } else {
+            $Class = $Namespace . '\\' . $name;
+        }
+        if(class_exists($Class)) {
+            return $Class;
+        } else {
+            $Class = $Class . '\\' . $name;
+        }
+        if(class_exists($Class)) {
+            return $Class;
+        } else {
+            return false;
         }
     }
 
