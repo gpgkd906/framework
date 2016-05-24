@@ -52,7 +52,10 @@ class ServiceManager implements ServiceManagerInterface
             $Factory = $loadInfo['Factory'];
             return $Factory::getService($name);
         } else {
-            $Class = $Namespace . '\\' . $name;
+            $Class = $name;
+            if(!class_exists($Class)) {
+                $Class = $Namespace . '\\' . $name;
+            }
             if(!class_exists($Class)) {
                 $Class = $Class . '\\' . $name;
             }

@@ -85,7 +85,7 @@ abstract class AbstractApplication implements ApplicationInterface
     public function getServiceManager ()
     {
         if($this->serviceManager === null) {
-            $this->serviceManager = new serviceManager;
+            $this->serviceManager = new ServiceManager;
             $this->serviceManager->setApplication($this);
         }
         return $this->serviceManager;
