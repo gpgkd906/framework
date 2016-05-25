@@ -2,8 +2,8 @@
 
 namespace Framework\Service\CodeService;
 
-use Framework\Service\CodeService\Code\Analytic;
-use Framework\Service\CodeService\Code\Wrapper\AstWrapper;
+use CodeService\Code\Analytic;
+use CodeService\Code\Wrapper\AstWrapper;
 use Framework\Service\AbstractService;
 use Framework\Config\ConfigModel;
 
@@ -25,9 +25,7 @@ class CodeService extends AbstractService
             $handler = opendir($dir);
             $result = [];
             while($file = readdir($handler)) {
-                if($file === '.'
-                || $file === '..'
-                || $file[0] === '.'
+                if($file[0] === '.'
                 || $file[0] === '#'
                 || preg_match('/~$/', $file)) {
                     continue;
