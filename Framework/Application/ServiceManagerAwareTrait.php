@@ -4,14 +4,34 @@ namespace Framework\Application;
 
 trait ServiceManagerAwareTrait
 {
+    /**
+     *
+     * @api
+     * @var mixed $serviceManager 
+     * @access private
+     * @link
+     */
     private $serviceManager = null;
 
-    public function setServiceManager($serviceManager)
+    /**
+     * 
+     * @api
+     * @param mixed $serviceManager
+     * @return mixed $serviceManager
+     * @link
+     */
+    public function setServiceManager ($serviceManager)
     {
-        $this->serviceManager = $serviceManager;
+        return $this->serviceManager = $serviceManager;
     }
 
-    public function getServiceManager()
+    /**
+     * 
+     * @api
+     * @return mixed $serviceManager
+     * @link
+     */
+    public function getServiceManager ()
     {
         return $this->serviceManager;
     }
