@@ -1,31 +1,31 @@
 <?php
 namespace Framework\Plugin\PluginManager;
 
-use Framework\Application\SingletonInterface;
+use Framework\ObjectManager\SingletonInterface;
 use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Config\ConfigModel;
 
-class PluginManager implements EventTargetInterface, SingletonInterface
+class PluginManager implements EventTargetInterface
 {
     use \Framework\Event\EventManager\EventTargetTrait;
-    use \Framework\Application\SingletonTrait;
-    
+    use \Framework\ObjectManager\SingletonTrait;
+
     const TRIGGER_PLUGININITED = "PluginInited";
-    
+
     private $config = null;
     private $plugins = [];
 
-    private function __construct()
+    public function __construct()
     {
         $this->config = ConfigModel::getConfigModel([
             "scope" => ConfigModel::PLUGINS,
             "property" => ConfigModel::READWRITE
         ]);
     }
-    
+
     public function initPlugins()
     {
-        foreach($this->config->getConfig("plugins", []) as $pluginConfig) {            
+        foreach($this->config->getConfig("plugins", []) as $pluginConfig) {
             if(isset($pluginConfig["enabled"]) && $pluginConfig["enabled"]) {
                 $pluginLabel = $pluginConfig["identify"];
                 $plugin = $pluginLabel::getSingleton();
@@ -35,12 +35,12 @@ class PluginManager implements EventTargetInterface, SingletonInterface
         }
         $this->triggerEvent(self::TRIGGER_PLUGININITED);
     }
-    
+
     public function isInstalledPlugin($plugin)
     {
-        
+
     }
-    
+
     public function installPlugin($plugin)
     {
          if($this->isInstalledPlugin($plugin)) {

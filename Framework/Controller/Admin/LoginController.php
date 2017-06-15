@@ -10,7 +10,7 @@ class LoginController extends AbstractController
     
     public function index()
     {
-        $Session = $this->getServiceManager()->getSessionService();
+        $Session = $this->getObjectManager()->getSessionService();
         return ViewModelManager::getViewModel([
             'viewModel' => 'Admin\LoginViewModel',
             'listeners' => [
@@ -21,7 +21,7 @@ class LoginController extends AbstractController
 
     public function onLoginComplete($LoginViewModel, $data)
     {
-        $Session = $this->getServiceManager()->getSessionService();
+        $Session = $this->getObjectManager()->getSessionService();
         $Session->setSection('LoginView', $data);
         $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function() {
             $this->exChange(DashboardController::class);

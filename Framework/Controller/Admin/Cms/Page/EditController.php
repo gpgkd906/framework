@@ -16,7 +16,7 @@ class EditController extends AbstractController
     public function index()
     {        
         $param = $this->getParam();
-        $PageModel = $this->getServiceManager()->get('Model', 'Cms\PageModel');
+        $PageModel = $this->getObjectManager()->get('Model', 'Cms\PageModel');
         $PageModel->setIdentify($param['pid']);
         return ViewModelManager::getViewModel([
             'viewModel' => PageEditViewModel::class,
@@ -30,7 +30,7 @@ class EditController extends AbstractController
     public function onEditComplete($event)
     {
         //var_dump($data, 'complete');
-        /* $Session = $this->getServiceManager()->getSessionService(); */
+        /* $Session = $this->getObjectManager()->getSessionService(); */
         /* $Session->setSection('LoginView', $data); */
         /* $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function() { */
         /*     $this->exChange(DashboardController::class); */

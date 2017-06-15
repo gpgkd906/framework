@@ -2,11 +2,11 @@
 
 namespace Framework\Service;
 
-use Framework\Application\SingletonInterface;
-use Framework\Application\ServiceManagerAwareInterface;
+use Framework\ObjectManager\SingletonInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 
-class AbstractService implements SingletonInterface, ServiceManagerAwareInterface
+class AbstractService implements SingletonInterface, ObjectManagerAwareInterface
 {
-    use \Framework\Application\SingletonTrait;
-    use \Framework\Application\ServiceManagerAwareTrait;
+    use \Framework\ObjectManager\SingletonTrait;
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
 }

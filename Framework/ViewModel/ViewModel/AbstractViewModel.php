@@ -1,17 +1,17 @@
 <?php
 namespace Framework\ViewModel\ViewModel;
 
-use Framework\Application\ServiceManagerAwareInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Model\ModelInterface;
 use Framework\ViewModel\ViewModel\ViewHelper;
 use Exception;
 
-abstract class AbstractViewModel implements ViewModelInterface, EventTargetInterface, ServiceManagerAwareInterface
+abstract class AbstractViewModel implements ViewModelInterface, EventTargetInterface, ObjectManagerAwareInterface
 {
     use \Framework\Event\EventManager\EventTargetTrait;
-    use \Framework\Application\ServiceManagerAwareTrait;
-    
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
+
     const renderAsHTML = "html";
     const renderAsJSON = "json";
     const renderAsXML = "xml";
@@ -22,7 +22,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     //trigger
     const TRIGGER_RENDER = "Render";
     const TRIGGER_DISPLAY = "Display";
-    
+
     protected $template = null;
     protected $data = [];
     protected $renderType = "html";
@@ -34,11 +34,11 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     private $entities = null;
     static private $incrementId = 0;
     public $listeners = [];
-    
+
     /**
      *
      * @api
-     * @var mixed $config 
+     * @var mixed $config
      * @access private
      * @link
      */
@@ -47,7 +47,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     /**
      *
      * @api
-     * @var mixed $layout 
+     * @var mixed $layout
      * @access private
      * @link
      */
@@ -56,7 +56,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     /**
      *
      * @api
-     * @var mixed $container 
+     * @var mixed $container
      * @access private
      * @link
      */
@@ -65,7 +65,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     /**
      *
      * @api
-     * @var mixed $viewHelper 
+     * @var mixed $viewHelper
      * @access private
      * @link
      */
@@ -74,14 +74,14 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     /**
      *
      * @api
-     * @var mixed $numberFormatter 
+     * @var mixed $numberFormatter
      * @access private
      * @link
      */
     private $numberFormatter = null;
 
     /**
-     * 
+     *
      * @api
      * @param mixed $config
      * @return mixed $config
@@ -93,7 +93,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $config
      * @link
@@ -102,53 +102,54 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     {
         return $this->config;
     }
-    
+
     static private function getIncrementId()
     {
         self::$incrementId ++;
         return "ViewModel_" . self::$incrementId;
     }
 
-    public function __construct($config, $serviceManager) {
+    public function __construct($config, $objectManager)
+    {
         $config = array_merge_recursive($this->getConfig(), $config);
         $this->setConfig($config);
-        $this->setServiceManager($serviceManager);
-        if($this->id === null) {
-            if(isset($config["id"])) {
+        $this->setObjectManager($objectManager);
+        if ($this->id === null) {
+            if (isset($config["id"])) {
                 $this->id = $config["id"];
             } else {
                 $this->id = self::getIncrementId();
             }
         }
         //data:template
-        if(isset($config["data"])) {
+        if (isset($config["data"])) {
             $this->setData($config["data"]);
         }
         //Model
-        if(isset($config['model'])) {
+        if (isset($config['model'])) {
             $this->setModel($config['model']);
         }
         //layout;
-        if(isset($config['layout'])) {
+        if (isset($config['layout'])) {
             $layout = $config['layout'];
-            if($layout instanceof LayoutInterface) {
+            if ($layout instanceof LayoutInterface) {
                 $this->setLayout($layout, $config);
             } else {
                 $this->setLayout($layout::getSingleton(), $config);
             }
         }
-        if(isset($config['exportView']) && $config['exportView'] instanceof ViewModelInterface) {
+        if (isset($config['exportView']) && $config['exportView'] instanceof ViewModelInterface) {
             $this->setExportView($config['exportView']);
         }
         //container:template
-        if(isset($config['container'])) {
+        if (isset($config['container'])) {
             $this->setContainers($config['container']);
         }
         //ViewModel Event init
         foreach($this->listeners as $event => $listener) {
-            $this->Addeventlistener($event, [$this, $listener]);
+            $this->addEventListener($event, [$this, $listener]);
         }
-        if(isset($config['listeners'])) {
+        if (isset($config['listeners'])) {
             foreach($config['listeners'] as $event => $listener) {
                 $this->addEventListener($event, $listener);
             }
@@ -159,7 +160,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     {
         return $this->id;
     }
-    
+
     public function setRenderType($renderType)
     {
         $this->renderType = $renderType;
@@ -171,7 +172,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     public function setTemplate($template)
-    {        
+    {
         $this->template = $template;
     }
 
@@ -193,19 +194,19 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     public function getTemplateForRender()
     {
         $template = $this->getTemplate();
-        if($template === null) {
+        if ($template === null) {
             return null;
         }
-        if(is_file($template)) {
+        if (is_file($template)) {
             return $template;
         }
         $template = $this->getTemplateDir() . $this->getTemplate();
-        if(is_file($template)) {
+        if (is_file($template)) {
             return $template;
         }
         throw new Exception(sprintf(self::ERROR_INVALID_RENDER_TEMPLATE, $template, static::class));
     }
-    
+
     public function setData($data)
     {
         $this->data = $data;
@@ -213,12 +214,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     public function getData($key = null)
     {
-        if($key !== null) {
-            if(isset($this->data[$key])) {
+        if ($key !== null) {
+            if (isset($this->data[$key])) {
                 return $this->data[$key];
             } elseif ($this->getExportView()) {
                 return $this->getExportView()->getData($key);
-            } 
+            }
             return null;
         }
         return $this->data;
@@ -231,21 +232,21 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     public function getEntities()
     {
-        if(empty($this->entities)) {
-            if($this->getLocalModel()) {
+        if (empty($this->entities)) {
+            if ($this->getLocalModel()) {
                 $this->entities = (array)$this->getLocalModel()->getEntities();
             } elseif ($this->getExportView()) {
                 return $this->getExportView()->getEntities();
-            }            
+            }
         }
         return $this->entities;
     }
-    
+
     public function getChild($id)
     {
         $childs = $this->getChilds();
         $targetView = ViewModelManager::getViewById($id);
-        if(in_array($targetView, $childs)) {
+        if (in_array($targetView, $childs)) {
             return $targetView;
         } else {
             return null;
@@ -259,18 +260,18 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     public function getChilds()
     {
-        if(empty($this->childs)) {
+        if (empty($this->childs)) {
             foreach($this->getContainers() as $container) {
                 $this->childs += $container->getItems();
             }
         }
         return $this->childs;
     }
-    
+
     public function render($renderType = null)
     {
         $this->triggerEvent(self::TRIGGER_RENDER);
-        if($renderType === null) {
+        if ($renderType === null) {
             $renderType = $this->renderType;
         }
         switch($renderType) {
@@ -294,7 +295,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     public function asHtml()
     {
         $htmls = [];
-        if($template = $this->getTemplateForRender()) {
+        if ($template = $this->getTemplateForRender()) {
             ob_start();
             $data = $this->escapeHtml($this->getData());
             extract($data);
@@ -309,7 +310,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
         }
         return join("", $htmls);
     }
-    
+
     public function asJson()
     {
         $data = [
@@ -318,16 +319,16 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
         ];
         foreach($this->getChilds() as $child) {
             $subData = $child->getData();
-            if(!empty($subData)) {
+            if (!empty($subData)) {
                 $data["childrens"][] = $subData;
             }
         }
         return json_encode($data);
     }
-    
+
     public function asXml()
     {
-        
+
     }
 
     public function __toString()
@@ -337,20 +338,20 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     static public function escapeHtml($data)
     {
-        if(is_array($data)){
+        if (is_array($data)){
             foreach($data as $key => $value){
                 $data[$key] = self::escapeHtml($value);
             }
             return $data;
-        } elseif(is_string($data)) {
+        } elseif (is_string($data)) {
             return htmlspecialchars($data, ENT_QUOTES);
         }else{
             return $data;
-        }        
+        }
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $layout
      * @return mixed $layout
@@ -358,15 +359,15 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
      */
     public function setLayout (LayoutInterface $layout, $config = null)
     {
-        if($config === null) {
+        if ($config === null) {
             $config = $this->getConfig();
         }
-        if(isset($config['script'])) {
+        if (isset($config['script'])) {
             foreach($config['script'] as $script) {
                 $layout->registerScript($script);
             }
         }
-        if(isset($config['style'])) {
+        if (isset($config['style'])) {
             foreach($config['style'] as $style) {
                 $layout->registerStyle($style);
             }
@@ -375,7 +376,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $layout
      * @link
@@ -386,7 +387,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $container
      * @return mixed $container
@@ -395,15 +396,15 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     public function setContainers ($containers)
     {
         foreach($containers as $index => $container) {
-            if(!($container instanceof ContainerInterface)) {
+            if (!($container instanceof ContainerInterface)) {
                 $containers[$index] = new Container($container, $this);
             }
-        }        
+        }
         return $this->containers = $containers;
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $container
      * @link
@@ -415,14 +416,14 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     public function getContainer($name)
     {
-        if(isset($this->containers[$name])) {
+        if (isset($this->containers[$name])) {
             return $this->containers[$name];
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @api
      * @param mixed $model
      * @return mixed $model
@@ -430,26 +431,26 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
      */
     public function setModel ($model)
     {
-        if(!$model instanceof ModelInterface) {
-            if(is_subclass_of($model, ModelInterface::class)) {
-                $model = $this->getServiceManager()->get('Model', $model);
-            } elseif($model instanceof \Closure) {
+        if (!$model instanceof ModelInterface) {
+            if (is_subclass_of($model, ModelInterface::class)) {
+                $model = $this->getObjectManager()->get('Model', $model);
+            } elseif ($model instanceof \Closure) {
                 $model = call_user_func($model);
-            }           
+            }
         }
         return $this->model = $model;
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $model
      * @link
      */
     public function getModel ()
     {
-        if(!isset($this->model)) {
-            if($this->getExportView()) {
+        if (!isset($this->model)) {
+            if ($this->getExportView()) {
                 return $this->getExportView()->getModel();
             }
         }
@@ -457,14 +458,14 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $model
      * @link
      */
     private function getLocalModel ()
     {
-        if(!isset($this->model)) {
+        if (!isset($this->model)) {
             return null;
         }
         return $this->model;
@@ -472,7 +473,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     public function linkto($target, $param = [])
     {
-        if(!empty($param)) {
+        if (!empty($param)) {
             $target = $target . '/' . join('/', $param);
         }
         $link = ViewModelManager::getBasePath() . '/' . $target;
@@ -480,7 +481,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $viewHelper
      * @return mixed $viewHelper
@@ -492,21 +493,21 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $viewHelper
      * @link
      */
     public function getViewHelper ()
     {
-        if($this->viewHelper === null) {
-            $this->viewHelper = ViewHelper::getSingleton();           
+        if ($this->viewHelper === null) {
+            $this->viewHelper = ViewHelper::getSingleton();
         }
         return $this->viewHelper;
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $exportView
      * @return mixed $exportView
@@ -518,7 +519,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $exportView
      * @link
@@ -529,7 +530,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $numberFormatter
      * @return mixed $numberFormatter
@@ -541,14 +542,14 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $numberFormatter
      * @link
      */
     public function getNumberFormatter ()
     {
-        if($this->numberFormatter === null) {
+        if ($this->numberFormatter === null) {
             $this->numberFormatter = NumberFormatter::getSingleton();
         }
         return $this->numberFormatter;

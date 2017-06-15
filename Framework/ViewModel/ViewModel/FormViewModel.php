@@ -2,20 +2,21 @@
 
 namespace Framework\ViewModel\ViewModel;
 
+use Framework\RouteModel\RouteModelInterface;
 use Form2\FormManager;
 use Form2\Validator;
 
 class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 {
     protected $method = "post";
-    
+
     protected $action = null;
-    
+
     protected $useConfirm = false;
     /**
      *
      * @api
-     * @var mixed $formManager 
+     * @var mixed $formManager
      * @access private
      * @link
      */
@@ -24,7 +25,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     /**
      *
      * @api
-     * @var mixed $form 
+     * @var mixed $form
      * @access private
      * @link
      */
@@ -33,7 +34,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     protected $fieldset = [];
 
     /**
-     * 
+     *
      * @api
      * @param mixed $fieldset
      * @return mixed $fieldset
@@ -45,7 +46,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $fieldset
      * @link
@@ -56,12 +57,12 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     public function getAction() {
-        return $this->getServiceManager()->getApplication()->getRouteModel()->getRequestUri();
+        return $this->getObjectManager()->get(RouteModelInterface::class)->getRequestUri();
     }
-    
-    public function __construct($config, $serviceManager)
+
+    public function __construct($config, $objectManager)
     {
-        parent::__construct($config, $serviceManager);
+        parent::__construct($config, $objectManager);
         $this->addEventListener(self::TRIGGER_INIT, function () {
             $form = $this->getFormManager()->create($this->getId());
             $this->setForm($form);
@@ -70,7 +71,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
             foreach($this->getFieldset() as $fieldset) {
                 $form->addFieldset($fieldset);
             }
-            $this->triggerEvent(self::TRIGGER_FORMINIT);            
+            $this->triggerEvent(self::TRIGGER_FORMINIT);
             $form->submit([$this, 'triggerForSubmit']);
             $confirm = false;
             if($this->useConfirm) {
@@ -81,7 +82,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $form
      * @return mixed $form
@@ -93,7 +94,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $form
      * @link
@@ -104,7 +105,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $formManager
      * @return mixed $formManager
@@ -116,7 +117,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $formManager
      * @link
@@ -133,7 +134,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     {
         $this->triggerEvent(self::TRIGGER_FORMSUBMIT, $data);
     }
-    
+
     public function triggerForConfirm($data)
     {
         $this->triggerEvent(self::TRIGGER_FORMCONFIRM, $data);
@@ -145,7 +146,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $method
      * @return mixed $method
@@ -157,7 +158,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $method
      * @link

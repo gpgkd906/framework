@@ -11,7 +11,7 @@ class ViewModelManager implements ViewModelManagerInterface
     const ERROR_INVALID_VIEWMODEL = "error: invalid viewmodelname: %s";
     const ERROR_INVALID_TEMPLATE_VIEWMODEL = "error: invalid template viewModel";
     const ERROR_VIEWMODEL_DEFINED_ID = "error: viewId [%s] was defined before, change some new ID";
-    
+
     static private $defaultViewModel = "Framework\Core\ViewModel\ViewModel";
     static private $templateViewModel = "Framework\Core\ViewModel\TemplateViewModel";
     static private $alias = [];
@@ -19,11 +19,11 @@ class ViewModelManager implements ViewModelManagerInterface
     //
     static private $namespace = null;
     static private $templateDir = null;
-    
+
     /**
      *
      * @api
-     * @var mixed $basePath 
+     * @var mixed $basePath
      * @access private
      * @link
      */
@@ -32,37 +32,37 @@ class ViewModelManager implements ViewModelManagerInterface
     /**
      *
      * @api
-     * @var mixed $serviceManager 
+     * @var mixed $objectManager
      * @access private
      * @link
      */
-    static private $serviceManager = null;
+    static private $objectManager = null;
 
     /**
-     * 
+     *
      * @api
-     * @param mixed $serviceManager
-     * @return mixed $serviceManager
+     * @param mixed $objectManager
+     * @return mixed $objectManager
      * @link
      */
-    static public function setServiceManager ($serviceManager)
+    static public function setObjectManager ($objectManager)
     {
-        return self::$serviceManager = $serviceManager;
+        return self::$objectManager = $objectManager;
     }
 
     /**
-     * 
+     *
      * @api
-     * @return mixed $serviceManager
+     * @return mixed $objectManager
      * @link
      */
-    static public function getServiceManager ()
+    static public function getObjectManager ()
     {
-        return self::$serviceManager;
+        return self::$objectManager;
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $basePath
      * @return mixed $basePath
@@ -74,7 +74,7 @@ class ViewModelManager implements ViewModelManagerInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $basePath
      * @link
@@ -82,15 +82,6 @@ class ViewModelManager implements ViewModelManagerInterface
     static public function getBasePath ()
     {
         return self::$basePath;
-    }
-
-    static public function setNamespace($namespace) {
-        self::$namespace = $namespace;
-    }
-
-    static public function getNamespace()
-    {
-        return self::$namespace;
     }
 
     static public function setTemplateDir($templateDir)
@@ -114,7 +105,7 @@ class ViewModelManager implements ViewModelManagerInterface
         }
         return self::getView($config);
     }
-    
+
     static private function getView($config)
     {
         $requestName = $config["viewModel"];
@@ -134,7 +125,7 @@ class ViewModelManager implements ViewModelManagerInterface
             }
             self::setAlias($requestName, $viewModelName);
         }
-        $ViewModel = new $viewModelName($config, self::getServiceManager());
+        $ViewModel = new $viewModelName($config, self::getObjectManager());
         if($ViewModel->getTemplateDir() === null) {
             $ViewModel->setTemplateDir(self::getTemplateDir());
         }

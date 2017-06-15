@@ -16,11 +16,11 @@ class ConsoleApplication Extends AbstractApplication
         $config = $this->getConfig();
         //route
         $routeName = $config->getConfig("console_route", self::DEFAULT_ROUTE);
-        $routeModel = $this->getServiceManager()->getComponent('RouteModel', $routeName);
+        $routeModel = $this->getObjectManager()->getComponent('RouteModel', $routeName);
         $this->setRouteModel($routeModel);
 
         $request = $routeModel->dispatch();        
-        $controller = $this->getServiceManager()->getComponent('Console', $request['controller']);
+        $controller = $this->getObjectManager()->getComponent('Console', $request['controller']);
         if($controller) {
             $action = $request['action'];
             $controller->callActionFlow($request['action'], $request['param']);

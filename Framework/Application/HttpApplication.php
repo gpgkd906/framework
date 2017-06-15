@@ -6,11 +6,13 @@ use Framework\Core\ErrorHandler;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Controller\Controller\ControllerInterface;
+use Framework\RouteModel\RouteModelInterface;
+use Framework\RouteModel\Http\RouteModel;
 use Exception;
 
 class HttpApplication extends AbstractApplication implements EventTargetInterface
 {
-    
+
     use \Framework\Event\EventManager\EventTargetTrait;
     const DEFAULT_ROUTE = "Http";
     const TRIGGER_ROUTEMISS = 'routemiss';
@@ -18,46 +20,44 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
     /**
      *
      * @api
-     * @var mixed $controller 
+     * @var mixed $controller
      * @access private
      * @link
      */
     private $controller = null;
-    
+
     public function run()
     {
         $config = $this->getConfig();
-        $routeName = $config->getConfig("route", self::DEFAULT_ROUTE);
-        $routeModel = $this->getServiceManager()->getComponent('RouteModel', $routeName);
-        $this->setRouteModel($routeModel);
-        if($routeModel->isFaviconRequest()) {
+        $routeModel = $this->getObjectManager()->get(RouteModelInterface::class, RouteModel::class);
+        if ($routeModel->isFaviconRequest()) {
             $this->sendDummyFavicon();
         }
 
-        $viewModelNamespace = $this->getServiceManager()->getServiceNamespace('ViewModel');
-        ViewModelManager::setNamespace($config->getConfig("viewModelNamespace", $viewModelNamespace));
-        ViewModelManager::setTemplateDir($config->getConfig("templateDir", ROOT_DIR . str_replace('\\', '/', $viewModelNamespace)));
         ViewModelManager::setBasePath($config->getConfig('ApplicationHost'));
-        ViewModelManager::setServiceManager($this->getServiceManager());        
-        $request = $routeModel->dispatch();        
-        $controller = $this->getServiceManager()->getComponent('Controller', $request['controller']);
-        $action = $request['action'];
-        if(!$controller || !is_callable([$controller, $action])) {
-            $this->triggerEvent(self::TRIGGER_ROUTEMISS, $request);
-            $controller = $this->getController();
-            if(!$controller instanceof ControllerInterface) {
-                $this->sendNotFound();
+        ViewModelManager::setObjectManager($this->getObjectManager());
+        $request = $routeModel->dispatch();
+        $controller = null;
+        if ($request['controller']) {
+            $controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
+            $action = $request['action'];
+            if (!$controller || !is_callable([$controller, $action])) {
+                $this->triggerEvent(self::TRIGGER_ROUTEMISS, $request);
+                $controller = $this->getController();
             }
+        }
+        if (!$controller instanceof ControllerInterface) {
+            return $this->sendNotFound();
         }
         $controller->callActionFlow($request['action'], $request['param']);
     }
 
-    public function setController ($controller)
+    public function setController($controller)
     {
         return $this->controller = $controller;
     }
 
-    public function getController ()
+    public function getController()
     {
         return $this->controller;
     }
@@ -73,6 +73,5 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
     {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
         echo '404 Not Found';
-        die;
-    }   
+    }
 }

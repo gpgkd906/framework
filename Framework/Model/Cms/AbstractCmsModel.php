@@ -50,7 +50,7 @@ abstract class AbstractCmsModel extends AbstractModel
     public function getCodeService ()
     {
         if($this->codeService === null) {
-            $this->codeService = $this->getServiceManager()->get('Service', 'CodeService');
+            $this->codeService = $this->getObjectManager()->get('Service', 'CodeService');
         }
         return $this->codeService;
     }

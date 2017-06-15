@@ -2,13 +2,13 @@
 
 namespace Framework\Model;
 
-use Framework\Application\ServiceManagerAwareInterface;
-use Framework\Application\SingletonInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
+use Framework\ObjectManager\SingletonInterface;
     
-Abstract class AbstractModel implements ModelInterface, ServiceManagerAwareInterface, SingletonInterface
+Abstract class AbstractModel implements ModelInterface, ObjectManagerAwareInterface, SingletonInterface
 {
-    use \Framework\Application\ServiceManagerAwareTrait;
-    use \Framework\Application\SingletonTrait;
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
+    use \Framework\ObjectManager\SingletonTrait;
 
     abstract public function getEntities();
 }

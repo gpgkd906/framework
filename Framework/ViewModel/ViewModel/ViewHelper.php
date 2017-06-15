@@ -2,12 +2,12 @@
 
 namespace Framework\ViewModel\ViewModel;
 
-use Framework\Application\SingletonInterface;
+use Framework\ObjectManager\SingletonInterface;
 use Closure;
 
 class ViewHelper implements SingletonInterface
 {
-    use \Framework\Application\SingletonTrait;
+    use \Framework\ObjectManager\SingletonTrait;
 
     public function makeAttrs($config)
     {

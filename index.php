@@ -1,6 +1,6 @@
 <?php
 
-require './benchmark.class.php';
+require './old/module/benchmark/benchmark.class.php';
 $bm = new benchmark;
 
 define("ROOT_DIR", dirname(__FILE__) . "/");

@@ -20,8 +20,8 @@ class QueryExecutor
         if($ret) {
             $this->prepareStatement = $prepareStatement;
         } else {
-            throw new Exception($this->formatMessage($prepareStatement));
-        }        
+            throw new Exception(self::formatMessage($prepareStatement));
+        }
     }
 
     public function execute($data)
@@ -70,7 +70,7 @@ class QueryExecutor
             $connection->rollback();
         }
     }
-    
+
     static public function queryAndFetch($query, $data)
     {
         $connection = self::getConnection();
@@ -79,7 +79,7 @@ class QueryExecutor
         if($ret) {
             return $prepareStatement->fetch(PDO::FETCH_ASSOC);
         } else {
-            throw new Exception($this->formatMessage($prepareStatement));
+            throw new Exception(self::formatMessage($prepareStatement));
         }
     }
 
@@ -91,7 +91,7 @@ class QueryExecutor
         if($ret) {
             return $prepareStatement->fetchAll(PDO::FETCH_ASSOC);
         } else {
-            throw new Exception($this->formatMessage($prepareStatement));
+            throw new Exception(self::formatMessage($prepareStatement));
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'ApplicationHost' => 'framework.local',
+    'ApplicationHost' => 'es-docker.local',
     'dummy' => null,
 ];

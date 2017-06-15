@@ -4,7 +4,8 @@ namespace Framework\Application;
 
 use Framework\Config\ConfigModel\ConfigModelInterface;
 use Framework\Log\ErrorHandler;
-use Framework\Event\EventManager\EventManager;
+use Framework\Plugin\PluginManager\PluginManager;
+use Framework\ObjectManager\ObjectManager;
 use Exception;
 
 abstract class AbstractApplication implements ApplicationInterface
@@ -17,78 +18,55 @@ abstract class AbstractApplication implements ApplicationInterface
     const DEFAULT_SERVICE_NAMESPACE = "Framework\Service";
     //
     const DEFAULT_TIMEZONE = "Asia/Tokyo";
-    
+
     private $config = null;
     private $eventManager = null;
     private $pluginManager = null;
 
     /**
      * summary
-     * content 
+     * content
      * @api
-     * @var mixed $routeModel 
+     * @var mixed $routeModel
      * @access private
      * @link
      */
     private $routeModel = null;
 
     /**
-     * 
+     *
      * @api
-     * @param mixed $routeModel
-     * @return mixed $routeModel
+     * @var mixed $objectManager
+     * @access private
      * @link
      */
-    public function setRouteModel ($routeModel)
-    {
-        return $this->routeModel = $routeModel;
-    }
+    private $objectManager = null;
 
     /**
-     * 
+     *
      * @api
-     * @return mixed $routeModel
+     * @param mixed $objectManager
+     * @return mixed $objectManager
      * @link
      */
-    public function getRouteModel ()
+    public function setObjectManager ($objectManager)
     {
-        return $this->routeModel;
+        return $this->objectManager = $objectManager;
     }
 
     /**
      *
      * @api
-     * @var mixed $serviceManager 
-     * @access private
+     * @return mixed $objectManager
      * @link
      */
-    private $serviceManager = null;
-
-    /**
-     * 
-     * @api
-     * @param mixed $serviceManager
-     * @return mixed $serviceManager
-     * @link
-     */
-    public function setServiceManager ($serviceManager)
+    public function getObjectManager()
     {
-        return $this->serviceManager = $serviceManager;
-    }
-
-    /**
-     * 
-     * @api
-     * @return mixed $serviceManager
-     * @link
-     */
-    public function getServiceManager ()
-    {
-        if($this->serviceManager === null) {
-            $this->serviceManager = new ServiceManager;
-            $this->serviceManager->setApplication($this);
+        if($this->objectManager === null) {
+            $this->objectManager = ObjectManager::getSingleton();
+            $this->objectManager->set(ApplicationInterface::class, $this);
         }
-        return $this->serviceManager;
+        return $this->objectManager;
     }
 
     public function __construct(ConfigModelInterface $config)
@@ -98,15 +76,13 @@ abstract class AbstractApplication implements ApplicationInterface
         if($useErrorHandler) {
             ErrorHandler::setup();
         }
-        $serviceManager = $this->getServiceManager();
-        $this->setEventManager($serviceManager->get('Event', 'EventManager'));
-        $pluginManager = $serviceManager->get('Plugin', 'PluginManager');        
+        $objectManager = $this->getObjectManager();
+        $pluginManager = $objectManager->get(PluginManager::class);
         $pluginManager->initPlugins();
-        $this->setPluginManager($pluginManager);
     }
-     
+
     public function setConfig($config)
-    {        
+    {
         $this->config = $config;
         if($this->config->getConfig('timezon')) {
             date_default_timezone_set($this->config->getConfig('timezon'));
@@ -123,28 +99,8 @@ abstract class AbstractApplication implements ApplicationInterface
             return $this->config->getConfig($key);
         }
     }
-    
+
     abstract  public function run();
-    
+
     abstract  public function getController();
-
-    public function setPluginManager($pluginManager)
-    {
-        $this->pluginManager = $pluginManager;
-    }
-
-    public function getPluginManager()
-    {
-        return $this->pluginManager;
-    }
-
-    public function setEventManager($eventManager)
-    {
-        $this->eventManager = $eventManager;
-    }
-    
-    public function getEventManager()
-    {
-        return $this->eventManager;
-    }
 }

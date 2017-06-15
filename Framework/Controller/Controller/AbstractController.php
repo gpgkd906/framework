@@ -3,35 +3,37 @@
 namespace Framework\Controller\Controller;
 
 use Framework\Application\HttpApplication;
-use Framework\Application\serviceManagerAwareInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\Event\EventManager\EventTargetInterface;
+use Framework\RouteModel\RouteModelInterface;
+use Framework\Service\SessionService\SessionService;
 use Exception;
 
-abstract class AbstractController implements ControllerInterface, EventTargetInterface, serviceManagerAwareInterface
+abstract class AbstractController implements ControllerInterface, EventTargetInterface, objectManagerAwareInterface
 {
     use \Framework\Event\EventManager\EventTargetTrait;
-    use \Framework\Application\serviceManagerAwareTrait;
-    
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
+
     static private $instance = [];
-    
+
     //error
     const ERROR_INVALID_RESPONSE_TYPE = "error: invalid response-type";
     const ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL = "error: return-value is not valid view model from action %s ";
     const ERROR_INVALID_CONTROLLER_FOR_EXCHANGE = 'error: invalid-controller:[%s] for exchange';
-    
+
     //EVENT
     const TRIGGER_BEFORE_ACTION = 'beforeAction';
     const TRIGGER_AFTER_ACTION = 'afterAction';
     const TRIGGER_BEFORE_RESPONSE = 'beforeResponse';
     const TRIGGER_AFTER_RESPONSE = 'afterResponse';
-    
+
     private $responseType = AbstractViewModel::renderAsHTML;
 
     private $controllerName = null;
     private $ViewModel = null;
-    
+
     static public function getSingleton() {
         $controllerName = static::class;
         if(!isset(self::$instance[$controllerName])) {
@@ -40,10 +42,10 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
         }
         return self::$instance[$controllerName];
     }
-    
+
     public function callActionFlow($action, $param)
     {
-        $routeModel = $this->getServiceManager()->getApplication()->getRouteModel();
+        $routeModel = $this->getRouteModel();
         $restActionMethod = $routeModel->getRestAction();
         $actionMethod = $routeModel->getAction();
         if($restActionMethod && !is_callable([$this, $restActionMethod])) {
@@ -53,7 +55,7 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
             $actionMethod = false;
         }
         if($actionMethod === false && $restActionMethod === false) {
-            return $this->getServiceManager()->getApplication()->sendNotFound();
+            return $this->getObjectManager()->getApplication()->sendNotFound();
         }
         $this->triggerEvent(self::TRIGGER_BEFORE_ACTION);
         if($restActionMethod) {
@@ -77,7 +79,7 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
             }
         }
     }
-    
+
     protected function callAction($action, $param = [])
     {
         if(is_callable([$this, $action])) {
@@ -97,17 +99,17 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
             $this->responseType = $responseType;
         } else {
             throw new Exception(self::ERROR_INVALID_RESPONSE_TYPE);
-        }         
+        }
     }
 
     public function getResponseType()
     {
         return $this->responseType;
     }
-    
+
     public function response()
     {
-        $this->getServiceManager()->get('Service', 'SessionService')->close();
+        $this->getObjectManager()->get(SessionService::class)->close();
         echo $this->getViewModel()->render();
     }
 
@@ -133,12 +135,12 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
 
     public function getRouteModel()
     {
-        return $this->getServiceManager()->getApplication()->getRouteModel();
+        return $this->getObjectManager()->get(RouteModelInterface::class);
     }
 
     public function getParam()
     {
-        $param = $this->getServiceManager()->getApplication()->getRouteModel()->getParam();
+        $param = $this->getRouteModel()->getParam();
         unset($param['req']);
         return $param;
     }

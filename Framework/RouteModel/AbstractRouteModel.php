@@ -2,44 +2,51 @@
 
 namespace Framework\RouteModel;
 
-use Framework\Application\ServiceManagerAwareInterface;
-use Framework\Application\SingletonInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
-abstract class AbstractRouteModel implements RouteModelInterface, ServiceManagerAwareInterface, SingletonInterface
+abstract class AbstractRouteModel implements RouteModelInterface, ObjectManagerAwareInterface
 {
-    use \Framework\Application\ServiceManagerAwareTrait;
-    use \Framework\Application\SingletonTrait;
-    
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
+    use \Framework\ObjectManager\SingletonTrait;
+
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
-
-    private $index = 'index';
-    private $depths = 10;
+    const INDEX = 'index';
 
     static private $instances = [];
 
     private $config = null;
-    private $appUrl = [];
     private $request = [];
-    
-    private function __construct() {
+    private $routerList = [];
+
+    public function __construct() {
         $this->config = ConfigModel::getConfigModel([
             "scope" => static::class,
             "property" => ConfigModel::READONLY
         ]);
-        $this->appUrl = $this->config->getConfig("appUrl", []);
-        $this->index = $this->config->getConfig("index", $this->index);
-        $this->depths = $this->config->getConfig("max_depths", $this->depths);
+        $this->index = self::INDEX;
     }
-    
+
+    private function loadRouter()
+    {
+        foreach (glob('Framework/Module/*/*/Route.php') as $routeInjection) {
+            require $routeInjection;
+        }
+    }
+
     public function dispatch()
     {
-        if(empty($this->request)) {
+        $this->loadRouter();
+        if (empty($this->request)) {
             $this->request = $this->parseRequest();
         }
-        return $this->request;            
+        $req = $this->request['req'];
+        if (isset($this->routerList[$req])) {
+            $this->request['controller'] = $this->routerList[$req];
+        }
+        return $this->request;
     }
 
     public function getController() {}
@@ -49,7 +56,7 @@ abstract class AbstractRouteModel implements RouteModelInterface, ServiceManager
     abstract public function getParam();
 
     abstract public function redirect($controller, $action, $param = null);
-    
+
     public function update() {}
 
     public function refresh() {}
@@ -58,7 +65,7 @@ abstract class AbstractRouteModel implements RouteModelInterface, ServiceManager
 
     protected function joinStep($array, $step = 1, $delimiter = "/")
     {
-        if(count($array) < $step) {
+        if (count($array) < $step) {
             throw new Exception(self::INVALID_JOINSTEP);
         }
         $joinArr = array_slice($array, 0, $step);
@@ -69,10 +76,10 @@ abstract class AbstractRouteModel implements RouteModelInterface, ServiceManager
     public function getReq()
     {
         $param = $this->getParam();
-        if(isset($param["req"])) {
+        if (isset($param["req"])) {
             return $param["req"];
         } else {
-            if(isset($_GET['req'])) {
+            if (isset($_GET['req'])) {
                 return $_GET['req'];
             }
             return $this->index;
@@ -84,11 +91,6 @@ abstract class AbstractRouteModel implements RouteModelInterface, ServiceManager
         return $this->index;
     }
 
-    public function getDepths()
-    {
-        return $this->depths;
-    }
-
     public function setConfig ($config)
     {
         return $this->config = $config;
@@ -97,5 +99,12 @@ abstract class AbstractRouteModel implements RouteModelInterface, ServiceManager
     public function getConfig ()
     {
         return $this->config;
-    }   
+    }
+
+    public function register($route)
+    {
+        foreach ($route as $req => $controller) {
+            $this->routerList[$req] = $controller;
+        }
+    }
 }

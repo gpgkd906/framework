@@ -4,12 +4,12 @@ return [
     'connection' => [
         'type' => 'mysql',
         'dsn' => [
-            'host' => 'localhost',
-            'dbname' => 'framework',
+            'host' => 'db',
+            'dbname' => 'docker',
             'charset' => 'utf8',
         ],
-        'user' => 'test',
-        'password' => 'testtest',
+        'user' => 'docker',
+        'password' => 'docker',
     ],
     'Entity' => [
         'metaInfo' => [

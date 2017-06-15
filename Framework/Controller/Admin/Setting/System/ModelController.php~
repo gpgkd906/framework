@@ -1,9 +1,0 @@
-<?php
-
-namespace Framework\Controller\Admin\;
-
-use Framework\Controller\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\Model\Cms\PageModel;
-
-class EditController extends AbstractController

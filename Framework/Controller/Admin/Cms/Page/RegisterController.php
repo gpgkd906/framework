@@ -38,7 +38,7 @@ class RegisterController extends AbstractController
     private function getPageModel ()
     {
         if($this->pageModel === null) {
-            $this->pageModel = $this->getServiceManager()->get('Model', 'Cms\PageModel');
+            $this->pageModel = $this->getObjectManager()->get('Model', 'Cms\PageModel');
         }
         return $this->pageModel;
     }
