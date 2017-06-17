@@ -20,7 +20,7 @@ trait ObjectManagerAwareTrait
     * @return mixed $objectManager
     * @link
     */
-    public function setObjectManager($objectManager)
+    public function setObjectManager(ObjectManagerInterface $objectManager)
     {
         return $this->objectManager = $objectManager;
     }

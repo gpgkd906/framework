@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Controller\Admin\Setting\System;
+namespace Framework\Module\Cngo\Admin\Controller\Setting\System;
 
 use Framework\Controller\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;

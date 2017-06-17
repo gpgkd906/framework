@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Module\Cngo\AdminTop\View\Layout;
+namespace Framework\Module\Cngo\Admin\View\Layout;
 
 use Framework\ViewModel\ViewModel\PageLayout;
 

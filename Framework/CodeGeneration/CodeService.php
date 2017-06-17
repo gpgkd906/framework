@@ -4,7 +4,6 @@ namespace Framework\Service\CodeGeneration;
 
 use CodeService\Code\Analytic;
 use CodeService\Code\Wrapper\AstWrapper;
-use Framework\Service\AbstractService;
 use Framework\Config\ConfigModel;
 
 class CodeService extends AbstractService
@@ -56,7 +55,6 @@ class CodeService extends AbstractService
                     }
                     $filesize = filesize($file);
                     if($filesize > $maxFileSize) {
-                        //大きなファイルを処理しない、誰がそんな大きなソースを書くんだ
                         continue;
                     }
                     $fullPath = $file;

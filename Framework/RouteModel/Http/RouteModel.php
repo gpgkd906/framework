@@ -142,7 +142,8 @@ class RouteModel extends AbstractRouteModel
             $parts[] = $token;
             unset($reqs[$idx]);
         }
-        $action = array_pop($parts);
+        $req = join('/', $parts);
+        $action = self::INDEX;
         $param = array_values($reqs);
         $request = [
             'controller' => null,

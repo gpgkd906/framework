@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Module\Cngo\AdminTop\View\ViewModel;
+namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
-use Framework\Module\Cngo\AdminTop\View\Layout\AdminPageLayout;
+use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 class DashboardViewModel extends AbstractViewModel
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Module\Cngo\AdminTop\View\ViewModel;
+namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use NumberFormatter;

@@ -21,6 +21,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     private $application = null;
 
     private $sharedObject = [];
+    private $awareSetter = [];
 
     private function __construct()
     {
@@ -63,15 +64,35 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     public function injectDependency($Object)
     {
         foreach (class_implements($Object) as $interface) {
-            if (strpos($interface, 'AwareInterface')) {
+            if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->getAwareSetter($interface)) {
                 $injectDependency = str_replace('AwareInterface', '', $interface);
                 $injectDependencyInterface = $injectDependency . 'Interface';
+                $dependency = null;
                 if (isset($this->sharedObject[$injectDependencyInterface])) {
-                    $Object->setObjectManager($this->sharedObject[$injectDependencyInterface]);
+                    $dependency = $this->sharedObject[$injectDependencyInterface];
                 } else if (isset($this->sharedObject[$injectDependency])) {
-                    $Object->setObjectManager($this->sharedObject[$injectDependency]);
+                    $dependency = $this->sharedObject[$injectDependency];
+                } else {
+                    $dependency = $this->get($injectDependencyInterface, $injectDependency);
+                }
+                if ($dependency) {
+                  call_user_func([$Object, $dependencySetter], $dependency);
                 }
             }
         }
+    }
+
+    public function getAwareSetter($interface)
+    {
+      if (isset($this->awareSetter[$interface])) {
+        return $this->awareSetter[$interface];
+      }
+      foreach (get_class_methods($interface) as $method) {
+        if (strpos($method, 'set') !== false) {
+          $this->awareSetter[$interface] = $method;
+          return $method;
+        }
+      }
+      return;
     }
 }

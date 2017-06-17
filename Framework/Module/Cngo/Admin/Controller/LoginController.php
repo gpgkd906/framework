@@ -1,16 +1,16 @@
 <?php
 
-namespace Framework\Controller\Admin;
+namespace Framework\Module\Cngo\Admin\Controller;
 
 use Framework\Controller\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 
 class LoginController extends AbstractController
 {
-    
+
     public function index()
     {
-        $Session = $this->getObjectManager()->getSessionService();
+        // $Session = $this->getObjectManager()->getSessionService();
         return ViewModelManager::getViewModel([
             'viewModel' => 'Admin\LoginViewModel',
             'listeners' => [

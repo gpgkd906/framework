@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Controller\Admin;
+namespace Framework\Module\Cngo\Admin\Controller;
 
 use Framework\Controller\Controller\ControllerInterface;
 use Framework\Controller\Controller\AbstractController;
