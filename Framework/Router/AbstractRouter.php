@@ -1,12 +1,12 @@
 <?php
 
-namespace Framework\RouteModel;
+namespace Framework\Router;
 
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
-abstract class AbstractRouteModel implements RouteModelInterface, ObjectManagerAwareInterface
+abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInterface
 {
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\ObjectManager\SingletonTrait;
@@ -54,8 +54,6 @@ abstract class AbstractRouteModel implements RouteModelInterface, ObjectManagerA
     public function getAction() {}
 
     abstract public function getParam();
-
-    abstract public function redirect($controller, $action, $param = null);
 
     public function update() {}
 
@@ -106,5 +104,10 @@ abstract class AbstractRouteModel implements RouteModelInterface, ObjectManagerA
         foreach ($route as $req => $controller) {
             $this->routerList[$req] = $controller;
         }
+    }
+
+    public function getRouterList()
+    {
+        return $this->routerList;
     }
 }

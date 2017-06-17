@@ -1,15 +1,15 @@
 <?php
 
-namespace Framework\ViewModel\Admin;
+namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\ViewModel\FormViewModel;
-use Framework\ViewModel\Layout\AdminPageLayout;
+use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 use Form2\Validator;
 
 class LoginViewModel extends FormViewModel
 {
-    protected $template = '/template/admin/login.html';
-    
+    protected $template = '/template/login.html';
+
     protected $config = [
         'layout' => AdminPageLayout::class,
         'script' => [
@@ -28,7 +28,7 @@ class LoginViewModel extends FormViewModel
                 'validator' => [
                     [Validator::Exists, "※必須入力"],
                 ],
-                'attrs' => [ 
+                'attrs' => [
                     'class' => 'form-control',
                     'placeholder' => 'Login',
                 ],
@@ -52,4 +52,9 @@ class LoginViewModel extends FormViewModel
             ],
         ]
     ];
+
+    public function getTemplateDir()
+    {
+        return __DIR__ . '/..';
+    }
 }

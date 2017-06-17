@@ -64,7 +64,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     public function injectDependency($Object)
     {
         foreach (class_implements($Object) as $interface) {
-            if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->getAwareSetter($interface)) {
+            if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->getDependencySetter($interface)) {
                 $injectDependency = str_replace('AwareInterface', '', $interface);
                 $injectDependencyInterface = $injectDependency . 'Interface';
                 $dependency = null;
@@ -82,7 +82,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         }
     }
 
-    public function getAwareSetter($interface)
+    private function getDependencySetter($interface)
     {
       if (isset($this->awareSetter[$interface])) {
         return $this->awareSetter[$interface];

@@ -1,18 +1,16 @@
 <?php
 
-namespace Framework\RouteModel;
+namespace Framework\Router;
 
-interface RouteModelInterface 
+interface RouterInterface
 {
     public static function getSingleton();
 
     public function dispatch();
-    
+
     public function getController();
 
     public function getParam();
-
-    public function redirect($controller, $action, $param = null);
     
     public function update();
 

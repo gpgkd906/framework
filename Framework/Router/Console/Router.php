@@ -1,12 +1,12 @@
 <?php
 
-namespace Framework\RouteModel\ConsoleRouteModel;
+namespace Framework\Router\ConsoleRouter;
 
-use Framework\RouteModel\AbstractRouteModel;
+use Framework\Router\AbstractRouter;
 use Framework\Config\ConfigModel;
 use Exception;
 
-class ConsoleRouteModel extends AbstractRouteModel
+class ConsoleRouter extends AbstractRouter
 {
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";

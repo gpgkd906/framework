@@ -1,13 +1,15 @@
 <?php
 
-namespace Framework\RouteModel\Http;
+namespace Framework\Router\Http;
 
-use Framework\RouteModel\AbstractRouteModel;
+use Framework\Router\AbstractRouter;
 use Framework\Config\ConfigModel;
 use Exception;
 
-class RouteModel extends AbstractRouteModel
+class Router extends AbstractRouter
 {
+    const ERROR_INVALID_REDIRECT = "invalid_redirect: %s";
+
     const GET = "get";
     const POST = "post";
     const PUT = "put";
@@ -109,9 +111,21 @@ class RouteModel extends AbstractRouteModel
         return $_SERVER['REQUEST_URI'];
     }
 
-    public function redirect($controller, $action = 'index', $param = null)
+    public function redirect($controller, $param = null)
     {
-        var_dump($controller);
+        $routerList = $this->getRouterList();
+        $uri = array_search($controller, $routerList);
+        if ($uri) {
+            $param = (array) $param;
+            if (!empty($param)) {
+                $uri .= '/' . join('/', $param);
+                $uri = str_replace('//', '/', $uri);
+            }
+            $uri = '/' . $uri;
+            header('Location: ' . $uri, true, 301);
+        } else {
+            throw new Excpetion (sprintf(self::ERROR_INVALID_REDIRECT, $controller));
+        }
     }
 
     public function parseRequest()
@@ -157,5 +171,10 @@ class RouteModel extends AbstractRouteModel
     public function isFaviconRequest()
     {
         return $_SERVER["REQUEST_URI"] === "/favicon.ico";
+    }
+
+    public function getRequestUri()
+    {
+        return $_SERVER['REQUEST_URI'];
     }
 }

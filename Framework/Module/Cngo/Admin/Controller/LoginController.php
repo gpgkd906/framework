@@ -3,28 +3,37 @@
 namespace Framework\Module\Cngo\Admin\Controller;
 
 use Framework\Controller\Controller\AbstractController;
+use Framework\Service\SessionService\SessionServiceAwareInterface;
+use Framework\Service\AdminService\AdminServiceAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel;
 
-class LoginController extends AbstractController
+class LoginController extends AbstractController implements AdminServiceAwareInterface
 {
+    use \Framework\Service\SessionService\SessionServiceAwareTrait;
+    use \Framework\Service\AdminService\AdminServiceAwareTrait;
 
     public function index()
     {
-        // $Session = $this->getObjectManager()->getSessionService();
         return ViewModelManager::getViewModel([
-            'viewModel' => 'Admin\LoginViewModel',
+            'viewModel' => LoginViewModel::class,
             'listeners' => [
                 'Complete' => [$this, 'onLoginComplete']
             ]
         ]);
     }
 
-    public function onLoginComplete($LoginViewModel, $data)
+    public function onLoginComplete(\Framework\Event\EventManager\Event $event)
     {
-        $Session = $this->getObjectManager()->getSessionService();
-        $Session->setSection('LoginView', $data);
-        $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function() {
-            $this->exChange(DashboardController::class);
-        });
+        $ViewModel = $event->getTarget();
+        if ($ViewModel->getForm()->validate()) {
+            $SessionService = $this->getSessionService();
+            $SessionService->setSection('LoginView', $event->getData());
+            $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function () {
+                $this->getRouter()->redirect(DashboardController::class);
+            });
+        } else {
+            var_Dump($ViewModel->getForm()->getMessage());
+        }
     }
 }

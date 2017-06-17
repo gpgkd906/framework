@@ -7,14 +7,18 @@ use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\Event\EventManager\EventTargetInterface;
-use Framework\RouteModel\RouteModelInterface;
-use Framework\Service\SessionService\SessionService;
+use Framework\Router\RouterAwareInterface;
+use Framework\Service\SessionService\SessionServiceAwareInterface;
 use Exception;
 
-abstract class AbstractController implements ControllerInterface, EventTargetInterface, objectManagerAwareInterface
+abstract class AbstractController
+    implements ControllerInterface, EventTargetInterface,
+                objectManagerAwareInterface, RouterAwareInterface, SessionServiceAwareInterface
 {
     use \Framework\Event\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
+    use \Framework\Router\RouterAwareTrait;
+    use \Framework\Service\SessionService\SessionServiceAwareTrait;
 
     static private $instance = [];
 
@@ -45,7 +49,7 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
 
     public function callActionFlow($action, $param)
     {
-        $routeModel = $this->getRouteModel();
+        $routeModel = $this->getRouter();
         $restActionMethod = $routeModel->getRestAction();
         $actionMethod = $routeModel->getAction();
         if($restActionMethod && !is_callable([$this, $restActionMethod])) {
@@ -109,7 +113,7 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
 
     public function response()
     {
-        $this->getObjectManager()->get(SessionService::class)->close();
+        $this->getSessionService()->close();
         echo $this->getViewModel()->render();
     }
 
@@ -133,14 +137,9 @@ abstract class AbstractController implements ControllerInterface, EventTargetInt
         return $this->ViewModel;
     }
 
-    public function getRouteModel()
-    {
-        return $this->getObjectManager()->get(RouteModelInterface::class);
-    }
-
     public function getParam()
     {
-        $param = $this->getRouteModel()->getParam();
+        $param = $this->getRouter()->getParam();
         unset($param['req']);
         return $param;
     }

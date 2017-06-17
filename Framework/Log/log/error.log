@@ -16005,13 +16005,13 @@ Message : Class 'Framework\Controller\Admin\CmsController' not found
 
 2015-11-14 10:11:51
 回復不能なエラーが発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 132
 Message : syntax error, unexpected 'default' (T_DEFAULT)
 
 2015-11-14 10:12:02
 回復不能なエラーが発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 132
 Message : syntax error, unexpected 'default' (T_DEFAULT)
 
@@ -16233,15 +16233,15 @@ Message : Class 'Framework\Controller\Mypage\ProfileController' not found
 
 2015-11-14 10:24:32
 実行時警告(notice)が発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 185
-Message : Undefined property: Framework\Route\HttpRouteModel::$appUrl
+Message : Undefined property: Framework\Route\HttpRouter::$appUrl
 
 2015-11-14 10:24:32
 実行時警告(notice)が発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 185
-Message : Undefined property: Framework\Route\HttpRouteModel::$appUrl
+Message : Undefined property: Framework\Route\HttpRouter::$appUrl
 
 2015-11-14 10:24:32
 回復不能なエラーが発生しました。
@@ -26785,7 +26785,7 @@ Message : session_start(): Cannot send session cache limiter - headers already s
 回復不能なエラーが発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Controller/Admin/Cms/Page/EditController.php
 Line : 12
-Message : Call to undefined method Framework\Route\HttpRouteModel::getRequest()
+Message : Call to undefined method Framework\Route\HttpRouter::getRequest()
 
 2015-11-23 01:15:08
 実行時警告(waring)が発生しました。
@@ -27857,25 +27857,25 @@ Message : Undefined index: pid
 
 2015-11-25 00:27:36
 実行時警告(notice)が発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 92
 Message : Undefined variable: request_param
 
 2015-11-25 00:27:36
 実行時警告(waring)が発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 92
 Message : array_merge(): Argument #2 is not an array
 
 2015-11-25 00:27:36
 実行時警告(notice)が発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 92
 Message : Undefined variable: request_param
 
 2015-11-25 00:27:36
 実行時警告(waring)が発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Route/HttpRouter.php
 Line : 92
 Message : array_merge(): Argument #2 is not an array
 
@@ -43384,9 +43384,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\Http
 
 2016-02-05 21:00:34
 回復不能なエラーが発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/RouteModel/HttpRouteModel/HttpRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Router/HttpRouter/HttpRouter.php
 Line : 8
-Message : Class 'Framework\RouteModel\HttpRouteModel\AbstractRouteModel' not found
+Message : Class 'Framework\Router\HttpRouter\AbstractRouter' not found
 
 2016-02-05 21:01:11
 回復不能なエラーが発生しました。
@@ -43599,9 +43599,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/bin/console.php(17): Framework\
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'HttpRouteModel')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'HttpRouteModel')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'HttpRouter')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('Router', 'HttpRouter')
 #2 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -43609,9 +43609,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(7
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'HttpRouteModel')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'HttpRouteModel')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'HttpRouter')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('Router', 'HttpRouter')
 #2 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -43619,9 +43619,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(7
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'HttpRouteModel')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'HttpRouteModel')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'HttpRouter')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('Router', 'HttpRouter')
 #2 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -43629,9 +43629,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(7
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'HttpRouteModel')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'HttpRouteModel')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'HttpRouter')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('Router', 'HttpRouter')
 #2 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -43639,9 +43639,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(7
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'HttpRouteModel')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'HttpRouteModel')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'HttpRouter')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('Router', 'HttpRouter')
 #2 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -43649,9 +43649,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(7
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'HttpRouteModel')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'HttpRouteModel')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'HttpRouter')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/HttpApplication.php(31): Framework\ObjectManager\ObjectManager->getComponent('Router', 'HttpRouter')
 #2 /Users/gpgkd906/dev/framework/index.php(20): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -43659,9 +43659,9 @@ Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(7
 例外が発生しました。
 File : /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php
 Line : 65
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
-Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('RouteModel', 'ConsoleRouteMod...')
-#1 /Users/gpgkd906/dev/framework/Framework/Application/ConsoleApplication.php(19): Framework\ObjectManager\ObjectManager->getComponent('RouteModel', 'ConsoleRouteMod...')
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Trace:#0 /Users/gpgkd906/dev/framework/Framework/Application/objectManager.php(77): Framework\ObjectManager\ObjectManager->get('Router', 'ConsoleRouteMod...')
+#1 /Users/gpgkd906/dev/framework/Framework/Application/ConsoleApplication.php(19): Framework\ObjectManager\ObjectManager->getComponent('Router', 'ConsoleRouteMod...')
 #2 /Users/gpgkd906/dev/framework/Framework/bin/console.php(17): Framework\Application\ConsoleApplication->run()
 #3 {main}
 
@@ -43673,9 +43673,9 @@ Message : Array to string conversion
 
 2016-02-11 23:26:27
 回復不能なエラーが発生しました。
-File : /Users/gpgkd906/dev/framework/Framework/RouteModel/AbstractRouteModel.php
+File : /Users/gpgkd906/dev/framework/Framework/Router/AbstractRouter.php
 Line : 13
-Message : Trait 'Framework\RouteModel\Framework\ObjectManager\SingletonTrait' not found
+Message : Trait 'Framework\Router\Framework\ObjectManager\SingletonTrait' not found
 
 2016-02-11 23:26:38
 実行時警告(notice)が発生しました。
@@ -44165,7 +44165,7 @@ Message : Array to string conversion
 
 2016-12-29 20:14:33
 実行時警告(notice)が発生しました。
-File : /application/framework/Framework/RouteModel/HttpRouteModel/HttpRouteModel.php
+File : /application/framework/Framework/Router/HttpRouter/HttpRouter.php
 Line : 156
 Message : Uninitialized string offset: 0
 
@@ -44957,7 +44957,7 @@ Trace:#0 /application/Framework/Application/ObjectManager.php(94): Framework\Obj
 例外が発生しました。
 File : /application/Framework/ViewModel/ViewModel/FormViewModel.php
 Line : 59
-Message : Call to undefined method Framework\RouteModel\HttpRouteModel\HttpRouteModel::getRequestUri()
+Message : Call to undefined method Framework\Router\HttpRouter\HttpRouter::getRequestUri()
 Trace:#0 /application/Framework/ViewModel/ViewModel/FormViewModel.php(68): Framework\ViewModel\ViewModel\FormViewModel->getAction()
 #1 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
 #2 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
@@ -45403,7 +45403,7 @@ Message : Trait 'Framework\ObjectManager\SingletonTrait' not found
 
 2017-06-13 01:17:46
 回復不能なエラーが発生しました。
-File : /application/Framework/RouteModel/AbstractRouteModel.php
+File : /application/Framework/Router/AbstractRouter.php
 Line : 12
 Message : Trait 'Framework\ObjectManager\ObjectManagerAwareTrait' not found
 
@@ -45559,7 +45559,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Class 'Framework\RouteModel\Http\RouteModel' not found
+Message : Class 'Framework\Router\Http\Router' not found
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45569,7 +45569,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Class 'Framework\RouteModel\Http\RouteModel' not found
+Message : Class 'Framework\Router\Http\Router' not found
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45579,7 +45579,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Class 'Framework\RouteModel\Http\RouteModel' not found
+Message : Class 'Framework\Router\Http\Router' not found
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45589,7 +45589,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Class 'Framework\RouteModel\Http\RouteModel' not found
+Message : Class 'Framework\Router\Http\Router' not found
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45599,7 +45599,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Class 'Framework\RouteModel\Http\RouteModel' not found
+Message : Class 'Framework\Router\Http\Router' not found
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45609,7 +45609,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Class 'Framework\RouteModel\Http\RouteModel' not found
+Message : Class 'Framework\Router\Http\Router' not found
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45619,7 +45619,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 例外が発生しました。
 File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 50
-Message : Call to private Framework\RouteModel\AbstractRouteModel::__construct() from context 'Framework\ObjectManager\ObjectManager'
+Message : Call to private Framework\Router\AbstractRouter::__construct() from context 'Framework\ObjectManager\ObjectManager'
 Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
 #1 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
@@ -45729,9 +45729,9 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(31): Framework\O
 
 2017-06-13 02:22:34
 実行時警告(waring)が発生しました。
-File : /application/Framework/RouteModel/AbstractRouteModel.php
+File : /application/Framework/Router/AbstractRouter.php
 Line : 36
-Message : Missing argument 1 for Framework\RouteModel\AbstractRouteModel::loadRouter(), called in /application/Framework/RouteModel/AbstractRouteModel.php on line 43 and defined
+Message : Missing argument 1 for Framework\Router\AbstractRouter::loadRouter(), called in /application/Framework/Router/AbstractRouter.php on line 43 and defined
 
 2017-06-13 02:28:13
 不明なエラーが発生しました
@@ -45745,9 +45745,9 @@ File : /application/Framework/ObjectManager/ObjectManager.php
 Line : 28
 Message : Using $this when not in object context
 Trace:#0 /application/Framework/Module/Cngo/AdminTop/Route.php(7): Framework\ObjectManager\ObjectManager::get('Framework\\Route...')
-#1 /application/Framework/RouteModel/AbstractRouteModel.php(39): require('/application/Fr...')
-#2 /application/Framework/RouteModel/AbstractRouteModel.php(45): Framework\RouteModel\AbstractRouteModel->loadRouter()
-#3 /application/Framework/Application/HttpApplication.php(39): Framework\RouteModel\AbstractRouteModel->dispatch()
+#1 /application/Framework/Router/AbstractRouter.php(39): require('/application/Fr...')
+#2 /application/Framework/Router/AbstractRouter.php(45): Framework\Router\AbstractRouter->loadRouter()
+#3 /application/Framework/Application/HttpApplication.php(39): Framework\Router\AbstractRouter->dispatch()
 #4 /application/index.php(21): Framework\Application\HttpApplication->run()
 #5 {main}
 
@@ -45771,12 +45771,12 @@ Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): F
 
 2017-06-13 02:40:58
 例外が発生しました。
-File : /application/Framework/RouteModel/AbstractRouteModel.php
+File : /application/Framework/Router/AbstractRouter.php
 Line : 17
 Message : syntax error, unexpected 'INDEX' (T_STRING), expecting variable (T_VARIABLE)
 Trace:#0 /application/vendor/composer/ClassLoader.php(301): Composer\Autoload\includeFile('/application/ve...')
 #1 [internal function]: Composer\Autoload\ClassLoader->loadClass('Framework\\Route...')
-#2 /application/Framework/RouteModel/Http/RouteModel.php(9): spl_autoload_call('Framework\\Route...')
+#2 /application/Framework/Router/Http/Router.php(9): spl_autoload_call('Framework\\Route...')
 #3 /application/vendor/composer/ClassLoader.php(412): include('/application/Fr...')
 #4 /application/vendor/composer/ClassLoader.php(301): Composer\Autoload\includeFile('/application/ve...')
 #5 [internal function]: Composer\Autoload\ClassLoader->loadClass('Framework\\Route...')
@@ -45789,11 +45789,11 @@ Trace:#0 /application/vendor/composer/ClassLoader.php(301): Composer\Autoload\in
 
 2017-06-13 02:41:16
 例外が発生しました。
-File : /application/Framework/RouteModel/Http/RouteModel.php
+File : /application/Framework/Router/Http/Router.php
 Line : 140
-Message : Call to undefined method Framework\RouteModel\Http\RouteModel::appMapping()
-Trace:#0 /application/Framework/RouteModel/AbstractRouteModel.php(43): Framework\RouteModel\Http\RouteModel->parseRequest()
-#1 /application/Framework/Application/HttpApplication.php(39): Framework\RouteModel\AbstractRouteModel->dispatch()
+Message : Call to undefined method Framework\Router\Http\Router::appMapping()
+Trace:#0 /application/Framework/Router/AbstractRouter.php(43): Framework\Router\Http\Router->parseRequest()
+#1 /application/Framework/Application/HttpApplication.php(39): Framework\Router\AbstractRouter->dispatch()
 #2 /application/index.php(21): Framework\Application\HttpApplication->run()
 #3 {main}
 
@@ -46332,7 +46332,7 @@ Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(30): Framework\O
 
 2017-06-13 04:13:05
 実行時警告(notice)が発生しました。
-File : /application/Framework/RouteModel/Http/RouteModel.php
+File : /application/Framework/Router/Http/Router.php
 Line : 135
 Message : Uninitialized string offset: 0
 
@@ -46482,7 +46482,7 @@ Message : Array to string conversion
 
 2017-06-16 00:00:21
 実行時警告(notice)が発生しました。
-File : /application/Framework/RouteModel/AbstractRouteModel.php
+File : /application/Framework/Router/AbstractRouter.php
 Line : 45
 Message : Undefined index: req
 
@@ -53352,27 +53352,27 @@ Message : Array to string conversion
 
 2017-06-16 02:17:05
 回復不能なエラーが発生しました。
-File : /application/Framework/RouteModel/Http/RouteModel.php
+File : /application/Framework/Router/Http/Router.php
 Line : 9
-Message : Class Framework\RouteModel\Http\RouteModel contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\ObjectManager\ObjectManagerAwareInterface::getObjectManage)
+Message : Class Framework\Router\Http\Router contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\ObjectManager\ObjectManagerAwareInterface::getObjectManage)
 
 2017-06-16 02:17:05
 回復不能なエラーが発生しました。
-File : /application/Framework/RouteModel/Http/RouteModel.php
+File : /application/Framework/Router/Http/Router.php
 Line : 9
-Message : Class Framework\RouteModel\Http\RouteModel contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\ObjectManager\ObjectManagerAwareInterface::getObjectManage)
+Message : Class Framework\Router\Http\Router contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Framework\ObjectManager\ObjectManagerAwareInterface::getObjectManage)
 
 2017-06-16 02:17:34
 回復不能なエラーが発生しました。
-File : /application/Framework/RouteModel/AbstractRouteModel.php
+File : /application/Framework/Router/AbstractRouter.php
 Line : 9
-Message : Declaration of Framework\RouteModel\AbstractRouteModel::setObjectManager($objectManager) must be compatible with Framework\ObjectManager\ObjectManagerAwareInterface::setObjectManager(Framework\ObjectManager\ObjectManagerInterface $objectManager)
+Message : Declaration of Framework\Router\AbstractRouter::setObjectManager($objectManager) must be compatible with Framework\ObjectManager\ObjectManagerAwareInterface::setObjectManager(Framework\ObjectManager\ObjectManagerInterface $objectManager)
 
 2017-06-16 02:17:35
 回復不能なエラーが発生しました。
-File : /application/Framework/RouteModel/AbstractRouteModel.php
+File : /application/Framework/Router/AbstractRouter.php
 Line : 9
-Message : Declaration of Framework\RouteModel\AbstractRouteModel::setObjectManager($objectManager) must be compatible with Framework\ObjectManager\ObjectManagerAwareInterface::setObjectManager(Framework\ObjectManager\ObjectManagerInterface $objectManager)
+Message : Declaration of Framework\Router\AbstractRouter::setObjectManager($objectManager) must be compatible with Framework\ObjectManager\ObjectManagerAwareInterface::setObjectManager(Framework\ObjectManager\ObjectManagerInterface $objectManager)
 
 2017-06-16 02:23:03
 実行時警告(notice)が発生しました。
@@ -54066,19 +54066,19 @@ Message : Array to string conversion
 実行時警告(waring)が発生しました。
 File : /application/Framework/Application/HttpApplication.php
 Line : 74
-Message : Cannot modify header information - headers already sent by (output started at /application/Framework/RouteModel/AbstractRouteModel.php:46)
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Router/AbstractRouter.php:46)
 
 2017-06-16 02:41:38
 実行時警告(waring)が発生しました。
 File : /application/Framework/Application/HttpApplication.php
 Line : 74
-Message : Cannot modify header information - headers already sent by (output started at /application/Framework/RouteModel/AbstractRouteModel.php:46)
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Router/AbstractRouter.php:46)
 
 2017-06-16 02:41:50
 実行時警告(waring)が発生しました。
 File : /application/Framework/Application/HttpApplication.php
 Line : 74
-Message : Cannot modify header information - headers already sent by (output started at /application/Framework/RouteModel/AbstractRouteModel.php:49)
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Router/AbstractRouter.php:49)
 
 2017-06-16 02:42:16
 実行時警告(waring)が発生しました。
@@ -54117,4 +54117,904 @@ Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): F
 #5 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
 #6 /application/index.php(21): Framework\Application\HttpApplication->run()
 #7 {main}
+
+2017-06-17 19:23:17
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-17 19:23:22
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 124
+Message : error: invalid viewmodelname: \Admin\LoginViewModel\Admin\LoginViewModelViewModel
+Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(17): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#3 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#4 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#5 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#6 /application/index.php(21): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2017-06-17 19:23:25
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-17 19:23:26
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-17 19:23:30
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-17 19:26:39
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-17 19:26:42
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 124
+Message : error: invalid viewmodelname: \Admin\LoginViewModel\Admin\LoginViewModelViewModel
+Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(17): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#3 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#4 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#5 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#6 /application/index.php(21): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2017-06-18 01:20:00
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 124
+Message : error: invalid viewmodelname: \Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel\Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModelViewModel
+Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#3 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#4 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#5 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#6 /application/index.php(21): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2017-06-18 01:21:26
+回復不能なエラーが発生しました。
+File : /application/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 128
+Message : Class 'Form2\Validator' not found
+
+2017-06-18 01:23:28
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/FormViewModel.php
+Line : 60
+Message : Call to undefined method Framework\Router\Http\Router::getRequestUri()
+Trace:#0 /application/Framework/ViewModel/ViewModel/FormViewModel.php(69): Framework\ViewModel\ViewModel\FormViewModel->getAction()
+#1 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#5 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#6 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#7 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#8 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#9 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#10 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#11 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#12 /application/index.php(21): Framework\Application\HttpApplication->run()
+#13 {main}
+
+2017-06-18 01:24:22
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/FormViewModel.php
+Line : 60
+Message : Call to undefined method Framework\Router\Http\Router::getRequestUri()
+Trace:#0 /application/Framework/ViewModel/ViewModel/FormViewModel.php(69): Framework\ViewModel\ViewModel\FormViewModel->getAction()
+#1 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#5 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#6 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#7 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#8 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#9 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#10 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#11 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#12 /application/index.php(21): Framework\Application\HttpApplication->run()
+#13 {main}
+
+2017-06-18 01:25:44
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/FormViewModel.php
+Line : 60
+Message : Call to undefined method Framework\Router\Http\Router::getRequestUri()
+Trace:#0 /application/Framework/ViewModel/ViewModel/FormViewModel.php(69): Framework\ViewModel\ViewModel\FormViewModel->getAction()
+#1 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#5 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#6 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#7 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#8 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#9 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#10 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#11 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#12 /application/index.php(21): Framework\Application\HttpApplication->run()
+#13 {main}
+
+2017-06-18 01:28:06
+例外が発生しました。
+File : /application/Framework/Router/Http/Router.php
+Line : 165
+Message : syntax error, unexpected '}', expecting ';'
+Trace:#0 /application/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile('/application/ve...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('Framework\\Route...')
+#2 [internal function]: spl_autoload_call('Framework\\Route...')
+#3 /application/Framework/ObjectManager/ObjectManager.php(51): is_subclass_of('Framework\\Route...', 'Framework\\Objec...')
+#4 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
+#5 /application/Framework/Application/HttpApplication.php(32): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
+#6 /application/index.php(21): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2017-06-18 01:28:11
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/Http/Router.php
+Line : 164
+Message : Undefined index: HTTP_REQUEST_URI
+
+2017-06-18 01:28:11
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 72
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 01:28:11
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 72
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 01:28:11
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 01:28:11
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 01:28:11
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 207
+Message : error: invalid render template [/template/login.html] for ViewModel [Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel]
+Trace:#0 /application/Framework/ViewModel/ViewModel/AbstractViewModel.php(298): Framework\ViewModel\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /application/Framework/ViewModel/ViewModel/AbstractViewModel.php(279): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#2 /application/Framework/Controller/Controller/AbstractController.php(113): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#3 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#4 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#5 /application/Framework/Controller/Controller/AbstractController.php(75): Framework\Controller\Controller\AbstractController->callAction('response')
+#6 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#7 /application/index.php(21): Framework\Application\HttpApplication->run()
+#8 {main}
+
+2017-06-18 01:28:16
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/AbstractViewModel.php
+Line : 207
+Message : error: invalid render template [/template/login.html] for ViewModel [Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel]
+Trace:#0 /application/Framework/ViewModel/ViewModel/AbstractViewModel.php(298): Framework\ViewModel\ViewModel\AbstractViewModel->getTemplateForRender()
+#1 /application/Framework/ViewModel/ViewModel/AbstractViewModel.php(279): Framework\ViewModel\ViewModel\AbstractViewModel->asHtml()
+#2 /application/Framework/Controller/Controller/AbstractController.php(113): Framework\ViewModel\ViewModel\AbstractViewModel->render()
+#3 [internal function]: Framework\Controller\Controller\AbstractController->response(Array)
+#4 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#5 /application/Framework/Controller/Controller/AbstractController.php(75): Framework\Controller\Controller\AbstractController->callAction('response')
+#6 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#7 /application/index.php(21): Framework\Application\HttpApplication->run()
+#8 {main}
+
+2017-06-18 01:32:19
+実行時警告(waring)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 23
+Message : Missing argument 2 for Framework\Module\Cngo\Admin\Controller\LoginController::onLoginComplete()
+
+2017-06-18 01:32:19
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 25
+Message : Call to undefined method Framework\ObjectManager\ObjectManager::getSessionService()
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\Event\EventManager\Event))
+#1 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Array, Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/ViewModel/ViewModel/FormViewModel.php(145): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#5 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->triggerForComplete(Array, Object(Form2\Form))
+#6 /application/vendor/gpgkd906/form2/src/Form2/Form.php(469): call_user_func(Array, Array, Object(Form2\Form))
+#7 /application/Framework/ViewModel/ViewModel/FormViewModel.php(80): Form2\Form->confirm(false, Array)
+#8 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#9 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#10 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#11 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#12 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#13 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#14 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#15 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#16 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#17 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#18 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#19 /application/index.php(21): Framework\Application\HttpApplication->run()
+#20 {main}
+
+2017-06-18 01:32:32
+実行時警告(waring)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 23
+Message : Missing argument 2 for Framework\Module\Cngo\Admin\Controller\LoginController::onLoginComplete()
+
+2017-06-18 01:32:32
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 25
+Message : Call to undefined method Framework\ObjectManager\ObjectManager::getSessionService()
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\Event\EventManager\Event))
+#1 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Array, Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/ViewModel/ViewModel/FormViewModel.php(145): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#5 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->triggerForComplete(Array, Object(Form2\Form))
+#6 /application/vendor/gpgkd906/form2/src/Form2/Form.php(469): call_user_func(Array, Array, Object(Form2\Form))
+#7 /application/Framework/ViewModel/ViewModel/FormViewModel.php(80): Form2\Form->confirm(false, Array)
+#8 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#9 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#10 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#11 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#12 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#13 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#14 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#15 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#16 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#17 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#18 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#19 /application/index.php(21): Framework\Application\HttpApplication->run()
+#20 {main}
+
+2017-06-18 01:33:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 23
+Message : Missing argument 2 for Framework\Module\Cngo\Admin\Controller\LoginController::onLoginComplete()
+
+2017-06-18 01:33:06
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 26
+Message : Call to undefined method Framework\ObjectManager\ObjectManager::getSessionService()
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\Event\EventManager\Event))
+#1 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Array, Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/ViewModel/ViewModel/FormViewModel.php(145): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#5 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->triggerForComplete(Array, Object(Form2\Form))
+#6 /application/vendor/gpgkd906/form2/src/Form2/Form.php(469): call_user_func(Array, Array, Object(Form2\Form))
+#7 /application/Framework/ViewModel/ViewModel/FormViewModel.php(80): Form2\Form->confirm(false, Array)
+#8 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#9 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#10 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#11 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#12 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#13 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#14 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(18): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#15 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#16 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#17 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#18 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#19 /application/index.php(21): Framework\Application\HttpApplication->run()
+#20 {main}
+
+2017-06-18 01:34:46
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 26
+Message : Call to undefined method Framework\ObjectManager\ObjectManager::getSessionService()
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\Event\EventManager\Event))
+#1 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Array, Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/ViewModel/ViewModel/FormViewModel.php(145): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#5 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->triggerForComplete(Array, Object(Form2\Form))
+#6 /application/vendor/gpgkd906/form2/src/Form2/Form.php(469): call_user_func(Array, Array, Object(Form2\Form))
+#7 /application/Framework/ViewModel/ViewModel/FormViewModel.php(80): Form2\Form->confirm(false, Array)
+#8 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#9 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#10 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#11 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#12 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#13 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#14 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(19): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#15 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#16 /application/Framework/Controller/Controller/AbstractController.php(89): call_user_func(Array, Array)
+#17 /application/Framework/Controller/Controller/AbstractController.php(65): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#18 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#19 /application/index.php(21): Framework\Application\HttpApplication->run()
+#20 {main}
+
+2017-06-18 01:35:46
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:35:46
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:46
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:48
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:48
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:50
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:35:50
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:50
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:51
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:51
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:57
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:35:57
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:35:57
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:36:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 72
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:29)
+
+2017-06-18 01:36:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 72
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:29)
+
+2017-06-18 01:36:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:29)
+
+2017-06-18 01:36:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:29)
+
+2017-06-18 01:36:06
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:36:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:29)
+
+2017-06-18 01:36:06
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:29)
+
+2017-06-18 01:36:27
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:36:27
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:36:27
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:39:15
+回復不能なエラーが発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 17
+Message : Trait 'Framework\Service\SessionService\AdminServiceAwareTrait' not found
+
+2017-06-18 01:39:43
+回復不能なエラーが発生しました。
+File : /application/Framework/Service/AdminService/AdminService.php
+Line : 0
+Message : Cannot declare class Framework\Service\AdminService\AwsService, because the name is already in use
+
+2017-06-18 01:39:59
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:39:59
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:39:59
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:40:18
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:40:18
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:40:18
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:40:49
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:40:49
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:40:49
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:41:40
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:41:40
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:41:42
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:41:42
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:41:42
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:41:47
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:41:51
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:41:51
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:41:51
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 81
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Controller/Controller/AbstractController.php:113)
+
+2017-06-18 01:43:43
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:45:48
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:46:13
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:46:16
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:46:32
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:46:43
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 01:54:18
+例外が発生しました。
+File : /application/Framework/Router/RouterAwareTrait.php
+Line : 9
+Message : Argument 1 passed to Framework\Controller\Controller\AbstractController::setRouter() must be an instance of Framework\Router\Router, instance of Framework\Router\Http\Router given
+Trace:#0 [internal function]: Framework\Controller\Controller\AbstractController->setRouter(Object(Framework\Router\Http\Router))
+#1 /application/Framework/ObjectManager/ObjectManager.php(79): call_user_func(Array, Object(Framework\Router\Http\Router))
+#2 /application/Framework/ObjectManager/ObjectManager.php(57): Framework\ObjectManager\ObjectManager->injectDependency(Object(Framework\Module\Cngo\Admin\Controller\LoginController))
+#3 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Contr...', 'Framework\\Modul...')
+#4 /application/Framework/Application/HttpApplication.php(42): Framework\ObjectManager\ObjectManager->get('Framework\\Contr...', 'Framework\\Modul...')
+#5 /application/index.php(21): Framework\Application\HttpApplication->run()
+#6 {main}
+
+2017-06-18 01:54:39
+回復不能なエラーが発生しました。
+File : /application/Framework/Controller/Controller/AbstractController.php
+Line : 14
+Message : Declaration of Framework\Controller\Controller\AbstractController::setRouter(Framework\Router\RouterInterface $Router) must be compatible with Framework\Router\RouterAwareInterface::setRouter(Framework\Router\Router $Router)
+
+2017-06-18 01:55:48
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:31)
+
+2017-06-18 01:55:48
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:31)
+
+2017-06-18 01:56:18
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:31)
+
+2017-06-18 01:56:18
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Module/Cngo/Admin/Controller/LoginController.php:31)
+
+2017-06-18 01:58:21
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Router/Http/Router.php:114)
+
+2017-06-18 01:58:21
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Router/Http/Router.php:114)
+
+2017-06-18 01:59:19
+実行時警告(waring)が発生しました。
+File : /application/Framework/Router/Http/Router.php
+Line : 115
+Message : array_search() expects parameter 2 to be array, string given
+
+2017-06-18 01:59:19
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 01:59:19
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 01:59:28
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Router/Http/Router.php:116)
+
+2017-06-18 01:59:28
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Router/Http/Router.php:116)
+
+2017-06-18 02:03:15
+回復不能なエラーが発生しました。
+File : /application/Framework/Router/Http/Router.php
+Line : 9
+Message : Declaration of Framework\Router\Http\Router::redirect($controller, $param = NULL) must be compatible with Framework\Router\AbstractRouter::redirect($controller, $action, $param = NULL)
+
+2017-06-18 02:03:39
+回復不能なエラーが発生しました。
+File : /application/Framework/Router/Http/Router.php
+Line : 9
+Message : Declaration of Framework\Router\Http\Router::redirect($controller, $param = NULL) must be compatible with Framework\Router\RouterInterface::redirect($controller, $action, $param = NULL)
+
+2017-06-18 02:03:50
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Router/Http/Router.php:122)
+
+2017-06-18 02:03:50
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Router/Http/Router.php:122)
+
+2017-06-18 02:04:43
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Router/Http/Router.php:124)
+
+2017-06-18 02:04:43
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Router/Http/Router.php:124)
+
+2017-06-18 02:12:41
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:12:46
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:16:12
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/FormViewModel.php
+Line : 173
+Message : Call to undefined method Form2\Form::validate()
+Trace:#0 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(29): Framework\ViewModel\ViewModel\FormViewModel->isValid()
+#1 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Array, Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#5 /application/Framework/ViewModel/ViewModel/FormViewModel.php(145): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#6 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->triggerForComplete(Array, Object(Form2\Form))
+#7 /application/vendor/gpgkd906/form2/src/Form2/Form.php(469): call_user_func(Array, Array, Object(Form2\Form))
+#8 /application/Framework/ViewModel/ViewModel/FormViewModel.php(80): Form2\Form->confirm(false, Array)
+#9 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#10 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#11 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#12 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#13 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#14 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#15 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(21): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#16 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#17 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#18 /application/Framework/Controller/Controller/AbstractController.php(69): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#19 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#20 /application/index.php(21): Framework\Application\HttpApplication->run()
+#21 {main}
+
+2017-06-18 02:28:37
+例外が発生しました。
+File : /application/vendor/gpgkd906/form2/src/Form2/Form.php
+Line : 470
+Message : Call to undefined method Form2\Form::validata()
+Trace:#0 /application/Framework/ViewModel/ViewModel/FormViewModel.php(75): Form2\Form->submit(Array)
+#1 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#5 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#6 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#7 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(21): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#8 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#9 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#10 /application/Framework/Controller/Controller/AbstractController.php(69): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#11 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#12 /application/index.php(21): Framework\Application\HttpApplication->run()
+#13 {main}
+
+2017-06-18 02:29:23
+実行時警告(notice)が発生しました。
+File : /application/vendor/gpgkd906/form2/src/Form2/Form.php
+Line : 385
+Message : Undefined variable: name
+
+2017-06-18 02:29:23
+実行時警告(notice)が発生しました。
+File : /application/vendor/gpgkd906/form2/src/Form2/Form.php
+Line : 385
+Message : Undefined variable: name
+
+2017-06-18 02:29:23
+実行時警告(notice)が発生しました。
+File : /application/vendor/gpgkd906/form2/src/Form2/Form.php
+Line : 385
+Message : Undefined variable: name
+
+2017-06-18 02:29:23
+実行時警告(waring)が発生しました。
+File : /application/Framework/Router/Http/Router.php
+Line : 125
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 02:29:23
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cookie - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 02:29:23
+実行時警告(waring)が発生しました。
+File : /application/Framework/Service/SessionService/SessionService.php
+Line : 83
+Message : session_start(): Cannot send session cache limiter - headers already sent (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 02:29:50
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:29:55
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:30:00
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:30:37
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 29
+Message : Call to undefined method Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel::getMessage()
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\Event\EventManager\Event))
+#1 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Array, Object(Framework\Event\EventManager\Event))
+#2 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#3 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#4 /application/Framework/ViewModel/ViewModel/FormViewModel.php(145): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#5 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->triggerForComplete(Array, Object(Form2\Form))
+#6 /application/vendor/gpgkd906/form2/src/Form2/Form.php(499): call_user_func(Array, Array, Object(Form2\Form))
+#7 /application/Framework/ViewModel/ViewModel/FormViewModel.php(80): Form2\Form->confirm(false, Array)
+#8 [internal function]: Framework\ViewModel\ViewModel\FormViewModel->Framework\ViewModel\ViewModel\{closure}(Object(Framework\Event\EventManager\Event))
+#9 /application/Framework/Event/EventManager/EventManager.php(108): call_user_func(Object(Closure), Object(Framework\Event\EventManager\Event))
+#10 /application/Framework/Event/EventManager/EventTargetTrait.php(55): Framework\Event\EventManager\EventManager::dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\Event\EventManager\Event))
+#11 /application/Framework/Event/EventManager/EventTargetTrait.php(62): Framework\ViewModel\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\Event\EventManager\Event))
+#12 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(136): Framework\ViewModel\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#13 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#14 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(21): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#15 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#16 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#17 /application/Framework/Controller/Controller/AbstractController.php(69): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#18 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#19 /application/index.php(21): Framework\Application\HttpApplication->run()
+#20 {main}
+
+2017-06-18 02:31:48
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
 

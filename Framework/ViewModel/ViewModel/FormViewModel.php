@@ -2,7 +2,7 @@
 
 namespace Framework\ViewModel\ViewModel;
 
-use Framework\RouteModel\RouteModelInterface;
+use Framework\Router\RouterInterface;
 use Form2\FormManager;
 use Form2\Validator;
 
@@ -57,7 +57,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     }
 
     public function getAction() {
-        return $this->getObjectManager()->get(RouteModelInterface::class)->getRequestUri();
+        return $this->getObjectManager()->get(RouterInterface::class)->getRequestUri();
     }
 
     public function __construct($config, $objectManager)

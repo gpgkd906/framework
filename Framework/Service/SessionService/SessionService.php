@@ -4,13 +4,13 @@ namespace Framework\Service\SessionService;
 
 use Framework\Service\AbstractService;
 use Exception;
-    
+
 class SessionService extends AbstractService
 {
     /**
      *
      * @api
-     * @var mixed $session 
+     * @var mixed $session
      * @access private
      * @link
      */
@@ -19,7 +19,7 @@ class SessionService extends AbstractService
     private $closeFlag = false;
 
     /**
-     * 
+     *
      * @api
      * @param mixed $session
      * @return mixed $session
@@ -31,7 +31,7 @@ class SessionService extends AbstractService
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $session
      * @link
@@ -55,7 +55,7 @@ class SessionService extends AbstractService
         }
         $this->session[$name] = $section;
     }
-    
+
     public function __construct()
     {
         $this->reload();
@@ -63,7 +63,9 @@ class SessionService extends AbstractService
 
     public function __destruct()
     {
-        $this->write();
+        if (session_status() !== PHP_SESSION_NONE) {
+            $this->write();
+        }
     }
 
     public function reload()

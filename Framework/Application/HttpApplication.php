@@ -6,8 +6,8 @@ use Framework\Core\ErrorHandler;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\Event\EventManager\EventTargetInterface;
 use Framework\Controller\Controller\ControllerInterface;
-use Framework\RouteModel\RouteModelInterface;
-use Framework\RouteModel\Http\RouteModel;
+use Framework\Router\RouterInterface;
+use Framework\Router\Http\Router;
 use Exception;
 
 class HttpApplication extends AbstractApplication implements EventTargetInterface
@@ -29,7 +29,7 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
     public function run()
     {
         $config = $this->getConfig();
-        $routeModel = $this->getObjectManager()->get(RouteModelInterface::class, RouteModel::class);
+        $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);
         if ($routeModel->isFaviconRequest()) {
             $this->sendDummyFavicon();
         }
@@ -37,19 +37,19 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
         ViewModelManager::setBasePath($config->getConfig('ApplicationHost'));
         ViewModelManager::setObjectManager($this->getObjectManager());
         $request = $routeModel->dispatch();
-        $controller = null;
+        $Controller = null;
         if ($request['controller']) {
-            $controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
+            $Controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
             $action = $request['action'];
-            if (!$controller || !is_callable([$controller, $action])) {
+            if (!$Controller || !is_callable([$Controller, $action])) {
                 $this->triggerEvent(self::TRIGGER_ROUTEMISS, $request);
-                $controller = $this->getController();
+                $Controller = $this->getController();
             }
         }
-        if (!$controller instanceof ControllerInterface) {
+        if (!$Controller instanceof ControllerInterface) {
             return $this->sendNotFound();
         }
-        $controller->callActionFlow($request['action'], $request['param']);
+        $Controller->callActionFlow($request['action'], $request['param']);
     }
 
     public function setController($controller)

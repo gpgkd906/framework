@@ -5,7 +5,7 @@ namespace Framework\Event\EventManager;
 class Event
 {
     private $name = null;
-    private $data = null;    
+    private $data = null;
     private $target = null;
     private $defaultPrevented = false;
     private $bubbles = true;
@@ -17,7 +17,7 @@ class Event
         $this->cancelable = $config['cancelable'] ?? true;
         $this->bubbles = $config['bubbles'] ?? true;
     }
-    
+
     public function getName ()
     {
         return $this->name;
@@ -27,22 +27,22 @@ class Event
     {
         return $this->data = $data;
     }
-    
+
     public function getData ()
     {
         return $this->data;
     }
-    
+
     public function setTarget ($target)
     {
         return $this->target = $target;
     }
-    
+
     public function getTarget ()
     {
         return $this->target;
     }
-    
+
     public function isDefaultPrevented()
     {
         return $this->defaultPrevented;
