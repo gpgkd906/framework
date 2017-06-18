@@ -1,12 +1,12 @@
 <?php
 
-namespace Framework\ViewModel\Front;
+namespace Framework\Module\Cngo\Front\View\ViewModel;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 
 class IndexViewModel extends AbstractViewModel
 {
-    
+
     protected $config = [
         'container' => [
             'main' => [

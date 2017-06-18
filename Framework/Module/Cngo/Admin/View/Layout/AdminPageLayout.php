@@ -4,7 +4,8 @@ namespace Framework\Module\Cngo\Admin\View\Layout;
 
 use Framework\ViewModel\ViewModel\PageLayout;
 
-class AdminPageLayout extends PageLayout {
+class AdminPageLayout extends PageLayout
+{
 
     protected $asset = '/asset';
 

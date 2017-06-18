@@ -1,11 +1,10 @@
 <?php
-namespace Framework\Module\Cngo\Admin;
+namespace Framework\Module\Cngo\Console;
 
 use Framework\Router\RouterInterface;
 use Framework\ObjectManager\ObjectManager;
 
 ObjectManager::getSingleton()->get(RouterInterface::class)
     ->register([
-        'admin/login' => Controller\LoginController::class,
-        'admin/index' => Controller\DashboardController::class,
+        'cngo::module::create' => Controller\Module\CreateController::class,
     ]);

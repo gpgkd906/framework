@@ -1,15 +1,21 @@
 1, namespace base.
+    completed
 2, tiny core
+    completed
 3, service base
+    canceled, changed to automic-dependency-injection
 4, model:
-    schema
-    sqlbuilder
-    record
-    entity
+    schema/sqlbuilder/record/entity
+        completed
+    still change to entity_manager(doctrine)
 5, route
+    completed
 6, controller
+    completed
 7, viewmodel
+    completed
 8, plugin
-    ini
-    db(mysql)
+    canceled by automic-dependency-injection
 9, new formhelper
+    completed
+10, implement PHPLisp3 with new Framework v3

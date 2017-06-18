@@ -1,12 +1,11 @@
 <?php
 
-namespace Framework\Console\Console;
+namespace Framework\Controller\Controller;
 
-use Framework\Controller\Controller\AbstractController;
 use Exception;
 
-abstract class AbstractConsole Extends AbstractController
-{    
+abstract class AbstractConsole extends AbstractController
+{
     public function callActionFlow($action, $param)
     {
         if(is_callable([$this, $action])) {

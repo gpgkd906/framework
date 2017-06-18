@@ -18,7 +18,7 @@ class LoginController extends AbstractController implements AdminServiceAwareInt
         return ViewModelManager::getViewModel([
             'viewModel' => LoginViewModel::class,
             'listeners' => [
-                'Complete' => [$this, 'onLoginComplete']
+                LoginViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onLoginComplete']
             ]
         ]);
     }

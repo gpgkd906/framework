@@ -47,11 +47,11 @@ class Router extends AbstractRouter
      */
     public function getRestAction ()
     {
-        if($this->restAction === null) {
+        if ($this->restAction === null) {
             $request = $this->dispatch();
             $action = $request["action"];
             $method = $this->getMethod();
-            if(self::GET !== $method) {
+            if (self::GET !== $method) {
                 $action = $method . ucfirst($action);
                 $this->setRestAction($action);
             } else {
@@ -63,7 +63,7 @@ class Router extends AbstractRouter
 
     private function getMethod()
     {
-        if($this->request_method === null) {
+        if ($this->request_method === null) {
             $request_method = isset($_REQUEST["REQUEST_METHOD"]) ? $_REQUEST["REQUEST_METHOD"] : (isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : self::GET);
             $this->request_method = strtolower($request_method);
         }
@@ -91,14 +91,14 @@ class Router extends AbstractRouter
             break;
         case self::POST:
             $this->request_param = $_POST;
-            if(!empty($_GET)) {
+            if (!empty($_GET)) {
                 $this->request_param = array_merge($_GET, $this->request_param);
             }
             break;
         case self::PUT:
         case self::DELETE:
             parse_str(file_get_contents('php://input'), $this->request_param);
-            if(!empty($_GET)) {
+            if (!empty($_GET)) {
                 $this->request_param = array_merge($_GET, $this->request_param);
             }
             break;
@@ -109,6 +109,13 @@ class Router extends AbstractRouter
     public function getReq()
     {
         return $_SERVER['REQUEST_URI'];
+    }
+
+    protected function loadRouter()
+    {
+        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/Route.php') as $routeInjection) {
+            require $routeInjection;
+        }
     }
 
     public function redirect($controller, $param = null)
@@ -137,7 +144,7 @@ class Router extends AbstractRouter
             $req = substr($req, 1);
         }
         if (strpos($req, ".")) {
-            return [null, null, null, null];
+            return [null, null, null];
         }
         if (substr($req, -1, 1) === "/") {
             $req .= $this->getIndex();
@@ -147,9 +154,9 @@ class Router extends AbstractRouter
         }
         $reqs = explode("/", $req);
         $parts = [];
-        foreach($reqs as $idx => $token) {
+        foreach ($reqs as $idx => $token) {
             //数字で始まる文字列は名前空間やクラス名やメソッド名になり得ないのでパラメタに退避させる
-            if(is_numeric($token[0])) {
+            if (is_numeric($token[0])) {
                 $parts[] = $this->getIndex();
                 break;
             }
@@ -160,10 +167,9 @@ class Router extends AbstractRouter
         $action = self::INDEX;
         $param = array_values($reqs);
         $request = [
-            'controller' => null,
+            'controller' => $req,
             'action'     => $action,
             'param'      => $param,
-            'req'        => $req,
         ];
         return $request;
     }

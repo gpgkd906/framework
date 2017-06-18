@@ -21,6 +21,8 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
     private $request = [];
     private $routerList = [];
 
+    abstract protected function loadRouter();
+
     public function __construct() {
         $this->config = ConfigModel::getConfigModel([
             "scope" => static::class,
@@ -29,12 +31,6 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
         $this->index = self::INDEX;
     }
 
-    private function loadRouter()
-    {
-        foreach (glob('Framework/Module/*/*/Route.php') as $routeInjection) {
-            require $routeInjection;
-        }
-    }
 
     public function dispatch()
     {
@@ -42,9 +38,9 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
         if (empty($this->request)) {
             $this->request = $this->parseRequest();
         }
-        $req = $this->request['req'];
-        if (isset($this->routerList[$req])) {
-            $this->request['controller'] = $this->routerList[$req];
+        $controller = $this->request['controller'];
+        if (isset($this->routerList[$controller])) {
+            $this->request['controller'] = $this->routerList[$controller];
         }
         return $this->request;
     }

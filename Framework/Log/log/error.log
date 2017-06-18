@@ -55018,3 +55018,280 @@ File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu
 Line : 6
 Message : Array to string conversion
 
+2017-06-18 02:36:03
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:36:04
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 21
+Message : Undefined class constant 'TRIGGER_FORMCOMPLETE'
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#1 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#2 /application/Framework/Controller/Controller/AbstractController.php(69): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#3 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#4 /application/index.php(21): Framework\Application\HttpApplication->run()
+#5 {main}
+
+2017-06-18 02:36:04
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 21
+Message : Undefined class constant 'TRIGGER_FORMCOMPLETE'
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#1 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#2 /application/Framework/Controller/Controller/AbstractController.php(69): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#3 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#4 /application/index.php(21): Framework\Application\HttpApplication->run()
+#5 {main}
+
+2017-06-18 02:36:17
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:40:43
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:40:59
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 02:41:02
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 20:59:42
+回復不能なエラーが発生しました。
+File : /application/Framework/Router/Console/Router.php
+Line : 63
+Message : Cannot declare class Framework\Router\ConsoleRouter\ConsoleRouter, because the name is already in use
+
+2017-06-18 21:00:24
+回復不能なエラーが発生しました。
+File : /application/Framework/Router/Console/Router.php
+Line : 63
+Message : Cannot declare class Framework\Router\ConsoleRouter\Router, because the name is already in use
+
+2017-06-18 21:01:55
+例外が発生しました。
+File : /application/Framework/Application/ConsoleApplication.php
+Line : 20
+Message : Call to undefined method Framework\Application\ConsoleApplication::setRouter()
+Trace:#0 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#1 {main}
+
+2017-06-18 21:02:34
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:02:34
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'Framework\Application\ControllerInterface' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Appli...', 'Framework\\Appli...')
+#1 /application/Framework/Application/ConsoleApplication.php(22): Framework\ObjectManager\ObjectManager->get('Framework\\Appli...', NULL)
+#2 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#3 {main}
+
+2017-06-18 21:03:03
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:03:08
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:03:32
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:03:36
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:03:42
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:08:29
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:08:43
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: req
+
+2017-06-18 21:13:37
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Cannot instantiate interface Framework\Router\RouterInterface
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
+#1 /application/Framework/Module/Cngo/Admin/Command.php(8): Framework\ObjectManager\ObjectManager->get('Framework\\Route...')
+#2 /application/Framework/Router/Console/Router.php(21): require('/application/Fr...')
+#3 /application/Framework/Router/AbstractRouter.php(37): Framework\Router\Console\Router->loadRouter()
+#4 /application/Framework/Application/ConsoleApplication.php(21): Framework\Router\AbstractRouter->dispatch()
+#5 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#6 {main}
+
+2017-06-18 21:24:57
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'admin::login' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Appli...', 'admin::login')
+#1 /application/Framework/Application/ConsoleApplication.php(23): Framework\ObjectManager\ObjectManager->get('Framework\\Appli...', 'admin::login')
+#2 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#3 {main}
+
+2017-06-18 21:25:07
+回復不能なエラーが発生しました。
+File : /application/Framework/Module/Cngo/Console/Controller/Module/CreateController.php
+Line : 13
+Message : Cannot declare class Framework\Module\Cngo\Console\Controller\Module\EditController, because the name is already in use
+
+2017-06-18 21:26:04
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 21:26:12
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/component/sidemenu.html
+Line : 6
+Message : Array to string conversion
+
+2017-06-18 21:31:29
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: controller
+
+2017-06-18 21:31:29
+実行時警告(notice)が発生しました。
+File : /application/Framework/Application/HttpApplication.php
+Line : 41
+Message : Undefined index: controller
+
+2017-06-18 21:31:29
+実行時警告(waring)が発生しました。
+File : /application/Framework/Application/HttpApplication.php
+Line : 74
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 21:33:46
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: controller
+
+2017-06-18 21:33:46
+実行時警告(notice)が発生しました。
+File : /application/Framework/Application/HttpApplication.php
+Line : 41
+Message : Undefined index: controller
+
+2017-06-18 21:33:46
+実行時警告(waring)が発生しました。
+File : /application/Framework/Application/HttpApplication.php
+Line : 74
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 21:34:15
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'index/index' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Contr...', 'index/index')
+#1 /application/Framework/Application/HttpApplication.php(42): Framework\ObjectManager\ObjectManager->get('Framework\\Contr...', 'index/index')
+#2 /application/index.php(21): Framework\Application\HttpApplication->run()
+#3 {main}
+
+2017-06-18 21:34:18
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'index/index' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Contr...', 'index/index')
+#1 /application/Framework/Application/HttpApplication.php(42): Framework\ObjectManager\ObjectManager->get('Framework\\Contr...', 'index/index')
+#2 /application/index.php(21): Framework\Application\HttpApplication->run()
+#3 {main}
+
+2017-06-18 21:34:33
+実行時警告(notice)が発生しました。
+File : /application/Framework/Router/AbstractRouter.php
+Line : 41
+Message : Undefined index: controller
+
+2017-06-18 21:34:33
+実行時警告(notice)が発生しました。
+File : /application/Framework/Application/HttpApplication.php
+Line : 41
+Message : Undefined index: controller
+
+2017-06-18 21:34:33
+実行時警告(waring)が発生しました。
+File : /application/Framework/Application/HttpApplication.php
+Line : 74
+Message : Cannot modify header information - headers already sent by (output started at /application/Framework/Log/ErrorHandler.php:343)
+
+2017-06-18 21:34:39
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'index/index' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Contr...', 'index/index')
+#1 /application/Framework/Application/HttpApplication.php(42): Framework\ObjectManager\ObjectManager->get('Framework\\Contr...', 'index/index')
+#2 /application/index.php(21): Framework\Application\HttpApplication->run()
+#3 {main}
+
+2017-06-18 21:34:49
+回復不能なエラーが発生しました。
+File : /application/Framework/Module/Cngo/Front/Controller/LoginController.php
+Line : 0
+Message : Cannot declare class Framework\Controller\Login\LoginController, because the name is already in use
+
+2017-06-18 21:35:07
+例外が発生しました。
+File : /application/Framework/ViewModel/ViewModel/ViewModelManager.php
+Line : 124
+Message : error: invalid viewmodelname: \Framework\Module\Cngo\Front\View\ViewModel\IndexViewModel\Framework\Module\Cngo\Front\View\ViewModel\IndexViewModelViewModel
+Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): Framework\ViewModel\ViewModel\ViewModelManager::getView(Array)
+#1 /application/Framework/Module/Cngo/Front/Controller/IndexController.php(14): Framework\ViewModel\ViewModel\ViewModelManager::getViewModel(Array)
+#2 [internal function]: Framework\Module\Cngo\Front\Controller\IndexController->index(Array)
+#3 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#4 /application/Framework/Controller/Controller/AbstractController.php(69): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#5 /application/Framework/Application/HttpApplication.php(52): Framework\Controller\Controller\AbstractController->callActionFlow('index', Array)
+#6 /application/index.php(21): Framework\Application\HttpApplication->run()
+#7 {main}
+
