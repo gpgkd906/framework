@@ -16,4 +16,13 @@ abstract class AbstractConsole extends AbstractController
             throw new Exception(sprintf("not found implementions for action[%s]", $action));
         }
     }
+
+    abstract public function getDescription();
+
+    abstract public function getHelp();
+
+    public function getPriority()
+    {
+        return 99;
+    }
 }

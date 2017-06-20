@@ -3,7 +3,7 @@
 require './old/module/benchmark/benchmark.class.php';
 $bm = new benchmark;
 
-define("ROOT_DIR", dirname(__FILE__) . "/");
+define("ROOT_DIR", __DIR__ . "/");
 define("ENVIRONMENT", "Development");
 require ROOT_DIR . "vendor/autoload.php";
 

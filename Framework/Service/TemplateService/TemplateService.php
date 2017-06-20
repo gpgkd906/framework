@@ -10,7 +10,7 @@ class TemplateService extends AbstractService
     /**
      *
      * @api
-     * @var mixed $parser 
+     * @var mixed $parser
      * @access private
      * @link
      */
@@ -19,7 +19,7 @@ class TemplateService extends AbstractService
     /**
      *
      * @api
-     * @var mixed $files 
+     * @var mixed $files
      * @access private
      * @link
      */
@@ -28,7 +28,7 @@ class TemplateService extends AbstractService
     /**
      *
      * @api
-     * @var mixed $baseDir 
+     * @var mixed $baseDir
      * @access private
      * @link
      */
@@ -37,41 +37,41 @@ class TemplateService extends AbstractService
     /**
      *
      * @api
-     * @var mixed $targetDir 
+     * @var mixed $targetDir
      * @access private
      * @link
      */
     private $targetDir = null;
 
     /**
-     * 
+     *
      * @api
      * @return mixed $parser
      * @link
      */
-    public function getParser ()
+    public function getParser()
     {
-        if($this->parser === null) {
+        if ($this->parser === null) {
             $this->parser = new Engine;
         }
         return $this->parser;
     }
 
     /**
-     * 
+     *
      * @api
-     * @param   
-     * @param    
+     * @param
+     * @param
      * @return
      * @link
      */
-    public function getCollection ()
+    public function getCollection()
     {
-        return $this->getParser()->getCollection();   
+        return $this->getParser()->getCollection();
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $results
      * @return mixed $results
@@ -83,25 +83,25 @@ class TemplateService extends AbstractService
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $results
      * @return mixed $results
      * @link
      */
-    public function mergeResults ($results)
+    public function mergeResults($results)
     {
         $this->results = array_merge($this->results, $results);
         return $this->results;
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $files
      * @link
      */
-    public function getResults ()
+    public function getResults()
     {
         return $this->results;
     }
@@ -109,16 +109,16 @@ class TemplateService extends AbstractService
     public function parseFiles($file)
     {
         $res = [];
-        if(empty($file)) {
+        if (empty($file)) {
             return false;
         }
-        if(is_array($file)) {
-            foreach($file as $unitFile) {
+        if (is_array($file)) {
+            foreach ($file as $unitFile) {
                 $this->parseFiles($unitFile);
             }
         }
-        if(is_file($file)) {
-            if($this->isHtml($file)) {
+        if (is_file($file)) {
+            if ($this->isHtml($file)) {
                 $content = file_get_contents($file);
                 $parser = $this->getParser();
                 $result = $parser->parse($content);
@@ -127,7 +127,7 @@ class TemplateService extends AbstractService
                     "collection" => $parser->getCollection()
                 ];
                 $parser->clear();
-            } else if($this->isZip($file)) {
+            } elseif ($this->isZip($file)) {
                 $zip = new ZipArchive;
                 $zip->open($file);
                 $files = [];
@@ -137,11 +137,9 @@ class TemplateService extends AbstractService
                 }
                 $zip->extractTo($baseDir);
                 $zip->close();
-                foreach($files as $unitFile) {
+                foreach ($files as $unitFile) {
                     $this->parseFiles($unitFile);
                 }
-            } else {
-
             }
         }
         $this->mergeResults($res);
@@ -151,14 +149,14 @@ class TemplateService extends AbstractService
     private function getMimeType($file)
     {
         //新しいPHPでは使えなくなったmime_content_type、一番便利なのに
-        if(function_exists('mime_content_type')) {
+        if (function_exists('mime_content_type')) {
             $mimetype = \mime_content_type($file);
-        } else if(function_exists('finfo_open')) {
+        } elseif (function_exists('finfo_open')) {
             //インストールしないと使えないfinfo_open
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $file);
             finfo_close($finfo);
-        } else if($mime = \shell_exec('file -bi ' . \escapeshellcmd($file))) {
+        } elseif ($mime = \shell_exec('file -bi ' . \escapeshellcmd($file))) {
             //仕方ありません、shellの力を借ります
             $mime = \trim($mime);
             $mime = \preg_replace("/ [^ ]*/", "", $mime);
@@ -206,24 +204,24 @@ class TemplateService extends AbstractService
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $baseDir
      * @return mixed $baseDir
      * @link
      */
-    public function setBaseDir ($baseDir)
+    public function setBaseDir($baseDir)
     {
         return $this->baseDir = $baseDir;
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $baseDir
      * @link
      */
-    public function getBaseDir ()
+    public function getBaseDir()
     {
         if ($this->baseDir === null) {
             $this->baseDir = dirname(__FILE__) . "/base/";
@@ -232,24 +230,24 @@ class TemplateService extends AbstractService
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $targetDir
      * @return mixed $targetDir
      * @link
      */
-    public function setTargetDir ($targetDir)
+    public function setTargetDir($targetDir)
     {
         return $this->targetDir = $targetDir;
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $targetDir
      * @link
      */
-    public function getTargetDir ()
+    public function getTargetDir()
     {
         if ($this->targetDir === null) {
             //do samething here if we need;

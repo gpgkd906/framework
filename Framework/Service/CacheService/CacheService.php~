@@ -1,5 +1,0 @@
-<?php
-
-namespace Framework\Service\CacheService;
-
-use Framework\Service\SessionService\SessionService;

@@ -55295,3 +55295,73 @@ Trace:#0 /application/Framework/ViewModel/ViewModel/ViewModelManager.php(106): F
 #6 /application/index.php(21): Framework\Application\HttpApplication->run()
 #7 {main}
 
+2017-06-19 00:49:20
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Console/Controller/Module/CreateController.php
+Line : 12
+Message : Call to undefined method Framework\Module\Cngo\Console\Controller\Module\CreateController::getEventManager()
+Trace:#0 [internal function]: Framework\Module\Cngo\Console\Controller\Module\CreateController->index(Array)
+#1 /application/Framework/Controller/Controller/AbstractController.php(93): call_user_func(Array, Array)
+#2 /application/Framework/Controller/Controller/AbstractConsole.php(13): Framework\Controller\Controller\AbstractController->callAction('index', Array)
+#3 /application/Framework/Application/ConsoleApplication.php(26): Framework\Controller\Controller\AbstractConsole->callActionFlow('index', Array)
+#4 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#5 {main}
+
+2017-06-20 22:01:16
+例外が発生しました。
+File : /application/Framework/Router/Console/Router.php
+Line : 42
+Message : syntax error, unexpected '...' (T_ELLIPSIS), expecting ',' or ')'
+Trace:#0 /application/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile('/application/ve...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('Framework\\Route...')
+#2 [internal function]: spl_autoload_call('Framework\\Route...')
+#3 /application/Framework/ObjectManager/ObjectManager.php(51): is_subclass_of('Framework\\Route...', 'Framework\\Objec...')
+#4 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
+#5 /application/Framework/Application/ConsoleApplication.php(20): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
+#6 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#7 {main}
+
+2017-06-20 22:01:36
+例外が発生しました。
+File : /application/Framework/Router/Console/Router.php
+Line : 42
+Message : syntax error, unexpected '.', expecting ',' or ')'
+Trace:#0 /application/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile('/application/ve...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('Framework\\Route...')
+#2 [internal function]: spl_autoload_call('Framework\\Route...')
+#3 /application/Framework/ObjectManager/ObjectManager.php(51): is_subclass_of('Framework\\Route...', 'Framework\\Objec...')
+#4 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Route...', 'Framework\\Route...')
+#5 /application/Framework/Application/ConsoleApplication.php(20): Framework\ObjectManager\ObjectManager->get('Framework\\Route...', 'Framework\\Route...')
+#6 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#7 {main}
+
+2017-06-20 22:04:41
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class '1=2' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Appli...', '1=2')
+#1 /application/Framework/Application/ConsoleApplication.php(23): Framework\ObjectManager\ObjectManager->get('Framework\\Appli...', '1=2')
+#2 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#3 {main}
+
+2017-06-20 22:04:46
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'Framework\Application\ControllerInterface' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Appli...', 'Framework\\Appli...')
+#1 /application/Framework/Application/ConsoleApplication.php(23): Framework\ObjectManager\ObjectManager->get('Framework\\Appli...', NULL)
+#2 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#3 {main}
+
+2017-06-20 22:32:21
+例外が発生しました。
+File : /application/Framework/ObjectManager/ObjectManager.php
+Line : 55
+Message : Class 'Framework\Application\ControllerInterface' not found
+Trace:#0 /application/Framework/ObjectManager/ObjectManager.php(36): Framework\ObjectManager\ObjectManager->create('Framework\\Appli...', 'Framework\\Appli...')
+#1 /application/Framework/Application/ConsoleApplication.php(23): Framework\ObjectManager\ObjectManager->get('Framework\\Appli...', NULL)
+#2 /application/bin/console.php(17): Framework\Application\ConsoleApplication->run()
+#3 {main}
+

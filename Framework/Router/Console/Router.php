@@ -39,7 +39,10 @@ class Router extends AbstractRouter
         $tmp = $this->getParam();
         foreach ($tmp as $index => $arg) {
             if (strpos($arg, "=")) {
-                list($name, $val) = explode("=", $arg);
+                // list($name, $val) = explode("=", $arg);
+                $argTmp = explode("=", $arg);
+                $name = array_shift($argTmp);
+                $val = join("=", $argTmp);
                 if ($name == 'controller') {
                     $request['controller'] = $val;
                 } else {
