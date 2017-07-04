@@ -4,7 +4,7 @@ namespace Framework\EventManager;
 
 use Framework\ObjectManager\SingletonInterface;
 
-class EventManager
+class EventManager implements SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
 
