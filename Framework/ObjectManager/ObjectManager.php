@@ -35,8 +35,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         if (isset($this->sharedObject[$name])) {
             return $this->sharedObject[$name];
         }
-        $this->sharedObject[$name] = $this->create($name, $factory);
-        return $this->sharedObject[$name];
+        return $this->create($name, $factory);
     }
 
     public function set($name, $Object)
@@ -54,8 +53,13 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
             $ObjectFactory = new $factory;
             $Object = $ObjectFactory->create();
         } else {
-            $Object = new $factory;
+            if (is_subclass_of($factory, SingletonInterface::class)) {
+                $Object = $factory::getSingleton();
+            } else {
+                $Object = new $factory;
+            }
         }
+        $this->sharedObject[$name] = $Object;
         $this->injectDependency($Object);
         return $Object;
     }

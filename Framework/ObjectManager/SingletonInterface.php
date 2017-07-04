@@ -4,5 +4,5 @@ namespace Framework\ObjectManager;
 
 interface SingletonInterface
 {
-    static public function getSingleton();
+    public static function getSingleton();
 }

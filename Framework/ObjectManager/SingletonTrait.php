@@ -1,13 +1,12 @@
 <?php
 namespace Framework\ObjectManager;
 
-
 trait SingletonTrait
 {
 
-    static private $instance = [];
+    private static $instance = [];
 
-    static public function getSingleton()
+    public static function getSingleton()
     {
         $className = static::class;
         if (!isset(self::$instance[$className])) {
