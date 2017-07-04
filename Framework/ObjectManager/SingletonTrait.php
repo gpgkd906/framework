@@ -2,14 +2,15 @@
 namespace Framework\ObjectManager;
 
 
-trait SingletonTrait {
+trait SingletonTrait
+{
 
     static private $instance = [];
 
     static public function getSingleton()
     {
         $className = static::class;
-        if(!isset(self::$instance[$className])) {
+        if (!isset(self::$instance[$className])) {
             self::$instance[$className] = new $className();
         }
         return self::$instance[$className];

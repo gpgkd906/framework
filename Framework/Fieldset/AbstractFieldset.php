@@ -3,12 +3,12 @@
 namespace Framework\Fieldset;
 
 use Framework\Repository\Repository\EntityInterface;
-use Framework\Event\EventManager\EventTargetInterface;
+use Framework\EventManager\EventTargetInterface;
 use Form2\Fieldset;
 
 abstract class AbstractFieldset extends Fieldset implements EventTargetInterface
 {
-    use \Framework\Event\EventManager\EventTargetTrait;
+    use \Framework\EventManager\EventTargetTrait;
     
     CONST TRIGGER_SUBMIT = 'submit';
     

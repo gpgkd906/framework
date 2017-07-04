@@ -2,12 +2,12 @@
 namespace Framework\Plugin\PluginManager;
 
 use Framework\ObjectManager\SingletonInterface;
-use Framework\Event\EventManager\EventTargetInterface;
+use Framework\EventManager\EventTargetInterface;
 use Framework\Config\ConfigModel;
 
 class PluginManager implements EventTargetInterface
 {
-    use \Framework\Event\EventManager\EventTargetTrait;
+    use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\SingletonTrait;
 
     const TRIGGER_PLUGININITED = "PluginInited";

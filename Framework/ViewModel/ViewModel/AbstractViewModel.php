@@ -2,14 +2,14 @@
 namespace Framework\ViewModel\ViewModel;
 
 use Framework\ObjectManager\ObjectManagerAwareInterface;
-use Framework\Event\EventManager\EventTargetInterface;
+use Framework\EventManager\EventTargetInterface;
 use Framework\Model\ModelInterface;
 use Framework\ViewModel\ViewModel\ViewHelper;
 use Exception;
 
 abstract class AbstractViewModel implements ViewModelInterface, EventTargetInterface, ObjectManagerAwareInterface
 {
-    use \Framework\Event\EventManager\EventTargetTrait;
+    use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
 
     const renderAsHTML = "html";

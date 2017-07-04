@@ -1,7 +1,8 @@
 <?php
 
-namespace Framework\Service\CodeGeneration;
+namespace Framework\Service\CodeService;
 
+use Framework\Service\AbstractService;
 use CodeService\Code\Analytic;
 use CodeService\Code\Wrapper\AstWrapper;
 use Framework\Config\ConfigModel;
@@ -81,18 +82,33 @@ class CodeService extends AbstractService
 
     }
 
-    public function analysis($file)
+    public function analysis($file, $version = null)
     {
-        return Analytic::analytic($file);
+        return Analytic::analytic($file, $version);
     }
 
-    public function newAst()
+    public function analysisCode($code, $version = null)
     {
-        return Analytic::analyticCode(join('', [
-            '<?php', PHP_EOL,
-            'namespace ', __FUNCTION__, ';', PHP_EOL,
-            'class ', __FUNCTION__, '{}'
-        ]));
+        return Analytic::analyticCode($code, $version);
+    }
+
+    public function createCode($namespace = null, $class = null)
+    {
+        $codeBase = [
+            '<?php', PHP_EOL, PHP_EOL
+        ];
+        if ($namespace) {
+            $codeBase[] = 'namespace ';
+            $codeBase[] = $namespace . ';';
+            $codeBase[] = PHP_EOL;
+        }
+        if ($class) {
+            $codeBase[] = 'class ';
+            $codeBase[] = $class . ' {}';
+            $codeBase[] = PHP_EOL;
+        }
+        // var_dump(join('', $codeBase));die;
+        return Analytic::analyticCode(join('', $codeBase));
     }
 
     public function test()

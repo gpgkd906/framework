@@ -23,7 +23,7 @@ class LoginController extends AbstractController implements AdminServiceAwareInt
         ]);
     }
 
-    public function onLoginComplete(\Framework\Event\EventManager\Event $event)
+    public function onLoginComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->validate()) {

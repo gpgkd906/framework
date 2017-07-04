@@ -12,12 +12,12 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     use SingletonTrait;
 
     /**
-     *
-     * @api
-     * @var mixed $application
-     * @access private
-     * @link
-     */
+    *
+    * @api
+    * @var mixed $application
+    * @access private
+    * @link
+    */
     private $application = null;
 
     private $sharedObject = [];
@@ -26,6 +26,8 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     private function __construct()
     {
         $this->set(ObjectManagerInterface::class, $this);
+        $this->initGlobalObject();
+        $this->initModuleObject();
     }
 
     public function get($name, $factory = null)
@@ -76,7 +78,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
                     $dependency = $this->get($injectDependencyInterface, $injectDependency);
                 }
                 if ($dependency) {
-                  call_user_func([$Object, $dependencySetter], $dependency);
+                    call_user_func([$Object, $dependencySetter], $dependency);
                 }
             }
         }
@@ -84,15 +86,33 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
 
     private function getDependencySetter($interface)
     {
-      if (isset($this->awareSetter[$interface])) {
-        return $this->awareSetter[$interface];
-      }
-      foreach (get_class_methods($interface) as $method) {
-        if (strpos($method, 'set') !== false) {
-          $this->awareSetter[$interface] = $method;
-          return $method;
+        if (isset($this->awareSetter[$interface])) {
+            return $this->awareSetter[$interface];
         }
-      }
-      return;
+        foreach (get_class_methods($interface) as $method) {
+            if (strpos($method, 'set') !== false) {
+                $this->awareSetter[$interface] = $method;
+                return $method;
+            }
+        }
+        return;
+    }
+
+    private function initGlobalObject()
+    {
+        foreach (glob(ROOT_DIR . 'Framework/*/export.php') as $objectExporter) {
+            require $objectExporter;
+        }
+    }
+
+    private function initModuleObject()
+    {
+        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
+            require $moduleExporter;
+        }
+    }
+
+    public function export()
+    {
     }
 }

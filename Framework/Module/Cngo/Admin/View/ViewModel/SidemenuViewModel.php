@@ -15,9 +15,7 @@ class SidemenuViewModel extends AbstractViewModel
         [
             'title' => 'Dashboard',
             'link' => '/admin/dashboard/',
-            'icon' => [
-                'class' => 'fa fa-dashboard fa-fw',
-            ],
+            'icon' => 'fa fa-dashboard fa-fw',
         ],
         [
             'title' => '会員管理',

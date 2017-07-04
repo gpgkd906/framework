@@ -5,11 +5,11 @@ namespace Framework\Module\Cngo\Admin\Controller;
 use Framework\Controller\Controller\ControllerInterface;
 use Framework\Controller\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\Event\EventManager\EventTargetInterface;
+use Framework\EventManager\EventTargetInterface;
 
 class CustomerController extends AbstractController implements ControllerInterface, EventTargetInterface
 {
-    use \Framework\Event\EventManager\EventTargetTrait;
+    use \Framework\EventManager\EventTargetTrait;
 
     public function index($id = null, $length = null)
     {

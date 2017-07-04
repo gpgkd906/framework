@@ -6,7 +6,7 @@ use Framework\Application\HttpApplication;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
-use Framework\Event\EventManager\EventTargetInterface;
+use Framework\EventManager\EventTargetInterface;
 use Framework\Router\RouterAwareInterface;
 use Framework\Service\SessionService\SessionServiceAwareInterface;
 use Exception;
@@ -15,7 +15,7 @@ abstract class AbstractController
     implements ControllerInterface, EventTargetInterface,
                 objectManagerAwareInterface, RouterAwareInterface, SessionServiceAwareInterface
 {
-    use \Framework\Event\EventManager\EventTargetTrait;
+    use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\Router\RouterAwareTrait;
     use \Framework\Service\SessionService\SessionServiceAwareTrait;

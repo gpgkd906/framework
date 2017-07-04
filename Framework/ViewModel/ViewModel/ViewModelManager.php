@@ -2,7 +2,7 @@
 
 namespace Framework\ViewModel\ViewModel;
 
-use Framework\Event\EventManager\EventTargetInterface;
+use Framework\EventManager\EventTargetInterface;
 use Exception;
 
 class ViewModelManager implements ViewModelManagerInterface
