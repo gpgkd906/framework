@@ -1,7 +1,7 @@
 <?php
 namespace Framework\Module\Cngo\Admin\Controller;
 
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\Event\Event\EventManager;
 use Framework\Module\Cngo\Admin\View\ViewModel\DashboardViewModel;

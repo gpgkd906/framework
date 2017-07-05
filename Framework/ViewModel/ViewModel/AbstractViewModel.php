@@ -146,11 +146,11 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
             $this->setContainers($config['container']);
         }
         //ViewModel Event init
-        foreach($this->listeners as $event => $listener) {
+        foreach ($this->listeners as $event => $listener) {
             $this->addEventListener($event, [$this, $listener]);
         }
         if (isset($config['listeners'])) {
-            foreach($config['listeners'] as $event => $listener) {
+            foreach ($config['listeners'] as $event => $listener) {
                 $this->addEventListener($event, $listener);
             }
         }
@@ -261,7 +261,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     public function getChilds()
     {
         if (empty($this->childs)) {
-            foreach($this->getContainers() as $container) {
+            foreach ($this->getContainers() as $container) {
                 $this->childs += $container->getItems();
             }
         }
@@ -304,7 +304,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
             ob_end_clean();
         } else {
             //templateがなければ....
-            foreach($this->getChilds() as $child) {
+            foreach ($this->getChilds() as $child) {
                 $htmls[] = $child->render();
             }
         }
@@ -317,7 +317,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
             "data" => $this->getData(),
             "childrens" => []
         ];
-        foreach($this->getChilds() as $child) {
+        foreach ($this->getChilds() as $child) {
             $subData = $child->getData();
             if (!empty($subData)) {
                 $data["childrens"][] = $subData;
@@ -339,7 +339,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     static public function escapeHtml($data)
     {
         if (is_array($data)){
-            foreach($data as $key => $value){
+            foreach ($data as $key => $value){
                 $data[$key] = self::escapeHtml($value);
             }
             return $data;
@@ -363,12 +363,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
             $config = $this->getConfig();
         }
         if (isset($config['script'])) {
-            foreach($config['script'] as $script) {
+            foreach ($config['script'] as $script) {
                 $layout->registerScript($script);
             }
         }
         if (isset($config['style'])) {
-            foreach($config['style'] as $style) {
+            foreach ($config['style'] as $style) {
                 $layout->registerStyle($style);
             }
         }
@@ -395,7 +395,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
      */
     public function setContainers ($containers)
     {
-        foreach($containers as $index => $container) {
+        foreach ($containers as $index => $container) {
             if (!($container instanceof ContainerInterface)) {
                 $containers[$index] = new Container($container, $this);
             }

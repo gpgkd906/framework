@@ -78,8 +78,8 @@ class Container implements ContainerInterface, ArrayAccess
      */
     public function getItems ()
     {
-        foreach($this->items as $key => $item) {
-            if(!$item instanceof ViewModelInterface) {
+        foreach ($this->items as $key => $item) {
+            if (!$item instanceof ViewModelInterface) {
                 $this->items[$key] = $this->getViewModel($item);
             }
         }
@@ -96,7 +96,7 @@ class Container implements ContainerInterface, ArrayAccess
      */
     public function addItem ($item, $forceView = false)
     {
-        if($forceView) {
+        if ($forceView) {
             $item = $this->getViewModel($item);
         }
         $this->items[] = $item;
@@ -108,7 +108,7 @@ class Container implements ContainerInterface, ArrayAccess
         //Production環境まで作らないと思うが、もし作るのであれば、環境チェックも必要です
         try {
             $htmls = [];
-            foreach($this->getItems() as $item) {            
+            foreach ($this->getItems() as $item) {            
                 $htmls[] = $item->render();
             }
             return join('', $htmls);
@@ -157,9 +157,9 @@ class Container implements ContainerInterface, ArrayAccess
     }
     
     public function offsetGet($offset) {
-        if(isset($this->items[$offset])) {
+        if (isset($this->items[$offset])) {
             $item = $this->items[$offset];
-            if(!$item instanceof ViewModelInterface) {
+            if (!$item instanceof ViewModelInterface) {
                 $this->items[$offset] = $this->getViewModel($item);
             }
             return $this->items[$offset];

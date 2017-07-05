@@ -43,14 +43,14 @@ class SessionService extends AbstractService
 
     public function getSection($name)
     {
-        if(isset($this->session[$name])) {
+        if (isset($this->session[$name])) {
             return $this->session[$name];
         }
     }
 
     public function setSection($name, $section)
     {
-        if($this->closeFlag) {
+        if ($this->closeFlag) {
             throw new Exception('Cannot send session cookie - headers already send');
         }
         $this->session[$name] = $section;
@@ -70,7 +70,7 @@ class SessionService extends AbstractService
 
     public function reload()
     {
-        if($this->closeFlag === false) {
+        if ($this->closeFlag === false) {
             session_start();
             $this->setSession($_SESSION);
             session_abort();
@@ -79,7 +79,7 @@ class SessionService extends AbstractService
 
     public function write()
     {
-        if($this->closeFlag === false) {
+        if ($this->closeFlag === false) {
             session_start();
             $_SESSION = array_merge($_SESSION, $this->getSession());
             session_write_close();

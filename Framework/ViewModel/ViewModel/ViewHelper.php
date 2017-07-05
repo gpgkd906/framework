@@ -12,8 +12,8 @@ class ViewHelper implements SingletonInterface
     public function makeAttrs($config)
     {
         $attrs = [];
-        foreach($config as $key => $val) {
-            if(empty($val)) continue;
+        foreach ($config as $key => $val) {
+            if (empty($val)) continue;
             $attrs[] = $key . '="' . str_replace('"', '\'', $val) . '"';
         }
         return join(' ', $attrs);

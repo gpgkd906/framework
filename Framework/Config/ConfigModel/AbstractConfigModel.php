@@ -48,18 +48,18 @@ class AbstractConfigModel implements ConfigModelInterface
     {
         $namespace = self::$namespace;
         $scope = $metaConfig["scope"];
-        if(isset($metaConfig["property"])) {
+        if (isset($metaConfig["property"])) {
             $property = $metaConfig["property"];
         } else {
             $property = self::READONLY;
         }
-        if(isset($metaConfig['type'])) {
+        if (isset($metaConfig['type'])) {
             $type = $metaConfig['type'];
         } else {
             $type = self::TYPE_PHP_ARRAY;
         }
         $configName = join(".", [$namespace, $scope, $property]);
-        if(!isset(self::$instances[$configName])) {
+        if (!isset(self::$instances[$configName])) {
             $config = self::loadConfig($metaConfig, $type);
             self::$instances[$configName] = new self($scope, $config, $property, $type);
         }
@@ -68,7 +68,7 @@ class AbstractConfigModel implements ConfigModelInterface
 
     static public function loadConfig($metaConfig, $type)
     {
-        if($type === self::TYPE_CALLBACK) {
+        if ($type === self::TYPE_CALLBACK) {
             $config = self::loadConfigFromCallback($metaConfig);
         } else {
             $config = self::loadConfigFromFile($metaConfig, $type);
@@ -78,32 +78,32 @@ class AbstractConfigModel implements ConfigModelInterface
     
     static public function loadConfigFromFile($metaConfig, $type)
     {
-        if(!isset($metaConfig['scope']) && !isset($metaConfig['configFile'])) {
+        if (!isset($metaConfig['scope']) && !isset($metaConfig['configFile'])) {
             throw new Exception(self::INVALID_SCOPE_OR_FILEPATH);
         }
-        if(isset($metaConfig['configFile'])) {
+        if (isset($metaConfig['configFile'])) {
             $configFile = $metaConfig['configFile'];
         } else {
-            if(isset($metaConfig['namespace'])) {
+            if (isset($metaConfig['namespace'])) {
                 $namespace = $metaConfig['namespace'];
             } else {
                 $namespace = self::$namespace;
             }
             $configFile = static::getFile($namespace, $metaConfig['scope']);
         }
-        if(is_file($configFile)) {
+        if (is_file($configFile)) {
             switch($type) {
             case self::TYPE_PHP_ARRAY:
                 $config = require($configFile);
                 break;
             case self::TYPE_INI_FILE:
-                if(!$config = parse_ini_file($configFile, true)) {
+                if (!$config = parse_ini_file($configFile, true)) {
                     
                 }
                 break;
             case self::TYPE_JSON_FILE:
                 $contents = file_get_contents($configFile);
-                if(!$config = json_decode($contents, true)) {
+                if (!$config = json_decode($contents, true)) {
                 }
                 break;
             }
@@ -115,13 +115,13 @@ class AbstractConfigModel implements ConfigModelInterface
 
     static public function loadConfigFromCallback($metaConfig)
     {
-        if(!isset($metaConfig['callback'])) {
+        if (!isset($metaConfig['callback'])) {
             throw new Exception(self::ERROR_INVALID_CALLBACK);
         }
-        if(!isset($metaConfig['callback']['loadConfig'])) {
+        if (!isset($metaConfig['callback']['loadConfig'])) {
             throw new Exception(self::ERROR_INVALID_CALLBACK);
         }
-        if(!is_callable($metaConfig['callback']['loadConfig'])) {
+        if (!is_callable($metaConfig['callback']['loadConfig'])) {
             throw new Exception(self::ERROR_INVALID_CALLBACK);
         }
         return call_use_func($metaConfig['callback']['loadConfig']);
@@ -148,7 +148,7 @@ class AbstractConfigModel implements ConfigModelInterface
 
     public function getConfig($key, $default = null)
     {
-        if(isset($this->config[$key])) {
+        if (isset($this->config[$key])) {
             return $this->config[$key];
         }
         return $default;
@@ -156,7 +156,7 @@ class AbstractConfigModel implements ConfigModelInterface
 
     public function setConfig($key, $value)
     {
-        if(isset($this->config[$key])) {
+        if (isset($this->config[$key])) {
             $this->config[$key] = $value;
         }
         return $value;
@@ -164,7 +164,7 @@ class AbstractConfigModel implements ConfigModelInterface
 
     public function update()
     {
-        if($this->property === self::READONLY) {
+        if ($this->property === self::READONLY) {
             throw new Exception(self::ERROR_READONLY);
         }
         

@@ -17,7 +17,7 @@ class QueryExecutor
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
         $ret = $prepareStatement->execute($data);
-        if($ret) {
+        if ($ret) {
             $this->prepareStatement = $prepareStatement;
         } else {
             throw new Exception(self::formatMessage($prepareStatement));
@@ -64,7 +64,7 @@ class QueryExecutor
         $connection = self::getConnection();
         $connection->beginTransaction();
         $result = call_user_func($transaction);
-        if($result) {
+        if ($result) {
             $connection->commit();
         } else {
             $connection->rollback();
@@ -76,7 +76,7 @@ class QueryExecutor
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
         $ret = $prepareStatement->execute($data);
-        if($ret) {
+        if ($ret) {
             return $prepareStatement->fetch(PDO::FETCH_ASSOC);
         } else {
             throw new Exception(self::formatMessage($prepareStatement));
@@ -88,7 +88,7 @@ class QueryExecutor
         $connection = self::getConnection();
         $prepareStatement = $connection->prepare($query);
         $ret = $prepareStatement->execute($data);
-        if($ret) {
+        if ($ret) {
             return $prepareStatement->fetchAll(PDO::FETCH_ASSOC);
         } else {
             throw new Exception(self::formatMessage($prepareStatement));
@@ -97,11 +97,11 @@ class QueryExecutor
 
     static private function getConnection()
     {
-        if(self::$connection === null) {
+        if (self::$connection === null) {
             $config = self::getConfig();
             $type = $dsn = $user = $password = null;
             extract($config);
-            foreach($dsn as $name => $value) {
+            foreach ($dsn as $name => $value) {
                 $dsn[$name] = $name . '=' . $value;
             }
             $dsnStr = join(';', $dsn);

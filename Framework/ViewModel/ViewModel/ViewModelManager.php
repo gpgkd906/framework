@@ -96,11 +96,11 @@ class ViewModelManager implements ViewModelManagerInterface
 
     static public function getViewModel($config)
     {
-        if($config instanceof ViewModelInterface) {
+        if ($config instanceof ViewModelInterface) {
             return $config;
         }
         //set default viewmodel if not set
-        if(!isset($config["viewModel"])) {
+        if (!isset($config["viewModel"])) {
             $config["viewModel"] = self::$defaultViewModel;
         }
         return self::getView($config);
@@ -110,26 +110,26 @@ class ViewModelManager implements ViewModelManagerInterface
     {
         $requestName = $config["viewModel"];
         $viewModelName = $requestName;
-        if($aliasViewModel = self::getAlias($viewModelName)) {
+        if ($aliasViewModel = self::getAlias($viewModelName)) {
             $viewModelName = $aliasViewModel;
         }
-        if(!class_exists($viewModelName)) {
+        if (!class_exists($viewModelName)) {
             //IndexViewModelで書く場合は上層に見つかる
             $viewModelName = self::$namespace . "\\" . $viewModelName;
             //Indexで書く場合はは下層に見つかる
-            if(!class_exists($viewModelName)) {
+            if (!class_exists($viewModelName)) {
                 $viewModelName = $viewModelName . '\\' . $requestName . 'ViewModel';
             }
-            if(!class_exists($viewModelName)) {
+            if (!class_exists($viewModelName)) {
                 throw new Exception(sprintf(self::ERROR_INVALID_VIEWMODEL, $viewModelName));
             }
             self::setAlias($requestName, $viewModelName);
         }
         $ViewModel = new $viewModelName($config, self::getObjectManager());
-        if($ViewModel->getTemplateDir() === null) {
+        if ($ViewModel->getTemplateDir() === null) {
             $ViewModel->setTemplateDir(self::getTemplateDir());
         }
-        if($ViewModel->getLayout() !== null) {
+        if ($ViewModel->getLayout() !== null) {
             $ViewModel->getLayout()->setPageVars($ViewModel->getData());
         }
         self::addView($ViewModel);
@@ -140,7 +140,7 @@ class ViewModelManager implements ViewModelManagerInterface
     static public function addView(ViewModelInterface $viewModel)
     {
         $viewId = $viewModel->getId();
-        if(isset(self::$viewModelPool[$viewId])) {
+        if (isset(self::$viewModelPool[$viewId])) {
             throw new Exception(sprintf(self::ERROR_VIEWMODEL_DEFINED_ID, $viewId));
         }
         self::$viewModelPool[$viewId] = $viewModel;
@@ -148,7 +148,7 @@ class ViewModelManager implements ViewModelManagerInterface
 
     static public function getViewById($viewId)
     {
-        if(isset(self::$viewModelPool[$viewId])) {
+        if (isset(self::$viewModelPool[$viewId])) {
             return self::$viewModelPool[$viewId];
         }
     }

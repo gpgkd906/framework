@@ -29,9 +29,9 @@ class EntityService extends AbstractService
 
     public function getRepository($repository)
     {
-        if(!is_subclass_of($repository, RepositoryInterface::class)) {
+        if (!is_subclass_of($repository, RepositoryInterface::class)) {
             $temp_repository = Repository::class . '\\' . $repository . '\\Repository';
-            if(is_subclass_of($temp_repository, RepositoryInterface::class)) {
+            if (is_subclass_of($temp_repository, RepositoryInterface::class)) {
                 $repository = $temp_repository;
             } else {
                 throw new Exception(sprintf('invalid Repository [%s]', $repository));

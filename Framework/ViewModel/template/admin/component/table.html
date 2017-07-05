@@ -1,5 +1,5 @@
 			    <?php $entities = $this->getEntities(); ?>
-			    <?php foreach($this->getSection() as $section) : ?>
+			    <?php foreach ($this->getSection() as $section) : ?>
                             <div class="panel panel-default">
                               <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -12,15 +12,15 @@
                                     <table class="table">
                                       <thead>
 					<tr>
-					  <?php foreach($this->getHead() as $key => $map): ?>
+					  <?php foreach ($this->getHead() as $key => $map): ?>
 					  <th><?php echo $key; ?></th>
 					  <?php endforeach; ?>
 					</tr>
                                       </thead>
                                       <tbody>
-					<?php foreach($entities[$section['key']] as $tr) : ?>
+					<?php foreach ($entities[$section['key']] as $tr) : ?>
 					<tr <?php echo $tr['attrs'] ?>>
-					  <?php foreach($this->getHead() as $key => $map) : ?>
+					  <?php foreach ($this->getHead() as $key => $map) : ?>
 					  <td><?php echo $tr[$map]; ?></td>
 					  <?php endforeach; ?>
 					</tr>
@@ -29,7 +29,7 @@
                                     </table>
 				  </div>
 				  <!-- /.table-responsive -->
-				  <?php if(isset($section['action'])) { echo $section['action']; } ?>
+				  <?php if (isset($section['action'])) { echo $section['action']; } ?>
 				</div>
 			      </div>
 			    </div>

@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Console\Controller;
 
-use Framework\Controller\Controller\AbstractConsole;
+use Framework\Controller\AbstractConsole;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Router\RouterAwareInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
@@ -21,25 +21,36 @@ class HelpController extends AbstractConsole implements RouterAwareInterface
         $routerList = $this->getRouter()->getRouterList();
         $ObjectManager = $this->getObjectManager();
         foreach ($consoles as $console) {
-            echo $console, PHP_EOL;
             if (isset($routerList[$console])) {
                 $Console = $ObjectManager->create($routerList[$console]);
                 $help = $Console->getHelp();
             } else {
-                $help = 'invalid Command';
+                $help = $console . PHP_EOL;
+                $help .= sprintf('%20s', 'invalid Command');
             }
-            echo sprintf('%20s', $help), PHP_EOL;
+            echo $help, PHP_EOL, PHP_EOL;
         }
     }
 
     public function getDescription()
     {
-        return 'show help';
+        return 'see help for command';
     }
 
     public function getHelp()
     {
-        return 'need some help';
+        return <<<HELP
+Help
+Usage:
+    php bin/console.php <command> [<args>...]
+
+Some commands
+    list                            List All Command
+    help                            See Help for Command
+    cngo::module::create            module generator
+
+See 'php bin/console.php help <command>' for more information on a specific command.
+HELP;
     }
 
     public function getPriority()

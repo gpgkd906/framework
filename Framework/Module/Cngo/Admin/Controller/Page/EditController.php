@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Admin\Controller\Cms\Page;
 
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\Model\Cms\PageModel;
 use Framework\ViewModel\Admin\Cms\PageEditViewModel;

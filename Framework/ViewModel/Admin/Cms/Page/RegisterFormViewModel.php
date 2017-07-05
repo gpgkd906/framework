@@ -21,7 +21,7 @@ class RegisterFormViewModel extends SubFormViewModel
     {
         $fieldset = $this->getForm()->getFieldset('page');        
         $entity = $this->getModel()->getEntity();
-        if($entity) {
+        if ($entity) {
             $fieldset->get('model')->val(['新規作成' => 0 ] + $entity['options']['model'] ?? []);
             $fieldset->get('view')->val(['新規作成' => 0 ] + $entity['options']['viewModel'] ?? []);
         }

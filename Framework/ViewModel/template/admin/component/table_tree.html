@@ -1,6 +1,6 @@
 			    <?php $entities = $this->getEntities(); ?>
 			    <?php $sections = array_shift($entities); ?>
-			    <?php foreach($sections as $section) : ?>
+			    <?php foreach ($sections as $section) : ?>
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
@@ -13,7 +13,7 @@
 					  <table class="tree">
 					    <thead>
                                               <tr>
-						<?php foreach($this->getHead() as $head) : ?>
+						<?php foreach ($this->getHead() as $head) : ?>
 						<th><?php echo $head; ?></th>
 						<?php endforeach; ?>
                                               </tr>
@@ -31,10 +31,10 @@
 					      <tr class="treegrid-4 treegrid-parent-3">
 						<td>Node 1-2-1</td><td>Additional info</td>
 					      </tr>
-					      <?php foreach($section as $row) : ?>
+					      <?php foreach ($section as $row) : ?>
 					      <tr>
-					        <?php foreach($this->getHead() as $head) : ?>
-						   <?php if(isset($row[$head])) : ?>
+					        <?php foreach ($this->getHead() as $head) : ?>
+						   <?php if (isset($row[$head])) : ?>
 					              <td><?php echo $row[$head]; ?></td>
 						   <?php endif; ?>
 						<?php endforeach; ?>

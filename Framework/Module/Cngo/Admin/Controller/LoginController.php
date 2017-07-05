@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Admin\Controller;
 
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\Service\SessionService\SessionServiceAwareInterface;
 use Framework\Service\AdminService\AdminServiceAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelManager;

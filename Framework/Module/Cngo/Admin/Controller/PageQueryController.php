@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Admin\Controller;
 
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Zend\Dom\Query;
 use Zend\Http\Client;

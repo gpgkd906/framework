@@ -59,13 +59,13 @@ abstract class AbstractRepository implements RepositoryInterface, SingletonInter
         $propertyMap = $recordInfo[AbstractEntity::PROPERTY_MAP];
         $where = [];
         $param = [];
-        foreach($condition as $property => $value) {
-            if(isset($propertyMap[$property])) {
+        foreach ($condition as $property => $value) {
+            if (isset($propertyMap[$property])) {
                 $column = $propertyMap[$property];
                 $bindKey = ':' . $column;
-                if(is_array($value)) {
+                if (is_array($value)) {
                     $sub = [];
-                    foreach($value as $idx => $val) {
+                    foreach ($value as $idx => $val) {
                         $param[$bindKey . $idx] = $val;
                         $sub[] = $bindKey . $idx;
                     }
@@ -85,10 +85,10 @@ abstract class AbstractRepository implements RepositoryInterface, SingletonInter
     public function find($id)
     {
         $result = false;
-        if(is_numeric($id)) {
+        if (is_numeric($id)) {
             $record = static::ENTITY;
             $record = new $record($id);
-            if($record->isValid()) {
+            if ($record->isValid()) {
                 $result = $record;
             }
         }

@@ -55,21 +55,21 @@ class Event
 
     public function preventDefault()
     {
-        if($this->cancelable) {
+        if ($this->cancelable) {
             $this->defaultPrevented = true;
         }
     }
 
     public function StopPropagation()
     {
-        if($this->cancelable) {
+        if ($this->cancelable) {
             $this->bubbles = false;
         }
     }
 
     public function stopImmediatePropagation()
     {
-        if($this->cancelable) {
+        if ($this->cancelable) {
             $this->defaultPrevented = true;
             $this->bubbles = false;
         }

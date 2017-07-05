@@ -1,22 +1,22 @@
 <ul class="nav" id="side-menu">
   <?php $this->getData(); ?>
-  <?php foreach($this->getData() as $data) : ?>		      
+  <?php foreach ($this->getData() as $data) : ?>		      
   <li>
     <a href="<?php echo $data['link'] ?? '#' ?>">
       <i class="fa <?php echo $data['icon'] ?? '' ?> fa-fw"></i> <?php echo $data['title'] ?>
-      <?php if(!empty($data['child'])): ?><span class="fa arrow"></span><?php endif; ?>
+      <?php if (!empty($data['child'])): ?><span class="fa arrow"></span><?php endif; ?>
     </a>
-    <?php if(!empty($data['child'])) : ?>
+    <?php if (!empty($data['child'])) : ?>
     <ul class="nav nav-second-level">
-      <?php foreach($data['child'] as $item) : ?>
+      <?php foreach ($data['child'] as $item) : ?>
       <li>
         <a href="<?php echo $item['link'] ?? '#' ?>">
 	  <i class="fa <?php echo $item['icon'] ?? '' ?> fa-fw"></i> <?php echo $item['title'] ?>
-	  <?php if(!empty($item['child'])): ?><span class="fa arrow"></span><?php endif; ?>
+	  <?php if (!empty($item['child'])): ?><span class="fa arrow"></span><?php endif; ?>
 	</a>
-	<?php if(!empty($item['child'])) : ?>
+	<?php if (!empty($item['child'])) : ?>
 	<ul class="nav nav-third-level">
-	  <?php foreach($item['child'] as $row) : ?>
+	  <?php foreach ($item['child'] as $row) : ?>
 	  <li>
 	    <a href="<?php echo $row['link'] ?? '#' ?>">
 	      <i class="fa <?php echo $row['icon'] ?? '' ?> fa-fw"></i> <?php echo $row['title'] ?>

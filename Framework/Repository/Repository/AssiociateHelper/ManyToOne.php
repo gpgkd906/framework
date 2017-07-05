@@ -14,7 +14,7 @@ class ManyToOne implements AssiociateHelperInterface
     static public function makeAssiociateEntity($record, $propertyName, $property, $table, $propertyMap)
     {
         $fetch = null;
-        if(isset($property[self::TYPE][self::FETCH]) && $property[self::TYPE][self::FETCH] === self::LAZY) {
+        if (isset($property[self::TYPE][self::FETCH]) && $property[self::TYPE][self::FETCH] === self::LAZY) {
             $fetch = self::LAZY;
         }
         $setter = [$record, 'set' . ucfirst($propertyName)];
@@ -49,7 +49,7 @@ class ManyToOne implements AssiociateHelperInterface
         $referencedQuery = SqlBuilder::makeAssiociateQuery($joinColumn, $recordInfo[Entity::TABLE][Entity::NAME], $referencedJoinColumn, $referencedTable, $propertyMap);
         $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
         $referencedJoinProperty = array_search(get_class($assiociteEntity) . '::' . $referencedJoinColumn, $propertyMap);        
-        if($assiociteInfo[self::FETCH] === self::LAZY) {
+        if ($assiociteInfo[self::FETCH] === self::LAZY) {
             $param = [':' . $referencedJoinColumn => $assiociteInfo[self::REFERENCED_COLUMN_VALUE]];
         } else {
             $param = [':' . $referencedJoinColumn => call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE])];

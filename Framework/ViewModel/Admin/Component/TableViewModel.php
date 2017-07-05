@@ -17,7 +17,7 @@ class TableViewModel extends AbstractViewModel
     
     public function getHead ()
     {
-        if($this->head === null) {
+        if ($this->head === null) {
             $this->head = $this->getConfig()['head'];
         }
         return $this->head;

@@ -19,6 +19,10 @@ class EventManager implements SingletonInterface
     private $triggerPool = [];
     private $propagationChainPool = [];
 
+    public function __construct()
+    {
+    }
+
     public function addEventListener($class, $event, callable $listener)
     {
         $trigger = $this->getTrigger($class, $event);

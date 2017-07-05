@@ -129,11 +129,11 @@ abstract class AbstractTag implements TagInterface
      */
     public function setAttrs ($attrs)
     {
-        if(isset($attrs["replace"])) {
+        if (isset($attrs["replace"])) {
             $this->setReplace($attrs["replace"]);
             unset($attrs["replace"]);
         }
-        if(isset($attrs["id"])) {
+        if (isset($attrs["id"])) {
             $this->setId($attrs["id"]);
             unset($attrs["id"]);
         }
@@ -286,7 +286,7 @@ abstract class AbstractTag implements TagInterface
      */
     public function getId ()
     {
-        if($this->id === null) {
+        if ($this->id === null) {
             $this->id = $this->getElementId();
         }
         return $this->id;

@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Front\Controller;
 
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Front\View\ViewModel\IndexViewModel;
 

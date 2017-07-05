@@ -20,14 +20,13 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     */
     private $application = null;
 
+    private $objectFactory = [];
     private $sharedObject = [];
     private $awareSetter = [];
 
     private function __construct()
     {
         $this->set(ObjectManagerInterface::class, $this);
-        $this->initGlobalObject();
-        $this->initModuleObject();
     }
 
     public function get($name, $factory = null)
@@ -47,7 +46,11 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     {
         $Object = null;
         if ($factory === null) {
-            $factory = $name;
+            if (isset($this->objectFactory[$name])) {
+                $factory = $this->objectFactory[$name];
+            } else {
+                $factory = $name;
+            }
         }
         if (is_subclass_of($factory, FactoryInterface::class)) {
             $ObjectFactory = new $factory;
@@ -102,21 +105,34 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         return;
     }
 
-    private function initGlobalObject()
+    public function initGlobalObject()
     {
+        foreach (glob(ROOT_DIR . 'Framework/*/register.php') as $ObjectRegister) {
+            require $ObjectRegister;
+        }
         foreach (glob(ROOT_DIR . 'Framework/*/export.php') as $objectExporter) {
             require $objectExporter;
         }
     }
 
-    private function initModuleObject()
+    public function initModuleObject()
     {
+        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/register.php') as $moduleRegister) {
+            require $moduleRegister;
+        }
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
             require $moduleExporter;
         }
     }
 
-    public function export()
+    public function export($Objectfactories)
+    {
+        foreach ($Objectfactories as $ObjectName => $factory) {
+            $this->objectFactory[$ObjectName] = $factory;
+        }
+    }
+
+    public function register()
     {
     }
 }

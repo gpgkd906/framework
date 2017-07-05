@@ -22,7 +22,7 @@ abstract class AbstractPlugin implements SingletonInterface
 
     public function init($pluginManager)
     {
-        foreach($this->listeners as $event => $action) {
+        foreach ($this->listeners as $event => $action) {
             $pluginManager->addEventListener($event, [$this, $action]);
         }
     }

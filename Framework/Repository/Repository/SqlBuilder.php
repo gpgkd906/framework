@@ -60,7 +60,7 @@ class SqlBuilder implements SqlBuilderInterface
         $data = $this->getParameter();
         $this->executor->query($query, $data);
         $record = $this->executor->fetch();
-        if($this->selectEntity !== null) {
+        if ($this->selectEntity !== null) {
             $selectEntity = $this->selectEntity;
             $record = new $selectEntity($record);
         }
@@ -73,9 +73,9 @@ class SqlBuilder implements SqlBuilderInterface
         $data = $this->getParameter();
         $this->executor->query($query, $data);
         $result = $this->executor->fetchAll();
-        if($this->selectEntity !== null) {
+        if ($this->selectEntity !== null) {
             $selectEntity = $this->selectEntity;
-            foreach($result as $idx => $raw) {
+            foreach ($result as $idx => $raw) {
                 $result[$idx] = new $selectEntity($raw);
             }
         }
@@ -91,13 +91,13 @@ class SqlBuilder implements SqlBuilderInterface
     
     public function update($table, $as = null)
     {
-        if(!is_subclass_of($table, EntityInterface::class)) {
+        if (!is_subclass_of($table, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $table);
         }
         $this->recordClass = $table;
         $table = $this->getEntityInfo($table)['Table']['name'];
         $this->table = $table;
-        if($as) {
+        if ($as) {
             $this->alias[$table] = $as;            
             $table = '`' . $table . '` as ' . $as;
         }
@@ -108,13 +108,13 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function delete($table, $as = null)
     {
-        if(!is_subclass_of($table, EntityInterface::class)) {
+        if (!is_subclass_of($table, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $table);
         }
         $this->recordClass = $table;
         $table = $this->getEntityInfo($table)['Table']['name'];
         $this->table = $table;
-        if($as) {
+        if ($as) {
             $this->alias[$table] = $as;            
             $table = '`' . $table . '` as ' . $as;
         }
@@ -133,13 +133,13 @@ class SqlBuilder implements SqlBuilderInterface
     
     public function from($table, $as = null)
     {
-        if(!is_subclass_of($table, EntityInterface::class)) {
+        if (!is_subclass_of($table, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $table);
         }
         $this->recordClass = $table;
         $table = $this->getEntityInfo($table)['Table']['name'];
         $this->table = $table;
-        if($as) {
+        if ($as) {
             $this->alias[$table] = $as;            
             $table = '`' . $table . '` as ' . $as;
         }
@@ -149,7 +149,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function where($where)
     {
-        if(!empty($where)) {
+        if (!empty($where)) {
             $this->where[] = $where;
         }
         return $this;
@@ -157,7 +157,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function andWhere($where)
     {
-        if(!empty($where)) {
+        if (!empty($where)) {
             $this->where[] = 'AND (' . $where . ')';
         }
         return $this;
@@ -165,7 +165,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function orWhere($where)
     {
-        if(!empty($where)) {
+        if (!empty($where)) {
             $this->where[] = 'OR (' . $where . ')';
         }
         return $this;
@@ -190,10 +190,10 @@ class SqlBuilder implements SqlBuilderInterface
     {
         $as = null;
         $join = '';
-        if(is_array($joinTable)) {
+        if (is_array($joinTable)) {
             list($joinTable, $as) = $joinTable;
         }
-        if(!is_subclass_of($joinTable, EntityInterface::class)) {
+        if (!is_subclass_of($joinTable, EntityInterface::class)) {
             throw new Exception('invalid Entity:' . $joinTable);
         }
         $joinTableEntity = $joinTable;
@@ -201,11 +201,11 @@ class SqlBuilder implements SqlBuilderInterface
         $joinTable = $joinEntityInfo['Table']['name'];
         $joinColumn = $joinEntityInfo['columnMap'][$joinProperty];
         $join = sprintf('%s `%s`', $joinType, $joinTable);
-        if(isset($as)) {
+        if (isset($as)) {
             $this->alias[$joinTable] = $as;
             $join .= ' AS ' . $as;
         }
-        if(strtoupper($with) === 'WITH') {
+        if (strtoupper($with) === 'WITH') {
             $join .= sprintf(' ON %s', $referencedJoinProperty);
         } else {
             $join .= sprintf(' USING(%s)', $joinColumn);
@@ -218,7 +218,7 @@ class SqlBuilder implements SqlBuilderInterface
     public function orderBy($orderBy)
     {
         $set = [];
-        foreach($orderBy as $column => $order) {
+        foreach ($orderBy as $column => $order) {
             $set[] = $column . ' ' . $order;
         }
         $this->orderBy = 'ORDER BY ' . join(',', $set);
@@ -233,7 +233,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function limit($offset, $limit = null)
     {
-        if($limit) {
+        if ($limit) {
             $this->limit = $offset . ', ' . $limit;
         } else {
             $this->limit = $offset;
@@ -243,7 +243,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function having($having)
     {
-        if(!empty($this->groupBy)) {
+        if (!empty($this->groupBy)) {
             $this->having = ' HAVING(' . $having . ')';
         }
         return $this;
@@ -279,23 +279,23 @@ class SqlBuilder implements SqlBuilderInterface
     private function getSelect()
     {
         $head = $this->head;
-        if(in_array($head, $this->alias)) {
+        if (in_array($head, $this->alias)) {
             $table = array_search($head, $this->alias);
-            if($table === $this->table) {
+            if ($table === $this->table) {
                 $head = $this->recordClass;
-            } elseif(isset($this->alias[$head])) {
+            } elseif (isset($this->alias[$head])) {
                 $head = $this->alias[$head];
             } else {
                 throw new Exception('invalid schema: [%s] for select', $head);
             }
         }
-        if(is_subclass_of($head, EntityInterface::class)) {
+        if (is_subclass_of($head, EntityInterface::class)) {
             $this->selectEntity = $head;
             $recordInfo = $this->getEntityInfo($head);
             $columnMap = $recordInfo['columnMap'];
             $table = '`' . $recordInfo['Table']['name'] . '`';
             $column = [];
-            foreach($columnMap as $property => $col) {
+            foreach ($columnMap as $property => $col) {
                 $column[] = $table . '.`' . $property . '`'; 
             }
             $head = join(', ', $column);
@@ -316,7 +316,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     private function getFrom()
     {
-        if($this->headType === self::SELECT) {
+        if ($this->headType === self::SELECT) {
             return 'FROM ' . $this->from;
         }
         return '';
@@ -351,31 +351,31 @@ class SqlBuilder implements SqlBuilderInterface
     {
         $search = [];
         $replace = [];
-        foreach($this->alias as $table => $alias) {
+        foreach ($this->alias as $table => $alias) {
             $search[] = '`' . $table . '`.';
             $search[] = $table . '.';
             $replace[] = $alias . '.';
             $replace[] = $alias . '.';
         }
         $temp = [];
-        if(empty($this->joinEntityClass)) {
+        if (empty($this->joinEntityClass)) {
             $temp = $this->getEntityInfo($this->recordClass)['columnMap'];
         } else {
             $recordClass = $this->joinEntityClass;
             $recordClass[] = $this->recordClass;
-            foreach($recordClass as $record) {
+            foreach ($recordClass as $record) {
                 $recordInfo = $this->getEntityInfo($record);
                 $table = $recordInfo['Table']['name'];
-                if(isset($this->alias[$table])) {
+                if (isset($this->alias[$table])) {
                     $table = $this->alias[$table];
                 }
                 $_map = $recordInfo['columnMap'];
-                foreach($_map as $property => $column) {
+                foreach ($_map as $property => $column) {
                     $temp[$table . '.' . $property] = sprintf('`%s`.`%s`', $table, $column);
                 }
             }
         }
-        foreach($temp as $key => $val) {
+        foreach ($temp as $key => $val) {
             $search[] = $key;
             $replace[] = $val;
         }
@@ -387,7 +387,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     private function mapping($partSql)
     {
-        if(!empty($partSql)) {
+        if (!empty($partSql)) {
             return str_replace($this->map['search'], $this->map['replace'], str_replace('`', '', $partSql));
         }
         return $partSql;
@@ -415,7 +415,7 @@ class SqlBuilder implements SqlBuilderInterface
 
     public function getEntityInfo($recordClass)
     {
-        if(!isset(self::$recordInfo[$recordClass])) {
+        if (!isset(self::$recordInfo[$recordClass])) {
             $recordClass::setSqlBuilder($this);
         }
         return self::$recordInfo[$recordClass];
@@ -437,8 +437,8 @@ class SqlBuilder implements SqlBuilderInterface
     static public function makeUpdateQuery($propertyMap, $table, $primaryKey)
     {
         $set = [];
-        foreach($propertyMap as $column) {
-            if($column === $primaryKey) continue;
+        foreach ($propertyMap as $column) {
+            if ($column === $primaryKey) continue;
             $set[] = sprintf('`%s` = :%s', $column, $column);
         }
         $query = sprintf('UPDATE `%s` SET %s WHERE `%s` = :%s', $table, join(', ', $set), $primaryKey, $primaryKey);

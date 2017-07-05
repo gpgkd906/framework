@@ -5,7 +5,7 @@ namespace Framework\Application;
 use Framework\Core\ErrorHandler;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\EventManager\EventTargetInterface;
-use Framework\Controller\Controller\ControllerInterface;
+use Framework\Controller\ControllerInterface;
 use Framework\Router\RouterInterface;
 use Framework\Router\Http\Router;
 use Exception;

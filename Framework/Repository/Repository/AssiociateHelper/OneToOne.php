@@ -14,7 +14,7 @@ class OneToOne implements AssiociateHelperInterface
     static public function makeAssiociateEntity($record, $propertyName, $property, $table, $propertyMap)
     {
         $fetch = null;
-        if(isset($property[self::TYPE][self::FETCH]) && $property[self::TYPE][self::FETCH] === self::LAZY) {
+        if (isset($property[self::TYPE][self::FETCH]) && $property[self::TYPE][self::FETCH] === self::LAZY) {
             $fetch = self::LAZY;
         }
         $setter = [$record, 'set' . ucfirst($propertyName)];
@@ -44,7 +44,7 @@ class OneToOne implements AssiociateHelperInterface
         $joinProperty = array_search($joinColumn, $propertyMap);
         $assiociteProperty = array_search($assiociteInfo[self::ASSIOCIATE_ENTITY_CLASS] . '::' . $joinColumn, $propertyMap);
         $getter = [$record, 'get' . ucfirst($assiociteProperty)];
-        if($assiociteEntity === call_user_func($getter)) {
+        if ($assiociteEntity === call_user_func($getter)) {
             return false;
         }
         $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
@@ -53,13 +53,13 @@ class OneToOne implements AssiociateHelperInterface
         $referencedQuery = SqlBuilder::makeAssiociateQuery($joinColumn, $recordInfo[Entity::TABLE][Entity::NAME], $referencedJoinColumn, $referencedTable, $propertyMap);
         $referencedJoinColumn = $assiociteInfo[self::REFERENCED_COLUMN_NAME];
         $referencedJoinProperty = array_search(get_class($assiociteEntity) . '::' . $referencedJoinColumn, $propertyMap);        
-        if($assiociteInfo[self::FETCH] === self::LAZY) {
+        if ($assiociteInfo[self::FETCH] === self::LAZY) {
             $param = [':' . $referencedJoinColumn => $assiociteInfo[self::REFERENCED_COLUMN_VALUE]];
         } else {
             $param = [':' . $referencedJoinColumn => call_user_func($assiociteInfo[self::REFERENCED_COLUMN_VALUE])];
         }
         call_user_func($callBack, $referencedQuery, $param, $assiociteInfo[self::FETCH] === self::LAZY);
-        if($referencedJoinProperty) {
+        if ($referencedJoinProperty) {
             $setter = 'set' . ucfirst($referencedJoinProperty);
             call_user_func([$record, $setter], $assiociteEntity);
         }        

@@ -10,7 +10,7 @@ class Parser
     const END = "/";
     
     /**
-     * ƒ^ƒO’è‹`A‚±‚±‚Å’è‹`‚µ‚È‚¢ƒ^ƒO‚ÍƒGƒ‰[‚Æ‚È‚é
+     * ï¿½^ï¿½Oï¿½ï¿½ï¿½`ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Å’ï¿½ï¿½`ï¿½ï¿½ï¿½È‚ï¿½ï¿½^ï¿½Oï¿½ÍƒGï¿½ï¿½ï¿½[ï¿½Æ‚È‚ï¿½
      * @var mixed $tag 
      * @access private
      * @link
@@ -18,7 +18,7 @@ class Parser
     public $tag = [];
 
     /**
-     * ƒfƒŠƒ~ƒ^[
+     * ï¿½fï¿½ï¿½ï¿½~ï¿½^ï¿½[
      * @var mixed $delimiter 
      * @access private
      * @link
@@ -29,7 +29,7 @@ class Parser
     ];
 
     /**
-     * tplƒf[ƒ^
+     * tplï¿½fï¿½[ï¿½^
      * @api
      * @var array $data 
      * @access private
@@ -56,7 +56,7 @@ class Parser
     private $expressionClass = Expression::class;
 
     /**
-     * tplƒf[ƒ^æ“¾
+     * tplï¿½fï¿½[ï¿½^ï¿½æ“¾
      * @api
      * @param mixed $data
      * @return mixed $data
@@ -68,7 +68,7 @@ class Parser
     }
 
     /**
-     * tplƒf[ƒ^’Ç‰Á
+     * tplï¿½fï¿½[ï¿½^ï¿½Ç‰ï¿½
      * @api
      * @return mixed $data
      * @link
@@ -79,7 +79,7 @@ class Parser
     }
 
     /**
-     * ƒ^ƒO‚ğƒZƒbƒg‚·‚é
+     * ï¿½^ï¿½Oï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
      * @api
      * @param mixed $tag
      * @return mixed $tag
@@ -91,7 +91,7 @@ class Parser
     }
 
     /**
-     * ƒ^ƒO‚ğæ“¾‚·‚é
+     * ï¿½^ï¿½Oï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
      * @api
      * @return mixed $tag
      * @link
@@ -125,7 +125,7 @@ class Parser
     }
 
     /**
-     * w’èˆÊ’u‚©‚çw’èˆÊ’u‚Ü‚Å‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+     * ï¿½wï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½Ê’uï¿½Ü‚Å‚Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
      * @api
      * @param string 
      * @param integer
@@ -134,7 +134,7 @@ class Parser
      */
     static public function subString($string, $index, $offset = -1)
     {
-        if($offset === -1) {
+        if ($offset === -1) {
             $length = strlen($string) - $offset;
         } else {
             $length = $offset - $index;
@@ -143,7 +143,7 @@ class Parser
     }
 
     /**
-     * ƒ^ƒO‚ğæ“¾‚·‚éAnestingƒ^ƒO‘Î‰
+     * ï¿½^ï¿½Oï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½Anestingï¿½^ï¿½Oï¿½Î‰ï¿½
      *
      *
      */
@@ -153,22 +153,22 @@ class Parser
         $stopDelimiter = $delimiter["stop"];
         $firstSpace = strpos($content, " ", $index);
         $firstStop = strpos($content, $stopDelimiter, $index);
-        if($firstSpace === false && $firstStop === false) {
+        if ($firstSpace === false && $firstStop === false) {
             throw new \Exception("wrong tag");
         }
-        if($firstSpace && $firstSpace < $firstStop) {
+        if ($firstSpace && $firstSpace < $firstStop) {
             $temp = self::subString($content, $index, $firstSpace);
         } else {
             $temp = self::subString($content, $index, $firstStop);            
         }
         $temp = trim($temp);
         $tagName = str_replace($startDelimiter, "", $temp);
-        if(empty($tagName)) {
+        if (empty($tagName)) {
             return null;
         }
         $tags = $this->getTag();
         $Tag = null;
-        if(isset($tags[$tagName])) {
+        if (isset($tags[$tagName])) {
             $tagClass = $tags[$tagName];
             $Tag = new $tagClass();
         }
@@ -190,7 +190,7 @@ class Parser
     }
 
     /**
-     * ‰ñ‚è‚İƒ^ƒO‚ğæ“¾‚·‚é
+     * ï¿½ï¿½ï¿½èï¿½İƒ^ï¿½Oï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
      * 
      *
      */
@@ -206,13 +206,13 @@ class Parser
         $contentLen = strlen($content);
         do {
             $endIndex = strpos($content, $endTag, $offset);
-            if($endTag === false) {
+            if ($endTag === false) {
                 throw new \Exception(sprintf("not found endTag[%s]", $tagName));
             }
             $offset = $endIndex + $endTagLen;
             $startCount = substr_count($content, $startTag, 0, $offset);
             $endCount = substr_count($content, $endTag, 0, $offset);
-            if($startCount === $endCount) {
+            if ($startCount === $endCount) {
                 break;
             }
         } while(true);
@@ -234,7 +234,7 @@ class Parser
     }
 
     /**
-     * ƒ^ƒO‚ğƒp[ƒX‚·‚é
+     * ï¿½^ï¿½Oï¿½ï¿½ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½
      *
      */
     final private function parseTag($Tag)
@@ -257,7 +257,7 @@ class Parser
     }
 
     /**
-     * ‰ñ‚è‚İƒ^ƒO‚ğƒp[ƒX‚·‚é
+     * ï¿½ï¿½ï¿½èï¿½İƒ^ï¿½Oï¿½ï¿½ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½
      *
      */
     private function parseWrapTag($Tag)
@@ -275,13 +275,13 @@ class Parser
         $attrs = $this->getTagInfo($startTag, $start, $stopDelimiter);
         $Tag->setAttrs($attrs);
         $tagContent = trim($tagContent);
-        if(!empty($tagContent)) {
+        if (!empty($tagContent)) {
             $data = $this->parseContent($tagContent);
-            if(isset($data["content"])) {
+            if (isset($data["content"])) {
                 $Tag->setContent($data["content"]);
                 unset($data["content"]);
             }
-            if(!empty($data)) {
+            if (!empty($data)) {
                 $Tag->setChild($data);
             }
         }
@@ -289,7 +289,7 @@ class Parser
     }
 
     /**
-     * ƒp[ƒXˆ—ƒGƒ“ƒgƒŠ[
+     * ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[
      *
      */
     public function parse($content)
@@ -299,11 +299,11 @@ class Parser
         $stopDelimiter = $delimiter["stop"];
         $tags = $this->getTag();
         $content = trim($content);
-        foreach($tags as $tag => $class) {
-            if($class::isGlobalTag) {
-                if(strpos($content, $startDelimiter . $tag) === 0) {
+        foreach ($tags as $tag => $class) {
+            if ($class::isGlobalTag) {
+                if (strpos($content, $startDelimiter . $tag) === 0) {
                     $endTag = $startDelimiter . self::END . $tag . $stopDelimiter;
-                    if(strpos($content, $endTag) !== false) {
+                    if (strpos($content, $endTag) !== false) {
                         throw new Exception(sprintf("Can not use GlobalTag[%s] as WrapTag", $tag));
                     }
                     $content = $content . $endTag;
@@ -317,7 +317,7 @@ class Parser
     }
 
     /**
-     * ƒ^ƒOƒp[ƒXˆ—
+     * ï¿½^ï¿½Oï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½
      * 
      */
     final public function parseContent($content)
@@ -325,46 +325,46 @@ class Parser
         $delimiter = $this->getDelimiter();
         $startDelimiter = $delimiter["start"];
         $stopDelimiter = $delimiter["stop"];
-        //‘O‚©‚ç‡”Ô‚É’T‚µ‚Ä‚¢‚­
+        //ï¿½Oï¿½ï¿½ï¿½ç‡ï¿½Ô‚É’Tï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
         do {
             $rest = null;
             $index = strpos($content, $startDelimiter);
             $stopIndex = strpos($content, $stopDelimiter);
-            if($stopIndex < $index) {
+            if ($stopIndex < $index) {
                 throw new \Exception(sprintf("stop[%s] before start[%s]", $stopIndex, $index));
             }
-            if($index === false) {
+            if ($index === false) {
                 break;
             }
-            //ƒ^ƒO‚Ü‚Å‚ÌƒRƒ“ƒeƒ“ƒc‚ğæ“¾
+            //ï¿½^ï¿½Oï¿½Ü‚Å‚ÌƒRï¿½ï¿½ï¿½eï¿½ï¿½ï¿½cï¿½ï¿½ï¿½æ“¾
             $rest = self::subString($content, 0, $index);
-            //ƒ^ƒO‚ğæ“¾‚·‚é
+            //ï¿½^ï¿½Oï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
             $Tag = $this->findTag($content, $index);
-            if($Tag === null) {
-                //‚±‚±‚Å$Tag‚ªnull‚Æ‚¢‚¤‚Ì‚ÍA®‚Æ‚µ‚Ä•]‰¿‚·‚é•K—v‚ª‚ ‚é‚±‚Æ
+            if ($Tag === null) {
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½$Tagï¿½ï¿½nullï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ì‚ÍAï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä•]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½ï¿½ï¿½é‚±ï¿½ï¿½
                 $Tag = $this->findExpression($content, $index);
             }
-            //ƒRƒ“ƒeƒ“ƒc‚©‚çƒp[ƒX‚µ‚½ƒ^ƒO‚ğæ‚èœ‚­
+            //ï¿½Rï¿½ï¿½ï¿½eï¿½ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
             $content = self::subString($content, $index + strlen($Tag->getRaw()), -1);
-            //ƒ^ƒO‚ğƒp[ƒX‚·‚éA‚±‚Ìˆ—‚Å‚à$Tag‚ªnull‚É‚È‚é‰Â”\«‚à‚ ‚é‚ªA‚»‚ê‚Ítag“à—e©‘Ì‚ğƒRƒ“ƒeƒ“ƒc‚©‚çæ‚èœ‚­‚ğˆÓ–¡‚·‚é
+            //ï¿½^ï¿½Oï¿½ï¿½ï¿½pï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Å‚ï¿½$Tagï¿½ï¿½nullï¿½É‚È‚ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚ªï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tagï¿½ï¿½ï¿½eï¿½ï¿½ï¿½Ì‚ï¿½ï¿½Rï¿½ï¿½ï¿½eï¿½ï¿½ï¿½cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½ï¿½ï¿½ï¿½Ó–ï¿½ï¿½ï¿½ï¿½ï¿½
             $Tag = $this->parseTag($Tag);
-            if($Tag instanceof TagInterface) {
-                //replaceƒpƒ‰ƒƒ^‚ ‚é‚©‚ÈH
-                if($Tag->getReplace()) {
+            if ($Tag instanceof TagInterface) {
+                //replaceï¿½pï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½é‚©ï¿½ÈH
+                if ($Tag->getReplace()) {
                     $replace = $this->makeReplace($Tag->getReplace());
                     $content = $replace . $content;
                 }
                 $data[] = $Tag;
-            } else if($Tag !== null) {
+            } else if ($Tag !== null) {
                 throw new Exception(sprintf("except for Tag or Null in [%s]", get_class($Tag)));
             }
            
             //do we have rest?
-            if($rest !== null) {
+            if ($rest !== null) {
                 $content = $rest . $content;
             }
         } while(true);
-        if(!empty($content)) {
+        if (!empty($content)) {
             $data["content"] = $content;
         }
         return $data;
@@ -372,36 +372,36 @@ class Parser
     
     public function getTagInfo($tag, $start, $stop)
     {
-        //‘OŒã‚Ìƒ^ƒO‚ğæ‚èœ‚­
+        //ï¿½Oï¿½ï¿½ï¿½Ìƒ^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
         $target = trim(str_replace([$start, $stop], "", $tag));
-        //"|"‚ğ"pipe[]="‚É•ÏŠ·‚·‚é
+        //"|"ï¿½ï¿½"pipe[]="ï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½ï¿½
         $target = str_replace("|", " pipe[]=", $target);
-        //=‰ñ‚è‚Ì‹ó”’‚ğæ‚èœ‚­
+        //=ï¿½ï¿½ï¿½ï¿½ï¿½Ì‹ó”’‚ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
         while(strpos($target, " =") !== false) {
             $target = str_replace(" =", "=", $target);
         }
         while(strpos($target, "= ") !== false) {
             $target = str_replace("= ", "=", $target);
         }
-        //d•¡‚È‹ó”’‚ğæ‚èœ‚­
+        //ï¿½dï¿½ï¿½ï¿½È‹ó”’‚ï¿½ï¿½ï¿½ï¿½èœï¿½ï¿½
         while(strpos($target, "  ") !== false) {
             $target = str_replace("  ", " ", $target);
         }
-        //‹ó”’‚Å•ªŠ„‚µ‚Ä‚©‚ç&‚ÅÄŒ‹‡‚µ‚ÄAquery•¶š—ñ‚ğdã‚°‚é
+        //ï¿½ó”’‚Å•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½&ï¿½ÅÄŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄAqueryï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dï¿½ã‚°ï¿½ï¿½
         $target = str_replace(" ", "&", $target);
-        //query‚ğparse‚µ‚Äƒpƒ‰ƒƒ^‚ğ’Šo
+        //queryï¿½ï¿½parseï¿½ï¿½ï¿½Äƒpï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½ğ’Šo
         parse_str($target, $data);
         return $data;
     }
     
     private function makeReplace($replaceInfo)
     {
-        if(strpos($replaceInfo, "parser:") === 0) {
+        if (strpos($replaceInfo, "parser:") === 0) {
             $replaceCall = str_replace("parser:", "", $replaceInfo);
-            if(is_callable([$this, $replaceCall])) {
+            if (is_callable([$this, $replaceCall])) {
                 return call_user_func([$this, $replaceCall]);
             } else {
-                throw new \Exception("w’è‚µ‚½’uŠ·ˆ—‚ÍƒAƒNƒZƒX‚Å‚«‚Ü‚¹‚ñ");
+                throw new \Exception("ï¿½wï¿½è‚µï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍƒAï¿½Nï¿½Zï¿½Xï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
             }
         } else {
             return "<?php echo " . $replaceInfo . " ?>";
@@ -428,7 +428,7 @@ class Parser
      */
     public function getCollection ()
     {
-        if($this->collection === null) {
+        if ($this->collection === null) {
             $this->collection = new Collection;
         }
         return $this->collection;

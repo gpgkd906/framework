@@ -19,7 +19,7 @@ abstract class AbstractFieldset extends Fieldset implements EventTargetInterface
      * @param string $name 要素名
      */
 	public function get($name) {
-		if(isset($this->elements[$name])) {
+		if (isset($this->elements[$name])) {
 			return $this->elements[$name];
 		}
 	}
@@ -31,20 +31,20 @@ abstract class AbstractFieldset extends Fieldset implements EventTargetInterface
 
     public function bind($entity)
     {
-        if(!$entity instanceof EntityInterface) {
+        if (!$entity instanceof EntityInterface) {
             return $this->bindData($entity);
         }
         $this->bindEntity = $entity;
-        if($this->getData()) {
+        if ($this->getData()) {
             $data = $this->getData();
             $this->bindEntity->propertyWalk(function ($property, $value) use ($data) {
-                if(isset($data[$property])) {
+                if (isset($data[$property])) {
                     return $data;
                 }
             });
         } else {
             $this->bindEntity->propertyWalk(function ($property, $value) {
-                if(isset($this->elements[$property])) {
+                if (isset($this->elements[$property])) {
                     $this->elements[$property]->set('value', $value);
                 }
             });
@@ -53,8 +53,8 @@ abstract class AbstractFieldset extends Fieldset implements EventTargetInterface
     
     private function bindData($data)
     {        
-        foreach($data as $name => $value) {
-            if(isset($this->elements[$name])) {
+        foreach ($data as $name => $value) {
+            if (isset($this->elements[$name])) {
                 $this->elements[$name]->value($value);
             }
         }

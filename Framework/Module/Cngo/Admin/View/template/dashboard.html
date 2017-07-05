@@ -10,7 +10,7 @@
     <title><?php echo $title ?></title>
 
     <?php $css = $this->getLayout()->getStyle(); ?>
-    <?php foreach($css as $link) { ?>
+    <?php foreach ($css as $link) { ?>
         <link href="<?php echo $link; ?>" rel="stylesheet">
     <?php } ?>
 </head>
@@ -30,7 +30,7 @@
     <!-- /#wrapper -->
 
     <?php $scripts = $this->getLayout()->getScript(); ?>
-    <!-- <?php foreach($scripts as $link) { ?>
+    <!-- <?php foreach ($scripts as $link) { ?>
         <script src="<?php echo $link ?>"></script>
     <?php } ?> -->
 </body>

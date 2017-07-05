@@ -45,10 +45,10 @@ class Style extends AbstractTag
         $content = $this->getContent();
         $set = explode(PHP_EOL, $content);
         $css = [];
-        foreach($set as $link) {
+        foreach ($set as $link) {
             $link = trim(str_replace(['\'', '"'], '', $link));
             $data = $Parser->getTagInfo($link, "<", "/>");
-            if(isset($data["rel"]) && $data["rel"] === "stylesheet") {
+            if (isset($data["rel"]) && $data["rel"] === "stylesheet") {
                 $css[] = $data["href"];
             }
         }

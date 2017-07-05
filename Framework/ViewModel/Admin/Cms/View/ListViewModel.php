@@ -32,9 +32,9 @@ class ListViewModel extends AbstractViewModel
     {
         $list = parent::getEntities();
         $tmplist = [];
-        foreach($list as $row) {
+        foreach ($list as $row) {
             $dir = $row['dir'];
-            if(!isset($tmplist[$dir])) {
+            if (!isset($tmplist[$dir])) {
                 $tmplist[$dir] = [];
             }
             $tmplist[$dir][] = $this->formatRow($row);
@@ -42,15 +42,15 @@ class ListViewModel extends AbstractViewModel
         ksort($tmplist);
         $sections = array_shift($tmplist);
         $entities = [];
-        foreach($sections as $idx => $section) {
+        foreach ($sections as $idx => $section) {
             //format section
             $section = $this->formatSection($section);
             $sections[$idx] = $section;
             //format entity
             $sectionName = $section['key'];
             $entity = [];
-            foreach($tmplist as $dir => $dirList) {
-                if(strpos($dir, $sectionName) === 0) {
+            foreach ($tmplist as $dir => $dirList) {
+                if (strpos($dir, $sectionName) === 0) {
                     $entity = array_merge($entity, $dirList);
                     unset($tmplist[$dir]);
                 }
@@ -91,7 +91,7 @@ class ListViewModel extends AbstractViewModel
             'data-reference' => $row['dirHash'],
             'data-depth' => $row['depth'],
         ]);
-        if($row['fileSize'] < 0) {
+        if ($row['fileSize'] < 0) {
             $row['action'] = $this->getViewHelper()->makeButtonLink([
                 'href' => '/admin/cms/view/register/?pid=' . $row['nameHash'],
                 'class' => 'btn-primary btn-circle',

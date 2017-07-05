@@ -45,10 +45,10 @@ class Script extends AbstractTag
         $content = $this->getContent();
         $set = explode(PHP_EOL, $content);
         $js = [];
-        foreach($set as $script) {
+        foreach ($set as $script) {
             $script = trim(str_replace(['\'', '"'], '', $script));
             $data = $Parser->getTagInfo($script, "<script", "/>");
-            if(isset($data["src"])) {
+            if (isset($data["src"])) {
                 $js[] = $data["src"];
             }
         }

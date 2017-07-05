@@ -11,8 +11,8 @@ class PageModel extends AbstractCmsModel
 
     public function getEntity($identify = null)
     {
-        if($identify === null){
-            if($this->getIdentify()) {
+        if ($identify === null){
+            if ($this->getIdentify()) {
                 $identify = $this->getIdentify();
             } else {
                 return null;
@@ -25,7 +25,7 @@ class PageModel extends AbstractCmsModel
     {
         $fileList = parent::scanController();
         $find = $this->findFile($identify, $fileList);
-        if(!$find) {
+        if (!$find) {
             return false;
         }
         $Ast = $this->getCodeService()->analysis($find['fullPath']);
@@ -33,9 +33,9 @@ class PageModel extends AbstractCmsModel
         $find['url'] = $this->getUrl($find);
         $find['options']['model'] = $this->getModel();
         $find['options']['viewModel'] = $this->getViewModel();
-        if($find['fileSize'] > 0) {
+        if ($find['fileSize'] > 0) {
             $ActionAst = $Ast->getClass()->getMethod($find['action']);        
-            if($ActionAst->getReturn()->isStaticCall()) {
+            if ($ActionAst->getReturn()->isStaticCall()) {
                 
             }
         }
@@ -44,7 +44,7 @@ class PageModel extends AbstractCmsModel
 
     public function saveNewPage($data)
     {
-        if(substr($data['url'], -1, 1) === '/') {
+        if (substr($data['url'], -1, 1) === '/') {
             return false;
         }
         $controller = [];
@@ -52,12 +52,12 @@ class PageModel extends AbstractCmsModel
         $urlParts = array_map('ucfirst', explode('/', $data['url']));
         $name = array_pop($urlParts);
         $controller = $this->newControllerEntity($name, $urlParts);
-        if(empty($data['model'])) {
+        if (empty($data['model'])) {
             $model = $this->newModelEntity($name, $urlParts);
         } else {
             $model = $this->matchEntity($data['model'], parent::scanModel());
         }        
-        if(empty($data['view'])) {
+        if (empty($data['view'])) {
             $viewmodel = $this->newViewModelEntity($name, $urlParts);
         } else {
             $viewmodel = $this->matchEntity($data['view'], parent::scanViewModel());
@@ -81,10 +81,10 @@ class PageModel extends AbstractCmsModel
     {
         $url = strtolower(str_replace('Controller.php', '', $find['file']));
         
-        if(isset($find['action']) && $find['action'] !== 'index') {
+        if (isset($find['action']) && $find['action'] !== 'index') {
             $url = $url . '/' . $find['action'];
         }
-        if($url[0] === '/') {
+        if ($url[0] === '/') {
             $url = substr($url, 1);
         }
         return $url;

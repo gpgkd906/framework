@@ -11,7 +11,7 @@
     <title><?php echo $title ?></title>
 
     <?php $css = $this->getLayout()->getStyle(); ?>
-    <?php foreach($css as $link) { ?>
+    <?php foreach ($css as $link) { ?>
     <link href="<?php echo $link; ?>" rel="stylesheet">
     <?php } ?>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQptvnuOlYj4GVoG_Ao0fozZHpc7mYklg&libraries=places&language=ja"></script>
@@ -52,7 +52,7 @@
       </div>
     </div>
     <?php $scripts = $this->getLayout()->getScript(); ?>
-    <?php foreach($scripts as $link) { ?>
+    <?php foreach ($scripts as $link) { ?>
     <script src="<?php echo $link ?>"></script>
     <?php } ?>
   </body>

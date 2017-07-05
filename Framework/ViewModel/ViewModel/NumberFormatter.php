@@ -51,7 +51,7 @@ class NumberFormatter implements SingletonInterface
      */
     public function getLocale ()
     {
-        if($this->locale === null) {
+        if ($this->locale === null) {
             $this->locale = setlocale(LC_ALL, 0);            
         }
         return $this->locale;
@@ -59,10 +59,10 @@ class NumberFormatter implements SingletonInterface
     
     public function ToWord($number, $locale = null)
     {
-        if(empty($locale)) {
+        if (empty($locale)) {
             $locale = $this->getLocale();
         }
-        if(!isset($this->NumberFormatters[NumberFormatter::SPELLOUT][$locale])) {
+        if (!isset($this->NumberFormatters[NumberFormatter::SPELLOUT][$locale])) {
             $this->NumberFormatters[NumberFormatter::SPELLOUT][$locale] = new NumberFormatter($locale, NumberFormatter::SPELLOUT);
         }
         return $this->NumberFormatters[NumberFormatter::SPELLOUT][$locale]->format($number);
@@ -70,10 +70,10 @@ class NumberFormatter implements SingletonInterface
 
     public function toCurrency($number, $locale = null)
     {
-        if(empty($locale)) {
+        if (empty($locale)) {
             $locale = $this->getLocale();
         }
-        if(!isset($this->NumberFormatters[NumberFormatter::CURRENCY][$locale])) {
+        if (!isset($this->NumberFormatters[NumberFormatter::CURRENCY][$locale])) {
             $this->NumberFormatters[NumberFormatter::CURRENCY][$locale] = new NumberFormatter($locale, NumberFormatter::CURRENCY);
         }
         return $this->NumberFormatters[NumberFormatter::CURRENCY][$locale]->format($number);        

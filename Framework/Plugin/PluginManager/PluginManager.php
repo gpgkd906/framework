@@ -25,8 +25,8 @@ class PluginManager implements EventTargetInterface
 
     public function initPlugins()
     {
-        foreach($this->config->getConfig("plugins", []) as $pluginConfig) {
-            if(isset($pluginConfig["enabled"]) && $pluginConfig["enabled"]) {
+        foreach ($this->config->getConfig("plugins", []) as $pluginConfig) {
+            if (isset($pluginConfig["enabled"]) && $pluginConfig["enabled"]) {
                 $pluginLabel = $pluginConfig["identify"];
                 $plugin = $pluginLabel::getSingleton();
                 $this->plugins[$pluginLabel] = $plugin;
@@ -43,7 +43,7 @@ class PluginManager implements EventTargetInterface
 
     public function installPlugin($plugin)
     {
-         if($this->isInstalledPlugin($plugin)) {
+         if ($this->isInstalledPlugin($plugin)) {
              return $this->updatePlugin($plugin);
          }
 

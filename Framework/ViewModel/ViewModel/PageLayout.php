@@ -42,10 +42,10 @@ class PageLayout implements LayoutInterface, SingletonInterface
 
     public function registerStyle($style, $priority = null)
     {
-        if($priority === null) {
+        if ($priority === null) {
             $priority = 99;
         }
-        if(in_array($style, $this->styles)) {
+        if (in_array($style, $this->styles)) {
             return false;
         }
         $this->styles = array_merge(array_slice($this->styles, 0, $priority), [$style], array_slice($this->styles, $priority));
@@ -53,10 +53,10 @@ class PageLayout implements LayoutInterface, SingletonInterface
     
     public function registerScript($script, $priority = null)
     {
-        if($priority === null) {
+        if ($priority === null) {
             $priority = 99;
         }
-        if(in_array($script, $this->scripts)) {
+        if (in_array($script, $this->scripts)) {
             return false;
         }
         $this->scripts = array_merge(array_slice($this->scripts, 0, $priority), [$script], array_slice($this->scripts, $priority));
@@ -67,7 +67,7 @@ class PageLayout implements LayoutInterface, SingletonInterface
         $asset = $this->getAsset();
         $basePath = ViewModelManager::getBasePath();
         $styles = [];
-        foreach($this->styles as $style) {
+        foreach ($this->styles as $style) {
             $styles[] = '//' . $basePath . $asset . $style;
         }
         return $styles;
@@ -78,7 +78,7 @@ class PageLayout implements LayoutInterface, SingletonInterface
         $asset = $this->getAsset();
         $basePath = ViewModelManager::getBasePath();
         $scripts = [];
-        foreach($this->scripts as $script) {
+        foreach ($this->scripts as $script) {
             $scripts[] = '//' . $basePath . $asset . $script;
         }
         return $scripts;

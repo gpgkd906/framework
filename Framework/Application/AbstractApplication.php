@@ -49,7 +49,7 @@ abstract class AbstractApplication implements ApplicationInterface
      * @return mixed $objectManager
      * @link
      */
-    public function setObjectManager ($objectManager)
+    public function setObjectManager($objectManager)
     {
         return $this->objectManager = $objectManager;
     }
@@ -62,7 +62,7 @@ abstract class AbstractApplication implements ApplicationInterface
      */
     public function getObjectManager()
     {
-        if($this->objectManager === null) {
+        if ($this->objectManager === null) {
             $this->objectManager = ObjectManager::getSingleton();
             $this->objectManager->set(ApplicationInterface::class, $this);
         }
@@ -73,18 +73,20 @@ abstract class AbstractApplication implements ApplicationInterface
     {
         $this->setConfig($config);
         $useErrorHandler = $this->config->getConfig("ErrorHandler", true);
-        if($useErrorHandler) {
+        if ($useErrorHandler) {
             ErrorHandler::setup();
         }
         $objectManager = $this->getObjectManager();
-        $pluginManager = $objectManager->get(PluginManager::class);
-        $pluginManager->initPlugins();
+        $objectManager->initGlobalObject();
+        $objectManager->initModuleObject();
+        // $pluginManager = $objectManager->get(PluginManager::class);
+        // $pluginManager->initPlugins();
     }
 
     public function setConfig($config)
     {
         $this->config = $config;
-        if($this->config->getConfig('timezon')) {
+        if ($this->config->getConfig('timezon')) {
             date_default_timezone_set($this->config->getConfig('timezon'));
         } else {
             date_default_timezone_set(static::DEFAULT_TIMEZONE);
@@ -93,7 +95,7 @@ abstract class AbstractApplication implements ApplicationInterface
 
     public function getConfig($key = null)
     {
-        if($key === null) {
+        if ($key === null) {
             return $this->config;
         } else {
             return $this->config->getConfig($key);

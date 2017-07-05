@@ -11,7 +11,7 @@ class ConfigModel extends AbstractConfigModel
 
     static public function getConfigModel($config = null)
     {
-        if(self::$ConfigModel === null) {
+        if (self::$ConfigModel === null) {
             self::$ConfigModel = parent::getConfigModel([
                 "scope" => self::class
             ]);

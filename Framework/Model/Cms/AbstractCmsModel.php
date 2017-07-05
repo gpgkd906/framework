@@ -3,7 +3,7 @@
 namespace Framework\Model\Cms;
 
 use Framework\Model\AbstractModel;
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Framework\Event\Event\EventTargetInterface;
@@ -49,7 +49,7 @@ abstract class AbstractCmsModel extends AbstractModel
      */
     public function getCodeService ()
     {
-        if($this->codeService === null) {
+        if ($this->codeService === null) {
             $this->codeService = $this->getObjectManager()->get('Service', 'CodeService');
         }
         return $this->codeService;
@@ -88,8 +88,8 @@ abstract class AbstractCmsModel extends AbstractModel
     public function findFile($identify, $fileList)
     {
         $find = null;
-        foreach($fileList as $file) {
-            if(isset($file['nameHash']) && $file['nameHash'] === $identify) {
+        foreach ($fileList as $file) {
+            if (isset($file['nameHash']) && $file['nameHash'] === $identify) {
                 return $file;
             }
         }
@@ -98,8 +98,8 @@ abstract class AbstractCmsModel extends AbstractModel
     public function getAst($identify, $fileList)
     {
         $find = null;
-        foreach($fileList as $file) {
-            if(isset($file['nameHash']) && $file['nameHash'] === $identify) {
+        foreach ($fileList as $file) {
+            if (isset($file['nameHash']) && $file['nameHash'] === $identify) {
                 return $this->getCodeService()->analysis($file['fullPath']);
             }
         }
@@ -109,7 +109,7 @@ abstract class AbstractCmsModel extends AbstractModel
     {
         $Ast = $this->getAst($identify, $fileList);
         $file = $this->findFile($identify, $fileList);
-        if($Ast) {
+        if ($Ast) {
             return [
                 'name' => $Ast->getClass()->getName(),
                 'namespace' => $Ast->getNamespace()->getNamespace(),
@@ -156,17 +156,17 @@ abstract class AbstractCmsModel extends AbstractModel
     {
         $temps = $this->getCodeService()->scan($dir, $exclude);
         $results = [];
-        foreach($temps as $file) {
-            if($file['fileSize'] < 0) {
+        foreach ($temps as $file) {
+            if ($file['fileSize'] < 0) {
                 continue;
             }
-            if(strpos($file['file'], 'Abstract') !== false) {
+            if (strpos($file['file'], 'Abstract') !== false) {
                 continue;
             }
-            if(strpos($file['file'], 'Interface') !== false) {
+            if (strpos($file['file'], 'Interface') !== false) {
                 continue;
             }
-            if(strpos($file['file'], 'Trait') !== false) {
+            if (strpos($file['file'], 'Trait') !== false) {
                 continue;
             }
             $results[$file['file']] = $file['nameHash'];

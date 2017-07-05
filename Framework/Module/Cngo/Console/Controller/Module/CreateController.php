@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Console\Controller\Module;
 
-use Framework\Controller\Controller\AbstractConsole;
+use Framework\Controller\AbstractConsole;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
 
@@ -72,7 +72,7 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
             'ObjectManager::getSingleton()->get(RouterInterface::class)', PHP_EOL,
             '    ->register([', PHP_EOL,
         ];
-        foreach($moduleInfo['router'] as $route) {
+        foreach ($moduleInfo['router'] as $route) {
             $router = $route['router'];
             $controller = $route['controller'];
             $routerCode[] = "'$router' => Controller\\$controller::class,";
@@ -101,7 +101,7 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
     private function readline($prompt)
     {
         $input = readline($prompt . ': ');
-        if(isset($input[0])) {
+        if (isset($input[0])) {
             readline_add_history($input);
         }
         return trim($input);
@@ -114,6 +114,9 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
 
     public function getHelp()
     {
-        return 'need some help';
+        return <<<HELP
+Module Generator
+    module generator configuration
+HELP;
     }
 }

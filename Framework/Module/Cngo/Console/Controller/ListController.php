@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Console\Controller;
 
-use Framework\Controller\Controller\AbstractConsole;
+use Framework\Controller\AbstractConsole;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Router\RouterAwareInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
@@ -43,7 +43,11 @@ class ListController extends AbstractConsole implements RouterAwareInterface
 
     public function getHelp()
     {
-        return 'need some help';
+        return <<<HELP
+List All Command
+Usage:
+    php bin/console.php list
+HELP;
     }
 
     public function getPriority()

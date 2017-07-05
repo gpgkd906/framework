@@ -17,10 +17,10 @@ class ListViewModel extends AbstractViewModel
     
     private function renderAsHtml()
     {
-        if($this->useItemViewModel) {
+        if ($this->useItemViewModel) {
             $itemViewModel = $this->itemViewModel;
             $this->views[] = $itemViewModel::getOpenTag();
-            foreach($this->datas as $data) {
+            foreach ($this->datas as $data) {
                 $this->views[] = new itemViewModel($data);
             }
             $this->views[] = $itemViewModel::getCloseTag();

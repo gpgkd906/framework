@@ -10,30 +10,30 @@ use Framework\Config\ConfigModel;
 class CodeService extends AbstractService
 {
     public function scan($dir, $exclude = [], $basePath = null, $maxFileSize = 40000, $depth = 0) {
-        if($basePath === null) {
+        if ($basePath === null) {
             $basePath = $dir;
         }
         $exclude = (array) $exclude;
         while($dir[strlen($dir) - 1] === '/') {
             $dir = substr($dir, 0, -1);
         }
-        if(in_array($dir, $exclude)) {
+        if (in_array($dir, $exclude)) {
             return false;
         }
 
-        if(is_dir($dir)) {
+        if (is_dir($dir)) {
             $handler = opendir($dir);
             $result = [];
             while($file = readdir($handler)) {
-                if($file[0] === '.'
+                if ($file[0] === '.'
                 || $file[0] === '#'
                 || preg_match('/~$/', $file)) {
                     continue;
                 }
                 $file = str_replace('//', '/', $dir . '/' . $file);
-                if(is_dir($file)) {
+                if (is_dir($file)) {
                     $subdir = $file;
-                    if(!in_array($subdir, $exclude)) {
+                    if (!in_array($subdir, $exclude)) {
                         //フォルダーを追加した後に、フォルダーの中身をスキャンする
                         $fullPath = $file;
                         $file = substr($file, strlen($basePath));;
@@ -51,11 +51,11 @@ class CodeService extends AbstractService
                         $result = array_merge($result, $this->scan($subdir, $exclude, $basePath, $maxFileSize, $depth + 1));
                     }
                 } else {
-                    if(in_array($file, $exclude)) {
+                    if (in_array($file, $exclude)) {
                         continue;
                     }
                     $filesize = filesize($file);
-                    if($filesize > $maxFileSize) {
+                    if ($filesize > $maxFileSize) {
                         continue;
                     }
                     $fullPath = $file;

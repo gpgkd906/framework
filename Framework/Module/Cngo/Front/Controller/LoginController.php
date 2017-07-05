@@ -2,7 +2,7 @@
 
 namespace Framework\Controller\Login;
 
-use Framework\Controller\Controller\AbstractController;
+use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 
 class LoginController extends AbstractController

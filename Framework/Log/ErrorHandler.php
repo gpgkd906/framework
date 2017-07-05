@@ -126,7 +126,7 @@ final class ErrorHandler {
 	 * @link
 	 */
 	public static function setup($level = null) {
-		if(empty($level)) {
+		if (empty($level)) {
 			$level = E_ALL;
 		}
 		self::setHandlerLevel($level);
@@ -166,7 +166,7 @@ final class ErrorHandler {
 		$log_path = dirname(__FILE__) . "/log/error.log";
 		$content = date("Y-m-d H:i:s", $_SERVER["REQUEST_TIME"]) . PHP_EOL . $content;
 		file_put_contents($log_path, $content . PHP_EOL . PHP_EOL, FILE_APPEND);
-		/* if(isset(self::$logger)){ */
+		/* if (isset(self::$logger)){ */
 		/* 	  self::$logger->except($content); */
 		/* 	  self::$logger->write(); */
 		/* }	   */
@@ -196,7 +196,7 @@ final class ErrorHandler {
 
     public static function getFilterHandler()
     {
-        if(empty(self::$filterHandler)) {
+        if (empty(self::$filterHandler)) {
             return get_class() . "::" . self::DEFAULT_FILTER_HANDLER;
         } else {
             return self::$filterHandler;
@@ -256,10 +256,10 @@ final class ErrorHandler {
 	 * @link
 	 */
 	public static function proxyExceptionHandler($e){
-		if(!self::$debugMode || !call_user_func(self::getFilterHandler())){
+		if (!self::$debugMode || !call_user_func(self::getFilterHandler())){
 			return false;
 		}
-        if(empty(self::$exceptionHandler)) {
+        if (empty(self::$exceptionHandler)) {
             $exceptionHandler = get_class() . "::" . self::DEFAULT_EXCEPTION_HANDLER;
         } else {
             $exceptionHandler = self::$exceptionHandler;
@@ -283,7 +283,7 @@ final class ErrorHandler {
 		$log[] = "Trace:".$e->getTraceAsString();
 		$content = join(PHP_EOL, $log);
 		self::write_log("except", $content);
-        if(self::getHtmlFormatFlag()) {
+        if (self::getHtmlFormatFlag()) {
             echo nl2br("<div style = '".self::$style."'>".$content."</div>");
         } else {
             echo $content;
@@ -303,13 +303,13 @@ final class ErrorHandler {
 	 * @link
 	 */
 	public static function proxyErrorHandler($errno,$errstr,$errfile,$errline,$errcontext){
-		if(!self::$debugMode || !call_user_func(self::getFilterHandler())){
+		if (!self::$debugMode || !call_user_func(self::getFilterHandler())){
 			return false;
 		}
-		if(!(self::$handlerLevel & $errno)){
+		if (!(self::$handlerLevel & $errno)){
 			return false;
 		}
-        if(empty(self::$ErrorHandler)) {
+        if (empty(self::$ErrorHandler)) {
             $ErrorHandler = get_class() . "::" . self::DEFAULT_ERROR_HANDLER;
         } else {
             $ErrorHandler = self::$ErrorHandler;
@@ -330,7 +330,7 @@ final class ErrorHandler {
 	 */
 	public static function defaultErrorHandler($errno,$errstr,$errfile,$errline,$errcontext){
 		$log = array();
-		if(empty(self::$typeLevel[$errno])){
+		if (empty(self::$typeLevel[$errno])){
 			$log[] = "不明なエラーが発生しました";
 		}else{
 			$log[] = self::$typeLevel[$errno];
@@ -351,10 +351,10 @@ final class ErrorHandler {
 	 * @link
 	 */
 	public static function proxyFatalErrorHandler(){
-		if( !self::$debugMode || !call_user_func(self::getFilterHandler()) ){
+		if ( !self::$debugMode || !call_user_func(self::getFilterHandler()) ){
 			return false;
 		}
-        if(empty(self::$fatalErrorHandler)) {
+        if (empty(self::$fatalErrorHandler)) {
             $fatalErrorHandler = get_class() . "::" . self::DEFAUT_FATAL_ERROR_HANDLER;
         } else {
             $fatalErrorHandler = self::$fatalErrorHandler;
@@ -370,10 +370,10 @@ final class ErrorHandler {
 	 */
 	public static function defaultFatalErrorHandler(){
 		$error = error_get_last();
-		if($error === null){
+		if ($error === null){
 			return false;
 		}
-		if(( E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_STRICT ) & $error["type"]){
+		if (( E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_STRICT ) & $error["type"]){
 			return false;
 		}
 		$log = array();

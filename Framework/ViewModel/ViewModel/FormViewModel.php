@@ -68,13 +68,13 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
             $this->setForm($form);
             $form->set('action', $this->getAction());
             $form->set('method', $this->getMethod());
-            foreach($this->getFieldset() as $fieldset) {
+            foreach ($this->getFieldset() as $fieldset) {
                 $form->addFieldset($fieldset);
             }
             $this->triggerEvent(self::TRIGGER_FORMINIT);
             $form->submit([$this, 'triggerForSubmit']);
             $confirm = false;
-            if($this->useConfirm) {
+            if ($this->useConfirm) {
                 $confirm = [$this, 'triggerForConfirm'];
             }
             $form->confirm($confirm, [$this, 'triggerForComplete']);
@@ -124,7 +124,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      */
     public function getFormManager ()
     {
-        if($this->formManager === null) {
+        if ($this->formManager === null) {
             $this->formManager = new FormManager;
         }
         return $this->formManager;

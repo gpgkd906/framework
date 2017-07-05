@@ -35,10 +35,10 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
     public function __construct($primaryValueOrRaw = null)
     {
         $this->getQueryInfo();
-        if($primaryValueOrRaw === null) {
+        if ($primaryValueOrRaw === null) {
             return false;
         }
-        if(is_array($primaryValueOrRaw)) {
+        if (is_array($primaryValueOrRaw)) {
             $this->assign($primaryValueOrRaw);
         } else {
             $this->fetchRaw($primaryValueOrRaw);
@@ -47,7 +47,7 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
 
     public function save()
     {
-        if($this->isValid) {
+        if ($this->isValid) {
             $recordInfo = static::getEntityInfo();
             $queryInfo = $this->getQueryInfo();
             $primaryProperty = $recordInfo[self::PRIMARY_PROPERTY];
@@ -55,7 +55,7 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
             $setter = 'set' . ucfirst($primaryProperty);
             $primaryValue = call_user_func([$this, $getter]);
             $QueryExecutor = new QueryExecutor;
-            if($primaryValue) {
+            if ($primaryValue) {
                 $queryData = call_user_func($queryInfo[self::UPDATE]);
                 $QueryExecutor->query($queryData['query'], $queryData['param']);
             } else {
@@ -79,11 +79,11 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
 
     public function toArray()
     {
-        if($this->isValid) {
+        if ($this->isValid) {
             $recordInfo = static::getEntityInfo();
             $columnMap = $recordInfo[self::COLUMN_MAP];
             $data = [];
-            foreach($columnMap as $property => $column) {
+            foreach ($columnMap as $property => $column) {
                 $getter = 'get' . ucfirst($property);
                 $data[$property] = call_user_func([$this, $getter]);
             }
@@ -101,22 +101,22 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
     {
         $recordInfo = static::getEntityInfo();
         $assiociateList = $recordInfo[Assiociate::ASSIOCIATE_LIST];
-        foreach($assiociateList as $assiociateType => $assiociate) {
-            foreach($assiociate as $target) {
-                if($target[$assiociateType][Assiociate::TARGET_ENTITY] === $assiociteInfo[Assiociate::ASSIOCIATE_ENTITY_CLASS]) {
+        foreach ($assiociateList as $assiociateType => $assiociate) {
+            foreach ($assiociate as $target) {
+                if ($target[$assiociateType][Assiociate::TARGET_ENTITY] === $assiociteInfo[Assiociate::ASSIOCIATE_ENTITY_CLASS]) {
                     break 2;
                 }
             }
         }
         $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
-        if($assiociateHelper::setAssiociatedEntity($this, $recordInfo, $assiociteInfo, function($query, $param, $lazyFlag) use ($recordInfo) {
-            if($lazyFlag) {
+        if ($assiociateHelper::setAssiociatedEntity($this, $recordInfo, $assiociteInfo, function($query, $param, $lazyFlag) use ($recordInfo) {
+            if ($lazyFlag) {
                 self::$info[static::class][Assiociate::ASSIOCIATE_QUERY][Assiociate::LAZY] = [
                     'query' => $query,
                     'param' => $param,
                 ];
                 $columnMap = $recordInfo[self::COLUMN_MAP];
-                foreach($columnMap as $property => $column) {
+                foreach ($columnMap as $property => $column) {
                     unset($this->{$property});
                 }                
             } else {
@@ -136,11 +136,11 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
         $recordInfo = static::getEntityInfo();
         $columnMap = $recordInfo[self::COLUMN_MAP];
         
-        if(!isset($columnMap[$property])) {
+        if (!isset($columnMap[$property])) {
             trigger_error('private');
         }
         extract($recordInfo[Assiociate::ASSIOCIATE_QUERY][Assiociate::LAZY]);
-        foreach($param as $bindKey => $bindValue) {
+        foreach ($param as $bindKey => $bindValue) {
             $param[$bindKey] = call_user_func($bindValue);
         }
         $raw = QueryExecutor::queryAndFetch($query, $param);
@@ -156,7 +156,7 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
         call_user_func($setter, $primaryValue);
         $queryData = call_user_func($queryInfo[self::SELECT]);
         $raw = QueryExecutor::queryAndFetch($queryData['query'], $queryData['param']);
-        if($raw) {
+        if ($raw) {
             $this->assign($raw);
         } else {
             call_user_func($setter, null);
@@ -168,24 +168,24 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
     {
         $recordInfo = static::getEntityInfo();
         $propertyMap = $recordInfo[self::PROPERTY_MAP];
-        foreach($propertyMap as $property => $column) {
-            if(isset($raw[$column])) {
+        foreach ($propertyMap as $property => $column) {
+            if (isset($raw[$column])) {
                 $setter = 'set' . ucfirst($property);
                 call_user_func([$this, $setter], $raw[$column]);
             }
         }
-        if($this->isValid) {
+        if ($this->isValid) {
             $this->makeAssiociate();
         }
     }
 
     public function propertyWalk(Closure $closure)
     {
-        if($this->propertyAccessors === null) {
+        if ($this->propertyAccessors === null) {
             $this->propertyAccessors = [];
             $recordInfo = static::getEntityInfo();
             $propertyMap = $recordInfo[self::PROPERTY_MAP];
-            foreach($propertyMap as $property => $column) {
+            foreach ($propertyMap as $property => $column) {
                 $getter = 'get' . ucfirst($property);
                 $setter = 'set' . ucfirst($property);
                 $this->propertyAccessors[$property] = [
@@ -194,10 +194,10 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
                 ];
             }
         }
-        foreach($this->propertyAccessors as $property => $accessor) {
+        foreach ($this->propertyAccessors as $property => $accessor) {
             $propertyValue = call_user_func($accessor['getter']);
             $newValue = call_user_func($closure, $property, $propertyValue);
-            if($newValue !== null && $newValue !== false) {
+            if ($newValue !== null && $newValue !== false) {
                 call_user_func($accessor['setter'], $newValue);
             }
         }
@@ -211,7 +211,7 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
     
     static public function getRepository()
     {
-        if(self::$Repository === null) {
+        if (self::$Repository === null) {
             $recordInfo = static::getEntityInfo();
             $modelClass = $recordInfo[self::ENTITY][self::MODEL_CLASS];
             self::$Repository = $modelClass::getSingleton();
@@ -226,7 +226,7 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
         
     private function getQueryInfo()
     {
-        if($this->queryInfo === null) {
+        if ($this->queryInfo === null) {
             $this->makeQueryInfo();
         }
         return $this->queryInfo;
@@ -236,7 +236,7 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
     {
         $recordInfo = static::getEntityInfo();
         $this->queryInfo = [];
-        foreach($recordInfo[self::QUERY] as $queryType => $query) {
+        foreach ($recordInfo[self::QUERY] as $queryType => $query) {
             $this->queryInfo[$queryType] = $this->makeQuery($query, $queryType, $recordInfo[self::COLUMN_MAP], $recordInfo[self::PRIMARY_KEY]);
         }
     }
@@ -268,18 +268,18 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
 
     private function makeAssiociate()
     {
-        if($this->assiociateInitedFlag === false) {
+        if ($this->assiociateInitedFlag === false) {
             $info = static::getEntityInfo();
             $assiociteList = $info[Assiociate::ASSIOCIATE_LIST];
             $propertyMap = $info[self::PROPERTY_MAP];
-            foreach($assiociteList as $assiociateType => $assiocitePropertyList) {
-                foreach($assiocitePropertyList as $propertyName => $property) {
+            foreach ($assiociteList as $assiociateType => $assiocitePropertyList) {
+                foreach ($assiocitePropertyList as $propertyName => $property) {
                     $getter = 'get' . ucfirst($propertyName);
-                    if($assiocites = call_user_func([$this, $getter])) {
+                    if ($assiocites = call_user_func([$this, $getter])) {
                         continue;
                     }
                     $assiociateHelper = AssiociateHelper::class . '\\' . $assiociateType;
-                    if($result = $assiociateHelper::makeAssiociateEntity($this, $propertyName, $property, $info[self::TABLE][self::NAME], $propertyMap)) {
+                    if ($result = $assiociateHelper::makeAssiociateEntity($this, $propertyName, $property, $info[self::TABLE][self::NAME], $propertyMap)) {
                         list($EntityOrCollection, $param) = $result;
                         $EntityOrCollection->setAssiociate($param);
                     }
@@ -293,12 +293,12 @@ abstract class AbstractEntity implements EntityInterface, EventTargetInterface
     {
         $paramGetter = [];
         return function () use ($query, $queryType, $propertyMap, $option) {
-            foreach($propertyMap as $property => $column) {
+            foreach ($propertyMap as $property => $column) {
                 $getter = 'get' . ucfirst($property);
                 $paramGetter[':' . $column] = [$this, $getter];
             }
             $this->queryInfo[$queryType] = function () use ($query, $paramGetter, $option) {
-                foreach($paramGetter as $key => $getter) {
+                foreach ($paramGetter as $key => $getter) {
                     $paramGetter[$key] = call_user_func($getter);
                 }
                 return [
