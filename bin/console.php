@@ -1,5 +1,11 @@
 <?php
+
+
 define("ROOT_DIR", __DIR__ . "/../");
+
+require ROOT_DIR . 'Benchmark.php';
+$bm = new Benchmark;
+
 define("ENVIRONMENT", "Development");
 require ROOT_DIR . "vendor/autoload.php";
 
@@ -15,3 +21,5 @@ $globalConfig = ConfigModel::getConfigModel([
 
 $Application = new ConsoleApplication($globalConfig);
 $Application->run();
+
+$bm->display();
