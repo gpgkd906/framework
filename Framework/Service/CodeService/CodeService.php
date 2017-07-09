@@ -107,7 +107,6 @@ class CodeService extends AbstractService
             $codeBase[] = $class . ' {}';
             $codeBase[] = PHP_EOL;
         }
-        // var_dump(join('', $codeBase));die;
         return Analytic::analyticCode(join('', $codeBase));
     }
 

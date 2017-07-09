@@ -3,6 +3,8 @@
 namespace Framework\Module\Cngo\Console\Controller\Module;
 
 use Framework\Controller\AbstractConsole;
+use Framework\Controller\AbstractController;
+use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
 
@@ -27,22 +29,22 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
             'type' => null,
             'router' => [],
         ];
-        while(!$moduleName = self::readline('Input Module Name'));
+        while (!$moduleName = self::readline('Input Module Name'));
         $moduleInfo['path'][] = $moduleName;
         $moduleInfo['namespace'][] = $moduleName;
-        while(!$moduleType = self::readline('Input Module Type[Admin/Front/Console]'));
+        while (!$moduleType = self::readline('Input Module Type[Admin/Front/Console]'));
         $moduleInfo['type'] = $moduleType;
         $router = self::readline('Input Router');
         if ($router) {
-            while(!$controller = self::readline("Input Controller Name which match the router[$router]"));
+            while (!$controller = self::readline("Input Controller Name which match the router[$router]"));
             $moduleInfo['router'][] = [
                 'router' => $router,
                 'controller' => $controller
             ];
-            while(in_array(self::readline('Add Other router[y/N]'), ['y', 'Y', 'yes', 'Yes'])) {
+            while (in_array(self::readline('Add Other router[y/N]'), ['y', 'Y', 'yes', 'Yes'])) {
                 $router = self::readline('Input Router');
                 if (!$router) break;
-                while(!$controller = self::readline("Input Controller Name which match the router[$router]"));
+                while (!$controller = self::readline("Input Controller Name which match the router[$router]"));
                 $moduleInfo['router'][] = [
                     'router' => $router,
                     'controller' => $controller
@@ -55,10 +57,26 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
     public function generateModule($moduleInfo)
     {
         $path = join('/', $moduleInfo['path']);
+        $moduleInfo['path'] = $path;
         $namespace = join('\\', $moduleInfo['namespace']);
+        $moduleInfo['namespace'] = $namespace;
         if (!is_dir($path)) {
             mkdir($path);
         }
+        // make router
+        $this->generateRoute($moduleInfo);
+        // make controller
+        if ($moduleInfo['type'] === self::ROUTER_CONSOLE) {
+            $this->generateConsole($moduleInfo);
+        } else {
+            $this->generateController($moduleInfo);
+        }
+    }
+
+    private function generateRoute($moduleInfo)
+    {
+        $namespace = $moduleInfo['namespace'];
+        $path = $moduleInfo['path'];
         if ($moduleInfo['type'] === self::ROUTER_CONSOLE) {
             $routerInjector = $path . '/Command.php';
         } else {
@@ -81,20 +99,63 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
         $routerCode[] = '    ]);';
         $routerCode = join('', $routerCode);
         $routerCode = $this->getCodeService()->analysisCode($routerCode);
-        var_dump(
-            $routerCode->toCode()
-        );
-        die;
-        // make router
-        $this->generateRoute($moduleInfo);
-        // make controller
+        $this->write($routerInjector, $routerCode);
+    }
+
+    private function generateConsole($moduleInfo)
+    {
         $CodeService = $this->getCodeService();
-        $Code = $CodeService->createCode(__NAMESPACE__, 'TestController');
-        $Code->getNamespace()->appendUse(AbstractConsole::class);
-        $Code->getNamespace()->appendUse(EventManagerAwareInterface::class);
-        $Code->getClass()->extend('AbstractConsole');
-        $Code->getClass()->appendImplement('EventManagerAwareInterface');
-        // var_dump($Code->toCode());
+        $path = $moduleInfo['path'];
+        $namespace = $moduleInfo['namespace'];
+        foreach ($moduleInfo['router'] as $route) {
+            $controller = $route['controller'];
+            $controllerPath = $path . '/Controller/' . $controller . '.php';
+            $Code = $CodeService->createCode($namespace . '\Controller', $controller);
+            $Code->getNamespace()->appendUse(AbstractConsole::class);
+            $Code->getClass()->extend('AbstractConsole');
+            $Code->getClass()->appendMethod('index');
+            $this->write($controllerPath, $Code);
+        }
+    }
+
+    private function generateController($moduleInfo)
+    {
+        $CodeService = $this->getCodeService();
+        $path = $moduleInfo['path'];
+        $namespace = $moduleInfo['namespace'];
+        foreach ($moduleInfo['router'] as $route) {
+            $controller = $route['controller'];
+            $viewModel = str_replace('Controller', 'ViewModel', $controller);
+            $viewNamespace = $namespace . '\View\ViewModel';
+            $controllerPath = $path . '/Controller/' . $controller . '.php';
+            $Code = $CodeService->createCode($namespace . '\Controller', $controller);
+            $Code->getNamespace()->appendUse(AbstractController::class);
+            $Code->getNamespace()->appendUse($viewNamespace . '\\' . $viewModel);
+            $Code->getClass()->extend('AbstractController');
+            $Code->getClass()->appendMethod('index');
+            $Code->getClass()->getMethod('index')->setReturn("ViewModelManager::getViewModel(['viewModel' => $viewModel::class])");
+            $this->generateViewModel($controller, $moduleInfo);
+            $this->write($controllerPath, $Code);
+        }
+    }
+
+    private function generateViewModel($controller, $moduleInfo)
+    {
+        $path = $moduleInfo['path'];
+        $namespace = $moduleInfo['namespace'];
+        $viewModel = str_replace('Controller', 'ViewModel', $controller);
+        $template = strtolower(str_replace('Controller', '', $controller));
+        $viewNamespace = $namespace . '\View\ViewModel';
+        $viewModelPath = $path . '/View/ViewModel/' . $viewModel . '.php';
+        $templatePath = $path . '/View/template/' . $template . '.phtml';
+        $CodeService = $this->getCodeService();
+        $ViewModelCode = $CodeService->createCode($viewNamespace, $viewModel);
+        $ViewModelCode->getNamespace()->appendUse(AbstractViewModel::class);
+        $ViewModelCode->getClass()->extend('AbstractViewModel');
+        $ViewModelCode->getClass()->appendProperty('template', '/template/' . $template . '.phtml');
+        $ViewModelCode->getClass()->appendMethod('getTemplateDir');
+        $ViewModelCode->getClass()->getMethod('getTemplateDir')->setReturn("__DIR__ . '/..'");
+        var_dump($ViewModelCode->toCode());
 
     }
 
@@ -105,6 +166,11 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
             readline_add_history($input);
         }
         return trim($input);
+    }
+
+    public function write($file, $Code)
+    {
+
     }
 
     public function getDescription()
