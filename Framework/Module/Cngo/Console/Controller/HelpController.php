@@ -20,7 +20,10 @@ class HelpController extends AbstractConsole implements RouterAwareInterface
         $consoles = array_unique($consoles);
         $routerList = $this->getRouter()->getRouterList();
         $ObjectManager = $this->getObjectManager();
-        foreach ($consoles as $console) {
+        foreach ($consoles as $index => $console) {
+            if ($index) {
+                echo '---------------------------------------------------------', PHP_EOL;
+            }
             if (isset($routerList[$console])) {
                 $Console = $ObjectManager->create($routerList[$console]);
                 $help = $Console->getHelp();

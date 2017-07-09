@@ -6,6 +6,7 @@ use Framework\Config\ConfigModel\ConfigModelInterface;
 use Framework\Log\ErrorHandler;
 use Framework\Plugin\PluginManager\PluginManager;
 use Framework\ObjectManager\ObjectManager;
+use Framework\EventManager;
 use Exception;
 
 abstract class AbstractApplication implements ApplicationInterface
@@ -77,6 +78,7 @@ abstract class AbstractApplication implements ApplicationInterface
             ErrorHandler::setup();
         }
         $objectManager = $this->getObjectManager();
+        $objectManager->create(EventManager\EventManager::class);
         $objectManager->initGlobalObject();
         $objectManager->initModuleObject();
         // $pluginManager = $objectManager->get(PluginManager::class);

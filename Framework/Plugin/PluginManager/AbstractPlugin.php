@@ -7,12 +7,11 @@ use Framework\ObjectManager\SingletonInterface;
 abstract class AbstractPlugin implements SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
-    
+
     static private $instance;
-    
+
     public function getInstallInfo()
     {
-        
     }
 
     public function getListeners()
@@ -26,5 +25,4 @@ abstract class AbstractPlugin implements SingletonInterface
             $pluginManager->addEventListener($event, [$this, $action]);
         }
     }
-
 }

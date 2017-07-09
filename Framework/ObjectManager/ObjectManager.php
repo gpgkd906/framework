@@ -18,11 +18,9 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     * @access private
     * @link
     */
-    private $application = null;
-
     private $objectFactory = [];
     private $sharedObject = [];
-    private $awareSetter = [];
+    private $dependencySetter = [];
 
     private function __construct()
     {
@@ -79,7 +77,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
                 $dependency = null;
                 if (isset($this->sharedObject[$injectDependencyInterface])) {
                     $dependency = $this->sharedObject[$injectDependencyInterface];
-                } else if (isset($this->sharedObject[$injectDependency])) {
+                } elseif (isset($this->sharedObject[$injectDependency])) {
                     $dependency = $this->sharedObject[$injectDependency];
                 } else {
                     $dependency = $this->get($injectDependencyInterface, $injectDependency);
@@ -93,12 +91,12 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
 
     private function getDependencySetter($interface)
     {
-        if (isset($this->awareSetter[$interface])) {
-            return $this->awareSetter[$interface];
+        if (isset($this->dependencySetter[$interface])) {
+            return $this->dependencySetter[$interface];
         }
         foreach (get_class_methods($interface) as $method) {
-            if (strpos($method, 'set') !== false) {
-                $this->awareSetter[$interface] = $method;
+            if (strpos($method, 'set') === 0) {
+                $this->dependencySetter[$interface] = $method;
                 return $method;
             }
         }
@@ -107,21 +105,21 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
 
     public function initGlobalObject()
     {
-        foreach (glob(ROOT_DIR . 'Framework/*/register.php') as $ObjectRegister) {
-            require $ObjectRegister;
-        }
         foreach (glob(ROOT_DIR . 'Framework/*/export.php') as $objectExporter) {
             require $objectExporter;
+        }
+        foreach (glob(ROOT_DIR . 'Framework/*/index.php') as $ObjectEntry) {
+            require $ObjectEntry;
         }
     }
 
     public function initModuleObject()
     {
-        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/register.php') as $moduleRegister) {
-            require $moduleRegister;
-        }
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
             require $moduleExporter;
+        }
+        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/index.php') as $moduleEntry) {
+            require $moduleEntry;
         }
     }
 
@@ -130,9 +128,5 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         foreach ($Objectfactories as $ObjectName => $factory) {
             $this->objectFactory[$ObjectName] = $factory;
         }
-    }
-
-    public function register()
-    {
     }
 }

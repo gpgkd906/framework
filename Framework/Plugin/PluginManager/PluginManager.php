@@ -38,16 +38,14 @@ class PluginManager implements EventTargetInterface
 
     public function isInstalledPlugin($plugin)
     {
-
     }
 
     public function installPlugin($plugin)
     {
-         if ($this->isInstalledPlugin($plugin)) {
-             return $this->updatePlugin($plugin);
-         }
-
-     }
+        if ($this->isInstalledPlugin($plugin)) {
+            return $this->updatePlugin($plugin);
+        }
+    }
 
     public function updatePlugin($plugin)
     {

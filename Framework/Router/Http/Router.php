@@ -85,23 +85,23 @@ class Router extends AbstractRouter
 
     public function getParam()
     {
-        switch($this->getMethod()) {
-        case self::GET:
-            $this->request_param = $_GET;
-            break;
-        case self::POST:
-            $this->request_param = $_POST;
-            if (!empty($_GET)) {
-                $this->request_param = array_merge($_GET, $this->request_param);
-            }
-            break;
-        case self::PUT:
-        case self::DELETE:
-            parse_str(file_get_contents('php://input'), $this->request_param);
-            if (!empty($_GET)) {
-                $this->request_param = array_merge($_GET, $this->request_param);
-            }
-            break;
+        switch ($this->getMethod()) {
+            case self::GET:
+                $this->request_param = $_GET;
+                break;
+            case self::POST:
+                $this->request_param = $_POST;
+                if (!empty($_GET)) {
+                    $this->request_param = array_merge($_GET, $this->request_param);
+                }
+                break;
+            case self::PUT:
+            case self::DELETE:
+                parse_str(file_get_contents('php://input'), $this->request_param);
+                if (!empty($_GET)) {
+                    $this->request_param = array_merge($_GET, $this->request_param);
+                }
+                break;
         }
         return $this->request_param;
     }

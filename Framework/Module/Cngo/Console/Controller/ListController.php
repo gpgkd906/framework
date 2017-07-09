@@ -3,7 +3,6 @@
 namespace Framework\Module\Cngo\Console\Controller;
 
 use Framework\Controller\AbstractConsole;
-use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Router\RouterAwareInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 
