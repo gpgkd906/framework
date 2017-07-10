@@ -7,10 +7,12 @@ use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
+use Framework\Module\Cngo\Console\Helper\ConsoleHelperAwareInterface;
 
-class CreateController extends AbstractConsole implements CodeServiceAwareInterface
+class CreateController extends AbstractConsole implements CodeServiceAwareInterface, ConsoleHelperAwareInterface
 {
     use \Framework\Service\CodeService\CodeServiceAwareTrait;
+    use \Framework\Module\Cngo\Console\Helper\ConsoleHelperAwareTrait;
 
     CONST ROUTER_ADMIN = 'Admin';
     CONST ROUTER_FRONT = 'Front';
@@ -29,22 +31,22 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
             'type' => null,
             'router' => [],
         ];
-        while (!$moduleName = self::readline('Input Module Name'));
+        $moduleName = $this->getConsoleHelper()->ask('Input Module Name');
         $moduleInfo['path'][] = $moduleName;
         $moduleInfo['namespace'][] = $moduleName;
-        while (!$moduleType = self::readline('Input Module Type[Admin/Front/Console]'));
+        $moduleType = $this->getConsoleHelper()->choice('Input Module Type', ['Admin', 'Front', 'Console']);
         $moduleInfo['type'] = $moduleType;
-        $router = self::readline('Input Router');
+        $router = $this->getConsoleHelper()->ask('Input Router', '');
         if ($router) {
-            while (!$controller = self::readline("Input Controller Name which match the router[$router]"));
+            $controller = $this->getConsoleHelper()->ask("Input Controller Name which match the router[$router]");
             $moduleInfo['router'][] = [
                 'router' => $router,
                 'controller' => $controller
             ];
-            while (in_array(self::readline('Add Other router[y/N]'), ['y', 'Y', 'yes', 'Yes'])) {
-                $router = self::readline('Input Router');
+            while ($this->getConsoleHelper()->confirm('Add Other router[y/n]', false, ['y', 'Y', 'yes', 'Yes'])) {
+                $router = $this->getConsoleHelper()->ask('Input Router', '');
                 if (!$router) break;
-                while (!$controller = self::readline("Input Controller Name which match the router[$router]"));
+                $controller = $this->getConsoleHelper()->ask("Input Controller Name which match the router[$router]");
                 $moduleInfo['router'][] = [
                     'router' => $router,
                     'controller' => $controller
@@ -60,8 +62,8 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
         $moduleInfo['path'] = $path;
         $namespace = join('\\', $moduleInfo['namespace']);
         $moduleInfo['namespace'] = $namespace;
-        if (!is_dir($path)) {
-            mkdir($path);
+        if (is_dir($path)) {
+
         }
         // make router
         $this->generateRoute($moduleInfo);
@@ -157,15 +159,6 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
         $ViewModelCode->getClass()->getMethod('getTemplateDir')->setReturn("__DIR__ . '/..'");
         var_dump($ViewModelCode->toCode());
 
-    }
-
-    private function readline($prompt)
-    {
-        $input = readline($prompt . ': ');
-        if (isset($input[0])) {
-            readline_add_history($input);
-        }
-        return trim($input);
     }
 
     public function write($file, $Code)
