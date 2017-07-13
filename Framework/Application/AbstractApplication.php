@@ -73,14 +73,13 @@ abstract class AbstractApplication implements ApplicationInterface
     public function __construct(ConfigModelInterface $config)
     {
         $this->setConfig($config);
-        $useErrorHandler = $this->config->getConfig("ErrorHandler", true);
+        $useErrorHandler = $this->config->get("ErrorHandler", true);
         if ($useErrorHandler) {
             ErrorHandler::setup();
         }
         $objectManager = $this->getObjectManager();
         $objectManager->create(EventManager\EventManager::class);
-        $objectManager->initGlobalObject();
-        $objectManager->initModuleObject();
+        $objectManager->init();
         // $pluginManager = $objectManager->get(PluginManager::class);
         // $pluginManager->initPlugins();
     }
@@ -88,8 +87,8 @@ abstract class AbstractApplication implements ApplicationInterface
     public function setConfig($config)
     {
         $this->config = $config;
-        if ($this->config->getConfig('timezon')) {
-            date_default_timezone_set($this->config->getConfig('timezon'));
+        if ($this->config->get('timezon')) {
+            date_default_timezone_set($this->config->get('timezon'));
         } else {
             date_default_timezone_set(static::DEFAULT_TIMEZONE);
         }
@@ -100,7 +99,7 @@ abstract class AbstractApplication implements ApplicationInterface
         if ($key === null) {
             return $this->config;
         } else {
-            return $this->config->getConfig($key);
+            return $this->config->get($key);
         }
     }
 

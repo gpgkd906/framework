@@ -27,6 +27,14 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         $this->set(ObjectManagerInterface::class, $this);
     }
 
+    public function init()
+    {
+        $this->exportGlobalObject();
+        $this->exportModuleObject();
+        $this->initModuleObject();
+        $this->initGlobalObject();
+    }
+
     public function get($name, $factory = null)
     {
         if (isset($this->sharedObject[$name])) {
@@ -53,12 +61,10 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         if (is_subclass_of($factory, FactoryInterface::class)) {
             $ObjectFactory = new $factory;
             $Object = $ObjectFactory->create();
+        } elseif (is_subclass_of($factory, SingletonInterface::class)) {
+            $Object = $factory::getSingleton();
         } else {
-            if (is_subclass_of($factory, SingletonInterface::class)) {
-                $Object = $factory::getSingleton();
-            } else {
-                $Object = new $factory;
-            }
+            $Object = new $factory;
         }
         $this->sharedObject[$name] = $Object;
         $this->injectDependency($Object);
@@ -103,21 +109,29 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         return;
     }
 
-    public function initGlobalObject()
+    private function exportGlobalObject()
     {
         foreach (glob(ROOT_DIR . 'Framework/*/export.php') as $objectExporter) {
             require $objectExporter;
         }
+    }
+
+    private function exportModuleObject()
+    {
+        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
+            require $moduleExporter;
+        }
+    }
+
+    private function initGlobalObject()
+    {
         foreach (glob(ROOT_DIR . 'Framework/*/index.php') as $ObjectEntry) {
             require $ObjectEntry;
         }
     }
 
-    public function initModuleObject()
+    private function initModuleObject()
     {
-        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
-            require $moduleExporter;
-        }
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/index.php') as $moduleEntry) {
             require $moduleEntry;
         }

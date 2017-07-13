@@ -3,6 +3,7 @@
 return [
     'connection' => [
         'type' => 'mysql',
+        'driver' => 'pdo_mysql',
         'dsn' => [
             'host' => 'db',
             'dbname' => 'docker',
@@ -11,11 +12,15 @@ return [
         'user' => 'docker',
         'password' => 'docker',
     ],
-    'Entity' => [
-        'metaInfo' => [
-            'type' => 'annotation',
-            'cache' => null, //null, session
-            'expiration' => 60 * 60 * 24,
-        ],
+    'cache' => [
+        'type' => 'redis',
+        'connection' => [
+            'host' => 'redis_server',
+            'port' => 6379
+        ]
+    ],
+    'entityManager' => [
+        'proxyDir' => null,
+        'devMode' => false,
     ]
 ];

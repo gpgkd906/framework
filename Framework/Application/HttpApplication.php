@@ -34,7 +34,7 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
             $this->sendDummyFavicon();
         }
 
-        ViewModelManager::setBasePath($config->getConfig('ApplicationHost'));
+        ViewModelManager::setBasePath($config->get('ApplicationHost'));
         ViewModelManager::setObjectManager($this->getObjectManager());
         $request = $routeModel->dispatch();
         $Controller = null;

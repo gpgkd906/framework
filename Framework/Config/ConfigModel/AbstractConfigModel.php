@@ -4,7 +4,7 @@ namespace Framework\Config\ConfigModel;
 
 use Exception;
 
-class AbstractConfigModel implements ConfigModelInterface 
+class AbstractConfigModel implements ConfigModelInterface
 {
     //scope
     const SUPER = "Global";
@@ -29,11 +29,11 @@ class AbstractConfigModel implements ConfigModelInterface
     const ERROR_INVALID_JSON_CONFIG = "error: invalid json config: %s";
 
     static private $namespace = null;
-    
+
     static private $instances = [];
-    
+
     static protected $dir = null;
-    
+
     private $scope = null;
     private $config = [];
     private $property;
@@ -75,7 +75,7 @@ class AbstractConfigModel implements ConfigModelInterface
         }
         return $config;
     }
-    
+
     static public function loadConfigFromFile($metaConfig, $type)
     {
         if (!isset($metaConfig['scope']) && !isset($metaConfig['configFile'])) {
@@ -98,7 +98,7 @@ class AbstractConfigModel implements ConfigModelInterface
                 break;
             case self::TYPE_INI_FILE:
                 if (!$config = parse_ini_file($configFile, true)) {
-                    
+
                 }
                 break;
             case self::TYPE_JSON_FILE:
@@ -146,7 +146,7 @@ class AbstractConfigModel implements ConfigModelInterface
         return $this->scope;
     }
 
-    public function getConfig($key, $default = null)
+    public function get($key, $default = null)
     {
         if (isset($this->config[$key])) {
             return $this->config[$key];
@@ -154,7 +154,7 @@ class AbstractConfigModel implements ConfigModelInterface
         return $default;
     }
 
-    public function setConfig($key, $value)
+    public function set($key, $value)
     {
         if (isset($this->config[$key])) {
             $this->config[$key] = $value;
@@ -167,22 +167,22 @@ class AbstractConfigModel implements ConfigModelInterface
         if ($this->property === self::READONLY) {
             throw new Exception(self::ERROR_READONLY);
         }
-        
+
     }
 
     private function updateToFile()
     {
-        
+
     }
 
     private function updateByCallBack()
     {
-        
+
     }
 
     public function refresh()
     {
-        
+
     }
 
     public function isEmpty()

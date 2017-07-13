@@ -23,8 +23,8 @@ class EntityService extends AbstractService
         $config = ConfigModel::getConfigModel([
             'scope' => ConfigModel::MODEL
         ]);
-        QueryExecutor::setConfig($config->getConfig('connection'));
-        AbstractEntity::setConfig($config->getConfig('Entity'));
+        QueryExecutor::setConfig($config->get('connection'));
+        AbstractEntity::setConfig($config->get('Entity'));
     }
 
     public function getRepository($repository)

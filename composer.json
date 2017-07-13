@@ -10,12 +10,12 @@
     ],
     "require": {
         "gpgkd906/form2" : "dev-master",
-	"gpgkd906/code-generator": "0.2.0",
-        "nikic/php-parser": "2.0"
+        "gpgkd906/code-generator": "0.3.0",
+        "doctrine/orm": "*"
     },
     "autoload": {
-	"psr-0": {
-	    "Framework": "./"
-	}
+        "psr-0": {
+            "Framework": "./"
+        }
     }
 }
