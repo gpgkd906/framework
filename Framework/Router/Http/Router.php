@@ -137,7 +137,6 @@ class Router extends AbstractRouter
 
     public function parseRequest()
     {
-        //[controller, action, param]
         $controller = $action = $param = null;
         $req = $this->getReq();
         if ($req[0] === '/') {
@@ -146,18 +145,20 @@ class Router extends AbstractRouter
         if (strpos($req, ".")) {
             return [null, null, null];
         }
-        if (substr($req, -1, 1) === "/") {
-            $req .= $this->getIndex();
+        if (strpos($req, "?") !== false) {
+            list($req) = explode('?', $req);
         }
         if ($req === '') {
-            $req = $this->getIndex() . '/' . $this->getIndex();
+            $req = $this->getIndex();
+        }
+        if (substr($req, -1, 1) === "/") {
+            $req = substr($req, 0, -1);
         }
         $reqs = explode("/", $req);
         $parts = [];
         foreach ($reqs as $idx => $token) {
-            //数字で始まる文字列は名前空間やクラス名やメソッド名になり得ないのでパラメタに退避させる
-            if (is_numeric($token[0])) {
-                $parts[] = $this->getIndex();
+            //数字で始まる文字列は名前空間やクラス名やメソッド名になり得ないので以降のパラメタを退避させる
+            if (isset($token[0]) && is_numeric($token[0])) {
                 break;
             }
             $parts[] = $token;

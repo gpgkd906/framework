@@ -6,5 +6,5 @@ use Framework\ObjectManager\ObjectManager;
 
 ObjectManager::getSingleton()->get(RouterInterface::class)
     ->register([
-        'index/index' => Controller\IndexController::class,
+        'index' => Controller\IndexController::class,
     ]);

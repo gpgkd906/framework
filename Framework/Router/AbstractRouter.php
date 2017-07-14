@@ -45,27 +45,13 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
         return $this->request;
     }
 
-    public function getController() {}
+    public function getController(){}
 
-    public function getAction() {}
+    public function getAction(){}
 
     abstract public function getParam();
 
-    public function update() {}
-
-    public function refresh() {}
-
     abstract public function parseRequest();
-
-    protected function joinStep($array, $step = 1, $delimiter = "/")
-    {
-        if (count($array) < $step) {
-            throw new Exception(self::INVALID_JOINSTEP);
-        }
-        $joinArr = array_slice($array, 0, $step);
-        $rest = array_slice($array, $step);
-        return [join($delimiter, $joinArr), $rest];
-    }
 
     public function getReq()
     {

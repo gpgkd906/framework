@@ -11,8 +11,4 @@ interface RouterInterface
     public function getController();
 
     public function getParam();
-    
-    public function update();
-
-    public function refresh();
 }
