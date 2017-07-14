@@ -3,13 +3,9 @@
 namespace Framework\Module\Cngo\Console\Controller;
 
 use Framework\Controller\AbstractConsole;
-use Framework\Router\RouterAwareInterface;
-use Framework\ObjectManager\ObjectManagerAwareInterface;
 
-class ListController extends AbstractConsole implements RouterAwareInterface
+class ListController extends AbstractConsole
 {
-    use \Framework\Router\RouterAwareTrait;
-    use \Framework\ObjectManager\ObjectManagerAwareTrait;
 
     public function index()
     {

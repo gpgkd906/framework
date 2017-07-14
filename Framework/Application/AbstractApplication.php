@@ -78,7 +78,7 @@ abstract class AbstractApplication implements ApplicationInterface
             ErrorHandler::setup();
         }
         $objectManager = $this->getObjectManager();
-        $objectManager->create(EventManager\EventManager::class);
+        $objectManager->get(EventManager\EventManager::class);
         $objectManager->init();
         // $pluginManager = $objectManager->get(PluginManager::class);
         // $pluginManager->initPlugins();

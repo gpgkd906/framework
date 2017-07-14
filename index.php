@@ -1,9 +1,10 @@
 <?php
 
-require './old/module/benchmark/benchmark.class.php';
-$bm = new benchmark;
-
 define("ROOT_DIR", __DIR__ . "/");
+
+require ROOT_DIR . 'Benchmark.php';
+$bm = new Benchmark;
+
 define("ENVIRONMENT", "Development");
 require ROOT_DIR . "vendor/autoload.php";
 
