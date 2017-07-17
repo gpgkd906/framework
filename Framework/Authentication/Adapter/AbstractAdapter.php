@@ -5,7 +5,7 @@ namespace Framework\Authentication\Adapter;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Crypt\Password\Bcrypt;
 
-abstract class Common implements AdapterInterface
+abstract class AbstractAdapter implements AdapterInterface
 {
     protected $username;
     protected $password;

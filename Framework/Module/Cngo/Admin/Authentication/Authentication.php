@@ -2,10 +2,10 @@
 
 namespace Framework\Module\Cngo\Admin\Authentication;
 
-use Framework\Authentication\Authentication as FrameworkAuthentication;
+use Framework\Authentication\AbstractAuthentication;
 use Zend\Authentication\Result;
 
-class Authentication extends FrameworkAuthentication
+class Authentication extends AbstractAuthentication
 {
     public function login($username, $password)
     {

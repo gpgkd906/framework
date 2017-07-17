@@ -10,7 +10,7 @@ use Zend\Authentication\Storage\Session;
 use Framework\Authentication\Adapter\Common;
 use Zend\Authentication\Result;
 
-abstract class Authentication extends AuthenticationService implements
+abstract class AbstractAuthentication extends AuthenticationService implements
     AuthenticationInterface,
     ObjectManagerAwareInterface,
     SingletonInterface

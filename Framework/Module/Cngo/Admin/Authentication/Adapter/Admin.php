@@ -2,12 +2,12 @@
 
 namespace Framework\Module\Cngo\Admin\Authentication\Adapter;
 
-use Framework\Authentication\Adapter\Common;
+use Framework\Authentication\Adapter\AbstractAdapter;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\Cngo\Admin\Entity\AdminUsers;
 use Zend\Authentication\Result;
 
-class Admin extends Common implements EntityManagerAwareInterface
+class Admin extends AbstractAdapter implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
 
