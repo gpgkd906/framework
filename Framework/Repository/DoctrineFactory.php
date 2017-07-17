@@ -30,14 +30,14 @@ class DoctrineFactory implements FactoryInterface
             $paths = $RepositoryManager->getEntityPath();
             $isDevMode = $entityManagerConfig['devMode'];
             $proxyDir = $entityManagerConfig['proxyDir'] ? $entityManagerConfig['proxyDir'] : __DIR__ . '/Proxy';
-            $dbParams = array(
+            $dbParams = [
                 'driver'   => $connection['driver'],
                 'user'     => $connection['user'],
                 'password' => $connection['password'],
                 'dbname'   => $connection['dsn']['dbname'],
                 'host'   => $connection['dsn']['host'],
                 'charset'   => $connection['dsn']['charset'],
-            );
+            ];
             $cache = $this->getCache($cache);
             $driver = new AnnotationDriver(new AnnotationReader(), $paths);
             AnnotationRegistry::registerLoader('class_exists');

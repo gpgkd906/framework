@@ -1,9 +1,0 @@
-Options FollowSymLinks
-
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-ReWriteBase /
-
-ReWriteRule ^(.*)$ index.php?req=$1&%{QUERY_STRING} [L]
