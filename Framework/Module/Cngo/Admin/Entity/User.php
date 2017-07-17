@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Framework\Repository\Doctrine\AbstractEntity;
 
 /**
- * @ORM\Entity(repositoryClass="Framework\Module\Cngo\Admin\Entity\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="Framework\Module\Cngo\Admin\Entity\Repository\User")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="m_users")
  */

@@ -93,7 +93,13 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
                 } elseif (isset($this->sharedObject[$injectDependency])) {
                     $dependency = $this->sharedObject[$injectDependency];
                 } else {
-                    $dependency = $this->get($injectDependencyInterface, $injectDependency);
+                    if (class_exists($injectDependency)) {
+                        $dependency = $this->get($injectDependencyInterface, $injectDependency);
+                    } elseif (interface_exists($injectDependencyInterface)) {
+                        $dependency = $this->get($injectDependencyInterface);
+                    } else {
+                        $dependency = $this->get($injectDependency);
+                    }
                 }
                 if ($dependency) {
                     call_user_func([$Object, $dependencySetter], $dependency);

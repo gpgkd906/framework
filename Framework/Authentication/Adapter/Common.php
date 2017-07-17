@@ -31,6 +31,5 @@ class Common implements AdapterInterface
 
     public function doAuthenticate()
     {
-        return true;
     }
 }

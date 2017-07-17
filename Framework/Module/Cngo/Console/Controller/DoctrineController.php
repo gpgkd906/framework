@@ -5,15 +5,19 @@ namespace Framework\Module\Cngo\Console\Controller;
 use Framework\Controller\AbstractConsole;
 use Framework\Repository\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Framework\Repository\EntityManagerAwareInterface;
 
-class DoctrineController extends AbstractConsole
+class DoctrineController extends AbstractConsole implements EntityManagerAwareInterface
 {
+    use \Framework\Repository\EntityManagerAwareTrait;
+
     public function index()
     {
         // cut off the noisy argument
         unset($_SERVER['argv'][1]);
         $_SERVER['argv'] = array_values($_SERVER['argv']);
-        $EntityManager = $this->getObjectManager()->get(EntityManager::class);
+        // migration from doctrine-command
+        $EntityManager = $this->getEntityManager();
         ConsoleRunner::run(ConsoleRunner::createHelperSet($EntityManager));
     }
 
@@ -28,6 +32,10 @@ class DoctrineController extends AbstractConsole
 Help
 Usage:
     php bin/console.php doctrine [<args>...]
+
+generate-entities, etc.:
+    php bin/console.php doctrine orm:convert-mapping --namespace="NAMESPACE\\" --force --from-database annotation ./
+    php bin/console.php doctrine orm:generate-entities ./ --generate-annotations=true
 HELP;
     }
 }
