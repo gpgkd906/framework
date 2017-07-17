@@ -7,13 +7,19 @@ use Framework\Event\Event\EventManager;
 use Framework\Module\Cngo\Admin\View\ViewModel\DashboardViewModel;
 use Framework\Module\Cngo\Admin\Entity\User;
 
-class DashboardController extends AbstractController
+use Framework\Authentication\AuthenticationAwareInterface;
+
+class DashboardController extends AbstractController implements AuthenticationAwareInterface
 {
+    use \Framework\Authentication\AuthenticationAwareTrait;
     public function index()
     {
-        $EntityManager = $this->getObjectManager()->get('EntityManager');
-        $UserRepository = $EntityManager->getRepository(User::class);
-
+        // $result = $auth->login('gpgkd906@gmail.com', '123');
+        // var_dump($auth->getIdentity());
+        // var_Dump($_SESSION);
+        // $EntityManager = $this->getObjectManager()->get('EntityManager');
+        // $UserRepository = $EntityManager->getRepository(User::class);
+        //
         return ViewModelManager::getViewModel([
             "viewModel" => DashboardViewModel::class,
         ]);

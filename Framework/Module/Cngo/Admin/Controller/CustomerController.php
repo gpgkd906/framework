@@ -13,7 +13,6 @@ class CustomerController extends AbstractController implements ControllerInterfa
 
     public function index($id = null, $length = null)
     {
-        $Session = $this->getObjectManager()->getSessionService();
         return ViewModelManager::getViewModel([
             'viewModel' => 'Admin\CustomerViewModel',
         ]);

@@ -11,14 +11,15 @@ use Framework\Router\RouterAwareInterface;
 use Framework\Service\SessionService\SessionServiceAwareInterface;
 use Exception;
 
-abstract class AbstractController
-    implements ControllerInterface, EventTargetInterface,
-                ObjectManagerAwareInterface, RouterAwareInterface, SessionServiceAwareInterface
+abstract class AbstractController implements
+    ControllerInterface,
+    EventTargetInterface,
+    ObjectManagerAwareInterface,
+    RouterAwareInterface
 {
     use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\Router\RouterAwareTrait;
-    use \Framework\Service\SessionService\SessionServiceAwareTrait;
 
     static private $instance = [];
 
@@ -113,7 +114,6 @@ abstract class AbstractController
 
     public function response()
     {
-        $this->getSessionService()->close();
         echo $this->getViewModel()->render();
     }
 

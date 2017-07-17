@@ -12,8 +12,8 @@ class PageQueryController extends AbstractController
 
     public function index()
     {
-        $Session = $this->getObjectManager()->getSessionService();
-        $body = $Session->getSection('amazon');
+        $Cache = $this->getObjectManager()->getCacheService();
+        $body = $Cache->getItem('amazon');
         if (!$body) {
             $Client = new Client();
             $Client->setUri('https://realestate.yahoo.co.jp/new/mansion/areasearch/281/');

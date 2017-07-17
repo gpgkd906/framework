@@ -12,9 +12,9 @@ use Zend\Permissions\Acl\Role\GenericRole as Role;
 use Zend\Permissions\Acl\Resource\GenericResource as Resource;
 
 class EditController extends AbstractController
-{    
+{
     public function index()
-    {        
+    {
         $param = $this->getParam();
         $PageModel = $this->getObjectManager()->get('Model', 'Cms\PageModel');
         $PageModel->setIdentify($param['pid']);
@@ -30,8 +30,8 @@ class EditController extends AbstractController
     public function onEditComplete($event)
     {
         //var_dump($data, 'complete');
-        /* $Session = $this->getObjectManager()->getSessionService(); */
-        /* $Session->setSection('LoginView', $data); */
+        /* $Cache = $this->getObjectManager()->getCacheService(); */
+        /* $Cache->setSection('LoginView', $data); */
         /* $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function() { */
         /*     $this->exChange(DashboardController::class); */
         /* }); */
@@ -40,16 +40,16 @@ class EditController extends AbstractController
     public function test()
     {
         $acl = new Acl();
-        
+
         $acl->addRole(new Role('guest'))
             ->addRole(new Role('member'))
             ->addRole(new Role('admin'));
-        
+
         $parents = array('guest', 'member', 'admin');
         $acl->addRole(new Role('someUser'), $parents);
-        
+
         $acl->addResource(new Resource('someResource'));
-        
+
         $acl->deny('guest', 'someResource');
         $acl->allow('member', 'someResource');
 

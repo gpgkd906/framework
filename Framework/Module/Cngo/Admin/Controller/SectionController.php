@@ -19,11 +19,10 @@ class SectionController extends AbstractController
 
     public function onLoginComplete($formViewModel, $data)
     {
-        /* $Session = $this->getObjectManager()->getSessionService(); */
-        /* $Session->setSection('LoginView', $data); */
+        /* $Cache = $this->getObjectManager()->getCacheService(); */
+        /* $Cache->setSection('LoginView', $data); */
         /* $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function() { */
         /*     $this->exChange(DashboardController::class); */
         /* }); */
-    }    
+    }
 }
-
