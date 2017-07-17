@@ -3,7 +3,7 @@
 namespace Framework\Module\Cngo\Admin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Framework\Repository\AbstractEntity;
+use Framework\Repository\Doctrine\AbstractEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Framework\Module\Cngo\Admin\Entity\Repository\UserRepository")

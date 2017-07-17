@@ -1,8 +1,9 @@
 <?php
-namespace Framework\Repository;
+namespace Framework\Repository\Doctrine;
 
 use Framework\ObjectManager\FactoryInterface;
 use Framework\Config\ConfigModel;
+use Framework\Repository\RepositoryManager;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Cache\RedisCache;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-class DoctrineFactory implements FactoryInterface
+class EntityManagerFactory implements FactoryInterface
 {
     private $EntityManager = null;
 

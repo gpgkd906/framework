@@ -34,7 +34,7 @@ class Benchmark
     public function display()
     {
         $this->set("display");
-        if (PHP_SAPI === 'cli') {
+        if (php_sapi_name() === 'cli') {
             $this->displayConsole();
         } else {
             $this->displayHtml();

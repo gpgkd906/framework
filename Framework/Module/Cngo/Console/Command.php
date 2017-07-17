@@ -9,4 +9,5 @@ ObjectManager::getSingleton()->get(RouterInterface::class)
         'cngo::module::create' => Controller\Module\CreateController::class,
         'list' => Controller\ListController::class,
         'help' => Controller\HelpController::class,
+        'doctrine' => Controller\DoctrineController::class,
     ]);

@@ -4,8 +4,9 @@ namespace Framework\Module\Cngo\Admin\Controller\Cms;
 
 use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 
-class SectionController extends AbstractController
+class SectionController extends AbstractAdminController
 {
     public function register()
     {

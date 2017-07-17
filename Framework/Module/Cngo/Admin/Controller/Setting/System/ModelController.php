@@ -6,8 +6,9 @@ use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\ViewModel\Admin\Setting\System\ModelViewModel;
 use Framework\Model\Cms\PageModel;
+use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 
-class ModelController extends AbstractController
+class ModelController extends AbstractAdminController
 {
     public function index()
     {

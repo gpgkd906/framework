@@ -4,13 +4,14 @@ namespace Framework\Module\Cngo\Admin\Controller\Cms;
 
 use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 
-class ViewController extends AbstractController
+class ViewController extends AbstractAdminController
 {
     public function index()
     {
         return ViewModelManager::getViewModel([
             'viewModel' => 'Admin\Cms\ViewListViewModel',
         ]);
-    } 
+    }
 }

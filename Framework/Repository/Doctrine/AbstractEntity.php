@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Repository;
+namespace Framework\Repository\Doctrine;
 
 use Doctrine\ORM\Mapping as ORM;
 

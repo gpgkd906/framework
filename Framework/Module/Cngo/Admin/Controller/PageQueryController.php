@@ -6,13 +6,16 @@ use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Zend\Dom\Query;
 use Zend\Http\Client;
+use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
+use Framework\Service\CacheService\CacheServiceAwareInterface;
 
-class PageQueryController extends AbstractController
+class PageQueryController extends AbstractAdminController implements CacheServiceAwareInterface
 {
+    use \Framework\Service\CacheService\CacheServiceAwareTrait;
 
     public function index()
     {
-        $Cache = $this->getObjectManager()->getCacheService();
+        $Cache = $this->getCacheService()->getCache('admin');
         $body = $Cache->getItem('amazon');
         if (!$body) {
             $Client = new Client();
@@ -23,7 +26,7 @@ class PageQueryController extends AbstractController
             ));
             $response = $Client->send();
             $body = $response->getBody();
-            $Session->setSection('amazon', $body);
+            $Cache->setItem('amazon', $body);
         }
         $Query = new Query();
         $Query->setDocument($body);
