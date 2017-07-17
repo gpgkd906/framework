@@ -3,13 +3,13 @@
 namespace Framework\Module\Cngo\Admin\Controller;
 
 use Framework\Controller\AbstractController;
-use Framework\Service\AdminService\AdminServiceAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel;
+use Framework\Module\Cngo\Admin\Authentication\AuthenticationAwareInterface;
 
-class LoginController extends AbstractController implements AdminServiceAwareInterface
+class LoginController extends AbstractController implements AuthenticationAwareInterface
 {
-    use \Framework\Service\AdminService\AdminServiceAwareTrait;
+    use \Framework\Module\Cngo\Admin\Authentication\AuthenticationAwareTrait;
 
     public function index()
     {
@@ -25,9 +25,13 @@ class LoginController extends AbstractController implements AdminServiceAwareInt
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->validate()) {
-            $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function () {
-                $this->getRouter()->redirect(DashboardController::class);
-            });
+            $loginInfo = $ViewModel->getForm()->getData()['default'];
+            $this->getAuthentication()->login($loginInfo['login'], $loginInfo['password']);
+            if ($this->getAuthentication()->hasIdentity()) {
+                $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function () {
+                    $this->getRouter()->redirect(DashboardController::class);
+                });
+            }
         } else {
             var_Dump($ViewModel->getForm()->getMessage());
         }

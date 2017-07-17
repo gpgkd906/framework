@@ -3,6 +3,7 @@
 namespace Framework\Controller;
 
 use Framework\Application\HttpApplication;
+use Framework\ObjectManager\SingletonInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ViewModel\ViewModel\ViewModelInterface;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
@@ -14,6 +15,7 @@ use Exception;
 abstract class AbstractController implements
     ControllerInterface,
     EventTargetInterface,
+    SingletonInterface,
     ObjectManagerAwareInterface,
     RouterAwareInterface
 {
@@ -21,7 +23,7 @@ abstract class AbstractController implements
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\Router\RouterAwareTrait;
 
-    static private $instance = [];
+    private static $instance = [];
 
     //error
     const ERROR_INVALID_RESPONSE_TYPE = "error: invalid response-type";
@@ -39,13 +41,18 @@ abstract class AbstractController implements
     private $controllerName = null;
     private $ViewModel = null;
 
-    static public function getSingleton() {
+    public static function getSingleton()
+    {
         $controllerName = static::class;
         if (!isset(self::$instance[$controllerName])) {
             self::$instance[$controllerName] = new $controllerName();
             self::$instance[$controllerName]->setName($controllerName);
         }
         return self::$instance[$controllerName];
+    }
+
+    protected function __construct()
+    {
     }
 
     public function callActionFlow($action, $param)
@@ -80,7 +87,8 @@ abstract class AbstractController implements
                 $this->callAction("response");
                 $this->triggerEvent(self::TRIGGER_AFTER_RESPONSE);
             } else {
-                throw new Exception(sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getName() . "::" . $actionMethod));
+                $message = sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getName() . "::" . $actionMethod);
+                throw new Exception($message);
             }
         }
     }
