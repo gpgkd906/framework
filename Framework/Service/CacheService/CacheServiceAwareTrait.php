@@ -4,15 +4,15 @@ namespace Framework\Service\CacheService;
 
 trait CacheServiceAwareTrait
 {
-    private $CacheService;
+    private static $CacheService;
 
     public function setCacheService(CacheService $CacheService)
     {
-        $this->CacheService = $CacheService;
+        self::$CacheService = $CacheService;
     }
 
     public function getCacheService()
     {
-        return $this->CacheService;
+        return self::$CacheService;
     }
 }

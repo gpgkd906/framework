@@ -4,15 +4,15 @@ namespace Framework\Router;
 
 trait RouterAwareTrait
 {
-    private $Router;
+    private static $Router;
 
     public function setRouter(RouterInterface $Router)
     {
-        $this->Router = $Router;
+        self::$Router = $Router;
     }
 
     public function getRouter()
     {
-        return $this->Router;
+        return self::$Router;
     }
 }

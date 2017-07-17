@@ -4,15 +4,15 @@ namespace Framework\Module\Cngo\Admin\Authentication;
 
 trait AuthenticationAwareTrait
 {
-    private $Authentication;
+    private static $Authentication;
 
     public function getAuthentication()
     {
-        return $this->Authentication;
+        return self::$Authentication;
     }
 
     public function setAuthentication(Authentication $Authentication)
     {
-        $this->Authentication = $Authentication;
+        self::$Authentication = $Authentication;
     }
 }

@@ -4,15 +4,15 @@ namespace Framework\Service\CodeService;
 
 trait CodeServiceAwareTrait
 {
-    private $CodeService;
+    private static $CodeService;
 
     public function setCodeService(CodeService $CodeService)
     {
-        $this->CodeService = $CodeService;
+        self::$CodeService = $CodeService;
     }
 
     public function getCodeService()
     {
-        return $this->CodeService;
+        return self::$CodeService;
     }
 }

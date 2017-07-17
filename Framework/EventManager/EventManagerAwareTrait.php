@@ -4,18 +4,18 @@ namespace Framework\EventManager;
 
 trait EventManagerAwareTrait
 {
-    private $EventManager = null;
+    private static $EventManager = null;
 
     public function setEventManager(EventManagerInterface $EventManager)
     {
-        $this->EventManager = $EventManager;
+        self::$EventManager = $EventManager;
     }
 
     public function getEventManager()
     {
-        if ($this->EventManager === null) {
-            $this->EventManager = EventManager::getSingleton();
+        if (self::$EventManager === null) {
+            self::$EventManager = EventManager::getSingleton();
         }
-        return $this->EventManager;
+        return self::$EventManager;
     }
 }

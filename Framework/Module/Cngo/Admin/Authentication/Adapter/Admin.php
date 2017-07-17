@@ -6,7 +6,6 @@ use Framework\Authentication\Adapter\Common;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\Cngo\Admin\Entity\AdminUsers;
 use Zend\Authentication\Result;
-use Zend\Crypt\Password\Bcrypt;
 
 class Admin extends Common implements EntityManagerAwareInterface
 {
@@ -15,8 +14,7 @@ class Admin extends Common implements EntityManagerAwareInterface
     public function authenticate()
     {
         $AdminUsers = $this->getAdminUser();
-        $crypt = new Bcrypt();
-        if ($AdminUsers && $crypt->verify($this->password, $AdminUsers->getPassword())) {
+        if ($AdminUsers && $this->getCrypt()->verify($this->password, $AdminUsers->getPassword())) {
             return new Result(Result::SUCCESS, $AdminUsers->toArray(), ['Authenticated successfully.']);
         } else {
             return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, ['Invalid credentials.']);

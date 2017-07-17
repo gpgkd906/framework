@@ -7,32 +7,32 @@ trait ObjectManagerAwareTrait
     /**
     *
     * @api
-    * @var mixed $objectManager
+    * @var mixed $ObjectManager
     * @access private
     * @link
     */
-    private $objectManager = null;
+    private static $ObjectManager = null;
 
     /**
     *
     * @api
-    * @param mixed $objectManager
-    * @return mixed $objectManager
+    * @param mixed $ObjectManager
+    * @return mixed $ObjectManager
     * @link
     */
-    public function setObjectManager(ObjectManagerInterface $objectManager)
+    public function setObjectManager(ObjectManagerInterface $ObjectManager)
     {
-        return $this->objectManager = $objectManager;
+        return self::$ObjectManager = $ObjectManager;
     }
 
     /**
     *
     * @api
-    * @return mixed $objectManager
+    * @return mixed $ObjectManager
     * @link
     */
     public function getObjectManager()
     {
-        return $this->objectManager;
+        return self::$ObjectManager;
     }
 }

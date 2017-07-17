@@ -4,15 +4,15 @@ namespace Framework\Authentication;
 
 trait AuthenticationAwareTrait
 {
-    private $Authentication;
+    private static $Authentication;
 
     public function getAuthentication()
     {
-        return $this->Authentication;
+        return self::$Authentication;
     }
 
     public function setAuthentication(AuthenticationInterface $Authentication)
     {
-        $this->Authentication = $Authentication;
+        self::$Authentication = $Authentication;
     }
 }

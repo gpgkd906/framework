@@ -10,7 +10,7 @@ use Zend\Authentication\Storage\Session;
 use Framework\Authentication\Adapter\Common;
 use Zend\Authentication\Result;
 
-class Authentication extends AuthenticationService implements
+abstract class Authentication extends AuthenticationService implements
     AuthenticationInterface,
     ObjectManagerAwareInterface,
     SingletonInterface
@@ -27,15 +27,7 @@ class Authentication extends AuthenticationService implements
         parent::__construct($Storage);
     }
 
-    public function login($username, $password)
-    {
-        $adapter = new Common($username, $password);
-        $result = $this->authenticate($adapter);
-        if ($result->getCode() === Result::SUCCESS) {
-            $this->getStorage()->write($this->getIdentity());
-        }
-        return $result;
-    }
+    abstract public function login($username, $password);
 
     public function updateIdentity($exIdentity)
     {

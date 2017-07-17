@@ -3,12 +3,13 @@
 namespace Framework\Authentication\Adapter;
 
 use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Authentication\Result;
+use Zend\Crypt\Password\Bcrypt;
 
-class Common implements AdapterInterface
+abstract class Common implements AdapterInterface
 {
     protected $username;
     protected $password;
+    private $ctypt = null;
 
     public function __construct($username, $password)
     {
@@ -16,20 +17,13 @@ class Common implements AdapterInterface
         $this->password = $password;
     }
 
-    public function authenticate()
-    {
-        $Result = $this->doAuthenticate();
-        if ($Result instanceof Result) {
-            return $Result;
-        }
-        if ($Result) {
-            return new Result(Result::SUCCESS, $this->username, ['Authenticated successfully.']);
-        } else {
-            return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, ['Invalid credentials.']);
-        }
-    }
+    abstract public function authenticate();
 
-    public function doAuthenticate()
+    public function getCrypt()
     {
+        if ($this->ctypt === null) {
+            $this->ctypt = new Bcrypt();
+        }
+        return $this->ctypt;
     }
 }

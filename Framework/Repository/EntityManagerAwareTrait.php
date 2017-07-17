@@ -11,14 +11,14 @@ trait EntityManagerAwareTrait
 
     public function setEntityManager(DoctrineEntityManager $EntityManager)
     {
-        static::$EntityManager = $EntityManager;
+        self::$EntityManager = $EntityManager;
     }
 
     public function getEntityManager()
     {
-        if (!static::$EntityManager) {
+        if (!self::$EntityManager) {
             $this->setEntityManager(ObjectManager::getSingleton()->get(EntityManager::class));
         }
-        return static::$EntityManager;
+        return self::$EntityManager;
     }
 }
