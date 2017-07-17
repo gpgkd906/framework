@@ -4,5 +4,5 @@ namespace Framework\ObjectManager;
 
 interface FactoryInterface
 {
-    public function create();
+    public function create($ObjectManager);
 }

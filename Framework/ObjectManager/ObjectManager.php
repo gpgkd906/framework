@@ -64,7 +64,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         }
         if (is_subclass_of($factory, FactoryInterface::class)) {
             $ObjectFactory = new $factory;
-            $Object = $ObjectFactory->create();
+            $Object = $ObjectFactory->create($this);
         } elseif (is_subclass_of($factory, SingletonInterface::class)) {
             $Object = $factory::getSingleton();
         } else {

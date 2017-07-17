@@ -5,5 +5,5 @@ use Framework\Controller\ControllerInterface;
 use Framework\ObjectManager\ObjectManager;
 
 ObjectManager::getSingleton()->export([
-    ControllerInterface::class => Controller\ListController::class
+    ControllerInterface::class => Controller\HelpController::class
 ]);

@@ -17,7 +17,7 @@ class EntityManagerFactory implements FactoryInterface
 {
     private $EntityManager = null;
 
-    public function create()
+    public function create($ObjectManager)
     {
         if ($this->EntityManager === null) {
             $config = ConfigModel::getConfigModel([

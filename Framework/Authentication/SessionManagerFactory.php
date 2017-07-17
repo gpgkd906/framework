@@ -12,7 +12,7 @@ use Zend\Session\SessionManager;
 
 class SessionManagerFactory implements FactoryInterface
 {
-    public function create()
+    public function create($ObjectManager)
     {
         $config = ConfigModel::getConfigModel([
             "scope" => 'authentication',
