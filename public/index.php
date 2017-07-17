@@ -1,6 +1,6 @@
 <?php
 
-define("ROOT_DIR", __DIR__ . "/");
+define("ROOT_DIR", __DIR__ . "/../");
 
 require ROOT_DIR . 'Benchmark.php';
 $bm = new Benchmark;

@@ -7,15 +7,6 @@ use Zend\Authentication\Result;
 
 class Admin extends Common
 {
-    protected $username;
-    protected $password;
-
-    public function __construct($username, $password)
-    {
-        $this->username = $username;
-        $this->password = $password;
-    }
-
     public function authenticate()
     {
         $Result = $this->doAuthenticate();
@@ -31,6 +22,6 @@ class Admin extends Common
 
     public function doAuthenticate()
     {
-        return false;
+        return true;
     }
 }
