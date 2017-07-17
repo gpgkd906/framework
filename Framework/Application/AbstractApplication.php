@@ -3,7 +3,6 @@
 namespace Framework\Application;
 
 use Framework\Config\ConfigModel\ConfigModelInterface;
-use Framework\Log\ErrorHandler;
 use Framework\Plugin\PluginManager\PluginManager;
 use Framework\ObjectManager\ObjectManager;
 use Framework\EventManager;
@@ -21,8 +20,6 @@ abstract class AbstractApplication implements ApplicationInterface
     const DEFAULT_TIMEZONE = "Asia/Tokyo";
 
     private $config = null;
-    private $eventManager = null;
-    private $pluginManager = null;
 
     /**
      * summary
@@ -73,15 +70,9 @@ abstract class AbstractApplication implements ApplicationInterface
     public function __construct(ConfigModelInterface $config)
     {
         $this->setConfig($config);
-        $useErrorHandler = $this->config->get("ErrorHandler", true);
-        if ($useErrorHandler) {
-            ErrorHandler::setup();
-        }
         $objectManager = $this->getObjectManager();
         $objectManager->get(EventManager\EventManager::class);
         $objectManager->init();
-        // $pluginManager = $objectManager->get(PluginManager::class);
-        // $pluginManager->initPlugins();
     }
 
     public function setConfig($config)

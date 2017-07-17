@@ -1434,3 +1434,9 @@ Trace:#0 [internal function]: Framework\Controller\AbstractController->response(
 #4 /application/index.php(22): Framework\Application\HttpApplication->run()
 #5 {main}
 
+2017-07-17 15:56:58
+回復不能なエラーが発生しました。
+File : /application/Framework/Authentication/Authentication.php
+Line : 13
+Message : Class 'Zend\Authentication\AuthenticationService' not found
+

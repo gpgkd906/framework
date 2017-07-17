@@ -2,7 +2,6 @@
 
 namespace Framework\Application;
 
-use Framework\Log\ErrorHandler;
 use Framework\Router\RouterInterface;
 use Framework\Router\Console\Router;
 use Framework\Controller\ControllerInterface;
@@ -15,7 +14,6 @@ class ConsoleApplication extends AbstractApplication
 
     public function run()
     {
-        ErrorHandler::setHtmlFormatFlag(false);
         $config = $this->getConfig();
         //route
         $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);

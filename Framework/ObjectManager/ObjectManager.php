@@ -31,8 +31,8 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     {
         $this->exportGlobalObject();
         $this->exportModuleObject();
-        $this->initModuleObject();
         $this->initGlobalObject();
+        $this->initModuleObject();
     }
 
     public function get($name, $factory = null)

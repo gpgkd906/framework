@@ -20,10 +20,10 @@ namespace Framework\Application;
  * [:class description]
  *
  * @author 2015 Chen Han
- * @package 
- * @link 
+ * @package
+ * @link
  */
-interface ApplicationInterface 
+interface ApplicationInterface
 {
     public function getConfig();
     

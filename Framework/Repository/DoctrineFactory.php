@@ -14,33 +14,38 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 class DoctrineFactory implements FactoryInterface
 {
+    private $EntityManager = null;
+
     public function create()
     {
-        $config = ConfigModel::getConfigModel([
-            "scope" => ConfigModel::MODEL,
-            "property" => ConfigModel::READONLY,
-        ]);
-        $connection = $config->get('connection');
-        $entityManagerConfig = $config->get('entityManager');
-        $cache = $config->get('cache');
-        $RepositoryManager = RepositoryManager::getSingleton();
-        $paths = $RepositoryManager->getEntityPath();
-        $isDevMode = $entityManagerConfig['devMode'];
-        $proxyDir = $entityManagerConfig['proxyDir'] ? $entityManagerConfig['proxyDir'] : __DIR__ . '/Proxy';
-        $dbParams = array(
-            'driver'   => $connection['driver'],
-            'user'     => $connection['user'],
-            'password' => $connection['password'],
-            'dbname'   => $connection['dsn']['dbname'],
-            'host'   => $connection['dsn']['host'],
-            'charset'   => $connection['dsn']['charset'],
-        );
-        $cache = $this->getCache($cache);
-        $driver = new AnnotationDriver(new AnnotationReader(), $paths);
-        AnnotationRegistry::registerLoader('class_exists');
-        $config = Setup::createConfiguration($isDevMode, $proxyDir, $cache);
-        $config->setMetadataDriverImpl($driver);
-        return EntityManager::create($dbParams, $config);
+        if ($this->EntityManager === null) {
+            $config = ConfigModel::getConfigModel([
+                "scope" => ConfigModel::MODEL,
+                "property" => ConfigModel::READONLY,
+            ]);
+            $connection = $config->get('connection');
+            $entityManagerConfig = $config->get('entityManager');
+            $cache = $config->get('cache');
+            $RepositoryManager = RepositoryManager::getSingleton();
+            $paths = $RepositoryManager->getEntityPath();
+            $isDevMode = $entityManagerConfig['devMode'];
+            $proxyDir = $entityManagerConfig['proxyDir'] ? $entityManagerConfig['proxyDir'] : __DIR__ . '/Proxy';
+            $dbParams = array(
+                'driver'   => $connection['driver'],
+                'user'     => $connection['user'],
+                'password' => $connection['password'],
+                'dbname'   => $connection['dsn']['dbname'],
+                'host'   => $connection['dsn']['host'],
+                'charset'   => $connection['dsn']['charset'],
+            );
+            $cache = $this->getCache($cache);
+            $driver = new AnnotationDriver(new AnnotationReader(), $paths);
+            AnnotationRegistry::registerLoader('class_exists');
+            $config = Setup::createConfiguration($isDevMode, $proxyDir, $cache);
+            $config->setMetadataDriverImpl($driver);
+            $this->EntityManager = EntityManager::create($dbParams, $config);
+        }
+        return $this->EntityManager;
     }
 
     private function getCache($config)

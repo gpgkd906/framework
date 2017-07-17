@@ -2,7 +2,6 @@
 
 namespace Framework\Application;
 
-use Framework\Core\ErrorHandler;
 use Framework\ViewModel\ViewModel\ViewModelManager;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Controller\ControllerInterface;
