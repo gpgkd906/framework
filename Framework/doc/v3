@@ -3,19 +3,23 @@
 2, tiny core
     completed
 3, service base
-    canceled, changed to automic-dependency-injection
+    canceled, changed to automatic-dependency-injection
 4, model:
-    schema/sqlbuilder/record/entity
-        completed
+    schema/sql-builder/record/entity
+        completed => cancelled
     still change to entity_manager(doctrine)
 5, route
     completed
 6, controller
     completed
-7, viewmodel
+7, view-model
     completed
 8, plugin
-    canceled by automic-dependency-injection
-9, new formhelper
+    canceled by automatic-dependency-injection
+9, new form-helper
     completed
-10, implement PHPLisp3 with new Framework v3
+10, authentication
+    use zend-authentication
+11, cache
+    use zend-cache
+99, implement PHPLisp3 with new Framework v3
