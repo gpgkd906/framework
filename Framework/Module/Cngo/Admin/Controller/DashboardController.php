@@ -7,11 +7,16 @@ use Framework\Service\CacheService\CacheServiceAwareInterface;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\Cngo\Admin\Entity\AdminUsers;
+use Framework\Service\SessionService\SessionServiceAwareInterface;
 
-class DashboardController extends AbstractAdminController implements EntityManagerAwareInterface, CacheServiceAwareInterface
+class DashboardController extends AbstractAdminController implements
+    EntityManagerAwareInterface,
+    SessionServiceAwareInterface,
+    CacheServiceAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
     use \Framework\Service\CacheService\CacheServiceAwareTrait;
+    use \Framework\Service\SessionService\SessionServiceAwareTrait;
 
     public function index()
     {

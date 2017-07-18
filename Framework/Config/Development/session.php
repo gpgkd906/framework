@@ -10,7 +10,10 @@ return [
             ],
         ]
     ],
-    'session' => [
+    'options' => [
 
     ],
+    'namespaces' => [
+        'default'
+    ]
 ];

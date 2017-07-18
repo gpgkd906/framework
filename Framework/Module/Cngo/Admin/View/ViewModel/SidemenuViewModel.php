@@ -8,6 +8,7 @@ use NumberFormatter;
 class SidemenuViewModel extends AbstractViewModel
 {
     const TRIGGER_MENUINIT = 'menu_init';
+    const TRIGGER_MENUCREATED = 'menu_created';
 
     protected $template = '/template/component/sidemenu.html';
 
@@ -145,6 +146,7 @@ class SidemenuViewModel extends AbstractViewModel
     public function getData($key = null)
     {
         $this->triggerEvent(self::TRIGGER_MENUINIT);
+        $this->triggerEvent(self::TRIGGER_MENUCREATED);
         return parent::getData($key);
     }
 }

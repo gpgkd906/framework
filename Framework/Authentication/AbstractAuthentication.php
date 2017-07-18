@@ -9,6 +9,7 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session;
 use Framework\Authentication\Adapter\Common;
 use Zend\Authentication\Result;
+use Framework\Service\SessionService\SessionService;
 
 abstract class AbstractAuthentication extends AuthenticationService implements
     AuthenticationInterface,
@@ -21,9 +22,8 @@ abstract class AbstractAuthentication extends AuthenticationService implements
     public function __construct()
     {
         $ObjectManager = ObjectManager::getSingleton();
-        $SessionManager = $ObjectManager->get(SessionManager::class);
-        $Storage = new Session('Auth', Authentication::class, $SessionManager);
-        $SessionManager->start();
+        $SessionService = $ObjectManager->get(SessionService::class);
+        $Storage = new Session('Auth', Authentication::class, $SessionService->getSessionManager());
         parent::__construct($Storage);
     }
 
