@@ -17,7 +17,10 @@ abstract class AbstractConsole extends AbstractController
         }
     }
 
-    abstract public function getDescription();
+    public static function getDescription()
+    {
+        return 'input Class Description';
+    }
 
     abstract public function getHelp();
 

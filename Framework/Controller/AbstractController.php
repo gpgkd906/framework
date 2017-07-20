@@ -161,4 +161,9 @@ abstract class AbstractController implements
         $ViewModel = $Controller->callAction($action, $param);
         $this->setViewModel($ViewModel);
     }
+
+    public static function getDescription()
+    {
+        return 'input Class Description';
+    }
 }

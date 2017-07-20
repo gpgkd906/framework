@@ -11,4 +11,6 @@ interface RouterInterface
     public function getController();
 
     public function getParam();
+
+    public function getRouterList();
 }

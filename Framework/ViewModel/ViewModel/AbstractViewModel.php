@@ -299,7 +299,9 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
             ob_start();
             $data = $this->escapeHtml($this->getData());
             extract($data);
+            echo '<!-- ' . static::class . ' start render-->';
             require $template;
+            echo '<!-- ' . static::class . ' end render-->';
             $htmls[] = ob_get_contents();
             ob_end_clean();
         } else {

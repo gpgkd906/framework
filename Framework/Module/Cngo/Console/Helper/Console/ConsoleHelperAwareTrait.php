@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Module\Cngo\Console\Helper;
+namespace Framework\Module\Cngo\Console\Helper\Console;
 
 trait ConsoleHelperAwareTrait
 {

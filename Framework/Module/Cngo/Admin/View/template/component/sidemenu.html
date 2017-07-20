@@ -1,5 +1,4 @@
 <ul class="nav" id="side-menu">
-  <?php $this->getData(); ?>
   <?php foreach ($this->getData() as $data) : ?>		      
   <li>
     <a href="<?php echo $data['link'] ?? '#' ?>">
@@ -20,7 +19,7 @@
 	  <li>
 	    <a href="<?php echo $row['link'] ?? '#' ?>">
 	      <i class="fa <?php echo $row['icon'] ?? '' ?> fa-fw"></i> <?php echo $row['title'] ?>
-	    </a>				
+	    </a>
 	  </li>
 	  <?php endforeach; ?>
 	</ul>

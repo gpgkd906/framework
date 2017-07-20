@@ -7,16 +7,16 @@ use Framework\Controller\AbstractController;
 use Framework\ViewModel\ViewModel\AbstractViewModel;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
-use Framework\Module\Cngo\Console\Helper\ConsoleHelperAwareInterface;
+use Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareInterface;
 
 class CreateController extends AbstractConsole implements CodeServiceAwareInterface, ConsoleHelperAwareInterface
 {
     use \Framework\Service\CodeService\CodeServiceAwareTrait;
-    use \Framework\Module\Cngo\Console\Helper\ConsoleHelperAwareTrait;
+    use \Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareTrait;
 
-    CONST ROUTER_ADMIN = 'Admin';
-    CONST ROUTER_FRONT = 'Front';
-    CONST ROUTER_CONSOLE = 'Console';
+    const ROUTER_ADMIN = 'Admin';
+    const ROUTER_FRONT = 'Front';
+    const ROUTER_CONSOLE = 'Console';
 
     public function index()
     {
@@ -166,7 +166,7 @@ class CreateController extends AbstractConsole implements CodeServiceAwareInterf
 
     }
 
-    public function getDescription()
+    public static function getDescription()
     {
         return 'module generator';
     }

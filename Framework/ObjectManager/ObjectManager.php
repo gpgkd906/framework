@@ -21,6 +21,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     private $objectFactory = [];
     private $sharedObject = [];
     private $dependencySetter = [];
+    private $injectDependencys = [];
 
     private function __construct()
     {
@@ -85,8 +86,13 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     {
         foreach (class_implements($Object) as $interface) {
             if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->getDependencySetter($interface)) {
-                $injectDependency = str_replace('AwareInterface', '', $interface);
-                $injectDependencyInterface = $injectDependency . 'Interface';
+                if (isset($this->injectDependencys[$interface])) {
+                    list($injectDependency, $injectDependencyInterface) = $this->injectDependencys[$interface];
+                } else {
+                    $injectDependency = str_replace('AwareInterface', '', $interface);
+                    $injectDependencyInterface = $injectDependency . 'Interface';
+                    $this->injectDependencys[$interface] = [$injectDependency, $injectDependencyInterface];
+                }
                 $dependency = null;
                 if (isset($this->sharedObject[$injectDependencyInterface])) {
                     $dependency = $this->sharedObject[$injectDependencyInterface];

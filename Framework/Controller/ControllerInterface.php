@@ -21,18 +21,18 @@ namespace Framework\Controller;
  * [:class description]
  *
  * @author 2015 Chen Han
- * @package 
- * @link 
+ * @package
+ * @link
  */
-interface ControllerInterface 
+interface ControllerInterface
 {
-    static public function getSingleton();
-    
     public function callActionFlow($action, $restAction);
 
     public function setResponseType($responseType);
 
     public function getResponseType();
-    
+
     public function response();
+
+    public static function getDescription();
 }

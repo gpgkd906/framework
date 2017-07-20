@@ -12,13 +12,13 @@ class ViewModelManager implements ViewModelManagerInterface
     const ERROR_INVALID_TEMPLATE_VIEWMODEL = "error: invalid template viewModel";
     const ERROR_VIEWMODEL_DEFINED_ID = "error: viewId [%s] was defined before, change some new ID";
 
-    static private $defaultViewModel = "Framework\Core\ViewModel\ViewModel";
-    static private $templateViewModel = "Framework\Core\ViewModel\TemplateViewModel";
-    static private $alias = [];
-    static private $viewModelPool = [];
+    private static $defaultViewModel = "Framework\Core\ViewModel\ViewModel";
+    private static $templateViewModel = "Framework\Core\ViewModel\TemplateViewModel";
+    private static $alias = [];
+    private static $viewModelPool = [];
     //
-    static private $namespace = null;
-    static private $templateDir = null;
+    private static $namespace = null;
+    private static $templateDir = null;
 
     /**
      *
@@ -27,7 +27,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * @access private
      * @link
      */
-    static private $basePath = null;
+    private static $basePath = null;
 
     /**
      *
@@ -36,7 +36,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * @access private
      * @link
      */
-    static private $objectManager = null;
+    private static $objectManager = null;
 
     /**
      *
@@ -45,7 +45,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * @return mixed $objectManager
      * @link
      */
-    static public function setObjectManager ($objectManager)
+    public static function setObjectManager($objectManager)
     {
         return self::$objectManager = $objectManager;
     }
@@ -56,7 +56,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * @return mixed $objectManager
      * @link
      */
-    static public function getObjectManager ()
+    public static function getObjectManager()
     {
         return self::$objectManager;
     }
@@ -68,7 +68,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * @return mixed $basePath
      * @link
      */
-    static public function setBasePath ($basePath)
+    public static function setBasePath($basePath)
     {
         return self::$basePath = $basePath;
     }
@@ -79,22 +79,22 @@ class ViewModelManager implements ViewModelManagerInterface
      * @return mixed $basePath
      * @link
      */
-    static public function getBasePath ()
+    public static function getBasePath()
     {
         return self::$basePath;
     }
 
-    static public function setTemplateDir($templateDir)
+    public static function setTemplateDir($templateDir)
     {
         self::$templateDir = $templateDir;
     }
 
-    static public function getTemplateDir()
+    public static function getTemplateDir()
     {
         return self::$templateDir;
     }
 
-    static public function getViewModel($config)
+    public static function getViewModel($config)
     {
         if ($config instanceof ViewModelInterface) {
             return $config;
@@ -106,7 +106,7 @@ class ViewModelManager implements ViewModelManagerInterface
         return self::getView($config);
     }
 
-    static private function getView($config)
+    private static function getView($config)
     {
         $requestName = $config["viewModel"];
         $viewModelName = $requestName;
@@ -137,7 +137,7 @@ class ViewModelManager implements ViewModelManagerInterface
         return $ViewModel;
     }
 
-    static public function addView(ViewModelInterface $viewModel)
+    public static function addView(ViewModelInterface $viewModel)
     {
         $viewId = $viewModel->getId();
         if (isset(self::$viewModelPool[$viewId])) {
@@ -146,39 +146,39 @@ class ViewModelManager implements ViewModelManagerInterface
         self::$viewModelPool[$viewId] = $viewModel;
     }
 
-    static public function getViewById($viewId)
+    public static function getViewById($viewId)
     {
         if (isset(self::$viewModelPool[$viewId])) {
             return self::$viewModelPool[$viewId];
         }
     }
 
-    static public function setAlias($alias, $viewModelName)
+    public static function setAlias($alias, $viewModelName)
     {
         self::$alias[$alias] = $viewModelName;
     }
 
-    static public function getAlias($alias)
+    public static function getAlias($alias)
     {
         return isset(self::$alias[$alias]) ? self::$alias[$alias] : null;
     }
 
-    static public function setTemplateViewModel($viewModelName)
+    public static function setTemplateViewModel($viewModelName)
     {
         $this->templateViewModel = $viewModelName;
     }
 
-    static public function getTemplateViewModel()
+    public static function getTemplateViewModel()
     {
         return $this->templateViewModel;
     }
 
-    static public function setDefaultViewModel($viewModelName)
+    public static function setDefaultViewModel($viewModelName)
     {
         self::$defaultViewModel = $viewModelName;
     }
 
-    static public function getDefaultViewModel()
+    public static function getDefaultViewModel()
     {
         return self::$defaultViewModel;
     }

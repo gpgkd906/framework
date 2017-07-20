@@ -16,7 +16,7 @@ class ListController extends AbstractConsole
             $Console = $ObjectManager->create($console);
             $commands[$cmd] = [
                 'cmd' => $cmd,
-                'description' => $Console->getDescription(),
+                'description' => $console::getDescription(),
                 'priority' => $Console->getPriority()
             ];
         }
@@ -31,7 +31,7 @@ class ListController extends AbstractConsole
         }
     }
 
-    public function getDescription()
+    public static function getDescription()
     {
         return 'list all commands';
     }

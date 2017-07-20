@@ -16,4 +16,14 @@ class LogoutController extends AbstractAdminController
         $this->getAuthentication()->clearIdentity();
         $this->getRouter()->redirect(LoginController::class);
     }
+
+    public static function getDescription()
+    {
+        return "ログアウト";
+    }
+
+    public static function getPriority()
+    {
+        return 99;
+    }
 }

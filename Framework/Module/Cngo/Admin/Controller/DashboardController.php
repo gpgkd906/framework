@@ -24,4 +24,14 @@ class DashboardController extends AbstractAdminController implements
             "viewModel" => DashboardViewModel::class,
         ]);
     }
+
+    public static function getDescription()
+    {
+        return "ダッシュボード";
+    }
+
+    public static function getPriority()
+    {
+        return 0;
+    }
 }

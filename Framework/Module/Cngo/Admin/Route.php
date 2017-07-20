@@ -12,6 +12,6 @@ ObjectManager::getSingleton()->get(RouterInterface::class)
         'admin/index' => Controller\DashboardController::class,
         'admin/users/list' => Controller\Users\ListController::class,
         'admin/users/register' => Controller\Users\RegisterController::class,
-        'admin/users/edit' => Controller\Users\EditController::class,
-        'admin/users/delete' => Controller\Users\DeleteController::class,
+        // 'admin/users/edit' => Controller\Users\EditController::class,
+        // 'admin/users/delete' => Controller\Users\DeleteController::class,
     ]);

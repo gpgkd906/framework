@@ -3,7 +3,10 @@
 namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ObjectManager\ObjectManager;
+use Framework\Router\RouterInterface;
 use NumberFormatter;
+use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 
 class SidemenuViewModel extends AbstractViewModel
 {
@@ -11,142 +14,35 @@ class SidemenuViewModel extends AbstractViewModel
     const TRIGGER_MENUCREATED = 'menu_created';
 
     protected $template = '/template/component/sidemenu.html';
-
-    protected $data = [
-        [
-            'title' => 'Dashboard',
-            'link' => '/admin/dashboard/',
-            'icon' => 'fa fa-dashboard fa-fw',
-        ],
-        [
-            'title' => '会員管理',
-            'icon'  => 'fa-users',
-            'child' => [
-                [
-                    'title' => '会員一覧',
-                    'link'  => '/admin/customer/',
-                ],
-                [
-                    'title' => 'ダミ',
-                    'link'  => '#',
-                ],
-            ],
-        ],
-        [
-            'title' => 'チケット管理',
-            'icon'  => 'fa-bar-chart-o',
-            'child' => [
-                [
-                    'title' => 'チケット一覧',
-                    'link'  => '/admin/ticket/',
-                ],
-                [
-                    'title' => 'ダミ',
-                    'link'  => '#',
-                ],
-            ],
-        ],
-        [
-            'title' => 'タスク管理',
-            'icon'  => 'fa-bar-chart-o',
-            'child' => [
-                [
-                    'title' => 'タスク一覧',
-                    'link'  => '/admin/task/',
-                ],
-                [
-                    'title' => 'ダミ',
-                    'link'  => '#',
-                ],
-            ],
-        ],
-        [
-            'title' => 'コンテンツ管理',
-            'icon'  => 'fa-wrench',
-            'child' => [
-                [
-                    'title' => 'ページ管理',
-                    'link'  => '/admin/cms/page/',
-                ],
-                [
-                    'title' => 'ビュー管理',
-                    'link'  => '/admin/cms/view/',
-                ],
-            ],
-        ],
-        [
-            'title' => 'プラグイン管理',
-            'icon'  => 'fa-wrench',
-            'child' => [
-                [
-                    'title' => 'プラグイン一覧',
-                    'link'  => '/admin/plugin/',
-                ],
-                [
-                    'title' => 'ダミ',
-                    'link'  => '#',
-                ],
-            ],
-        ],
-        [
-            'title' => '設定',
-            'icon'  => 'fa-sitemap',
-            'child' => [
-                [
-                    'title' => '基本設定',
-                    'child' => [
-                        [
-                            'title' => 'グローバル設定',
-                            'link'  => '/admin/setting/base/global/',
-                        ],
-                        [
-                            'title' => '基本設定2',
-                            'link'  => '/admin/setting/base/',
-                        ],
-                        [
-                            'title' => '基本設定3',
-                            'link'  => '/admin/setting/base/',
-                        ],
-                        [
-                            'title' => '基本設定4',
-                            'link'  => '/admin/setting/base/',
-                        ],
-                    ]
-                ],
-                [
-                    'title' => 'システム設定',
-                    'child' => [
-                        [
-                            'title' => 'データソース設定',
-                            'link'  => '/admin/setting/system/model/',
-                        ],
-                        [
-                            'title' => 'システム設定2',
-                            'link'  => '/admin/setting/system/',
-                        ],
-                        [
-                            'title' => 'システム設定3',
-                            'link'  => '/admin/setting/system/',
-                        ],
-                        [
-                            'title' => 'システム設定4',
-                            'link'  => '/admin/setting/system/',
-                        ],
-                    ]
-                ],
-            ],
-        ],
+    protected $data = null;
+    public $listeners = [
+        parent::TRIGGER_INIT => 'onInit',
     ];
+
+    public function onInit()
+    {
+        $this->triggerEvent(self::TRIGGER_MENUINIT);
+        $Router = ObjectManager::getSingleton()->get(RouterInterface::class);
+        $routerList = $Router->getRouterList();
+        foreach ($routerList as $url => $controller) {
+            if (!is_subclass_of($controller, AbstractAdminController::class)) {
+                continue;
+            }
+            $data[$controller] = [
+                'title' => $controller::getDescription(),
+                'link' => '/' . $url,
+                'priority' => $controller::getPriority(),
+            ];
+        }
+        usort($data, function ($item1, $item2) {
+            return $item1['priority'] > $item2['priority'] ? 1 : -1;
+        });
+        $this->setData($data);
+        $this->triggerEvent(self::TRIGGER_MENUCREATED);
+    }
 
     public function getTemplateDir()
     {
         return __DIR__ . '/..';
-    }
-
-    public function getData($key = null)
-    {
-        $this->triggerEvent(self::TRIGGER_MENUINIT);
-        $this->triggerEvent(self::TRIGGER_MENUCREATED);
-        return parent::getData($key);
     }
 }

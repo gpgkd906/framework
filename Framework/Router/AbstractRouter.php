@@ -23,7 +23,8 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
 
     abstract protected function loadRouter();
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->config = ConfigModel::getConfigModel([
             "scope" => static::class,
             "property" => ConfigModel::READONLY
@@ -45,9 +46,13 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
         return $this->request;
     }
 
-    public function getController(){}
+    public function getController()
+    {
+    }
 
-    public function getAction(){}
+    public function getAction()
+    {
+    }
 
     abstract public function getParam();
 
@@ -71,12 +76,12 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
         return $this->index;
     }
 
-    public function setConfig ($config)
+    public function setConfig($config)
     {
         return $this->config = $config;
     }
 
-    public function getConfig ()
+    public function getConfig()
     {
         return $this->config;
     }

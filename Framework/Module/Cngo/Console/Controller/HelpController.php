@@ -35,7 +35,7 @@ class HelpController extends AbstractConsole implements RouterAwareInterface
         }
     }
 
-    public function getDescription()
+    public static function getDescription()
     {
         return 'see help for command';
     }
