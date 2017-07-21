@@ -2,6 +2,8 @@
 
 namespace Framework\Router;
 
+use Framework\ObjectManager\ObjectManager;
+
 trait RouterAwareTrait
 {
     private static $Router;
@@ -13,6 +15,9 @@ trait RouterAwareTrait
 
     public function getRouter()
     {
+        if (self::$Router === null) {
+            self::$Router = ObjectManager::getSingleton()->get(RouterInterface::class);
+        }
         return self::$Router;
     }
 }

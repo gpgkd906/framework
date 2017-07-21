@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\ViewModel;
+namespace Framework\ViewModel\Helper;
 
 use Framework\ObjectManager\SingletonInterface;
 use Closure;
-use NumberFormatter;
+use NumberFormatter as NativeNumberFormatter;
 
 class NumberFormatter implements SingletonInterface
 {
@@ -13,7 +13,7 @@ class NumberFormatter implements SingletonInterface
     /**
      *
      * @api
-     * @var mixed $locale 
+     * @var mixed $locale
      * @access private
      * @link
      */
@@ -22,17 +22,17 @@ class NumberFormatter implements SingletonInterface
     /**
      *
      * @api
-     * @var mixed $NumberFormatters 
+     * @var mixed $NumberFormatters
      * @access private
      * @link
      */
     private $NumberFormatters = [
-        NumberFormatter::SPELLOUT => [],
-        NumberFormatter::CURRENCY => [],
+        NativeNumberFormatter::SPELLOUT => [],
+        NativeNumberFormatter::CURRENCY => [],
     ];
 
     /**
-     * 
+     *
      * @api
      * @param mixed $locale
      * @return mixed $locale
@@ -44,7 +44,7 @@ class NumberFormatter implements SingletonInterface
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $locale
      * @link
@@ -52,20 +52,20 @@ class NumberFormatter implements SingletonInterface
     public function getLocale ()
     {
         if ($this->locale === null) {
-            $this->locale = setlocale(LC_ALL, 0);            
+            $this->locale = setlocale(LC_ALL, 0);
         }
         return $this->locale;
     }
-    
+
     public function ToWord($number, $locale = null)
     {
         if (empty($locale)) {
             $locale = $this->getLocale();
         }
-        if (!isset($this->NumberFormatters[NumberFormatter::SPELLOUT][$locale])) {
-            $this->NumberFormatters[NumberFormatter::SPELLOUT][$locale] = new NumberFormatter($locale, NumberFormatter::SPELLOUT);
+        if (!isset($this->NumberFormatters[NativeNumberFormatter::SPELLOUT][$locale])) {
+            $this->NumberFormatters[NativeNumberFormatter::SPELLOUT][$locale] = new NumberFormatter($locale, NativeNumberFormatter::SPELLOUT);
         }
-        return $this->NumberFormatters[NumberFormatter::SPELLOUT][$locale]->format($number);
+        return $this->NumberFormatters[NativeNumberFormatter::SPELLOUT][$locale]->format($number);
     }
 
     public function toCurrency($number, $locale = null)
@@ -73,9 +73,9 @@ class NumberFormatter implements SingletonInterface
         if (empty($locale)) {
             $locale = $this->getLocale();
         }
-        if (!isset($this->NumberFormatters[NumberFormatter::CURRENCY][$locale])) {
-            $this->NumberFormatters[NumberFormatter::CURRENCY][$locale] = new NumberFormatter($locale, NumberFormatter::CURRENCY);
+        if (!isset($this->NumberFormatters[NativeNumberFormatter::CURRENCY][$locale])) {
+            $this->NumberFormatters[NativeNumberFormatter::CURRENCY][$locale] = new NumberFormatter($locale, NativeNumberFormatter::CURRENCY);
         }
-        return $this->NumberFormatters[NumberFormatter::CURRENCY][$locale]->format($number);        
+        return $this->NumberFormatters[NativeNumberFormatter::CURRENCY][$locale]->format($number);
     }
 }

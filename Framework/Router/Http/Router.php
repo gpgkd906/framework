@@ -8,7 +8,7 @@ use Exception;
 
 class Router extends AbstractRouter
 {
-    const ERROR_INVALID_REDIRECT = "invalid_redirect: %s";
+    const ERROR_INVALID_LINKTO = "invalid_linkto: %s";
 
     const GET = "get";
     const POST = "post";
@@ -118,7 +118,7 @@ class Router extends AbstractRouter
         }
     }
 
-    public function redirect($controller, $param = null)
+    public function linkto($controller, $param = null)
     {
         $routerList = $this->getRouterList();
         $uri = array_search($controller, $routerList);
@@ -129,10 +129,16 @@ class Router extends AbstractRouter
                 $uri = str_replace('//', '/', $uri);
             }
             $uri = '/' . $uri;
-            header('Location: ' . $uri, true, 301);
+            return $uri;
         } else {
-            throw new Excpetion (sprintf(self::ERROR_INVALID_REDIRECT, $controller));
+            throw new \Excpetion (sprintf(self::ERROR_INVALID_LINKTO, $controller));
         }
+    }
+
+    public function redirect($controller, $param = null)
+    {
+        $uri = $this->linkto($controller, $param);
+        header('Location: ' . $uri, true, 301);
     }
 
     public function parseRequest()

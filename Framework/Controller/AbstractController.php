@@ -137,6 +137,11 @@ abstract class AbstractController implements
 
     public function setViewModel($ViewModel)
     {
+        $data = $ViewModel->getData();
+        if (!isset($data['title'])) {
+            $data['title'] = $this->getDescription();
+            $ViewModel->setData($data);
+        }
         $this->ViewModel = $ViewModel;
     }
 

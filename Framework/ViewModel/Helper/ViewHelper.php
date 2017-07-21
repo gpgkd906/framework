@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\ViewModel;
+namespace Framework\ViewModel\Helper;
 
 use Framework\ObjectManager\SingletonInterface;
 use Closure;
@@ -18,7 +18,7 @@ class ViewHelper implements SingletonInterface
         }
         return join(' ', $attrs);
     }
-    
+
     public function makeLink($config)
     {
         $config = array_merge([

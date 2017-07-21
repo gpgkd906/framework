@@ -13,8 +13,21 @@ class ListViewModel extends AbstractViewModel
         'layout' => AdminPageLayout::class,
     ];
 
+    public $listeners = [
+        'Render' => 'onRender',
+    ];
+
     public function getTemplateDir()
     {
         return __DIR__ . '/../..';
+    }
+
+    public function onRender()
+    {
+        $data = $this->getData();
+        $data['entities'] = array_map(function ($AdminUser) {
+            return $AdminUser->toArray();
+        }, $data['entities']);
+        $this->setData($data);
     }
 }

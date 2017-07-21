@@ -36,4 +36,14 @@ class LoginController extends AbstractController implements AuthenticationAwareI
             var_Dump($ViewModel->getForm()->getMessage());
         }
     }
+
+    public static function getDescription()
+    {
+        return "ログイン";
+    }
+
+    public static function getPriority()
+    {
+        return 0;
+    }
 }

@@ -17,10 +17,6 @@ class LoginViewModel extends FormViewModel
         ]
     ];
 
-    protected $data = [
-        'title' => 'ログイン',
-    ];
-
     protected $fieldset = [
         'login' => [
             'login' => [
@@ -53,17 +49,8 @@ class LoginViewModel extends FormViewModel
         ]
     ];
 
-    public $listeners = [
-        'Render' => 'onRender',
-    ];
-
     public function getTemplateDir()
     {
         return __DIR__ . '/..';
-    }
-
-    public function onRender()
-    {
-        $this->getLayout()->setData($this->getData());
     }
 }

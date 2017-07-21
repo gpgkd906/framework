@@ -4,13 +4,16 @@ namespace Framework\ViewModel;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Model\ModelInterface;
-use Framework\ViewModel\ViewHelper;
+use Framework\ViewModel\Helper\ViewHelper;
+use Framework\ViewModel\Helper\NumberFormatter;
+use Framework\Router\RouterAwareInterface;
 use Exception;
 
 abstract class AbstractViewModel implements ViewModelInterface, EventTargetInterface, ObjectManagerAwareInterface
 {
     use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
+    use \Framework\Router\RouterAwareTrait;
 
     const RENDER_AS_HTML = "html";
     const RENDER_AS_JSON = "json";
@@ -260,6 +263,7 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
             if (!$this->getExportView() && $this->getLayout()) {
                 $Layout = $this->getLayout();
                 $Layout->getContainer('Main')->addItem($this);
+                $Layout->setData($this->getData());
                 $display = $Layout->asHtml();
             } else {
                 $display = $this->asHtml();
@@ -443,5 +447,10 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     public function getExportView ()
     {
         return $this->exportView;
+    }
+
+    public function getViewHelper()
+    {
+        return ViewHelper::getSingleton();
     }
 }

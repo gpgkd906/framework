@@ -4,9 +4,11 @@ namespace Framework\Module\Cngo\Console\Helper\Generator;
 
 use Framework\Controller\AbstractConsole;
 use Framework\Controller\AbstractController;
+use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\ViewModel\AbstractViewModel;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
+use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 class Generator implements GeneratorInterface, CodeServiceAwareInterface
 {
@@ -118,11 +120,11 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
             $controller = $route['controller'];
             $controllerPath = $path . '/' . $controller . '.php';
             $Code = $CodeService->createCode($namespace, $controller);
-            $Code->getNamespace()->appendUse(AbstractController::class);
+            $Code->getNamespace()->appendUse(AbstractAdminController::class);
             $Code->getNamespace()->appendUse(ViewModelManager::class);
             list($viewNamespace, $viewModel) = $this->generateViewModel($controller, $moduleInfo);
             $Code->getNamespace()->appendUse($viewNamespace . '\\' . $viewModel);
-            $Code->getClass()->extend('AbstractController');
+            $Code->getClass()->extend('AbstractAdminController');
             $Code->getClass()->appendMethod('index');
             $Code->getClass()->getMethod('index')->setReturn("ViewModelManager::getViewModel(['viewModel' => $viewModel::class])");
             $this->write($controllerPath, $Code->toCode());
@@ -151,12 +153,26 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
         $CodeService = $this->getCodeService();
         $ViewModelCode = $CodeService->createCode($viewNamespace, $viewModel);
         $ViewModelCode->getNamespace()->appendUse(AbstractViewModel::class);
+        $ViewModelCode->getNamespace()->appendUse(AdminPageLayout::class);
         $ViewModelCode->getClass()->extend('AbstractViewModel');
         $ViewModelCode->getClass()->appendProperty('template', '/template' . strtolower($partTemplatePath), 'protected');
+        $ViewModelCode->getClass()->appendProperty('config', ["layout" => '\\' . AdminPageLayout::class ], 'protected');
         $ViewModelCode->getClass()->appendMethod('getTemplateDir');
         $ViewModelCode->getClass()->getMethod('getTemplateDir')->setReturn("__DIR__ . '$deep'");
         $this->write($viewModelPath, $ViewModelCode->toCode());
-        $this->write($templatePath, 'template');
+        $templateCode = <<<TEMPLATE
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Template</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+TEMPLATE;
+        $this->write($templatePath, $templateCode);
         return [$viewNamespace, $viewModel];
     }
 

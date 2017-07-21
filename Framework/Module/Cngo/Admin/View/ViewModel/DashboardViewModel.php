@@ -26,21 +26,8 @@ class DashboardViewModel extends AbstractViewModel
         ]
     ];
 
-    protected $data = [
-        'title' => 'Dashboard',
-    ];
-
-    public $listeners = [
-        'Render' => 'onRender',
-    ];
-
     public function getTemplateDir()
     {
         return __DIR__ . '/..';
-    }
-
-    public function onRender()
-    {
-        $this->getLayout()->setData($this->getData());
     }
 }
