@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\AbstractViewModel;
 use Framework\ObjectManager\ObjectManager;
 use Framework\Router\RouterInterface;
 use NumberFormatter;

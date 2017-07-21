@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\ViewModel\ViewModel;
+namespace Framework\ViewModel;
 
 interface LayoutInterface
 {

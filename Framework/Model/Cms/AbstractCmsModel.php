@@ -4,8 +4,8 @@ namespace Framework\Model\Cms;
 
 use Framework\Model\AbstractModel;
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\ViewModelManager;
+use Framework\ViewModel\AbstractViewModel;
 use Framework\Event\Event\EventTargetInterface;
 use Framework\Event\Event\EventTargetTrait;
 

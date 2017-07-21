@@ -1,6 +1,6 @@
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"><?php echo $this->getLayout()->getPageVar('title'); ?></h1>
+                    <h1 class="page-header"><?php echo $this->getLayout()->getData('title'); ?></h1>
                 </div>
                 <!-- /.col-lg-12 -->
 		<?php foreach ($summary as $row) { ?>
@@ -24,7 +24,7 @@
                                 <div class="clearfix"></div>
                             </div>
                         </a>
-                    </div>		    
+                    </div>
                 </div>
 		<?php } ?>
             </div>

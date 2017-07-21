@@ -4,8 +4,8 @@ namespace Framework\Module\Cngo\Console\Helper\Generator;
 
 use Framework\Controller\AbstractConsole;
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\ViewModelManager;
+use Framework\ViewModel\AbstractViewModel;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
 
 class Generator implements GeneratorInterface, CodeServiceAwareInterface

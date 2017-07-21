@@ -2,8 +2,8 @@
 
 namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
-use Framework\ViewModel\ViewModel\FormViewModel;
-use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
+use Framework\ViewModel\FormViewModel;
+use Framework\Module\Cngo\Admin\View\Layout\AdminLoginPageLayout;
 use Form2\Validator;
 
 class LoginViewModel extends FormViewModel
@@ -11,7 +11,7 @@ class LoginViewModel extends FormViewModel
     protected $template = '/template/login.html';
 
     protected $config = [
-        'layout' => AdminPageLayout::class,
+        'layout' => AdminLoginPageLayout::class,
         'script' => [
             '/place.js'
         ]
@@ -53,8 +53,17 @@ class LoginViewModel extends FormViewModel
         ]
     ];
 
+    public $listeners = [
+        'Render' => 'onRender',
+    ];
+
     public function getTemplateDir()
     {
         return __DIR__ . '/..';
+    }
+
+    public function onRender()
+    {
+        $this->getLayout()->setData($this->getData());
     }
 }

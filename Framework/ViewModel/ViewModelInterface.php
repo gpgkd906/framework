@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\ViewModel\ViewModel;
+namespace Framework\ViewModel;
 
-interface ViewModelInterface 
+interface ViewModelInterface
 {
     public function setTemplate($template);
 
@@ -13,12 +13,10 @@ interface ViewModelInterface
     public function getId();
 
     public function getData();
-   
+
     public function asHtml();
-    
+
     public function asJson();
-    
-    public function asXml();
 
     public function render();
 }

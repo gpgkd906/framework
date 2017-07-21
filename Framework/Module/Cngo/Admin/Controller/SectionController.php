@@ -3,7 +3,7 @@
 namespace Framework\Module\Cngo\Admin\Controller\Cms;
 
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 
 class SectionController extends AbstractAdminController

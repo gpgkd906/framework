@@ -4,7 +4,7 @@ namespace Framework\Module\Cngo\Admin\Controller;
 
 use Framework\Controller\ControllerInterface;
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 

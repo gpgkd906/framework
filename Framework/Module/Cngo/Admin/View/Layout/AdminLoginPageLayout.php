@@ -5,20 +5,15 @@ namespace Framework\Module\Cngo\Admin\View\Layout;
 use Framework\ViewModel\PageLayout;
 use Framework\Module\Cngo\Admin\View\ViewModel\NavbarViewModel;
 
-class AdminPageLayout extends PageLayout
+class AdminLoginPageLayout extends PageLayout
 {
     protected $config = [
         'container' => [
-            'Head' => [
-                [
-                    'viewModel' => NavbarViewModel::class,
-                ],
-            ],
             'Main' => [],
         ]
     ];
 
-    protected $template = '/template/layout/admin.html';
+    protected $template = '/template/layout/login.html';
 
     protected $asset = '/asset';
 

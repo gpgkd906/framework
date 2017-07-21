@@ -4,7 +4,7 @@ namespace Framework\Module\Cngo\Console\Controller\Module;
 
 use Framework\Controller\AbstractConsole;
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\AbstractViewModel;
 use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
 use Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareInterface;

@@ -1,19 +1,19 @@
 <?php
-namespace Framework\ViewModel\ViewModel;
+namespace Framework\ViewModel;
 
-use Framework\ViewModel\ViewModel\ViewModelInterface;
-use Framework\ViewModel\ViewModel\FormViewModelInterface;
-use Framework\ViewModel\ViewModel\SubFormViewModel;
+use Framework\ViewModel\ViewModelInterface;
+use Framework\ViewModel\FormViewModelInterface;
+use Framework\ViewModel\SubFormViewModel;
 use ArrayAccess;
 use Exception;
-    
+
 class Container implements ContainerInterface, ArrayAccess
 {
 
     /**
      *
      * @api
-     * @var mixed $items 
+     * @var mixed $items
      * @access private
      * @link
      */
@@ -22,7 +22,7 @@ class Container implements ContainerInterface, ArrayAccess
     /**
      *
      * @api
-     * @var mixed $exportView 
+     * @var mixed $exportView
      * @access private
      * @link
      */
@@ -34,9 +34,9 @@ class Container implements ContainerInterface, ArrayAccess
         $this->setItems($config);
         $this->getItems();
     }
-    
+
     /**
-     * 
+     *
      * @api
      * @param mixed $renderType
      * @return mixed $renderType
@@ -48,7 +48,7 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $renderType
      * @link
@@ -57,9 +57,9 @@ class Container implements ContainerInterface, ArrayAccess
     {
         return $this->renderType;
     }
-    
+
     /**
-     * 
+     *
      * @api
      * @param mixed $items
      * @return mixed $items
@@ -71,7 +71,7 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $items
      * @link
@@ -87,10 +87,10 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
-     * 
+     *
      * @api
-     * @param   
-     * @param    
+     * @param
+     * @param
      * @return
      * @link
      */
@@ -101,24 +101,29 @@ class Container implements ContainerInterface, ArrayAccess
         }
         $this->items[] = $item;
     }
-    
+
     public function __toString()
     {
+        $exportView = $this->getExportView();
+        $render = 'render';
+        if ($exportView instanceof LayoutInterface) {
+            $render = 'asHtml';
+        }
         //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
         //Production環境まで作らないと思うが、もし作るのであれば、環境チェックも必要です
-        try {
-            $htmls = [];
-            foreach ($this->getItems() as $item) {            
-                $htmls[] = $item->render();
-            }
-            return join('', $htmls);
-        } catch(Exception $e) {
-            echo nl2br($e);
+        // try {
+        $htmls = [];
+        foreach ($this->getItems() as $item) {
+            $htmls[] = call_user_func([$item, $render]);
         }
+        return join('', $htmls);
+        // } catch(Exception $e) {
+        //     echo nl2br($e);
+        // }
     }
 
     /**
-     * 
+     *
      * @api
      * @param mixed $exportView
      * @return mixed $exportView
@@ -130,7 +135,7 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $exportView
      * @link
@@ -147,15 +152,15 @@ class Container implements ContainerInterface, ArrayAccess
             $this->items[$offset] = $value;
         }
     }
-    
+
     public function offsetExists($offset) {
         return isset($this->items[$offset]);
     }
-    
+
     public function offsetUnset($offset) {
         unset($this->items[$offset]);
     }
-    
+
     public function offsetGet($offset) {
         if (isset($this->items[$offset])) {
             $item = $this->items[$offset];

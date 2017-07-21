@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\AbstractViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 class DashboardViewModel extends AbstractViewModel
@@ -12,11 +12,6 @@ class DashboardViewModel extends AbstractViewModel
     protected $config = [
         'layout' => AdminPageLayout::class,
         'container' => [
-            'Head' => [
-                [
-                    'viewModel' => NavbarViewModel::class,
-                ],
-            ],
             'Main' => [
                 [
                     'viewModel' => SummaryViewModel::class,
@@ -46,6 +41,6 @@ class DashboardViewModel extends AbstractViewModel
 
     public function onRender()
     {
-        $this->getLayout()->setPageVar('title', $this->getData()['title']);
+        $this->getLayout()->setData($this->getData());
     }
 }

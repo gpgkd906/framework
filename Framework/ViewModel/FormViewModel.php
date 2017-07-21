@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\ViewModel\ViewModel;
+namespace Framework\ViewModel;
 
 use Framework\Router\RouterInterface;
 use Form2\FormManager;

@@ -3,7 +3,7 @@
 namespace Framework\Module\Cngo\Front\Controller;
 
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Front\View\ViewModel\IndexViewModel;
 
 class IndexController extends AbstractController

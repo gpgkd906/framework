@@ -2,7 +2,7 @@
 
 namespace Framework\Application;
 
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Controller\ControllerInterface;
 use Framework\Router\RouterInterface;

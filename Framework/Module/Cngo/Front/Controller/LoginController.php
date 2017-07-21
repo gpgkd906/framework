@@ -3,7 +3,7 @@
 namespace Framework\Controller\Login;
 
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 
 class LoginController extends AbstractController
 {

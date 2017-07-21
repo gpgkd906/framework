@@ -5,8 +5,8 @@ namespace Framework\Controller;
 use Framework\Application\HttpApplication;
 use Framework\ObjectManager\SingletonInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
-use Framework\ViewModel\ViewModel\ViewModelInterface;
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\ViewModelInterface;
+use Framework\ViewModel\AbstractViewModel;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Router\RouterAwareInterface;
 use Framework\Service\SessionService\SessionServiceAwareInterface;
@@ -36,7 +36,7 @@ abstract class AbstractController implements
     const TRIGGER_BEFORE_RESPONSE = 'beforeResponse';
     const TRIGGER_AFTER_RESPONSE = 'afterResponse';
 
-    private $responseType = AbstractViewModel::renderAsHTML;
+    private $responseType = AbstractViewModel::RENDER_AS_HTML;
 
     private $controllerName = null;
     private $ViewModel = null;
@@ -105,8 +105,8 @@ abstract class AbstractController implements
 
     public function setResponseType($responseType)
     {
-        if ($responseType === AbstractViewModel::renderAsHTML
-        || $responseType === AbstractViewModel::renderAsJSON
+        if ($responseType === AbstractViewModel::RENDER_AS_HTML
+        || $responseType === AbstractViewModel::RENDER_AS_JSON
         || $responseType === AbstractViewModel::renderAsXML
         ) {
             $this->responseType = $responseType;

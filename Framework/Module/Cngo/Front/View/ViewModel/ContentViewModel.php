@@ -2,7 +2,7 @@
 
 namespace Framework\Module\Cngo\Front\View\ViewModel;
 
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\AbstractViewModel;
 
 class ContentViewModel extends AbstractViewModel
 {

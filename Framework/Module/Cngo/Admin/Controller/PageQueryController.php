@@ -3,7 +3,7 @@
 namespace Framework\Module\Cngo\Admin\Controller;
 
 use Framework\Controller\AbstractController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 use Zend\Dom\Query;
 use Zend\Http\Client;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;

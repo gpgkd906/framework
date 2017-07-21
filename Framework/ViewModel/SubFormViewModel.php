@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\ViewModel\ViewModel;
+namespace Framework\ViewModel;
 
-use Framework\ViewModel\ViewModel\FormViewModel;
+use Framework\ViewModel\FormViewModel;
 
 class SubFormViewModel extends AbstractViewModel implements FormViewModelInterface
 {

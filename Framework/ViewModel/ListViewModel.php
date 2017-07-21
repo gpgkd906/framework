@@ -2,7 +2,7 @@
 
 namespace Framework\ViewModel\Component;
 
-use Framework\ViewModel\ViewModel\AbstractViewModel;
+use Framework\ViewModel\AbstractViewModel;
 
 class ListViewModel extends AbstractViewModel
 {
@@ -15,7 +15,7 @@ class ListViewModel extends AbstractViewModel
     private $itemViewModel = "Framework\ViewModel\ItemViewModel";
     private $template = null;
     
-    private function renderAsHtml()
+    private function RENDER_AS_HTML()
     {
         if ($this->useItemViewModel) {
             $itemViewModel = $this->itemViewModel;

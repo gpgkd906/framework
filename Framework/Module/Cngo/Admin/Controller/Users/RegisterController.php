@@ -3,7 +3,7 @@
 namespace Framework\Module\Cngo\Admin\Controller\Users;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
-use Framework\ViewModel\ViewModel\ViewModelManager;
+use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Admin\View\ViewModel\Users\RegisterViewModel;
 class RegisterController extends AbstractAdminController
 {
