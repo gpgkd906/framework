@@ -4,7 +4,7 @@ namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminLoginPageLayout;
-use Form2\Validator;
+use Framework\FormManager\Validator;
 
 class LoginViewModel extends FormViewModel
 {

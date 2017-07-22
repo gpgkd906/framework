@@ -3,8 +3,8 @@
 namespace Framework\ViewModel;
 
 use Framework\Router\RouterInterface;
-use Form2\FormManager;
-use Form2\Validator;
+use Framework\FormManager\FormManager;
+use Framework\FormManager\Validator;
 
 class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 {

@@ -3,7 +3,7 @@
 namespace Framework\Fieldset\Admin;
 
 use Framework\Fieldset\AbstractFieldset;
-use Form2\Validator;
+use Framework\FormManager\Validator;
 
 class PageFieldset extends AbstractFieldset
 {

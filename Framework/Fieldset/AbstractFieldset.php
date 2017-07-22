@@ -4,7 +4,7 @@ namespace Framework\Fieldset;
 
 use Framework\Repository\Repository\EntityInterface;
 use Framework\EventManager\EventTargetInterface;
-use Form2\Fieldset;
+use Framework\FormManager\Fieldset;
 
 abstract class AbstractFieldset extends Fieldset implements EventTargetInterface
 {
