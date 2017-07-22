@@ -25,7 +25,7 @@ class LoginController extends AbstractController implements AuthenticationAwareI
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->validate()) {
-            $loginInfo = $ViewModel->getForm()->getData()['default'];
+            $loginInfo = $ViewModel->getForm()->getData()['login'];
             $this->getAuthentication()->login($loginInfo['login'], $loginInfo['password']);
             if ($this->getAuthentication()->hasIdentity()) {
                 $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function () {

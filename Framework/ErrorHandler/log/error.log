@@ -1,0 +1,105 @@
+2017-07-22 17:41:22
+例外が発生しました。
+File : /application/Framework/Application/ConsoleApplication.php
+Line : 27
+Message : invalid console application
+Trace:#0 /application/bin/console.php(23): Framework\Application\ConsoleApplication->run()
+#1 {main}
+
+2017-07-22 17:48:22
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/LoginController.php
+Line : 27
+Message : Call to undefined method Framework\FormManager\Form::validate()
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->onLoginComplete(Object(Framework\EventManager\Event))
+#1 /application/Framework/EventManager/EventManager.php(110): call_user_func(Array, Object(Framework\EventManager\Event))
+#2 /application/Framework/EventManager/EventTargetTrait.php(50): Framework\EventManager\EventManager->dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\EventManager\Event))
+#3 /application/Framework/EventManager/EventTargetTrait.php(57): Framework\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\EventManager\Event))
+#4 /application/Framework/ViewModel/FormViewModel.php(145): Framework\ViewModel\AbstractViewModel->triggerEvent('Complete', Array)
+#5 [internal function]: Framework\ViewModel\FormViewModel->triggerForComplete(Array, Object(Framework\FormManager\Form))
+#6 /application/vendor/gpgkd906/Framework\FormManager/src/Framework\FormManager/Form.php(469): call_user_func(Array, Array, Object(Framework\FormManager\Form))
+#7 /application/Framework/ViewModel/FormViewModel.php(80): Framework\FormManager\Form->confirm(false, Array)
+#8 [internal function]: Framework\ViewModel\FormViewModel->Framework\ViewModel\{closure}(Object(Framework\EventManager\Event))
+#9 /application/Framework/EventManager/EventManager.php(110): call_user_func(Object(Closure), Object(Framework\EventManager\Event))
+#10 /application/Framework/EventManager/EventTargetTrait.php(50): Framework\EventManager\EventManager->dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\EventManager\Event))
+#11 /application/Framework/EventManager/EventTargetTrait.php(57): Framework\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\EventManager\Event))
+#12 /application/Framework/ViewModel/ViewModelManager.php(116): Framework\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#13 /application/Framework/ViewModel/ViewModelManager.php(103): Framework\ViewModel\ViewModelManager::getView(Array)
+#14 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(19): Framework\ViewModel\ViewModelManager::getViewModel(Array)
+#15 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#16 /application/Framework/Controller/AbstractController.php(102): call_user_func(Array, Array)
+#17 /application/Framework/Controller/AbstractController.php(77): Framework\Controller\AbstractController->callAction('index', Array)
+#18 /application/Framework/Application/HttpApplication.php(51): Framework\Controller\AbstractController->callActionFlow('index', Array)
+#19 /application/public/index.php(22): Framework\Application\HttpApplication->run()
+#20 {main}
+
+2017-07-22 17:49:02
+例外が発生しました。
+File : /application/vendor/gpgkd906/Framework\FormManager/src/Framework\FormManager/Form.php
+Line : 441
+Message : Call to undefined method Framework\FormManager\Form::validata()
+Trace:#0 /application/Framework/ViewModel/FormViewModel.php(75): Framework\FormManager\Form->submit(Array)
+#1 [internal function]: Framework\ViewModel\FormViewModel->Framework\ViewModel\{closure}(Object(Framework\EventManager\Event))
+#2 /application/Framework/EventManager/EventManager.php(110): call_user_func(Object(Closure), Object(Framework\EventManager\Event))
+#3 /application/Framework/EventManager/EventTargetTrait.php(50): Framework\EventManager\EventManager->dispatchTargetEvent(Object(Framework\Module\Cngo\Admin\View\ViewModel\LoginViewModel), 'Framework\\Modul...', Object(Framework\EventManager\Event))
+#4 /application/Framework/EventManager/EventTargetTrait.php(57): Framework\ViewModel\AbstractViewModel->dispatchEvent(Object(Framework\EventManager\Event))
+#5 /application/Framework/ViewModel/ViewModelManager.php(116): Framework\ViewModel\AbstractViewModel->triggerEvent('Initiation')
+#6 /application/Framework/ViewModel/ViewModelManager.php(103): Framework\ViewModel\ViewModelManager::getView(Array)
+#7 /application/Framework/Module/Cngo/Admin/Controller/LoginController.php(19): Framework\ViewModel\ViewModelManager::getViewModel(Array)
+#8 [internal function]: Framework\Module\Cngo\Admin\Controller\LoginController->index(Array)
+#9 /application/Framework/Controller/AbstractController.php(102): call_user_func(Array, Array)
+#10 /application/Framework/Controller/AbstractController.php(77): Framework\Controller\AbstractController->callAction('index', Array)
+#11 /application/Framework/Application/HttpApplication.php(51): Framework\Controller\AbstractController->callActionFlow('index', Array)
+#12 /application/public/index.php(22): Framework\Application\HttpApplication->run()
+#13 {main}
+
+2017-07-22 18:11:09
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/login.html
+Line : 13
+Message : Trying to get property of non-object
+
+2017-07-22 18:11:09
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/login.html
+Line : 16
+Message : Trying to get property of non-object
+
+2017-07-22 18:11:09
+実行時警告(notice)が発生しました。
+File : /application/Framework/Module/Cngo/Admin/View/template/login.html
+Line : 19
+Message : Trying to get property of non-object
+
+2017-07-22 18:17:27
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/Users/RegisterController.php
+Line : 15
+Message : syntax error, unexpected ''listeners'' (T_CONSTANT_ENCAPSED_STRING), expecting ']'
+Trace:#0 /application/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile('/application/ve...')
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass('Framework\\Modul...')
+#2 [internal function]: spl_autoload_call('Framework\\Modul...')
+#3 /application/Framework/ObjectManager/ObjectManager.php(66): is_subclass_of('Framework\\Modul...', 'Framework\\Objec...')
+#4 /application/Framework/ObjectManager/ObjectManager.php(44): Framework\ObjectManager\ObjectManager->create('Framework\\Contr...', 'Framework\\Modul...')
+#5 /application/Framework/Application/HttpApplication.php(41): Framework\ObjectManager\ObjectManager->get('Framework\\Contr...', 'Framework\\Modul...')
+#6 /application/public/index.php(22): Framework\Application\HttpApplication->run()
+#7 {main}
+
+2017-07-22 18:17:41
+例外が発生しました。
+File : /application/Framework/Module/Cngo/Admin/Controller/Users/RegisterController.php
+Line : 16
+Message : Undefined class constant 'TRIGGER_FORMCOMPLETE'
+Trace:#0 [internal function]: Framework\Module\Cngo\Admin\Controller\Users\RegisterController->index(Array)
+#1 /application/Framework/Controller/AbstractController.php(102): call_user_func(Array, Array)
+#2 /application/Framework/Controller/AbstractController.php(77): Framework\Controller\AbstractController->callAction('index', Array)
+#3 /application/Framework/Application/HttpApplication.php(51): Framework\Controller\AbstractController->callActionFlow('index', Array)
+#4 /application/public/index.php(22): Framework\Application\HttpApplication->run()
+#5 {main}
+
+2017-07-22 18:18:32
+回復不能なエラーが発生しました。
+File : /application/Framework/ViewModel/ViewModelManager.php
+Line : 111
+Message : Class 'Framework\Module\Cngo\Admin\View\ViewModel\Users\Validator' not found
+

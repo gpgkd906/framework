@@ -2,15 +2,41 @@
 
 namespace Framework\Module\Cngo\Admin\View\ViewModel\Users;
 
-use Framework\ViewModel\AbstractViewModel;
+use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
+use Framework\FormManager\Validator;
 
-class RegisterViewModel extends AbstractViewModel
+class RegisterViewModel extends FormViewModel
 {
     protected $template = '/template/users/register.phtml';
 
     protected $config = [
         'layout' => AdminPageLayout::class,
+    ];
+
+    protected $fieldset = [
+        'adminUser' => [
+            'login' => [
+                'type' => 'text',
+                'validator' => [
+                    [Validator::Exists, "※必須入力"],
+                ],
+                'attrs' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Login',
+                ],
+            ],
+            'password' => [
+                'type' => 'password',
+                'validator' => [
+                    [Validator::Exists, "※必須入力"],
+                ],
+                'attrs' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Password',
+                ]
+            ],
+        ]
     ];
 
     public function getTemplateDir()

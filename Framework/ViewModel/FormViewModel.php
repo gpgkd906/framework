@@ -68,7 +68,8 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
             $this->setForm($form);
             $form->set('action', $this->getAction());
             $form->set('method', $this->getMethod());
-            foreach ($this->getFieldset() as $fieldset) {
+            foreach ($this->getFieldset() as $fieldsetName => $fieldset) {
+                $fieldset['name'] = $fieldsetName;
                 $form->addFieldset($fieldset);
             }
             $this->triggerEvent(self::TRIGGER_FORMINIT);
