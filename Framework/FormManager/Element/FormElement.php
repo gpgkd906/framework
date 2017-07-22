@@ -308,10 +308,10 @@ class FormElement implements FormElementInterface {
   * @param string $error_message
   * @return
   */
-  public function force_error($error_message = null) {
+  public function forceError($error_message = null) {
     $this->error = "<span class='myform_error'>" . $error_message . "</span>";
     if($this->getForm()) {
-      $this->getForm()->force_error();
+      $this->getForm()->forceError();
     }
     return $this;
   }

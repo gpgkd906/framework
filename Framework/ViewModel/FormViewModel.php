@@ -12,7 +12,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 
     protected $action = null;
 
-    protected $useConfirm = false;
+    protected $useConfirm = true;
     /**
      *
      * @api
@@ -69,7 +69,9 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
             $form->set('action', $this->getAction());
             $form->set('method', $this->getMethod());
             foreach ($this->getFieldset() as $fieldsetName => $fieldset) {
-                $fieldset['name'] = $fieldsetName;
+                if (is_array($fieldset)) {
+                    $fieldset['name'] = $fieldsetName;
+                }
                 $form->addFieldset($fieldset);
             }
             $this->triggerEvent(self::TRIGGER_FORMINIT);

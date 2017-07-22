@@ -17,9 +17,10 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         return ViewModelManager::getViewModel([
             'viewModel' => ListViewModel::class,
             'data' => [
-                'entities' => $this->getEntityManager()->getRepository(AdminUsers::class)->findBy([
+                'adminUsers' => $this->getEntityManager()->getRepository(AdminUsers::class)->findBy([
                     'deleteFlag' => 0
-                ], ['adminUsersId' => 'ASC'], 50)
+                ], ['adminUsersId' => 'ASC'], 50),
+                'test' => '<script>alert(123);</script>'
             ]
         ]);
     }

@@ -57,7 +57,7 @@ interface FormElementInterface {
   * @param string $error_message
   * @return
   */
-  public function force_error($error_message = null);
+  public function forceError($error_message = null);
 
   /**
   * 一般要素のインプットモード

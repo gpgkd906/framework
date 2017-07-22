@@ -10,6 +10,8 @@ class LoginViewModel extends FormViewModel
 {
     protected $template = '/template/login.html';
 
+    protected $useConfirm = false;
+
     protected $config = [
         'layout' => AdminLoginPageLayout::class,
         'script' => [

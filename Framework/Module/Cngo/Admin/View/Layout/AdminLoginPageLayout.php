@@ -13,9 +13,7 @@ class AdminLoginPageLayout extends PageLayout
         ]
     ];
 
-    protected $template = '/template/layout/login.html';
-
-    protected $asset = '/asset';
+    protected $template = '/template/layout/login.phtml';
 
     protected $styles = [
         "/sbadmin2/bower_components/bootstrap/dist/css/bootstrap.min.css",
@@ -27,7 +25,6 @@ class AdminLoginPageLayout extends PageLayout
     ];
 
     protected $scripts = [
-        "/sbadmin2/bower_components/jquery/dist/jquery.min.js",
         "/sbadmin2/bower_components/bootstrap/dist/js/bootstrap.min.js",
         "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.js",
         "/sbadmin2/bower_components/raphael/raphael-min.js",

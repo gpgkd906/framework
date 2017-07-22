@@ -84,7 +84,6 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
      */
     public function setAsset ($asset)
     {
-        var_dump($asset);
         return $this->asset = $asset;
     }
 

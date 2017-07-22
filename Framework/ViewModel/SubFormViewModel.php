@@ -9,7 +9,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     /**
      *
      * @api
-     * @var mixed $form 
+     * @var mixed $form
      * @access private
      * @link
      */
@@ -18,7 +18,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     protected $fieldset = [];
 
     /**
-     * 
+     *
      * @api
      * @param mixed $fieldset
      * @return mixed $fieldset
@@ -30,7 +30,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $fieldset
      * @link
@@ -39,9 +39,9 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     {
         return $this->fieldset;
     }
-   
+
     /**
-     * 
+     *
      * @api
      * @param mixed $form
      * @return mixed $form
@@ -57,7 +57,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     }
 
     /**
-     * 
+     *
      * @api
      * @return mixed $form
      * @link

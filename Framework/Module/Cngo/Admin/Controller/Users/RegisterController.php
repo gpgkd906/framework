@@ -23,6 +23,7 @@ class RegisterController extends AbstractAdminController
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->validate()) {
             $loginInfo = $ViewModel->getForm()->getData()['adminUser'];
+            var_dump($loginInfo);
 
         } else {
             var_Dump($ViewModel->getForm()->getMessage());

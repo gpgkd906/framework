@@ -7,22 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title><?php echo $title ?></title>
+    <title><?= $title ?></title>
 
     <?php $css = $this->getStyle(); ?>
     <?php foreach ($css as $link) { ?>
-        <link href="<?php echo $link; ?>" rel="stylesheet">
+        <link href="<?= $link; ?>" rel="stylesheet">
     <?php } ?>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+      crossorigin="anonymous"></script>
+
 </head>
 <body>
 
     <div id="wrapper">
 
       <!-- Navigation -->
-      <?php echo $this->getContainer('Head'); ?>
+      <?= $this->getContainer('Head'); ?>
 
       <div id="page-wrapper">
-            <?php echo $this->getContainer('Main'); ?>
+            <?= $this->getContainer('Main'); ?>
         </div>
         <!-- /#page-wrapper -->
 
@@ -30,9 +35,9 @@
     <!-- /#wrapper -->
 
     <?php $scripts = $this->getScript(); ?>
-    <!-- <?php foreach ($scripts as $link) { ?>
+    <?php foreach ($scripts as $link) { ?>
         <script src="<?php echo $link ?>"></script>
-    <?php } ?> -->
+    <?php } ?>
 </body>
 
 </html>

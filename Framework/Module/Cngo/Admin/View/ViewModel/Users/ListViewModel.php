@@ -25,9 +25,9 @@ class ListViewModel extends AbstractViewModel
     public function onRender()
     {
         $data = $this->getData();
-        $data['entities'] = array_map(function ($AdminUser) {
+        $data['adminUsers'] = array_map(function ($AdminUser) {
             return $AdminUser->toArray();
-        }, $data['entities']);
+        }, $data['adminUsers']);
         $this->setData($data);
     }
 }

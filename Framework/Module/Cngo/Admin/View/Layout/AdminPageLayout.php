@@ -18,7 +18,7 @@ class AdminPageLayout extends PageLayout
         ]
     ];
 
-    protected $template = '/template/layout/admin.html';
+    protected $template = '/template/layout/admin.phtml';
 
     protected $asset = '/asset';
 

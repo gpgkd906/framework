@@ -4,78 +4,91 @@ namespace Framework\Module\Cngo\Admin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Framework\Repository\Doctrine\AbstractEntity;
-
 /**
-* AdminUsers
-*
-* @ORM\Table(name="admin_users")
-* @ORM\Entity(repositoryClass="Framework\Module\Cngo\Admin\Entity\Repository\AdminUsers")
-*/
+ * AdminUsers
+ *
+ * @ORM\Table(name="admin_users", uniqueConstraints={@ORM\UniqueConstraint(name="uk_login", columns={"login"})})
+ * @ORM\Entity(repositoryClass="Framework\Module\Cngo\Admin\Entity\Repository\AdminUsers")
+ */
 class AdminUsers extends AbstractEntity
 {
     /**
-    * @var integer
-    *
-    * @ORM\Column(name="admin_users_id", type="integer", nullable=false)
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="IDENTITY")
-    */
+     * @var integer
+     *
+     * @ORM\Column(name="admin_users_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private $adminUsersId;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="login", type="string", length=32, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=32, nullable=true)
+     */
     private $login;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="password", type="string", length=64, nullable=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=64, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=64, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=64, nullable=true)
+     */
     private $password;
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="create_datetime", type="datetime", nullable=true)
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_datetime", type="datetime", nullable=true)
+     */
     private $createDatetime = 'CURRENT_TIMESTAMP';
 
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="update_datetime", type="datetime", nullable=true)
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="update_datetime", type="datetime", nullable=true)
+     */
     private $updateDatetime;
 
     /**
-    * @var boolean
-    *
-    * @ORM\Column(name="delete_flag", type="boolean", nullable=false)
-    */
+     * @var boolean
+     *
+     * @ORM\Column(name="delete_flag", type="boolean", nullable=false)
+     */
     private $deleteFlag = '0';
 
 
 
     /**
-    * Get adminUsersId
-    *
-    * @return integer
-    */
+     * Get adminUsersId
+     *
+     * @return integer
+     */
     public function getAdminUsersId()
     {
         return $this->adminUsersId;
     }
 
     /**
-    * Set login
-    *
-    * @param string $login
-    *
-    * @return AdminUsers
-    */
+     * Set login
+     *
+     * @param string $login
+     *
+     * @return AdminUsers
+     */
     public function setLogin($login)
     {
         $this->login = $login;
@@ -84,22 +97,70 @@ class AdminUsers extends AbstractEntity
     }
 
     /**
-    * Get login
-    *
-    * @return string
-    */
+     * Get login
+     *
+     * @return string
+     */
     public function getLogin()
     {
         return $this->login;
     }
 
     /**
-    * Set password
-    *
-    * @param string $password
-    *
-    * @return AdminUsers
-    */
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return AdminUsers
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return AdminUsers
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return AdminUsers
+     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -108,22 +169,22 @@ class AdminUsers extends AbstractEntity
     }
 
     /**
-    * Get password
-    *
-    * @return string
-    */
+     * Get password
+     *
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
     /**
-    * Set createDatetime
-    *
-    * @param \DateTime $createDatetime
-    *
-    * @return AdminUsers
-    */
+     * Set createDatetime
+     *
+     * @param \DateTime $createDatetime
+     *
+     * @return AdminUsers
+     */
     public function setCreateDatetime($createDatetime)
     {
         $this->createDatetime = $createDatetime;
@@ -132,22 +193,22 @@ class AdminUsers extends AbstractEntity
     }
 
     /**
-    * Get createDatetime
-    *
-    * @return \DateTime
-    */
+     * Get createDatetime
+     *
+     * @return \DateTime
+     */
     public function getCreateDatetime()
     {
         return $this->createDatetime;
     }
 
     /**
-    * Set updateDatetime
-    *
-    * @param \DateTime $updateDatetime
-    *
-    * @return AdminUsers
-    */
+     * Set updateDatetime
+     *
+     * @param \DateTime $updateDatetime
+     *
+     * @return AdminUsers
+     */
     public function setUpdateDatetime($updateDatetime)
     {
         $this->updateDatetime = $updateDatetime;
@@ -156,22 +217,22 @@ class AdminUsers extends AbstractEntity
     }
 
     /**
-    * Get updateDatetime
-    *
-    * @return \DateTime
-    */
+     * Get updateDatetime
+     *
+     * @return \DateTime
+     */
     public function getUpdateDatetime()
     {
         return $this->updateDatetime;
     }
 
     /**
-    * Set deleteFlag
-    *
-    * @param boolean $deleteFlag
-    *
-    * @return AdminUsers
-    */
+     * Set deleteFlag
+     *
+     * @param boolean $deleteFlag
+     *
+     * @return AdminUsers
+     */
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
@@ -180,10 +241,10 @@ class AdminUsers extends AbstractEntity
     }
 
     /**
-    * Get deleteFlag
-    *
-    * @return boolean
-    */
+     * Get deleteFlag
+     *
+     * @return boolean
+     */
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
