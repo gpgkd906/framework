@@ -1,10 +1,46 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Template</h1>
-        </div>
-        <!-- /.col-lg-12 -->
+<?php
+$adminUser = $this->getData()['adminUser'];
+?>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"><?=$title?></h1>
     </div>
-    <!-- /.row -->
+    <!-- /.col-lg-12 -->
 </div>
-<!-- /.container-fluid -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Admin ID</label>
+                            <label class="form_label form_text"><?=$adminUser['adminUsersId'] ?></label>
+                        </div>
+                        <div class="form-group">
+                            <label>ログインID</label>
+                            <label class="form_label form_text"><?=$adminUser['login'] ?></label>
+                        </div>
+                        <div class="form-group">
+                            <label>管理者名</label>
+                            <label class="form_label form_text"><?=$adminUser['name'] ?></label>
+                        </div>
+                        <div class="form-group">
+                            <label>メールアドレス</label>
+                            <label class="form_label form_text"><?=$adminUser['email'] ?></label>
+                        </div>
+                    </div>
+                </div>
+                <?php $form = $this->getForm(); ?>
+                <?php $form->start(); ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo $form->submit; ?>
+                        </div>
+                    </div>
+                </fieldset>
+                <?php $form->end(); ?>
+            </div>
+        </div>
+    </div>
+</div>

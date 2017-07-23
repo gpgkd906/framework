@@ -8,13 +8,38 @@ use Framework\Module\Cngo\Admin\View\ViewModel\Users\DeleteViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\Cngo\Admin\Entity\AdminUsers;
 
-class DeleteController extends AbstractAdminController
+class DeleteController extends AbstractAdminController implements EntityManagerAwareInterface
 {
-    public function index()
+    use \Framework\Repository\EntityManagerAwareTrait;
+    private $AdminUser;
+
+    public function index($id)
     {
+        $this->AdminUser = $this->getEntityManager()->getRepository(AdminUsers::class)->find($id);
+        if (!$this->AdminUser) {
+            $this->getRouter()->redirect(ListController::class);
+        }
         return ViewModelManager::getViewModel([
-            'viewModel' => DeleteViewModel::class
+            'viewModel' => DeleteViewModel::class,
+            'data' => [
+                'adminUser' => $this->AdminUser,
+            ],
+            'listeners' => [
+                DeleteViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onDeleteComplete']
+            ],
         ]);
+    }
+
+    public function onDeleteComplete(\Framework\EventManager\Event $event)
+    {
+        $ViewModel = $event->getTarget();
+        if ($ViewModel->getForm()->validate()) {
+            $AdminUser = $this->AdminUser;
+            $AdminUser->setDeleteFlag(true);
+            $this->getEntityManager()->merge($AdminUser);
+            $this->getEntityManager()->flush();
+            $this->getRouter()->redirect(ListController::class);
+        }
     }
 
     public static function getPageInfo()

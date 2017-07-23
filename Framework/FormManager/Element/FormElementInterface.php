@@ -23,14 +23,14 @@ interface FormElementInterface {
   * @param array $class class名
   * @return
   */
-  public function add_class($class);
+  public function addClass($class);
 
   /**
   * 要素のclass削除
   * @param array $class class名
   * @return
   */
-  public function remove_class($class);
+  public function removeClass($class);
 
   /**
   * 要素値の廃棄

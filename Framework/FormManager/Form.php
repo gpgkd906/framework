@@ -445,8 +445,10 @@ class Form {
                     return false;
                 }
                 $data = $this->getData();
-                foreach($this->getFieldsets() as $fieldset) {
-                    $fieldset->onSubmit();
+                if ($this->getFieldsets()) {
+                    foreach($this->getFieldsets() as $fieldset) {
+                        $fieldset->onSubmit();
+                    }
                 }
                 if(is_callable($callback)) {
                     return call_user_func($callback, $data, $this);

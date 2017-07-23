@@ -3,15 +3,17 @@
 namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\AbstractViewModel;
+use Framework\Module\Cngo\Admin\Authentication\AuthenticationAwareInterface;
 
-class NavbarViewModel extends AbstractViewModel
+class NavbarViewModel extends AbstractViewModel implements AuthenticationAwareInterface
 {
-    protected $template = '/template/component/navbar.html';
+    use \Framework\Module\Cngo\Admin\Authentication\AuthenticationAwareTrait;
 
-    public function getTemplateDir()
-    {
-        return __DIR__ . '/..';
-    }
+    protected $template = '/template/component/navbar.phtml';
+
+    public $listeners = [
+        parent::TRIGGER_INIT => 'onInit',
+    ];
 
     protected $config = [
         'container' => [
@@ -20,4 +22,14 @@ class NavbarViewModel extends AbstractViewModel
             ],
         ],
     ];
+
+    public function onInit()
+    {
+        $this->setData($this->getAuthentication()->getIdentity());
+    }
+
+    public function getTemplateDir()
+    {
+        return __DIR__ . '/..';
+    }
 }

@@ -13,6 +13,7 @@ class RegisterViewModel extends FormViewModel
     protected $config = [
         'layout' => AdminPageLayout::class,
     ];
+    
     protected $fieldset = [
         'adminUser' => [
             'login' => [
