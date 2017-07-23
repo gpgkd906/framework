@@ -17,6 +17,19 @@ class AbstractEntity implements EntityManagerAwareInterface
         return array_combine($entityKey, $entityArray);
     }
 
+    public function fromArray($data)
+    {
+        $entityKey = $this->getEntityKey();
+        foreach ($entityKey as $key) {
+            if (isset($data[$key])) {
+                $setter = [$this, 'set' . ucfirst($key)];
+                if (is_callable($setter)) {
+                    call_user_func($setter, $data[$key]);
+                }
+            }
+        }
+    }
+
     private function getEntityKey()
     {
         if (!isset(self::$entityKey[static::class])) {

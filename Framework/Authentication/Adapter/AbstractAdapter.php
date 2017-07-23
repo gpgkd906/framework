@@ -3,13 +3,12 @@
 namespace Framework\Authentication\Adapter;
 
 use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Crypt\Password\Bcrypt;
+use Framework\Authentication\AbstractAuthentication;
 
 abstract class AbstractAdapter implements AdapterInterface
 {
     protected $username;
     protected $password;
-    private $ctypt = null;
 
     public function __construct($username, $password)
     {
@@ -21,9 +20,6 @@ abstract class AbstractAdapter implements AdapterInterface
 
     public function getCrypt()
     {
-        if ($this->ctypt === null) {
-            $this->ctypt = new Bcrypt();
-        }
-        return $this->ctypt;
+        return AbstractAuthentication::getCrypt();
     }
 }

@@ -32,8 +32,6 @@ class LoginController extends AbstractController implements AuthenticationAwareI
                     $this->getRouter()->redirect(DashboardController::class);
                 });
             }
-        } else {
-            var_Dump($ViewModel->getForm()->getMessage());
         }
     }
 

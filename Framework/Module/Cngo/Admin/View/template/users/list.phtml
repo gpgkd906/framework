@@ -12,6 +12,10 @@ use Framework\Module\Cngo\Admin\Controller\Users\DeleteController;
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
+        <a href="<?=$this->getRouter()->linkto(RegisterController::class); ?>" class="btn btn-danger">新しい管理者を追加</a>
+        <p></p>
+    </div>
+    <div class="col-lg-12">
         <div class="panel panel-default">
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -20,6 +24,8 @@ use Framework\Module\Cngo\Admin\Controller\Users\DeleteController;
                         <tr>
                             <th>ID</th>
                             <th>ログインID</th>
+                            <th>管理者名</th>
+                            <th>メールアドレス</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -28,6 +34,8 @@ use Framework\Module\Cngo\Admin\Controller\Users\DeleteController;
                             <tr class="<?= $index % 2 ? 'even' : 'odd' ?>">
                                 <td><?=$adminUser['adminUsersId']; ?></td>
                                 <td><?=$adminUser['login']; ?></td>
+                                <td><?=$adminUser['name']; ?></td>
+                                <td><?=$adminUser['email']; ?></td>
                                 <td class="center">
                                     <a href="<?=$this->getRouter()->linkto(EditController::class, $adminUser['adminUsersId']); ?>" class="btn btn-primary">編集</a>
                                     <a href="<?=$this->getRouter()->linkto(DeleteController::class, $adminUser['adminUsersId']); ?>" class="btn btn-danger">削除</a>
@@ -36,7 +44,6 @@ use Framework\Module\Cngo\Admin\Controller\Users\DeleteController;
                         <?php endforeach;?>
                     </tbody>
                 </table>
-                <a href="<?=$this->getRouter()->linkto(RegisterController::class, $adminUser['adminUsersId']); ?>" class="btn btn-danger">新しい管理者を追加</a>
             </div>
             <!-- /.panel-body -->
         </div>
@@ -44,10 +51,10 @@ use Framework\Module\Cngo\Admin\Controller\Users\DeleteController;
     </div>
     <!-- /.col-lg-12 -->
 </div>
-<?php 
-    $this->getLayout()->registerScript('/dataTables.responsive.js/jquery.dataTables.min.js');
-    $this->getLayout()->registerScript('/dataTables.responsive.js/dataTables.bootstrap.min.js');
-    $this->getLayout()->registerScript('/dataTables.responsive.js/dataTables.responsive.js');
+<?php
+    $this->getLayout()->registerScript('/../js/dataTables/jquery.dataTables.min.js');
+    $this->getLayout()->registerScript('/../js/dataTables/dataTables.bootstrap.min.js');
+    $this->getLayout()->registerScript('/../js/dataTables/dataTables.responsive.js');
  ?>
 <script>
 $(function() {

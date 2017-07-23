@@ -70,7 +70,10 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
             $form->set('method', $this->getMethod());
             foreach ($this->getFieldset() as $fieldsetName => $fieldset) {
                 if (is_array($fieldset)) {
-                    $fieldset['name'] = $fieldsetName;
+                    $fieldset = [
+                        'name' => $fieldsetName,
+                        'fieldset' => $fieldset,
+                    ];
                 }
                 $form->addFieldset($fieldset);
             }

@@ -67,6 +67,6 @@ trait EventTargetTrait
         if ($trigger = $this->getEventManager()->getTrigger(static::class, $event)) {
             return $trigger;
         }
-        throw new Exception(sprintf(EventTargetInterface::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
+        throw new \Exception(sprintf(EventManager::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
 }

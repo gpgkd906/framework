@@ -25,6 +25,24 @@ class RegisterViewModel extends FormViewModel
                     'placeholder' => 'ログインID',
                 ],
             ],
+            'name' => [
+                'type' => 'text',
+                'validator' => [
+                ],
+                'attrs' => [
+                    'class' => 'form-control',
+                    'placeholder' => '管理者名',
+                ],
+            ],
+            'email' => [
+                'type' => 'text',
+                'validator' => [
+                ],
+                'attrs' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'メールアドレス',
+                ],
+            ],
             'password' => [
                 'type' => 'password',
                 'validator' => [

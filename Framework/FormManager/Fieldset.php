@@ -59,6 +59,9 @@ class Fieldset {
       $this->setName($fieldset['name']);
       unset($fieldset['name']);
     }
+    if (isset($fieldset['fieldset'])) {
+        $fieldset = $fieldset['fieldset'];
+    }
     $this->setForm($form);
     if(!empty($fieldset)) {
       $this->setFieldset($fieldset);

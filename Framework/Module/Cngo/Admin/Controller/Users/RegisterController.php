@@ -5,9 +5,13 @@ namespace Framework\Module\Cngo\Admin\Controller\Users;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Admin\View\ViewModel\Users\RegisterViewModel;
+use Framework\Repository\EntityManagerAwareInterface;
+use Framework\Module\Cngo\Admin\Entity\AdminUsers;
 
-class RegisterController extends AbstractAdminController
+class RegisterController extends AbstractAdminController implements EntityManagerAwareInterface
 {
+    use \Framework\Repository\EntityManagerAwareTrait;
+
     public function index()
     {
         return ViewModelManager::getViewModel([
@@ -22,11 +26,13 @@ class RegisterController extends AbstractAdminController
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->validate()) {
-            $loginInfo = $ViewModel->getForm()->getData()['adminUser'];
-            var_dump($loginInfo);
-
-        } else {
-            var_Dump($ViewModel->getForm()->getMessage());
+            $adminUser = $ViewModel->getForm()->getData()['adminUser'];
+            $adminUser['password'] = $this->getAuthentication()->passwordHash($adminUser['password']);
+            $AdminUser = new AdminUsers();
+            $AdminUser->fromArray($adminUser);
+            $this->getEntityManager()->persist($AdminUser);
+            $this->getEntityManager()->flush();
+            $this->getRouter()->redirect(ListController::class);
         }
     }
 

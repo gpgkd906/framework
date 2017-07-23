@@ -54,7 +54,7 @@ class AdminUsers extends AbstractEntity
      *
      * @ORM\Column(name="create_datetime", type="datetime", nullable=true)
      */
-    private $createDatetime = 'CURRENT_TIMESTAMP';
+    private $createDatetime;
 
     /**
      * @var \DateTime

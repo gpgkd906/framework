@@ -10,6 +10,7 @@ use Zend\Authentication\Storage\Session;
 use Framework\Authentication\Adapter\Common;
 use Zend\Authentication\Result;
 use Framework\Service\SessionService\SessionService;
+use Zend\Crypt\Password\Bcrypt;
 
 abstract class AbstractAuthentication extends AuthenticationService implements
     AuthenticationInterface,
@@ -18,6 +19,7 @@ abstract class AbstractAuthentication extends AuthenticationService implements
 {
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\ObjectManager\SingletonTrait;
+    private static $crypt = null;
 
     public function __construct()
     {
@@ -34,5 +36,19 @@ abstract class AbstractAuthentication extends AuthenticationService implements
         $identity = (array) $this->getIdentity();
         $identity = array_merge($identity, (array) $exIdentity);
         $this->getStorage()->write($identity);
+    }
+
+    public function passwordHash($password)
+    {
+        $crypt = self::getCrypt();
+        return $crypt->create($password);
+    }
+
+    public static function getCrypt()
+    {
+        if (self::$crypt === null) {
+            self::$crypt = new Bcrypt();
+        }
+        return self::$crypt;
     }
 }

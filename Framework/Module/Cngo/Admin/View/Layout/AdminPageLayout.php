@@ -32,7 +32,6 @@ class AdminPageLayout extends PageLayout
     ];
 
     protected $scripts = [
-        "/sbadmin2/bower_components/jquery/dist/jquery.min.js",
         "/sbadmin2/bower_components/bootstrap/dist/js/bootstrap.min.js",
         "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.js",
         "/sbadmin2/bower_components/raphael/raphael-min.js",

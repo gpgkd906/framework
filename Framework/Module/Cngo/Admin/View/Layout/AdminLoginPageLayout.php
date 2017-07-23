@@ -15,6 +15,8 @@ class AdminLoginPageLayout extends PageLayout
 
     protected $template = '/template/layout/login.phtml';
 
+    protected $asset = '/asset';
+
     protected $styles = [
         "/sbadmin2/bower_components/bootstrap/dist/css/bootstrap.min.css",
         "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.css",
