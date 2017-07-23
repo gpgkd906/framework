@@ -36,13 +36,13 @@ class RegisterController extends AbstractAdminController implements EntityManage
         }
     }
 
-    public static function getDescription()
+    public static function getPageInfo()
     {
-        return "管理者登録";
-    }
-
-    public static function getPriority()
-    {
-        return 2;
+        return [
+            'description' => '管理者登録',
+            'priority' => 2,
+            'menu' => true,
+            'group' => '管理者管理',
+        ];
     }
 }

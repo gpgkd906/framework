@@ -5,20 +5,53 @@ namespace Framework\Module\Cngo\Admin\Controller\Users;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\Admin\View\ViewModel\Users\EditViewModel;
-class EditController extends AbstractAdminController
+use Framework\Repository\EntityManagerAwareInterface;
+use Framework\Module\Cngo\Admin\Entity\AdminUsers;
+
+class EditController extends AbstractAdminController implements EntityManagerAwareInterface
 {
-    public function index()
+    use \Framework\Repository\EntityManagerAwareTrait;
+    private $AdminUser;
+
+    public function index($id)
     {
-        return ViewModelManager::getViewModel(['viewModel' => EditViewModel::class]);
+        $this->AdminUser = $this->getEntityManager()->getRepository(AdminUsers::class)->find($id);
+        if (!$this->AdminUser) {
+            $this->getRouter()->redirect(ListController::class);
+        }
+        return ViewModelManager::getViewModel([
+            'viewModel' => EditViewModel::class,
+            'data' => [
+                'adminUser' => $this->AdminUser,
+            ],
+            'listeners' => [
+                EditViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onEditComplete']
+            ],
+        ]);
     }
 
-    public static function getDescription()
+    public function onEditComplete(\Framework\EventManager\Event $event)
     {
-        return "管理者編集";
+        $ViewModel = $event->getTarget();
+        if ($ViewModel->getForm()->validate()) {
+            $adminUser = $ViewModel->getForm()->getData()['adminUser'];
+            if ($adminUser['password']) {
+                $adminUser['password'] = $this->getAuthentication()->passwordHash($adminUser['password']);
+            }
+            $AdminUser = $this->AdminUser;
+            $AdminUser->fromArray($adminUser);
+            $this->getEntityManager()->merge($AdminUser);
+            $this->getEntityManager()->flush();
+            $this->getRouter()->redirect(ListController::class);
+        }
     }
 
-    public static function getPriority()
+    public static function getPageInfo()
     {
-        return 3;
+        return [
+            "description" => "管理者編集",
+            "priority" => 0,
+            "menu" => false
+        ];
     }
 }

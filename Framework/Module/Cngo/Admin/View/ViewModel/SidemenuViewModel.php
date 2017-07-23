@@ -28,11 +28,29 @@ class SidemenuViewModel extends AbstractViewModel
             if (!is_subclass_of($controller, AbstractAdminController::class)) {
                 continue;
             }
-            $data[$controller] = [
-                'title' => $controller::getDescription(),
+            $pageInfo = $controller::getPageInfo();
+            if (!$pageInfo['menu']) {
+                continue;
+            }
+            $controllerData = [
+                'title' => $pageInfo['description'],
                 'link' => '/' . $url,
-                'priority' => $controller::getPriority(),
+                'priority' => $pageInfo['priority'],
             ];
+            if (isset($pageInfo['group'])) {
+                $group = $pageInfo['group'];
+                if (!isset($data[$group])) {
+                    $data[$group] = [
+                        'title' => $group,
+                        'link' => '#',
+                        'child' => [],
+                        'priority' => 1,
+                    ];
+                }
+                $data[$group]['child'][$controller] = $controllerData;
+            } else {
+                $data[$controller] = $controllerData;
+            }
         }
         usort($data, function ($item1, $item2) {
             return $item1['priority'] > $item2['priority'] ? 1 : -1;

@@ -21,13 +21,12 @@ class DashboardController extends AbstractAdminController implements
         ]);
     }
 
-    public static function getDescription()
+    public static function getPageInfo()
     {
-        return "ダッシュボード";
-    }
-
-    public static function getPriority()
-    {
-        return 0;
+        return [
+            "description" => "ダッシュボード",
+            "priority" => 0,
+            "menu" => true
+        ];
     }
 }

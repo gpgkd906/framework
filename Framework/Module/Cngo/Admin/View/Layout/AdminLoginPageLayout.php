@@ -31,7 +31,7 @@ class AdminLoginPageLayout extends PageLayout
         "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.js",
         "/sbadmin2/bower_components/raphael/raphael-min.js",
         "/sbadmin2/bower_components/morrisjs/morris.min.js",
-        "/sbadmin2/dist/js/sb-admin-2.js",
+        "/sbadmin2/dist/js/admin.js",
     ];
 
     public function getTemplateDir()

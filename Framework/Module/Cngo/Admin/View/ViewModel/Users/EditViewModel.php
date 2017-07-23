@@ -4,14 +4,25 @@ namespace Framework\Module\Cngo\Admin\View\ViewModel\Users;
 
 use Framework\ViewModel\AbstractViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
-class EditViewModel extends AbstractViewModel
+
+class EditViewModel extends RegisterViewModel
 {
     protected $template = '/template/users/edit.phtml';
-    protected $config = [
-        'layout' => AdminPageLayout::class,
+
+    public $listeners = [
+        'Render' => 'onRender',
     ];
+
     public function getTemplateDir()
     {
         return __DIR__ . '/../..';
+    }
+
+    public function onRender()
+    {
+        $data = $this->getData();
+        $data['adminUser'] = $data['adminUser']->toArray();
+        unset($data['adminUser']['password']);
+        $this->getForm()->setData($data);
     }
 }

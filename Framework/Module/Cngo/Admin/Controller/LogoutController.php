@@ -17,13 +17,12 @@ class LogoutController extends AbstractAdminController
         $this->getRouter()->redirect(LoginController::class);
     }
 
-    public static function getDescription()
+    public static function getPageInfo()
     {
-        return "ログアウト";
-    }
-
-    public static function getPriority()
-    {
-        return 99;
+        return [
+            "description" => "ログアウト",
+            "priority" => 99,
+            "menu" => true
+        ];
     }
 }

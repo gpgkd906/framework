@@ -25,13 +25,13 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         ]);
     }
 
-    public static function getDescription()
+    public static function getPageInfo()
     {
-        return "管理者一覧";
-    }
-
-    public static function getPriority()
-    {
-        return 1;
+        return [
+            'description' => '管理者一覧',
+            'priority' => 1,
+            'menu' => true,
+            'group' => '管理者管理',
+        ];
     }
 }

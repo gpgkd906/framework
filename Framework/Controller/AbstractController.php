@@ -99,7 +99,7 @@ abstract class AbstractController implements
             if ($param === null) {
                 $param = [];
             }
-            return call_user_func([$this, $action], $param);
+            return call_user_func_array([$this, $action], $param);
         }
     }
 
@@ -167,8 +167,17 @@ abstract class AbstractController implements
         $this->setViewModel($ViewModel);
     }
 
+    public static function getPageInfo()
+    {
+        return [
+            "description" => "PageInfo",
+            "priority" => 0,
+            "menu" => true
+        ];
+    }
+
     public static function getDescription()
     {
-        return 'input Class Description';
+        return static::getPageInfo()['description'];
     }
 }

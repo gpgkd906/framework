@@ -35,13 +35,12 @@ class LoginController extends AbstractController implements AuthenticationAwareI
         }
     }
 
-    public static function getDescription()
+    public static function getPageInfo()
     {
-        return "ログイン";
-    }
-
-    public static function getPriority()
-    {
-        return 0;
+        return [
+            "description" => "ログイン",
+            "priority" => 0,
+            "menu" => false
+        ];
     }
 }

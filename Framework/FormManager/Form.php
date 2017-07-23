@@ -302,29 +302,19 @@ class Form {
         * @param mix $val 上書きしたいデータの値
         * @return
         */
-        public function set_data($name, $val) {
-            /* if(!empty($this->request_data)) { */
-            /* 	$this->request_data[$name] = $val; */
-            /* 	$this->allData[$name] = $val; */
-            /* } else { */
-            /* 	$this->preprocess_data[$name] = $val; */
-            /* } */
-            /* if(isset($this->elements[$name])) { */
-            /* 	$this->elements[$name]->value($val); */
-            /* } */
-        }
-
-        /**
-        * データを一気に上書きする
-        * @param array $data 上書きするデータ
-        * @return
-        */
-        public function assign($data) {
-            /* if(is_array($data)) { */
-            /* 	foreach($data as $name => $val) { */
-            /* 		$this->set_data($name, nl2br($val)); */
-            /* 	} */
-            /* } */
+        public function setData($data) {
+            $elements = array_diff_key($this->elements, $this->except);
+            foreach($elements as $name => $element) {
+                $scope = $element->getScope();
+                if($scope && isset($data[$scope])) {
+                    $_data = $data[$scope];
+                } else {
+                    $_data = $data;
+                }
+                if(isset($_data[$name])) {
+                    $element->value($_data[$name]);
+                }
+            }
         }
 
         /**
