@@ -13,13 +13,18 @@ class RegisterViewModel extends FormViewModel
     protected $config = [
         'layout' => AdminPageLayout::class,
     ];
-    
+
     protected $fieldset = [
         'adminUser' => [
             'login' => [
                 'type' => 'text',
                 'validator' => [
-                    [Validator::Exists, "※必須入力"],
+                    'require' => true,
+                    'validators' => [
+                        [
+                            'name' => 'NotEmpty',
+                        ],
+                    ]
                 ],
                 'attrs' => [
                     'class' => 'form-control',
@@ -47,7 +52,12 @@ class RegisterViewModel extends FormViewModel
             'password' => [
                 'type' => 'password',
                 'validator' => [
-                    [Validator::Exists, "※必須入力"],
+                    'require' => true,
+                    'validators' => [
+                        [
+                            'name' => 'NotEmpty',
+                        ],
+                    ]
                 ],
                 'attrs' => [
                     'class' => 'form-control',
@@ -57,7 +67,12 @@ class RegisterViewModel extends FormViewModel
             'passwordConfirm' => [
                 'type' => 'password',
                 'validator' => [
-                    [Validator::Exists, "※必須入力"],
+                    'require' => true,
+                    'validators' => [
+                        [
+                            'name' => 'NotEmpty',
+                        ],
+                    ]
                 ],
                 'attrs' => [
                     'class' => 'form-control',

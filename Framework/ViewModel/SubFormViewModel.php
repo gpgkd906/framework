@@ -49,9 +49,14 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
      */
     public function setForm ($form)
     {
-        if ($this->getFieldset()) {
-            $fieldset = $form->addFieldset($this->getFieldset());
-            $this->setFieldset($fieldset);
+        foreach ($this->getFieldset() as $fieldsetName => $fieldset) {
+            if (is_array($fieldset)) {
+                $fieldset = [
+                    'name' => $fieldsetName,
+                    'fieldset' => $fieldset,
+                ];
+            }
+            $form->addFieldset($fieldset);
         }
         return $this->form = $form;
     }

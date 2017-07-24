@@ -1,11 +1,11 @@
 <?php
 namespace Framework\FormManager\Element;
 
-use Framework\FormManager\Validator;
+use Zend\InputFilter\InputFilter;
 use Framework\FormManager\FormManager;
 //负责表示要素对象
-class FormElement implements FormElementInterface {
-
+class FormElement implements FormElementInterface
+{
     /**
     * フォームインスタンスの参照
     * @var resource
@@ -59,7 +59,7 @@ class FormElement implements FormElementInterface {
     * @var array
     * @link http://
     */
-    protected $validators = array();
+    protected $InputFilter = array();
 
     /**
     * バリデーションエラーメッセージ
@@ -210,7 +210,7 @@ class FormElement implements FormElementInterface {
     */
     protected function getValue() {
         if($this->value === null) {
-            $this->value = $this->getForm()->getData($this->name, $this->getScope(), true);
+            $this->value = $this->getForm()->getData($this->getScope(), $this->name, true);
         }
         return $this->value;
     }
@@ -244,22 +244,12 @@ class FormElement implements FormElementInterface {
     /**
     * バリデーションルール設定
     * @param integer $rule バリデーションチェッカールール値
-    * @param string $error_message エラーメッセージ
+    * @param string $message エラーメッセージ
     * @return
     */
-    public function addValidator($rule, $error_message = null) {
-        $this->validators[] = array(
-        "rule" => $rule, "message" => $error_message
-        );
+    public function addValidator(InputFilter $InputFilter) {
+        $this->InputFilter = $InputFilter;
         return $this;
-    }
-
-    /**
-    * back compatibility
-    */
-    public function must_be($rule, $error_message)
-    {
-        return $this->addValidator($rule, $error_message);
     }
 
     /**
@@ -267,12 +257,8 @@ class FormElement implements FormElementInterface {
     * @param integer $rule バリデーションチェッカールール値
     * @return
     */
-    public function remove_must($rule = null) {
-        if(empty($rule)) {
-            $this->validators = array();
-        } else {
-            unset($this->validators[$rule]);
-        }
+    public function removeValidator($name) {
+        $this->InputFilter->remove($name);
         return $this;
     }
 
@@ -280,36 +266,27 @@ class FormElement implements FormElementInterface {
     * バリデーション処理
     * @return
     */
-    public function validate() {
-        $value = $this->getValue();
-        if($this->type === "file") {
-            if(is_array($value) && isset($value["size"])) {
-                $value = $value["size"];
-            }
+    public function isValid() {
+        if (!$this->InputFilter) {
+            return true;
         }
-        if(isset($this->attrs["maxlength"])) {
-            if($this->attrs["maxlength"] < mb_strlen($value, "UTF-8")) {
-                $this->error = "<span class='myform_error'>※入力内容が長すぎです。{$this->attrs['maxlength']}文字以内にしてください</span>";
-                return false;
-            }
+        $data = $this->getForm()->getData($this->getScope());
+        $this->InputFilter->setData($data);
+        $isValid = $this->InputFilter->isValid();
+        if (!$isValid) {
+            $message = nl2br(join(PHP_EOL, $this->InputFilter->getMessages()[$this->name]));
+            $this->error = "<span class='form_error'>$message</span>";
         }
-        foreach($this->validators as $set) {
-            $result = Validator::myFormCheck($value, $set);
-            if($result["status"] == "error") {
-                $this->error = "<span class='myform_error'>".$result["message"]."</span>";
-                return false;
-            }
-        }
-        return true;
+        return $isValid;
     }
 
     /**
     * 要素を強制的にエラーにする
-    * @param string $error_message
+    * @param string $message
     * @return
     */
-    public function forceError($error_message = null) {
-        $this->error = "<span class='myform_error'>" . $error_message . "</span>";
+    public function forceError($message = null) {
+        $this->error = "<span class='form_error'>" . $message . "</span>";
         if($this->getForm()) {
             $this->getForm()->forceError();
         }
@@ -341,7 +318,7 @@ class FormElement implements FormElementInterface {
     public function __toString() {
         $value = $this->getValue();
         $value = FormManager::escape($value);
-        $attrs = FormManager::attr_format($this->attrs);
+        $attrs = FormManager::attrFormat($this->attrs);
         switch($this->mode) {
             case "input": return $this->makeInput($value, $attrs); break;
             case "confirm": return $this->makeConfirm($value, $attrs); break;

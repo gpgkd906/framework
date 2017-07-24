@@ -1,6 +1,8 @@
 <?php
 namespace Framework\FormManager\Element;
 
+use Zend\InputFilter\InputFilter;
+
 interface FormElementInterface {
 
   /**
@@ -44,13 +46,13 @@ interface FormElementInterface {
   * @param string $error_message エラーメッセージ
   * @return
   */
-  public function addValidator($rule, $error_message = null);
+  public function addValidator(InputFilter $InputFilter);
 
   /**
   * バリデーション処理
   * @return
   */
-  public function validate();
+  public function isValid();
 
   /**
   * 要素を強制的にエラーにする

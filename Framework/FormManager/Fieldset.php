@@ -67,11 +67,9 @@ class Fieldset {
             $this->setFieldset($fieldset);
         }
         //データ配置
-        $data = $form->getData();
+        $data = $form->getData($this->getName());
         $name = $this->getName();
-        if(isset($data[$name])) {
-            $this->setData($data[$name]);
-        }
+        $this->setData($data);
     }
 
     /**
@@ -233,10 +231,9 @@ class Fieldset {
             $value = isset($field['value']) ? $field['value'] : null;
             $element = $form->append($field['type'], $name, $value);
             $element->set('name', $name);
-            if(isset($field['validator'])) {
-                foreach($field['validator'] as list($rule, $message)) {
-                    $element->addValidator($rule, $message);
-                }
+            if(isset($field['validator']) && !empty($field['validator'])) {
+                $field['validator']['name'] = $name;
+                $element->addValidator($form->getValidatorManager()->createInputFilter($field['validator']));
             }
             if(isset($field['attrs'])) {
                 foreach($field['attrs'] as $key => $val) {

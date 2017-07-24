@@ -33,7 +33,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
     public function onEditComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
-        if ($ViewModel->getForm()->validate()) {
+        if ($ViewModel->getForm()->isValid()) {
             $adminUser = $ViewModel->getForm()->getData()['adminUser'];
             if ($adminUser['password']) {
                 $adminUser['password'] = $this->getAuthentication()->passwordHash($adminUser['password']);

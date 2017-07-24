@@ -4,7 +4,6 @@ namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminLoginPageLayout;
-use Framework\FormManager\Validator;
 
 class LoginViewModel extends FormViewModel
 {
@@ -24,7 +23,12 @@ class LoginViewModel extends FormViewModel
             'login' => [
                 'type' => 'text',
                 'validator' => [
-                    [Validator::Exists, "※必須入力"],
+                    'require' => true,
+                    'validators' => [
+                        [
+                            'name' => 'NotEmpty',
+                        ],
+                    ]
                 ],
                 'attrs' => [
                     'class' => 'form-control',
@@ -34,7 +38,12 @@ class LoginViewModel extends FormViewModel
             'password' => [
                 'type' => 'password',
                 'validator' => [
-                    [Validator::Exists, "※必須入力"],
+                    'require' => true,
+                    'validators' => [
+                        [
+                            'name' => 'NotEmpty',
+                        ],
+                    ]
                 ],
                 'attrs' => [
                     'class' => 'form-control',
@@ -45,7 +54,6 @@ class LoginViewModel extends FormViewModel
                 'type' => 'checkbox',
                 'value' => ['Remeber Me' => 0],
                 'attrs' => [
-
                 ],
             ],
         ]

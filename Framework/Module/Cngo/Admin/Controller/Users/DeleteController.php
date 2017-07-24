@@ -33,7 +33,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
     public function onDeleteComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
-        if ($ViewModel->getForm()->validate()) {
+        if ($ViewModel->getForm()->isValid()) {
             $AdminUser = $this->AdminUser;
             $AdminUser->setDeleteFlag(true);
             $this->getEntityManager()->merge($AdminUser);

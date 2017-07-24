@@ -25,7 +25,7 @@ class RegisterController extends AbstractAdminController implements EntityManage
     public function onRegisterComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
-        if ($ViewModel->getForm()->validate()) {
+        if ($ViewModel->getForm()->isValid()) {
             $adminUser = $ViewModel->getForm()->getData()['adminUser'];
             $adminUser['password'] = $this->getAuthentication()->passwordHash($adminUser['password']);
             $AdminUser = new AdminUsers();
