@@ -7,7 +7,7 @@ use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 class DashboardViewModel extends AbstractViewModel
 {
-    protected $template = '/template/dashboard.html';
+    protected $template = '/template/dashboard.phtml';
 
     protected $config = [
         'layout' => AdminPageLayout::class,

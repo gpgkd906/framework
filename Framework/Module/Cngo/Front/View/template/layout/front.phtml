@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title><?= $title ?></title>
+
+    <?php $css = $this->getStyle(); ?>
+    <?php foreach ($css as $link) { ?>
+        <link href="<?= $link; ?>" rel="stylesheet">
+    <?php } ?>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+      crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <div id="wrapper">
+
+      <!-- Navigation -->
+      <?= $this->getContainer('Head'); ?>
+
+      <div id="page-wrapper">
+            <?= $this->getContainer('Main'); ?>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <?php $scripts = $this->getScript(); ?>
+    <?php foreach ($scripts as $link) { ?>
+        <script src="<?php echo $link ?>"></script>
+    <?php } ?>
+</body>
+
+</html>

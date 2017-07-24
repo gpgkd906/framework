@@ -15,29 +15,29 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>ログインID</label>
-                                    <?php echo $form->login, $form->login->error; ?>
+                                    <?= $form->adminUser->login, $form->adminUser->login->error; ?>
                                 </div>
                                 <div class="form-group">
                                     <label>管理者名</label>
-                                    <?php echo $form->name, $form->name->error; ?>
+                                    <?= $form->adminUser->name, $form->adminUser->name->error; ?>
                                 </div>
                                 <div class="form-group">
                                     <label>メールアドレス</label>
-                                    <?php echo $form->email, $form->email->error; ?>
+                                    <?= $form->adminUser->email, $form->adminUser->email->error; ?>
                                 </div>
                                 <div class="form-group">
                                     <label>パスワード</label>
-                                    <?php echo $form->password, $form->password->error; ?>
+                                    <?= $form->adminUser->password, $form->adminUser->password->error; ?>
                                 </div>
                                 <div class="form-group">
                                     <label>パスワード確認</label>
-                                    <?php echo $form->passwordConfirm, $form->passwordConfirm->error; ?>
+                                    <?= $form->adminUser->passwordConfirm, $form->adminUser->passwordConfirm->error; ?>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <?php echo $form->submit; ?>
+                                <?= $form->submit; ?>
                             </div>
                         </div>
                     </fieldset>

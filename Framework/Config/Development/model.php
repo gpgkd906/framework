@@ -12,11 +12,20 @@ return [
         'user' => 'docker',
         'password' => 'docker',
     ],
+    // 'cache' => [
+    //     'type' => 'redis',
+    //     'namespace' => 'docker',
+    //     'connection' => [
+    //         'host' => 'redis_server',
+    //         'port' => 6379
+    //     ]
+    // ],
     'cache' => [
-        'type' => 'redis',
+        'type' => 'memcached',
+        'namespace' => 'docker',
         'connection' => [
-            'host' => 'redis_server',
-            'port' => 6379
+            'host' => 'cache_server2',
+            'port' => 11211
         ]
     ],
     'entityManager' => [

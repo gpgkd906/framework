@@ -505,6 +505,9 @@ class Form {
         * @return
         */
         public function __get($name) {
+            if(isset($this->fieldsets[$name])) {
+                return $this->fieldsets[$name];
+            }
             if(isset($this->elements[$name])) {
                 return $this->elements[$name];
             }

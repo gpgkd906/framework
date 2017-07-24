@@ -161,6 +161,17 @@ class Fieldset {
     }
 
     /**
+    * 生成した要素をアクセスする
+    * @param string $name 要素名
+    * @return
+    */
+    public function __get($name) {
+        if(isset($this->elements[$name])) {
+            return $this->elements[$name];
+        }
+    }
+
+    /**
     *
     * @api
     * @param mixed $data

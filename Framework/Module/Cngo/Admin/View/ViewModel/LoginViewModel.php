@@ -8,7 +8,7 @@ use Framework\FormManager\Validator;
 
 class LoginViewModel extends FormViewModel
 {
-    protected $template = '/template/login.html';
+    protected $template = '/template/login.phtml';
 
     protected $useConfirm = false;
 
@@ -20,7 +20,7 @@ class LoginViewModel extends FormViewModel
     ];
 
     protected $fieldset = [
-        'login' => [
+        'adminLogin' => [
             'login' => [
                 'type' => 'text',
                 'validator' => [

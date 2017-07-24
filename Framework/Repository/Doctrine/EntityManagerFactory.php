@@ -8,7 +8,7 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\MemcacheCache;
+use Doctrine\Common\Cache\MemcachedCache;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -59,7 +59,11 @@ class EntityManagerFactory implements FactoryInterface
                 $Cache = new RedisCache();
                 $Cache->setRedis($redis);
                 break;
-            case 'memcache':
+            case 'memcached':
+                $memcache = new \Memcached();
+                $memcache->addServer($config['connection']['host'], $config['connection']['port']);
+                $Cache = new MemcachedCache();
+                $Cache->setMemcached($memcache);
                 break;
             case 'array':
                 $Cache = new ArrayCache();
