@@ -231,9 +231,9 @@ class Fieldset {
             $value = isset($field['value']) ? $field['value'] : null;
             $element = $form->append($field['type'], $name, $value);
             $element->set('name', $name);
-            if(isset($field['validator']) && !empty($field['validator'])) {
-                $field['validator']['name'] = $name;
-                $element->addValidator($form->getValidatorManager()->createInputFilter($field['validator']));
+            if(isset($field['inputSpecification']) && !empty($field['inputSpecification'])) {
+                $field['inputSpecification']['name'] = $name;
+                $element->addValidator($form->getValidatorManager()->createInputFilter($field['inputSpecification']));
             }
             if(isset($field['attrs'])) {
                 foreach($field['attrs'] as $key => $val) {

@@ -18,7 +18,7 @@ class RegisterViewModel extends FormViewModel
         'adminUser' => [
             'login' => [
                 'type' => 'text',
-                'validator' => [
+                'inputSpecification' => [
                     'require' => true,
                     'validators' => [
                         [
@@ -33,7 +33,7 @@ class RegisterViewModel extends FormViewModel
             ],
             'name' => [
                 'type' => 'text',
-                'validator' => [
+                'inputSpecification' => [
                 ],
                 'attrs' => [
                     'class' => 'form-control',
@@ -42,7 +42,7 @@ class RegisterViewModel extends FormViewModel
             ],
             'email' => [
                 'type' => 'text',
-                'validator' => [
+                'inputSpecification' => [
                 ],
                 'attrs' => [
                     'class' => 'form-control',
@@ -51,7 +51,7 @@ class RegisterViewModel extends FormViewModel
             ],
             'password' => [
                 'type' => 'password',
-                'validator' => [
+                'inputSpecification' => [
                     'require' => true,
                     'validators' => [
                         [
@@ -66,7 +66,7 @@ class RegisterViewModel extends FormViewModel
             ],
             'passwordConfirm' => [
                 'type' => 'password',
-                'validator' => [
+                'inputSpecification' => [
                     'require' => true,
                     'validators' => [
                         [

@@ -22,7 +22,7 @@ class LoginViewModel extends FormViewModel
         'adminLogin' => [
             'login' => [
                 'type' => 'text',
-                'validator' => [
+                'inputSpecification' => [
                     'require' => true,
                     'validators' => [
                         [
@@ -37,7 +37,7 @@ class LoginViewModel extends FormViewModel
             ],
             'password' => [
                 'type' => 'password',
-                'validator' => [
+                'inputSpecification' => [
                     'require' => true,
                     'validators' => [
                         [
