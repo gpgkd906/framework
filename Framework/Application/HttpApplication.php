@@ -13,7 +13,6 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
 {
 
     use \Framework\EventManager\EventTargetTrait;
-    const DEFAULT_ROUTE = "Http";
     const TRIGGER_ROUTEMISS = 'routemiss';
 
     /**
@@ -40,7 +39,7 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
         if ($request['controller']) {
             $Controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
             $action = $request['action'];
-            if (!$Controller || !is_callable([$Controller, $action])) {
+            if (!$Controller) {
                 $this->triggerEvent(self::TRIGGER_ROUTEMISS, $request);
                 $Controller = $this->getController();
             }

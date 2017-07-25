@@ -8,10 +8,6 @@ use Exception;
 
 class Router extends AbstractRouter
 {
-    const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
-    const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
-
-    private $request_method = null;
     private $request_param = [];
 
     protected function loadRouter()

@@ -9,7 +9,6 @@ use Exception;
 
 class ConsoleApplication extends AbstractApplication
 {
-    const DEFAULT_ROUTE = "Console";
     const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Console";
 
     public function run()

@@ -54,6 +54,7 @@ class Router extends AbstractRouter
                 break;
             case self::PUT:
             case self::DELETE:
+            default:
                 parse_str(file_get_contents('php://input'), $this->request_param);
                 if (!empty($_GET)) {
                     $this->request_param = array_merge($_GET, $this->request_param);
