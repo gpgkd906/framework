@@ -26,17 +26,13 @@ abstract class AbstractController implements
     private static $instance = [];
 
     //error
-    const ERROR_INVALID_RESPONSE_TYPE = "error: invalid response-type";
     const ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL = "error: return-value is not valid view model from action %s ";
-    const ERROR_INVALID_CONTROLLER_FOR_EXCHANGE = 'error: invalid-controller:[%s] for exchange';
 
     //EVENT
     const TRIGGER_BEFORE_ACTION = 'beforeAction';
     const TRIGGER_AFTER_ACTION = 'afterAction';
     const TRIGGER_BEFORE_RESPONSE = 'beforeResponse';
     const TRIGGER_AFTER_RESPONSE = 'afterResponse';
-
-    private $responseType = AbstractViewModel::RENDER_AS_HTML;
 
     private $controllerName = null;
     private $ViewModel = null;
@@ -58,22 +54,9 @@ abstract class AbstractController implements
     public function callActionFlow($action, $param)
     {
         $routeModel = $this->getRouter();
-        $restActionMethod = $routeModel->getRestAction();
         $actionMethod = $routeModel->getAction();
-        if ($restActionMethod && !is_callable([$this, $restActionMethod])) {
-            $restActionMethod = false;
-        }
-        if (!is_callable([$this, $actionMethod])) {
-            $actionMethod = false;
-        }
-        if ($actionMethod === false && $restActionMethod === false) {
-            return $this->getObjectManager()->getApplication()->sendNotFound();
-        }
         $this->triggerEvent(self::TRIGGER_BEFORE_ACTION);
-        if ($restActionMethod) {
-            $this->callAction($restActionMethod, $param);
-        }
-        if ($actionMethod) {
+        if (is_callable([$this, $actionMethod])) {
             if ($viewModel = $this->callAction($actionMethod, $param)) {
                 $this->setViewModel($viewModel);
             }
@@ -82,7 +65,6 @@ abstract class AbstractController implements
         $viewModel = $this->getViewModel();
         if (isset($viewModel)) {
             if ($viewModel instanceof ViewModelInterface) {
-                $viewModel->setRenderType($this->responseType);
                 $this->triggerEvent(self::TRIGGER_BEFORE_RESPONSE);
                 $this->callAction("response");
                 $this->triggerEvent(self::TRIGGER_AFTER_RESPONSE);
@@ -101,23 +83,6 @@ abstract class AbstractController implements
             }
             return call_user_func_array([$this, $action], $param);
         }
-    }
-
-    public function setResponseType($responseType)
-    {
-        if ($responseType === AbstractViewModel::RENDER_AS_HTML
-        || $responseType === AbstractViewModel::RENDER_AS_JSON
-        || $responseType === AbstractViewModel::renderAsXML
-        ) {
-            $this->responseType = $responseType;
-        } else {
-            throw new Exception(self::ERROR_INVALID_RESPONSE_TYPE);
-        }
-    }
-
-    public function getResponseType()
-    {
-        return $this->responseType;
     }
 
     public function response()
@@ -155,16 +120,6 @@ abstract class AbstractController implements
         $param = $this->getRouter()->getParam();
         unset($param['req']);
         return $param;
-    }
-
-    public function exChange($targetController, $action = 'index', $param = null)
-    {
-        if (!is_subclass_of($targetController, __CLASS__)) {
-            throw new Exception(sprintf(self::ERROR_INVALID_CONTROLLER_FOR_EXCHANGE, $targetController));
-        }
-        $Controller = $targetController::getSingleton();
-        $ViewModel = $Controller->callAction($action, $param);
-        $this->setViewModel($ViewModel);
     }
 
     public static function getPageInfo()

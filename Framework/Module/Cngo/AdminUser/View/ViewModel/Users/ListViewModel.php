@@ -1,0 +1,34 @@
+<?php
+
+namespace Framework\Module\Cngo\AdminUser\View\ViewModel\Users;
+
+use Framework\ViewModel\AbstractViewModel;
+use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
+
+class ListViewModel extends AbstractViewModel
+{
+    protected $template = '/template/users/list.phtml';
+
+    protected $config = [
+        'layout' => AdminPageLayout::class,
+    ];
+
+    public $listeners = [
+        'Render' => 'onRender',
+    ];
+
+    public function getTemplateDir()
+    {
+        return __DIR__ . '/../..';
+    }
+
+    public function onRender()
+    {
+        // var_dump(__METHOD__);
+        $data = $this->getData();
+        $data['adminUsers'] = array_map(function ($AdminUser) {
+            return $AdminUser->toArray();
+        }, $data['adminUsers']);
+        $this->setData($data);
+    }
+}

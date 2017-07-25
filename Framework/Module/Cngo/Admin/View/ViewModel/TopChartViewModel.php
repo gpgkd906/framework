@@ -6,7 +6,7 @@ use Framework\ViewModel\AbstractViewModel;
 
 class TopChartViewModel extends AbstractViewModel
 {
-    protected $template = '/template/component/topchart.html';
+    protected $template = '/template/topchart.phtml';
 
     protected $config = [
         'container' => [

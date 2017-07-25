@@ -13,7 +13,7 @@ class SidemenuViewModel extends AbstractViewModel
     const TRIGGER_MENUINIT = 'menu_init';
     const TRIGGER_MENUCREATED = 'menu_created';
 
-    protected $template = '/template/component/sidemenu.html';
+    protected $template = '/template/sidemenu.phtml';
     protected $data = null;
     public $listeners = [
         parent::TRIGGER_INIT => 'onInit',

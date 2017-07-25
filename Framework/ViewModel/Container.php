@@ -37,29 +37,6 @@ class Container implements ContainerInterface, ArrayAccess
     /**
      *
      * @api
-     * @param mixed $renderType
-     * @return mixed $renderType
-     * @link
-     */
-    public function setRenderType ($renderType)
-    {
-        return $this->renderType = $renderType;
-    }
-
-    /**
-     *
-     * @api
-     * @return mixed $renderType
-     * @link
-     */
-    public function getRenderType ()
-    {
-        return $this->renderType;
-    }
-
-    /**
-     *
-     * @api
      * @param mixed $items
      * @return mixed $items
      * @link
@@ -106,19 +83,22 @@ class Container implements ContainerInterface, ArrayAccess
         $exportView = $this->getExportView();
         $render = 'render';
         if ($exportView instanceof LayoutInterface) {
-            $render = 'asHtml';
+            $render = 'renderHtml';
         }
         //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
         //Production環境まで作らないと思うが、もし作るのであれば、環境チェックも必要です
         // try {
         $htmls = [];
-        foreach ($this->getItems() as $item) {
-            $htmls[] = call_user_func([$item, $render]);
+        if ($render === 'renderHtml') {
+            foreach ($this->getItems() as $item) {
+                $htmls[] = call_user_func([$item, $render]);
+            }
+        } else {
+            foreach ($this->getItems() as $item) {
+                $htmls[] = call_user_func([$item, $render]);
+            }
         }
         return join('', $htmls);
-        // } catch(Exception $e) {
-        //     echo nl2br($e);
-        // }
     }
 
     /**
@@ -177,7 +157,6 @@ class Container implements ContainerInterface, ArrayAccess
         $item['layout'] = $exportView->getLayout();
         $item['exportView'] = $exportView;
         $item = ViewModelManager::getViewModel($item);
-        $item->setRenderType($exportView->getRenderType());
         return $item;
     }
 }

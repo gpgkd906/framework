@@ -28,10 +28,6 @@ interface ControllerInterface
 {
     public function callActionFlow($action, $restAction);
 
-    public function setResponseType($responseType);
-
-    public function getResponseType();
-
     public function response();
 
     public static function getDescription();

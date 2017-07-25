@@ -18,49 +18,6 @@ class Router extends AbstractRouter
     private $request_method = null;
     private $request_param = [];
 
-    /**
-     *
-     * @api
-     * @var mixed $restAction
-     * @access private
-     * @link
-     */
-    private $restAction = null;
-
-    /**
-     *
-     * @api
-     * @param mixed $restAction
-     * @return mixed $restAction
-     * @link
-     */
-    public function setRestAction ($restAction)
-    {
-        return $this->restAction = $restAction;
-    }
-
-    /**
-     *
-     * @api
-     * @return mixed $restAction
-     * @link
-     */
-    public function getRestAction ()
-    {
-        if ($this->restAction === null) {
-            $request = $this->dispatch();
-            $action = $request["action"];
-            $method = $this->getMethod();
-            if (self::GET !== $method) {
-                $action = $method . ucfirst($action);
-                $this->setRestAction($action);
-            } else {
-                $this->setRestAction(false);
-            }
-        }
-        return $this->restAction;
-    }
-
     private function getMethod()
     {
         if ($this->request_method === null) {

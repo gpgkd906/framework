@@ -33,6 +33,7 @@ class EventManager implements SingletonInterface
             throw new Exception(sprintf(self::ERROR_LISTENERS_IS_ADDING_TO_EVENT_WHICH_IS_ADDED, $trigger));
         }
         $this->eventQueue[$trigger][] = $listener;
+        return $this;
     }
 
     public function removeEventListener($class, $event, callable $listener)

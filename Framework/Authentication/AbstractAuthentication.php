@@ -6,7 +6,8 @@ use Framework\ObjectManager\ObjectManager;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ObjectManager\SingletonInterface;
 use Zend\Authentication\AuthenticationService;
-use Zend\Authentication\Storage\Session;
+use Zend\Authentication\Storage;
+use Zend\Authentication\Adapter;
 use Framework\Authentication\Adapter\Common;
 use Zend\Authentication\Result;
 use Framework\Service\SessionService\SessionService;
@@ -21,12 +22,14 @@ abstract class AbstractAuthentication extends AuthenticationService implements
     use \Framework\ObjectManager\SingletonTrait;
     private static $crypt = null;
 
-    public function __construct()
+    public function __construct(Storage\StorageInterface $Storage = null, Adapter\AdapterInterface $Adapter = null)
     {
         $ObjectManager = ObjectManager::getSingleton();
         $SessionService = $ObjectManager->get(SessionService::class);
-        $Storage = new Session('Auth', Authentication::class, $SessionService->getSessionManager());
-        parent::__construct($Storage);
+        if ($Storage === null) {
+            $Storage = new Storage\Session('Auth', Authentication::class, $SessionService->getSessionManager());
+        }
+        parent::__construct($Storage, $Adapter);
     }
 
     abstract public function login($username, $password);

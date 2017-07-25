@@ -6,7 +6,7 @@ use Framework\ViewModel\AbstractViewModel;
 
 class SummaryViewModel extends AbstractViewModel
 {
-    protected $template = '/template/component/summary.html';
+    protected $template = '/template/summary.phtml';
 
     public $listeners = [
         'Render' => 'checkDashboardStatus',

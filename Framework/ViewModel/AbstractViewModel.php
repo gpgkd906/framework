@@ -15,19 +15,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\Router\RouterAwareTrait;
 
-    const RENDER_AS_HTML = "html";
-    const RENDER_AS_JSON = "json";
-
-    //error
-    const ERROR_INVALID_RENDER_TYPE = "error: invalid render-type";
-    const ERROR_INVALID_RENDER_TEMPLATE = "error: invalid render template [%s] for ViewModel [%s]";
     //trigger
     const TRIGGER_RENDER = "Render";
     const TRIGGER_DISPLAY = "Display";
 
     protected $template = null;
     protected $data = [];
-    protected $renderType = "html";
     protected $templateDir = null;
     protected $Model = null;
     private $childs = [];
@@ -163,16 +156,6 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
         return $this->id;
     }
 
-    public function setRenderType($renderType)
-    {
-        $this->renderType = $renderType;
-    }
-
-    public function getRenderType()
-    {
-        return $this->renderType;
-    }
-
     public function setTemplate($template)
     {
         $this->template = $template;
@@ -248,34 +231,22 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
         return $this->childs;
     }
 
-    public function render($renderType = null)
+    public function render()
     {
-        $this->triggerEvent(self::TRIGGER_RENDER);
-        if ($renderType === null) {
-            $renderType = $this->renderType;
+        if (!$this->getExportView() && $this->getLayout()) {
+            $Layout = $this->getLayout();
+            $Layout->getContainer('Main')->addItem($this);
+            $Layout->setData($this->getData());
+            $display = $Layout->renderHtml();
+        } else {
+            $display = $this->renderHtml();
         }
-        switch($renderType) {
-        case static::RENDER_AS_JSON:
-            $display = $this->asJson();
-            break;
-        case static::RENDER_AS_HTML:
-        default:
-            if (!$this->getExportView() && $this->getLayout()) {
-                $Layout = $this->getLayout();
-                $Layout->getContainer('Main')->addItem($this);
-                $Layout->setData($this->getData());
-                $display = $Layout->asHtml();
-            } else {
-                $display = $this->asHtml();
-            }
-            break;
-        }
-        $this->triggerEvent(self::TRIGGER_DISPLAY);
         return $display;
     }
 
-    public function asHtml()
+    public function renderHtml()
     {
+        $this->triggerEvent(self::TRIGGER_RENDER);
         $htmls = [];
         $template = $this->getTemplateForRender();
         ob_start();
@@ -286,22 +257,8 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
         echo '<!-- ' . static::class . ' end render-->';
         $htmls[] = ob_get_contents();
         ob_end_clean();
+        $this->triggerEvent(self::TRIGGER_DISPLAY);
         return join("", $htmls);
-    }
-
-    public function asJson()
-    {
-        $data = [
-            "data" => $this->getData(),
-            "childrens" => []
-        ];
-        foreach ($this->getChilds() as $child) {
-            $subData = $child->getData();
-            if (!empty($subData)) {
-                $data["childrens"][] = $subData;
-            }
-        }
-        return json_encode($data);
     }
 
     public function __toString()

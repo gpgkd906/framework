@@ -6,7 +6,7 @@ use Framework\ViewModel\AbstractViewModel;
 
 class TimelineViewModel extends AbstractViewModel
 {
-    protected $template = '/template/component/timeline.html';
+    protected $template = '/template/timeline.phtml';
 
     public $listeners = [
         'Render' => 'onRender',

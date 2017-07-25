@@ -71,7 +71,7 @@ abstract class AbstractApplication implements ApplicationInterface
     {
         $this->setConfig($config);
         $objectManager = $this->getObjectManager();
-        $objectManager->get(EventManager\EventManager::class);
+        $objectManager->get(EventManager\EventManagerInterface::class, EventManager\EventManager::class);
         $objectManager->init();
     }
 
