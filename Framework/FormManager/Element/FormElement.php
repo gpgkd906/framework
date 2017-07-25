@@ -3,9 +3,14 @@ namespace Framework\FormManager\Element;
 
 use Zend\InputFilter\InputFilter;
 use Framework\FormManager\FormManager;
+use Framework\TranslatorManager\TranslatorManagerAwareInterface;
+use Framework\TranslatorManager\TranslatorManagerInterface;
+
 //负责表示要素对象
 class FormElement implements FormElementInterface
 {
+    use \Framework\TranslatorManager\TranslatorManagerAwareTrait;
+
     /**
     * フォームインスタンスの参照
     * @var resource
@@ -274,7 +279,9 @@ class FormElement implements FormElementInterface
         $this->InputFilter->setData($data);
         $isValid = $this->InputFilter->isValid();
         if (!$isValid) {
-            $message = nl2br(join(PHP_EOL, $this->InputFilter->getMessages()[$this->name]));
+            $translator = $this->getTranslatorManager()->getTranslator(TranslatorManagerInterface::VALIDATOR);
+            $message = array_map([$translator, 'translate'], $this->InputFilter->getMessages()[$this->name]);
+            $message = nl2br(join(PHP_EOL, $message));
             $this->error = "<span class='form_error'>$message</span>";
         }
         return $isValid;

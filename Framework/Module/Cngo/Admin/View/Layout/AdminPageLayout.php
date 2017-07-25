@@ -26,9 +26,10 @@ class AdminPageLayout extends PageLayout
         "/sbadmin2/bower_components/bootstrap/dist/css/bootstrap.min.css",
         "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.css",
         "/sbadmin2/dist/css/timeline.css",
-        "/sbadmin2/dist/css/sb-admin-2.css",
         "/sbadmin2/bower_components/morrisjs/morris.css",
         "/sbadmin2/bower_components/font-awesome/css/font-awesome.min.css",
+        "/sbadmin2/dist/css/admin.css",
+        "/css/app.css",
     ];
 
     protected $scripts = [
