@@ -14,6 +14,9 @@ class LoginController extends AbstractController implements AuthenticationAwareI
 
     public function index()
     {
+        if ($this->getAuthentication()->hasIdentity()) {
+            $this->getRouter()->redirect(DashboardController::class);
+        }
         return ViewModelManager::getViewModel([
             'viewModel' => LoginViewModel::class,
             'listeners' => [
@@ -29,9 +32,7 @@ class LoginController extends AbstractController implements AuthenticationAwareI
             $adminLogin = $ViewModel->getForm()->getData()['adminLogin'];
             $this->getAuthentication()->login($adminLogin['login'], $adminLogin['password']);
             if ($this->getAuthentication()->hasIdentity()) {
-                $this->addEventListener(AbstractController::TRIGGER_AFTER_ACTION, function () {
-                    $this->getRouter()->redirect(DashboardController::class);
-                });
+                $this->getRouter()->redirect(DashboardController::class);
             } else {
                 $ViewModel->getForm()->login->forceError('test');
             }

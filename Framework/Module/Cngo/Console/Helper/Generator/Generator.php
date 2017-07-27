@@ -9,6 +9,7 @@ use Framework\ViewModel\ViewModelManager;
 use Framework\ViewModel\AbstractViewModel;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
+use CodeService\Code\Wrapper\AbstractWrapper;
 
 class Generator implements GeneratorInterface, CodeServiceAwareInterface
 {
@@ -18,7 +19,13 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
     const ROUTER_FRONT = 'Front';
     const ROUTER_CONSOLE = 'Console';
 
+    const CRUD_LIST = 'List';
+    const CRUD_REGISTER = 'Register';
+    const CRUD_EDIT = 'Edit';
+    const CRUD_DELETE = 'Delete';
+
     private $testMode = false;
+    private $buffer = [];
 
     private $moduleInfo = [
         'path' => [
@@ -61,6 +68,7 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
         } else {
             $this->generateController($moduleInfo);
         }
+        return $this;
     }
 
     public function generateRoute()
@@ -90,7 +98,8 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
         $routerCode[] = '    ]);';
         $routerCode = join('', $routerCode);
         $routerCode = $this->getCodeService()->analysisCode($routerCode);
-        $this->write($routerInjector, $routerCode->toCode());
+        $this->addBuffer($routerInjector, $routerCode);
+        return $this;
     }
 
     public function generateConsole()
@@ -106,8 +115,12 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
             $Code->getNamespace()->appendUse(AbstractConsole::class);
             $Code->getClass()->extend('AbstractConsole');
             $Code->getClass()->appendMethod('index');
-            $this->write($controllerPath, $Code->toCode());
+            if (isset($route['onConsoleGenerated'])) {
+                $Code = call_user_func($route['onConsoleGenerated'], $Code);
+            }
+            $this->addBuffer($controllerPath, $Code);
         }
+        return $this;
     }
 
     public function generateController()
@@ -127,8 +140,12 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
             $Code->getClass()->extend('AbstractAdminController');
             $Code->getClass()->appendMethod('index');
             $Code->getClass()->getMethod('index')->setReturn("ViewModelManager::getViewModel(['viewModel' => $viewModel::class])");
-            $this->write($controllerPath, $Code->toCode());
+            if (isset($route['onControllerGenerated'])) {
+                $Code = call_user_func($route['onControllerGenerated'], $Code);
+            }
+            $this->addBuffer($controllerPath, $Code);
         }
+        return $this;
     }
 
     public function generateViewModel($controller)
@@ -159,7 +176,10 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
         $ViewModelCode->getClass()->appendProperty('config', ["layout" => '\\' . AdminPageLayout::class ], 'protected');
         $ViewModelCode->getClass()->appendMethod('getTemplateDir');
         $ViewModelCode->getClass()->getMethod('getTemplateDir')->setReturn("__DIR__ . '$deep'");
-        $this->write($viewModelPath, $ViewModelCode->toCode());
+        if (isset($route['onViewModelGenerated'])) {
+            $ViewModelCode = call_user_func($route['onViewModelGenerated'], $ViewModelCode);
+        }
+        $this->addBuffer($viewModelPath, $ViewModelCode);
         $templateCode = <<<TEMPLATE
 <div class="container-fluid">
     <div class="row">
@@ -172,16 +192,69 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
 </div>
 <!-- /.container-fluid -->
 TEMPLATE;
-        $this->write($templatePath, $templateCode);
+        if (isset($route['onTemplateGenerated'])) {
+            $templateCode = call_user_func($route['onTemplateGenerated'], $templateCode);
+        }
+        $this->addBuffer($templatePath, $templateCode);
         return [$viewNamespace, $viewModel];
     }
 
-    public function write($file, $Contents)
+    public function generateCrud()
+    {
+        $moduleInfo = $this->getModuleInfo();
+        $namespace = $moduleInfo['namespace'];
+        if (isset($moduleInfo['crud']['name']) && $moduleInfo['crud']['name']) {
+            $namespace .= '\\' . $moduleInfo['crud']['name'];
+        }
+        $moduleInfo['namespace'] = $namespace;
+        // List
+        $moduleInfo['router'] = [
+            ['controller' => self::CRUD_LIST . 'Controller']
+        ];
+        $this->setModuleInfo($moduleInfo);
+        $this->generateController();
+        // Register
+        $moduleInfo['router'] = [
+            ['controller' => self::CRUD_REGISTER . 'Controller']
+        ];
+        $this->setModuleInfo($moduleInfo);
+        $this->generateController();
+        // Edit
+        $moduleInfo['router'] = [
+            ['controller' => self::CRUD_EDIT . 'Controller']
+        ];
+        $this->setModuleInfo($moduleInfo);
+        $this->generateController();
+        // DELETE
+        $moduleInfo['router'] = [
+            ['controller' => self::CRUD_DELETE . 'Controller']
+        ];
+        $this->setModuleInfo($moduleInfo);
+        $this->generateController();
+        return $this;
+    }
+
+    private function addBuffer($file, $Contents)
+    {
+        $this->buffer[] = [$file, $Contents];
+    }
+
+    public function flush()
+    {
+        foreach ($this->buffer as list($file, $contents)) {
+            if ($contents instanceof AbstractWrapper) {
+                $contents = $contents->toCode();
+            }
+            $this->write($file, $contents);
+        }
+    }
+
+    private function write($file, $Contents)
     {
         $file = str_replace(['\\', '//'], '/', $file);
         if (is_file($file)) {
             echo 'file exists: ' . $file, PHP_EOL;
-            echo 'if you *really* want write the file, delete it', PHP_EOL;
+            echo 'if you *really* want addBuffer the file, delete it', PHP_EOL;
             echo '    rm ' . $file, PHP_EOL;
             echo '...skip...', PHP_EOL;
             return false;

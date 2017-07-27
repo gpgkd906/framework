@@ -8,9 +8,5 @@ interface RouterInterface
 
     public function dispatch();
 
-    public function getController();
-
-    public function getParam();
-
     public function getRouterList();
 }

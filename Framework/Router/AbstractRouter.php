@@ -18,7 +18,7 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
     static private $instances = [];
 
     private $config = null;
-    private $request = [];
+    private $request = null;
     private $routerList = [];
 
     abstract protected function loadRouter();
@@ -35,23 +35,17 @@ abstract class AbstractRouter implements RouterInterface, ObjectManagerAwareInte
 
     public function dispatch()
     {
-        $this->loadRouter();
-        if (empty($this->request)) {
-            $this->request = $this->parseRequest();
-        }
-        $controller = $this->request['controller'];
-        if (isset($this->routerList[$controller])) {
-            $this->request['controller'] = $this->routerList[$controller];
+        if ($this->request === null) {
+            $this->loadRouter();
+            if (empty($this->request)) {
+                $this->request = $this->parseRequest();
+            }
+            $controller = $this->request['controller'];
+            if (isset($this->routerList[$controller])) {
+                $this->request['controller'] = $this->routerList[$controller];
+            }
         }
         return $this->request;
-    }
-
-    public function getController()
-    {
-    }
-
-    public function getAction()
-    {
     }
 
     abstract public function getParam();

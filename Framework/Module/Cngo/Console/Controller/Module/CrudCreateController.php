@@ -8,7 +8,7 @@ use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareInterface;
 use Framework\Module\Cngo\Console\Helper\Generator\GeneratorAwareInterface;
 
-class ControllerCreateController extends AbstractConsole implements GeneratorAwareInterface, ConsoleHelperAwareInterface
+class CrudCreateController extends AbstractConsole implements GeneratorAwareInterface, ConsoleHelperAwareInterface
 {
     use \Framework\Module\Cngo\Console\Helper\Generator\GeneratorAwareTrait;
     use \Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareTrait;
@@ -31,22 +31,14 @@ class ControllerCreateController extends AbstractConsole implements GeneratorAwa
         $moduleInfo['path'][] = $namepace;
         $moduleInfo['namespace'][] = 'Controller';
         $moduleInfo['namespace'][] = $namepace;
-        $controller = $this->getConsoleHelper()->ask("Input Controller Name");
-        $moduleInfo['router'][] = [
-            'controller' => $controller
+        $EntityName = $this->getConsoleHelper()->ask("Input Entity Name");
+        $moduleInfo['crud'] = [
+            'Entity' => $EntityName
         ];
-        while ($this->getConsoleHelper()->confirm('Add Other Controller[y/n]', false, ['y', 'Y', 'yes', 'Yes'])) {
-            $router = $this->getConsoleHelper()->ask('Input Router', '');
-            if (!$router) break;
-            $controller = $this->getConsoleHelper()->ask("Input Controller Name which match the router[$router]");
-            $moduleInfo['router'][] = [
-                'controller' => $controller
-            ];
-        }
         $moduleInfo['path'] = join('/', $moduleInfo['path']);
         $moduleInfo['namespace'] = join('\\', $moduleInfo['namespace']);
         $this->getGenerator()->setModuleInfo($moduleInfo);
-        $this->getGenerator()->generateController()->flush();
+        $this->getGenerator()->generateCrud()->flush();
     }
 
     public static function getDescription()

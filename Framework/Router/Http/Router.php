@@ -99,6 +99,12 @@ class Router extends AbstractRouter
         header('Location: ' . $uri, true, 301);
     }
 
+    public function reload()
+    {
+        $request = $this->dispatch();
+        $this->redirect($request['controller'], $request['param']);
+    }
+
     public function parseRequest()
     {
         $controller = $action = $param = null;
