@@ -24,33 +24,33 @@ class CrudCreateController extends AbstractConsole implements GeneratorAwareInte
         }
         $moduleInfo = $this->getGenerator()->getModuleInfo();
         $moduleName = $this->getConsoleHelper()->ask('Input Module');
+        $moduleInfo['module'] = $moduleName;
         $moduleInfo['path'][] = $moduleName;
-        $moduleInfo['namespace'][] = $moduleName;
         $namepace = $this->getConsoleHelper()->ask('Input Namespace');
-        $moduleInfo['path'][] = 'Controller';
-        $moduleInfo['path'][] = $namepace;
-        $moduleInfo['namespace'][] = 'Controller';
-        $moduleInfo['namespace'][] = $namepace;
+        $moduleInfo['type'] = $this->getConsoleHelper()->choice('Input Module Type', ['Admin', 'Front', 'Console']);
+        $moduleInfo['namespace'] = $namepace;
         $EntityName = $this->getConsoleHelper()->ask("Input Entity Name");
-        $moduleInfo['crud'] = [
-            'Entity' => $EntityName
-        ];
+        $moduleInfo['entity'] = $EntityName;
         $moduleInfo['path'] = join('/', $moduleInfo['path']);
-        $moduleInfo['namespace'] = join('\\', $moduleInfo['namespace']);
         $this->getGenerator()->setModuleInfo($moduleInfo);
         $this->getGenerator()->generateCrud()->flush();
     }
 
     public static function getDescription()
     {
-        return 'module-controller generator';
+        return 'module-crud generator';
     }
 
     public function getHelp()
     {
         return <<<HELP
-Module Generator
-    module generator configuration
+Crud Generator
+
+example:
+    Input Module? Customer\Admin
+    Input Namespace? Customer
+    Input Module Type?[Admin/Front/Console]? Admin
+    Input Entity Name? Customer
 HELP;
     }
 }

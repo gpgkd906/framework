@@ -24,27 +24,14 @@ class ControllerCreateController extends AbstractConsole implements GeneratorAwa
         }
         $moduleInfo = $this->getGenerator()->getModuleInfo();
         $moduleName = $this->getConsoleHelper()->ask('Input Module');
+        $moduleInfo['module'] = $moduleName;
         $moduleInfo['path'][] = $moduleName;
-        $moduleInfo['namespace'][] = $moduleName;
         $namepace = $this->getConsoleHelper()->ask('Input Namespace');
-        $moduleInfo['path'][] = 'Controller';
-        $moduleInfo['path'][] = $namepace;
-        $moduleInfo['namespace'][] = 'Controller';
-        $moduleInfo['namespace'][] = $namepace;
-        $controller = $this->getConsoleHelper()->ask("Input Controller Name");
-        $moduleInfo['router'][] = [
-            'controller' => $controller
-        ];
-        while ($this->getConsoleHelper()->confirm('Add Other Controller[y/n]', false, ['y', 'Y', 'yes', 'Yes'])) {
-            $router = $this->getConsoleHelper()->ask('Input Router', '');
-            if (!$router) break;
-            $controller = $this->getConsoleHelper()->ask("Input Controller Name which match the router[$router]");
-            $moduleInfo['router'][] = [
-                'controller' => $controller
-            ];
-        }
+        $moduleInfo['type'] = $this->getConsoleHelper()->choice('Input Module Type', ['Admin', 'Front', 'Console']);
+        $moduleInfo['namespace'] = $namepace;
+        $controller = $this->getConsoleHelper()->ask('Input Controller');
+        $moduleInfo['controller'] = $controller;
         $moduleInfo['path'] = join('/', $moduleInfo['path']);
-        $moduleInfo['namespace'] = join('\\', $moduleInfo['namespace']);
         $this->getGenerator()->setModuleInfo($moduleInfo);
         $this->getGenerator()->generateController()->flush();
     }
@@ -57,8 +44,13 @@ class ControllerCreateController extends AbstractConsole implements GeneratorAwa
     public function getHelp()
     {
         return <<<HELP
-Module Generator
-    module generator configuration
+Controller Generator
+
+example:
+    Input Module? EC\Admin
+    Input Namespace? Product
+    Input Module Type?[Admin/Front/Console]? Admin
+    Input Controller? RegisterController
 HELP;
     }
 }

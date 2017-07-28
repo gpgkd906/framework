@@ -12,12 +12,14 @@ class HelpController extends AbstractConsole implements RouterAwareInterface
     use \Framework\Router\RouterAwareTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
 
-    public function index($consoles)
+    public function index()
     {
+        $consoles = func_get_args();
         if (empty($consoles)) {
             $consoles = ['help'];
         }
         $consoles = array_unique($consoles);
+
         $routerList = $this->getRouter()->getRouterList();
         $ObjectManager = $this->getObjectManager();
         foreach ($consoles as $index => $console) {
