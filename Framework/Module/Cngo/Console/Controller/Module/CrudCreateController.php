@@ -3,8 +3,6 @@
 namespace Framework\Module\Cngo\Console\Controller\Module;
 
 use Framework\Controller\AbstractConsole;
-use Framework\Controller\AbstractController;
-use Zend\EventManager\EventManagerAwareInterface;
 use Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareInterface;
 use Framework\Module\Cngo\Console\Helper\Generator\GeneratorAwareInterface;
 
@@ -38,7 +36,7 @@ class CrudCreateController extends AbstractConsole implements GeneratorAwareInte
 
     public static function getDescription()
     {
-        return 'module-crud generator';
+        return 'module crud generator';
     }
 
     public function getHelp()

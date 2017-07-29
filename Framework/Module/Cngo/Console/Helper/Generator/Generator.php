@@ -10,10 +10,15 @@ use Framework\ViewModel\AbstractViewModel;
 use Framework\Service\CodeService\CodeServiceAwareInterface;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 use CodeService\Code\Wrapper\AbstractWrapper;
+use Framework\Repository\EntityManagerAwareInterface;
 
-class Generator implements GeneratorInterface, CodeServiceAwareInterface
+class Generator implements
+    GeneratorInterface,
+    CodeServiceAwareInterface,
+    EntityManagerAwareInterface
 {
     use \Framework\Service\CodeService\CodeServiceAwareTrait;
+    use \Framework\Repository\EntityManagerAwareTrait;
 
     const ROUTER_ADMIN = 'Admin';
     const ROUTER_FRONT = 'Front';
@@ -61,7 +66,7 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
             $namespace = '/' . lcfirst($Namespace);
             $Namespace = '/' . $Namespace;
         }
-        $path = str_replace(['//', '\\'], '/', $moduleInfo['path']);
+        $path = str_replace([DIRECTORY_SEPARATOR, '\\'], '/', $moduleInfo['path']);
         $controller = $moduleInfo['controller'];
         $viewModel = str_replace('Controller', 'ViewModel', $controller);
         $template = lcfirst(str_replace('Controller', '', $controller));
@@ -97,7 +102,7 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
             $namespace = '/' . lcfirst($Namespace);
             $Namespace = '/' . $Namespace;
         }
-        $path = str_replace(['//', '\\'], '/', $moduleInfo['path']);
+        $path = str_replace([DIRECTORY_SEPARATOR, '\\'], '/', $moduleInfo['path']);
         $ControllerPrefix = "Crud/$type/Controller";
         $ViewModelPrefix = "Crud/$type/ViewModel";
         $templatePrefix = "Crud/$type/template";
@@ -147,6 +152,39 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
         return $this;
     }
 
+    public function generateEntity()
+    {
+        $moduleInfo = $this->getModuleInfo();
+        $tableName = $moduleInfo['table'];
+        $Namespace = $moduleInfo['namespace'] . '\\Entity';
+        $path = str_replace([DIRECTORY_SEPARATOR, '\\'], '/', $moduleInfo['path']);
+        $EntityPath = $path . '/Entity';
+        $em = $this->getEntityManager();
+        $em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('set', 'string');
+        $em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+        $driver = new \Doctrine\ORM\Mapping\Driver\DatabaseDriver(
+            $em->getConnection()->getSchemaManager()
+        );
+        $em->getConfiguration()->setMetadataDriverImpl($driver);
+        $cmf = new \Doctrine\ORM\Tools\DisconnectedClassMetadataFactory($em);
+        $cmf->setEntityManager($em);
+        $classes = $driver->getAllClassNames();
+        $metadata = $cmf->getAllMetadata();
+        $metadata = array_filter($metadata, function ($Meta) use ($tableName, $Namespace) {
+            $ret = $Meta->getTableName() === $tableName;
+            if ($ret) {
+                $Meta->name = $Namespace . '\\' . $Meta->name;
+            }
+            return $ret;
+        });
+        $generator = new \Doctrine\ORM\Tools\EntityGenerator();
+        $generator->setUpdateEntityIfExists(true);
+        $generator->setGenerateStubMethods(true);
+        $generator->setGenerateAnnotations(true);
+        $generator->generate($metadata, ROOT_DIR);
+        return $this;
+    }
+
     private function getCodeTemplate($file, $codeFlag = false)
     {
         $moduleInfo = $this->getModuleInfo();
@@ -167,9 +205,9 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
             '{Controller}', '{ViewModel}', '{template}'
         ];
         $replace = [
-            $moduleInfo['module'], $Namespace, $namespace,
-            $moduleInfo['entity'], lcfirst($moduleInfo['entity']), $ns,
-            $moduleInfo['controller'], $moduleInfo['viewModel'], $moduleInfo['template'],
+            $moduleInfo['module'] ?? '', $Namespace, $namespace,
+            $moduleInfo['entity'] ?? '', lcfirst($moduleInfo['entity']), $ns,
+            $moduleInfo['controller'] ?? '', $moduleInfo['viewModel'] ?? '', $moduleInfo['template'] ?? '',
         ];
         $codeTemplate = str_replace($search, $replace, $codeTemplate);
         if ($codeFlag) {
@@ -195,7 +233,7 @@ class Generator implements GeneratorInterface, CodeServiceAwareInterface
 
     private function write($file, $Contents)
     {
-        $file = str_replace(['\\', '//'], '/', $file);
+        $file = str_replace(['\\', DIRECTORY_SEPARATOR], '/', $file);
         if (is_file($file)) {
             echo 'file exists: ' . $file, PHP_EOL;
             echo 'if you *really* want addBuffer the file, delete it', PHP_EOL;

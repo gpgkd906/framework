@@ -16,9 +16,6 @@ class DashboardViewModel extends AbstractViewModel
                 [
                     'viewModel' => SummaryViewModel::class,
                 ],
-                [
-                    'viewModel' => TopChartViewModel::class,
-                ],
             ],
         ],
         'script' => [

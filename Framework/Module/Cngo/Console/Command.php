@@ -8,6 +8,7 @@ ObjectManager::getSingleton()->get(RouterInterface::class)
     ->register([
         'cngo::module::crud::create' => Controller\Module\CrudCreateController::class,
         'cngo::module::controller::create' => Controller\Module\ControllerCreateController::class,
+        'cngo::module::entity::create' => Controller\Module\EntityCreateController::class,
         'list' => Controller\ListController::class,
         'help' => Controller\HelpController::class,
         'doctrine' => Controller\DoctrineController::class,

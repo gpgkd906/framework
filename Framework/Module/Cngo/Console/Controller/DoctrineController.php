@@ -6,6 +6,7 @@ use Framework\Controller\AbstractConsole;
 use Framework\Repository\EntityManager;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Framework\Repository\EntityManagerAwareInterface;
+// php app/console doctrine:mapping:convert metadata_format ./src/App/MyBundle/Resources/config/doctrine --from-database --filter="Yourtablename"
 
 class DoctrineController extends AbstractConsole implements EntityManagerAwareInterface
 {

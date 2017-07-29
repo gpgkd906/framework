@@ -11,8 +11,4 @@ interface ConfigModelInterface {
     public function get($key);
 
     public function set($key, $value);
-
-    public function update();
-
-    public function refresh();
 }

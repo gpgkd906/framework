@@ -3,10 +3,11 @@
 namespace Framework\Module\Cngo\Console\Controller\Module;
 
 use Framework\Controller\AbstractConsole;
+use Framework\Controller\AbstractController;
 use Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareInterface;
 use Framework\Module\Cngo\Console\Helper\Generator\GeneratorAwareInterface;
 
-class ControllerCreateController extends AbstractConsole implements GeneratorAwareInterface, ConsoleHelperAwareInterface
+class EntityCreateController extends AbstractConsole implements GeneratorAwareInterface, ConsoleHelperAwareInterface
 {
     use \Framework\Module\Cngo\Console\Helper\Generator\GeneratorAwareTrait;
     use \Framework\Module\Cngo\Console\Helper\Console\ConsoleHelperAwareTrait;
@@ -23,32 +24,28 @@ class ControllerCreateController extends AbstractConsole implements GeneratorAwa
         $moduleInfo = $this->getGenerator()->getModuleInfo();
         $moduleName = $this->getConsoleHelper()->ask('Input Module');
         $moduleInfo['module'] = $moduleName;
+        $moduleInfo['namespace'] = \Framework\Module::class . '\\' . $moduleName;
         $moduleInfo['path'][] = $moduleName;
-        $namepace = $this->getConsoleHelper()->ask('Input Namespace');
-        $moduleInfo['type'] = $this->getConsoleHelper()->choice('Input Module Type', ['Admin', 'Front', 'Console']);
-        $moduleInfo['namespace'] = $namepace;
-        $controller = $this->getConsoleHelper()->ask('Input Controller');
-        $moduleInfo['controller'] = $controller;
+        $EntityName = $this->getConsoleHelper()->ask("Input Table Name");
+        $moduleInfo['table'] = $EntityName;
         $moduleInfo['path'] = join('/', $moduleInfo['path']);
         $this->getGenerator()->setModuleInfo($moduleInfo);
-        $this->getGenerator()->generateController()->flush();
+        $this->getGenerator()->generateEntity()->flush();
     }
 
     public static function getDescription()
     {
-        return 'module controller generator';
+        return 'module entity generator';
     }
 
     public function getHelp()
     {
         return <<<HELP
-Controller Generator
+Entity Generator
 
 example:
-    Input Module? EC\Admin
-    Input Namespace? Product
-    Input Module Type?[Admin/Front/Console]? Admin
-    Input Controller? RegisterController
+    Input Module? Cms\Admin
+    Input Table Name? Blog
 HELP;
     }
 }
