@@ -20,10 +20,6 @@ class Generator implements
     use \Framework\Service\CodeService\CodeServiceAwareTrait;
     use \Framework\Repository\EntityManagerAwareTrait;
 
-    const ROUTER_ADMIN = 'Admin';
-    const ROUTER_FRONT = 'Front';
-    const ROUTER_CONSOLE = 'Console';
-
     private $testMode = false;
     private $buffer = [];
 
