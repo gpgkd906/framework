@@ -45,7 +45,7 @@ Entity Generator
 
 example:
     Input Module? Cms\Admin
-    Input Table Name? Blog
+    Input Table Name? blogs
 HELP;
     }
 }

@@ -23,7 +23,7 @@ class Authentication extends AbstractAuthentication
         if ($Adapter === null) {
             $Adapter = new Admin();
         }
-        parent::__construct(null, $Adapter);
+        parent::__construct($Storage, $Adapter);
     }
 
     public function login($username, $password)

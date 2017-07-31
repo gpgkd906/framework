@@ -9,9 +9,9 @@ abstract class AbstractConsole extends AbstractController
     public function callActionFlow($action, $param)
     {
         if (is_callable([$this, $action])) {
-            $this->callAction("beforeAction");
+            $this->triggerEvent(self::TRIGGER_BEFORE_RESPONSE);
             $this->callAction($action, $param);
-            $this->callAction("afterAction");
+            $this->triggerEvent(self::TRIGGER_AFTER_RESPONSE);
         } else {
             throw new Exception(sprintf("not found implementions for action[%s]", $action));
         }
