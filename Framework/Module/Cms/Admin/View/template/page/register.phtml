@@ -1,0 +1,43 @@
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><?=$title?></h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <?php $form = $this->getForm(); ?>
+                    <?php $form->start(); ?>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>页面名</label>
+                                    <?= $form->controller->class, $form->controller->class->error; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>页面说明</label>
+                                    <?= $form->controller->description, $form->controller->description->error; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否在菜单上表示</label>
+                                    <div>
+                                        <?= $form->controller->menuFlag, $form->controller->menuFlag->error; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?=$this->getContainer('Form'); ?>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?= $form->submit; ?>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <?php $form->end(); ?>
+                </div>
+            </div>
+        </div>
+    </div>

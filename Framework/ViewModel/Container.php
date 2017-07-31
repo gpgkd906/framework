@@ -80,6 +80,11 @@ class Container implements ContainerInterface, ArrayAccess
 
     public function __toString()
     {
+        return $this->toHtml();
+    }
+
+    private function toHtml()
+    {
         $exportView = $this->getExportView();
         $render = 'render';
         if ($exportView instanceof LayoutInterface) {
@@ -87,20 +92,16 @@ class Container implements ContainerInterface, ArrayAccess
         }
         //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
         //Production環境まで作らないと思うが、もし作るのであれば、環境チェックも必要です
-        // try {
-        $htmls = [];
-        if ($render === 'renderHtml') {
+        try {
+            $htmls = [];
             foreach ($this->getItems() as $item) {
                 $htmls[] = call_user_func([$item, $render]);
             }
-        } else {
-            foreach ($this->getItems() as $item) {
-                $htmls[] = call_user_func([$item, $render]);
-            }
+            return join('', $htmls);
+        } catch(\Exception $e) {
+            echo $e->getMessage();
         }
-        return join('', $htmls);
     }
-
     /**
      *
      * @api

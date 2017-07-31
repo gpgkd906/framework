@@ -42,7 +42,7 @@ class SidemenuViewModel extends AbstractViewModel
                 if (!isset($data[$group])) {
                     $data[$group] = [
                         'title' => $group,
-                        'link' => '#',
+                        'link' => 'javascript::void(0)',
                         'child' => [],
                         'priority' => 1,
                     ];

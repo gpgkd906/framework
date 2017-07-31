@@ -12,7 +12,7 @@ class Radio extends FormElement {
   public function makeInput($value = null, $attr) {
     $html = array();
     $name = $this->getElementName();
-    foreach($this->val as $key => $val) {
+    foreach($this->val as $val => $key) {
       if($value !== null && $val == $value) {
         $html[] = "<label class='form_label form_radio'><input type='radio' name='{$name}' value='{$val}' {$attr} checked>" . $key . "</label>";
       } else {
@@ -30,7 +30,7 @@ class Radio extends FormElement {
   public function makeConfirm($value) {
     $html = "";
     $name = $this->getElementName();
-    foreach($this->val as $key => $val) {
+    foreach($this->val as $val => $key) {
       if($value !== null && $val == $value) {
         $html = "<label class='form_label form_{$this->type}'><input type='hidden' name='{$name}' value='{$value}'>" . nl2br($key) . "</label>";
         break;

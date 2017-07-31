@@ -1,28 +1,28 @@
 <?php
 
-namespace Framework\Module\Cms\Admin\Controller\Blog;
+namespace Framework\Module\Cms\Admin\Controller\Page;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\Cms\Admin\View\ViewModel\Blog\EditViewModel;
+use Framework\Module\Cms\Admin\View\ViewModel\Page\EditViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cms\Admin\Entity\Blog;
+use Framework\Module\Cms\Admin\Entity\Controller;
 
 class EditController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
-    private $Blog;
+    private $Controller;
 
     public function index($id)
     {
-        $this->Blog = $this->getEntityManager()->getRepository(Blog::class)->find($id);
-        if (!$this->Blog) {
+        $this->Controller = $this->getEntityManager()->getRepository(Controller::class)->find($id);
+        if (!$this->Controller) {
             $this->getRouter()->redirect(ListController::class);
         }
         return ViewModelManager::getViewModel([
             'viewModel' => EditViewModel::class,
             'data' => [
-                'blog' => $this->Blog,
+                'controller' => $this->Controller,
             ],
             'listeners' => [
                 EditViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onEditComplete']
@@ -34,10 +34,10 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            $blog = $ViewModel->getForm()->getData()['blog'];
-            $Blog = $this->Blog;
-            $Blog->fromArray($blog);
-            $this->getEntityManager()->merge($Blog);
+            $controller = $ViewModel->getForm()->getData()['controller'];
+            $Controller = $this->Controller;
+            $Controller->fromArray($controller);
+            $this->getEntityManager()->merge($Controller);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);
         }
@@ -46,7 +46,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
     public static function getPageInfo()
     {
         return [
-            "description" => "博客編集",
+            "description" => "页面信息編集",
             "priority" => 0,
             "menu" => false
         ];

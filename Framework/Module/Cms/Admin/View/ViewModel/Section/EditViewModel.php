@@ -1,13 +1,13 @@
 <?php
 
-namespace Framework\Module\{Module}\View\ViewModel{Namespace};
+namespace Framework\Module\Cms\Admin\View\ViewModel\Section;
 
 use Framework\ViewModel\AbstractViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 class EditViewModel extends RegisterViewModel
 {
-    protected $template = '/template{namespace}/edit.phtml';
+    protected $template = '/template/section/edit.phtml';
 
     public $listeners = [
         'Render' => 'onRender',
@@ -15,16 +15,16 @@ class EditViewModel extends RegisterViewModel
 
     public function getTemplateDir()
     {
-        return __DIR__ . '/..{ns}';
+        return __DIR__ . '/../..';
     }
 
     public function onRender()
     {
         $data = $this->getData();
-        $data['{entity}'] = $data['{entity}']->toArray();
+        $data['controllerGroup'] = $data['controllerGroup']->toArray();
         $formData = $this->getForm()->getData();
-        if (isset($formData['{entity}'])) {
-            $data['{entity}'] = array_merge($data['{entity}'], $formData['{entity}']);
+        if (isset($formData['controllerGroup'])) {
+            $data['controllerGroup'] = array_merge($data['controllerGroup'], $formData['controllerGroup']);
         }
         $this->getForm()->setData($data);
     }

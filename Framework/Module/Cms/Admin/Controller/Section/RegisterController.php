@@ -1,12 +1,12 @@
 <?php
 
-namespace Framework\Module\Cms\Admin\Controller\Blog;
+namespace Framework\Module\Cms\Admin\Controller\Section;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\Cms\Admin\View\ViewModel\Blog\RegisterViewModel;
+use Framework\Module\Cms\Admin\View\ViewModel\Section\RegisterViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cms\Admin\Entity\Blog;
+use Framework\Module\Cms\Admin\Entity\ControllerGroup;
 
 class RegisterController extends AbstractAdminController implements EntityManagerAwareInterface
 {
@@ -26,9 +26,9 @@ class RegisterController extends AbstractAdminController implements EntityManage
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            $blog = $ViewModel->getForm()->getData()['blog'];
-            $AdminUser = new Blog();
-            $AdminUser->fromArray($blog);
+            $controllerGroup = $ViewModel->getForm()->getData()['controllerGroup'];
+            $AdminUser = new ControllerGroup();
+            $AdminUser->fromArray($controllerGroup);
             $this->getEntityManager()->persist($AdminUser);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);
@@ -38,10 +38,10 @@ class RegisterController extends AbstractAdminController implements EntityManage
     public static function getPageInfo()
     {
         return [
-            'description' => '博客登録',
+            'description' => '页面分组登録',
             'priority' => 2,
             'menu' => true,
-            'group' => '博客',
+            'group' => '页面分组管理',
         ];
     }
 }

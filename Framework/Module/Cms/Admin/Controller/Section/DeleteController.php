@@ -1,28 +1,28 @@
 <?php
 
-namespace Framework\Module\Cms\Admin\Controller\Blog;
+namespace Framework\Module\Cms\Admin\Controller\Section;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\Cms\Admin\View\ViewModel\Blog\DeleteViewModel;
+use Framework\Module\Cms\Admin\View\ViewModel\Section\DeleteViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cms\Admin\Entity\Blog;
+use Framework\Module\Cms\Admin\Entity\ControllerGroup;
 
 class DeleteController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
-    private $Blog;
+    private $ControllerGroup;
 
     public function index($id)
     {
-        $this->Blog = $this->getEntityManager()->getRepository(Blog::class)->find($id);
-        if (!$this->Blog) {
+        $this->ControllerGroup = $this->getEntityManager()->getRepository(ControllerGroup::class)->find($id);
+        if (!$this->ControllerGroup) {
             $this->getRouter()->redirect(ListController::class);
         }
         return ViewModelManager::getViewModel([
             'viewModel' => DeleteViewModel::class,
             'data' => [
-                'blog' => $this->Blog,
+                'controllerGroup' => $this->ControllerGroup,
             ],
             'listeners' => [
                 DeleteViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onDeleteComplete']
@@ -34,9 +34,9 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            $Blog = $this->Blog;
-            $Blog->setDeleteFlag(true);
-            $this->getEntityManager()->merge($Blog);
+            $ControllerGroup = $this->ControllerGroup;
+            $ControllerGroup->setDeleteFlag(true);
+            $this->getEntityManager()->merge($ControllerGroup);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);
         }
@@ -45,7 +45,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
     public static function getPageInfo()
     {
         return [
-            "description" => "博客削除",
+            "description" => "页面分组削除",
             "priority" => 0,
             "menu" => false
         ];

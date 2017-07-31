@@ -12,7 +12,7 @@ class Checkbox extends FormElement {
   public function makeInput($value = null, $attr) {
     $html = array();
     $name = $this->getElementName();
-    foreach($this->val as $key => $val) {
+    foreach($this->val as $val => $key) {
       if($value !== null && in_array($val, $value)) {
         $html[] = "<label class='form_label form_checkbox'><input type='checkbox' name='{$name}[]' value='{$val}' {$attr} checked>" . $key . "</label>";
       } else {
@@ -30,7 +30,7 @@ class Checkbox extends FormElement {
   public function makeConfirm($value) {
     $html = array();
     $name = $this->getElementName();
-    foreach($this->val as $key => $val) {
+    foreach($this->val as $val => $key) {
       if($value !== null && in_array($val, $value)) {
         $html[] = "<label class='form_label form_{$this->type}'><input type='hidden' name='{$name}[]' value='{$val}'>" . nl2br($key) . "</label>";
       }

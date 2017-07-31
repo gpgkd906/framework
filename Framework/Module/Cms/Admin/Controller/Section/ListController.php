@@ -1,15 +1,12 @@
 <?php
 
-namespace Framework\Module\Cms\Admin\Controller\Blog;
+namespace Framework\Module\Cms\Admin\Controller\Section;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\Cms\Admin\View\ViewModel\Blog\ListViewModel;
+use Framework\Module\Cms\Admin\View\ViewModel\Section\ListViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cms\Admin\Entity\Blog;
-
-
-
+use Framework\Module\Cms\Admin\Entity\ControllerGroup;
 
 class ListController extends AbstractAdminController implements EntityManagerAwareInterface
 {
@@ -20,9 +17,9 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         return ViewModelManager::getViewModel([
             'viewModel' => ListViewModel::class,
             'data' => [
-                'blog' => $this->getEntityManager()->getRepository(Blog::class)->findBy([
+                'controllerGroup' => $this->getEntityManager()->getRepository(ControllerGroup::class)->findBy([
                     'deleteFlag' => 0
-                ], ['blogId' => 'ASC'], 50),
+                ], ['controllerGroupId' => 'ASC'], 50),
             ]
         ]);
     }
@@ -30,10 +27,10 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
     public static function getPageInfo()
     {
         return [
-            'description' => '博客一覧',
+            'description' => '页面分组一覧',
             'priority' => 1,
             'menu' => true,
-            'group' => '博客',
+            'group' => '页面分组管理',
         ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
-use Framework\Module\Cms\Admin\Controller\Blog\RegisterController;
-use Framework\Module\Cms\Admin\Controller\Blog\EditController;
-use Framework\Module\Cms\Admin\Controller\Blog\DeleteController;
+use Framework\Module\Cms\Admin\Controller\Page\RegisterController;
+use Framework\Module\Cms\Admin\Controller\Page\EditController;
+use Framework\Module\Cms\Admin\Controller\Page\DeleteController;
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -12,7 +12,7 @@ use Framework\Module\Cms\Admin\Controller\Blog\DeleteController;
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
-        <a href="<?=$this->getRouter()->linkto(RegisterController::class); ?>" class="btn btn-danger">追加[博客]</a>
+        <a href="<?=$this->getRouter()->linkto(RegisterController::class); ?>" class="btn btn-danger">追加[页面信息]</a>
         <p></p>
     </div>
     <div class="col-lg-12">
@@ -26,12 +26,12 @@ use Framework\Module\Cms\Admin\Controller\Blog\DeleteController;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($this->getData('blog') as $index => $blog) : ?>
+                        <?php foreach ($this->getData('controller') as $index => $controller) : ?>
                             <tr class="<?= $index % 2 ? 'even' : 'odd' ?>">
-                                <td><?=$blog['blogId']; ?></td>
+                                <td><?=$controller['controllerId']; ?></td>
                                 <td class="center">
-                                    <a href="<?=$this->getRouter()->linkto(EditController::class, $blog['blogId']); ?>" class="btn btn-primary">編集</a>
-                                    <a href="<?=$this->getRouter()->linkto(DeleteController::class, $blog['blogId']); ?>" class="btn btn-danger">削除</a>
+                                    <a href="<?=$this->getRouter()->linkto(EditController::class, $controller['controllerId']); ?>" class="btn btn-primary">編集</a>
+                                    <a href="<?=$this->getRouter()->linkto(DeleteController::class, $controller['controllerId']); ?>" class="btn btn-danger">削除</a>
                                 </td>
                             </tr>
                         <?php endforeach;?>

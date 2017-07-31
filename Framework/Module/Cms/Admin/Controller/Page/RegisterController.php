@@ -1,12 +1,12 @@
 <?php
 
-namespace Framework\Module\Cms\Admin\Controller\Blog;
+namespace Framework\Module\Cms\Admin\Controller\Page;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\Cms\Admin\View\ViewModel\Blog\RegisterViewModel;
+use Framework\Module\Cms\Admin\View\ViewModel\Page\RegisterViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cms\Admin\Entity\Blog;
+use Framework\Module\Cms\Admin\Entity\Controller;
 
 class RegisterController extends AbstractAdminController implements EntityManagerAwareInterface
 {
@@ -26,9 +26,9 @@ class RegisterController extends AbstractAdminController implements EntityManage
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            $blog = $ViewModel->getForm()->getData()['blog'];
-            $AdminUser = new Blog();
-            $AdminUser->fromArray($blog);
+            $controller = $ViewModel->getForm()->getData()['controller'];
+            $AdminUser = new Controller();
+            $AdminUser->fromArray($controller);
             $this->getEntityManager()->persist($AdminUser);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);
@@ -38,10 +38,10 @@ class RegisterController extends AbstractAdminController implements EntityManage
     public static function getPageInfo()
     {
         return [
-            'description' => '博客登録',
+            'description' => '页面信息登録',
             'priority' => 2,
             'menu' => true,
-            'group' => '博客',
+            'group' => '页面信息管理',
         ];
     }
 }

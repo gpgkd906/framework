@@ -12,7 +12,7 @@ class Select extends FormElement {
   public function makeInput($value = null, $attr) {
     $name = $this->getElementName();
     $html = array("<select name='{$name}' {$attr}>");
-    foreach($this->val as $key => $val) {
+    foreach($this->val as $val => $key) {
       if($value !== null && $val == $value) {
         $html[] = "<option value='{$val}' selected>" . $key . "</option>";
       } else {
@@ -31,7 +31,7 @@ class Select extends FormElement {
   public function makeConfirm($value) {
     $html = "";
     $name = $this->getElementName();
-    foreach($this->val as $key => $val) {
+    foreach($this->val as $val => $key) {
       if($value !== null && $val == $value) {
         $html = "<label class='form_label form_{$this->type}'><input type='hidden' name='{$name}' value='{$value}'>" . nl2br($key) . "</label>";
         break;
