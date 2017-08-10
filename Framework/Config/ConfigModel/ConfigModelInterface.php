@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace Framework\Config\ConfigModel;
 
-interface ConfigModelInterface {
+interface ConfigModelInterface
+{
 
-    static public function registerNamespace($namespace);
+    public static function registerNamespace($namespace);
 
-    static public function getConfigModel($config);
+    public static function getConfigModel($config);
 
     public function get($key);
 

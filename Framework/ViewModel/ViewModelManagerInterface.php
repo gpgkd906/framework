@@ -5,7 +5,7 @@ namespace Framework\ViewModel;
 
 interface ViewModelManagerInterface
 {
-    static public function getViewModel($viewModelConfig);
+    public static function getViewModel($viewModelConfig);
 
-    static public function setTemplateDir($templateDir);
+    public static function setTemplateDir($templateDir);
 }

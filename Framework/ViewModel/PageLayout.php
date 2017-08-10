@@ -83,7 +83,7 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
      * @return mixed $asset
      * @link
      */
-    public function setAsset ($asset)
+    public function setAsset($asset)
     {
         return $this->asset = $asset;
     }
@@ -94,7 +94,7 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
      * @return mixed $asset
      * @link
      */
-    public function getAsset ()
+    public function getAsset()
     {
         return $this->asset;
     }

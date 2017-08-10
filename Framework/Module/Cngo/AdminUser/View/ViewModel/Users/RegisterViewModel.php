@@ -5,7 +5,6 @@ namespace Framework\Module\Cngo\AdminUser\View\ViewModel\Users;
 
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
-use Framework\FormManager\Validator;
 
 class RegisterViewModel extends FormViewModel
 {

@@ -97,7 +97,7 @@ class FormElement implements FormElementInterface
     * @return mixed $scope
     * @link
     */
-    public function setScope ($scope)
+    public function setScope($scope)
     {
         return $this->scope = $scope;
     }
@@ -108,7 +108,7 @@ class FormElement implements FormElementInterface
     * @return mixed $scope
     * @link
     */
-    public function getScope ()
+    public function getScope()
     {
         return $this->scope;
     }
@@ -119,8 +119,9 @@ class FormElement implements FormElementInterface
     * @param array $value 属性値
     * @return
     */
-    public function __call($name, $value) {
-        if(empty($value)) {
+    public function __call($name, $value)
+    {
+        if (empty($value)) {
             return $this->get($name);
         } else {
             return $this->set($name, $value[0]);
@@ -133,8 +134,9 @@ class FormElement implements FormElementInterface
     * @param array $value 属性値
     * @return
     */
-    public function set($name, $value) {
-        if(property_exists($this, $name)) {
+    public function set($name, $value)
+    {
+        if (property_exists($this, $name)) {
             $this->{$name} = $value;
         } else {
             $this->attrs[$name] = $value;
@@ -147,12 +149,13 @@ class FormElement implements FormElementInterface
     * @param string $name 属性名
     * @return
     */
-    public function get($name) {
-        if(isset($this->attrs[$name])) {
+    public function get($name)
+    {
+        if (isset($this->attrs[$name])) {
             return $this->attrs[$name];
-        } elseif(isset($this->{$name})) {
+        } elseif (isset($this->{$name})) {
             return $this->{$name};
-        } elseif($name === "value") {
+        } elseif ($name === "value") {
             return $this->getValue();
         }
     }
@@ -164,7 +167,7 @@ class FormElement implements FormElementInterface
     * @return mixed $form
     * @link
     */
-    public function setForm ($form)
+    public function setForm($form)
     {
         return $this->form = $form;
     }
@@ -175,7 +178,7 @@ class FormElement implements FormElementInterface
     * @return mixed $form
     * @link
     */
-    public function getForm ()
+    public function getForm()
     {
         return $this->form;
     }
@@ -185,9 +188,10 @@ class FormElement implements FormElementInterface
     * @param array $class class名
     * @return
     */
-    public function addClass($class) {
+    public function addClass($class)
+    {
         $cls = explode(" ", $this->get("class"));
-        if(!in_array($class, $cls)) {
+        if (!in_array($class, $cls)) {
             $cls[] = $class;
         }
         $cls = join(" ", $cls);
@@ -200,9 +204,10 @@ class FormElement implements FormElementInterface
     * @param array $class class名
     * @return
     */
-    public function removeClass($class) {
+    public function removeClass($class)
+    {
         $cls = explode(" ", $this->get("class"));
-        if(in_array($class, $cls)) {
+        if (in_array($class, $cls)) {
             $cls = array_diff($cls, array($class));
         }
         $cls = join(" ", $cls);
@@ -214,8 +219,9 @@ class FormElement implements FormElementInterface
     * 要素値の参照
     * @return
     */
-    protected function getValue() {
-        if($this->value === null) {
+    protected function getValue()
+    {
+        if ($this->value === null) {
             $this->value = $this->getForm()->getData($this->getScope(), $this->name, true);
         }
         return $this->value;
@@ -225,7 +231,8 @@ class FormElement implements FormElementInterface
     * 要素値の廃棄
     * @return
     */
-    public function clear() {
+    public function clear()
+    {
         $this->value = null;
     }
 
@@ -238,11 +245,12 @@ class FormElement implements FormElementInterface
     * @param string/integer $default 要素の初期値
     * @return
     */
-    public function __construct($name, $type, $val = null, $default = null) {
+    public function __construct($name, $type, $val = null, $default = null)
+    {
         $this->name = $name;
         $this->type = $type;
         $this->val = $val;
-        if($default !== null ) {
+        if ($default !== null) {
             $this->value = $default;
         }
     }
@@ -253,7 +261,8 @@ class FormElement implements FormElementInterface
     * @param string $message エラーメッセージ
     * @return
     */
-    public function addValidator(InputFilter $InputFilter) {
+    public function addValidator(InputFilter $InputFilter)
+    {
         $this->InputFilter = $InputFilter;
         return $this;
     }
@@ -263,7 +272,8 @@ class FormElement implements FormElementInterface
     * @param integer $rule バリデーションチェッカールール値
     * @return
     */
-    public function removeValidator($name) {
+    public function removeValidator($name)
+    {
         $this->InputFilter->remove($name);
         return $this;
     }
@@ -272,7 +282,8 @@ class FormElement implements FormElementInterface
     * バリデーション処理
     * @return
     */
-    public function isValid() {
+    public function isValid()
+    {
         if (!$this->InputFilter) {
             return true;
         }
@@ -293,9 +304,10 @@ class FormElement implements FormElementInterface
     * @param string $message
     * @return
     */
-    public function forceError($message = null) {
+    public function forceError($message = null)
+    {
         $this->error = "<span class='form_error'>" . $message . "</span>";
-        if($this->getForm()) {
+        if ($this->getForm()) {
             $this->getForm()->forceError();
         }
         return $this;
@@ -305,7 +317,8 @@ class FormElement implements FormElementInterface
     * 要素を確認モードにする
     * @return
     */
-    public function confirm_mode() {
+    public function confirmMode()
+    {
         $this->mode = "confirm";
         return $this;
     }
@@ -314,7 +327,8 @@ class FormElement implements FormElementInterface
     * 要素をインプットモードにする
     * @return
     */
-    public function input_mode() {
+    public function inputMode()
+    {
         $this->mode = "input";
         return $this;
     }
@@ -323,20 +337,25 @@ class FormElement implements FormElementInterface
     * 要素を出力する
     * @return
     */
-    public function __toString() {
+    public function __toString()
+    {
         $value = $this->getValue();
         $value = FormManager::escape($value);
         $attrs = FormManager::attrFormat($this->attrs);
-        switch($this->mode) {
-            case "input": return $this->makeInput($value, $attrs); break;
-            case "confirm": return $this->makeConfirm($value, $attrs); break;
+        switch ($this->mode) {
+            case "input":
+                return $this->makeInput($value, $attrs);
+                break;
+            case "confirm":
+                return $this->makeConfirm($value, $attrs);
+                break;
         }
     }
 
     public function getElementName()
     {
-        if($this->elementName === null) {
-            if($this->getScope()) {
+        if ($this->elementName === null) {
+            if ($this->getScope()) {
                 $this->elementName = $this->getScope() . '[' . $this->get('name') . ']';
             } else {
                 $this->elementName = $this->get('name');
@@ -351,8 +370,9 @@ class FormElement implements FormElementInterface
     * @param array 要素の属性
     * @return
     */
-    public function makeInput($value = null, $attr) {
-        if($value === null) {
+    public function makeInput($value = null, $attr = null)
+    {
+        if ($value === null) {
             $value = $this->val;
         }
         $name = $this->getElementName();

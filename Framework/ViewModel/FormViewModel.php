@@ -5,7 +5,6 @@ namespace Framework\ViewModel;
 
 use Framework\Router\RouterInterface;
 use Framework\FormManager\FormManager;
-use Framework\FormManager\Validator;
 
 class FormViewModel extends AbstractViewModel implements FormViewModelInterface
 {
@@ -41,7 +40,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $fieldset
      * @link
      */
-    public function setFieldset ($fieldset)
+    public function setFieldset($fieldset)
     {
         return $this->fieldset = $fieldset;
     }
@@ -52,12 +51,13 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $fieldset
      * @link
      */
-    public function getFieldset ()
+    public function getFieldset()
     {
         return $this->fieldset;
     }
 
-    public function getAction() {
+    public function getAction()
+    {
         return $this->getObjectManager()->get(RouterInterface::class)->getRequestUri();
     }
 
@@ -95,7 +95,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $form
      * @link
      */
-    public function setForm ($form)
+    public function setForm($form)
     {
         return $this->form = $form;
     }
@@ -106,7 +106,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $form
      * @link
      */
-    public function getForm ()
+    public function getForm()
     {
         return $this->form;
     }
@@ -118,7 +118,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $formManager
      * @link
      */
-    public function setFormManager ($formManager)
+    public function setFormManager($formManager)
     {
         return $this->formManager = $formManager;
     }
@@ -129,7 +129,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $formManager
      * @link
      */
-    public function getFormManager ()
+    public function getFormManager()
     {
         if ($this->formManager === null) {
             $this->formManager = new FormManager;
@@ -159,7 +159,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $method
      * @link
      */
-    public function setMethod ($method)
+    public function setMethod($method)
     {
         return $this->method = $method;
     }
@@ -170,7 +170,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @return mixed $method
      * @link
      */
-    public function getMethod ()
+    public function getMethod()
     {
         return $this->method;
     }

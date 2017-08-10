@@ -10,7 +10,10 @@ use Framework\ViewModel\Helper\NumberFormatter;
 use Framework\Router\RouterAwareInterface;
 use Exception;
 
-abstract class AbstractViewModel implements ViewModelInterface, EventTargetInterface, ObjectManagerAwareInterface
+abstract class AbstractViewModel implements
+    ViewModelInterface,
+    EventTargetInterface,
+    ObjectManagerAwareInterface
 {
     use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
@@ -32,69 +35,69 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     public $listeners = [];
 
     /**
-     *
-     * @api
-     * @var mixed $config
-     * @access private
-     * @link
-     */
+    *
+    * @api
+    * @var mixed $config
+    * @access private
+    * @link
+    */
     protected $config = [];
 
     /**
-     *
-     * @api
-     * @var mixed $layout
-     * @access private
-     * @link
-     */
+    *
+    * @api
+    * @var mixed $layout
+    * @access private
+    * @link
+    */
     private $layout = null;
 
     /**
-     *
-     * @api
-     * @var mixed $container
-     * @access private
-     * @link
-     */
+    *
+    * @api
+    * @var mixed $container
+    * @access private
+    * @link
+    */
     private $containers = [];
 
     /**
-     *
-     * @api
-     * @var mixed $viewHelper
-     * @access private
-     * @link
-     */
+    *
+    * @api
+    * @var mixed $viewHelper
+    * @access private
+    * @link
+    */
     private $viewHelper = null;
 
     /**
-     *
-     * @api
-     * @var mixed $numberFormatter
-     * @access private
-     * @link
-     */
+    *
+    * @api
+    * @var mixed $numberFormatter
+    * @access private
+    * @link
+    */
     private $numberFormatter = null;
 
     /**
-     *
-     * @api
-     * @param mixed $config
-     * @return mixed $config
-     * @link
-     */
-    public function setConfig ($config)
+    *
+    * @api
+    * @param mixed $config
+    * @return mixed $config
+    * @link
+    */
+    public function setConfig($config)
     {
         return $this->config = $config;
     }
 
     /**
-     *
-     * @api
-     * @return mixed $config
-     * @link
-     */
-    public function getConfig ()
+    *
+    * @api
+    * @return mixed $config
+    * @link
+    */
+    public function getConfig()
     {
         return $this->config;
     }
@@ -269,26 +272,26 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
 
     public static function escapeHtml($data)
     {
-        if (is_array($data)){
-            foreach ($data as $key => $value){
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
                 $data[$key] = self::escapeHtml($value);
             }
             return $data;
         } elseif (is_string($data)) {
             return htmlspecialchars($data, ENT_QUOTES);
-        }else{
+        } else {
             return $data;
         }
     }
 
     /**
-     *
-     * @api
-     * @param mixed $layout
-     * @return mixed $layout
-     * @link
-     */
-    public function setLayout (LayoutInterface $layout, $config = null)
+    *
+    * @api
+    * @param mixed $layout
+    * @return mixed $layout
+    * @link
+    */
+    public function setLayout(LayoutInterface $layout, $config = null)
     {
         if ($config === null) {
             $config = $this->getConfig();
@@ -307,24 +310,24 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     *
-     * @api
-     * @return mixed $layout
-     * @link
-     */
-    public function getLayout ()
+    *
+    * @api
+    * @return mixed $layout
+    * @link
+    */
+    public function getLayout()
     {
         return $this->layout;
     }
 
     /**
-     *
-     * @api
-     * @param mixed $container
-     * @return mixed $container
-     * @link
-     */
-    public function setContainers ($containers)
+    *
+    * @api
+    * @param mixed $container
+    * @return mixed $container
+    * @link
+    */
+    public function setContainers($containers)
     {
         foreach ($containers as $index => $container) {
             if (!($container instanceof ContainerInterface)) {
@@ -335,12 +338,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     *
-     * @api
-     * @return mixed $container
-     * @link
-     */
-    public function getContainers ()
+    *
+    * @api
+    * @return mixed $container
+    * @link
+    */
+    public function getContainers()
     {
         return $this->containers;
     }
@@ -354,13 +357,13 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     *
-     * @api
-     * @param mixed $model
-     * @return mixed $model
-     * @link
-     */
-    public function setModel ($model)
+    *
+    * @api
+    * @param mixed $model
+    * @return mixed $model
+    * @link
+    */
+    public function setModel($model)
     {
         if (!$model instanceof ModelInterface) {
             if (class_exists($model)) {
@@ -371,12 +374,12 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     *
-     * @api
-     * @return mixed $model
-     * @link
-     */
-    private function getModel ()
+    *
+    * @api
+    * @return mixed $model
+    * @link
+    */
+    private function getModel()
     {
         if (!isset($this->model)) {
             return null;
@@ -385,24 +388,24 @@ abstract class AbstractViewModel implements ViewModelInterface, EventTargetInter
     }
 
     /**
-     *
-     * @api
-     * @param mixed $exportView
-     * @return mixed $exportView
-     * @link
-     */
-    public function setExportView ($exportView)
+    *
+    * @api
+    * @param mixed $exportView
+    * @return mixed $exportView
+    * @link
+    */
+    public function setExportView($exportView)
     {
         return $this->exportView = $exportView;
     }
 
     /**
-     *
-     * @api
-     * @return mixed $exportView
-     * @link
-     */
-    public function getExportView ()
+    *
+    * @api
+    * @return mixed $exportView
+    * @link
+    */
+    public function getExportView()
     {
         return $this->exportView;
     }

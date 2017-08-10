@@ -8,15 +8,15 @@ use Framework\ViewModel\AbstractViewModel;
 class ListViewModel extends AbstractViewModel
 {
     private $datas = [];
-    
+
     private $items = [];
 
     private $useItemViewModel = true;
-    
+
     private $itemViewModel = "Framework\ViewModel\ItemViewModel";
     private $template = null;
-    
-    private function RENDER_AS_HTML()
+
+    private function renderHtml()
     {
         if ($this->useItemViewModel) {
             $itemViewModel = $this->itemViewModel;
@@ -27,8 +27,7 @@ class ListViewModel extends AbstractViewModel
             $this->views[] = $itemViewModel::getCloseTag();
             echo $this->getTemplate();
         } else {
-            require $this->getTemplate();            
+            require $this->getTemplate();
         }
     }
-   
 }

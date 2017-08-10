@@ -19,27 +19,27 @@ class Event
         $this->bubbles = $config['bubbles'] ?? true;
     }
 
-    public function getName ()
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setData ($data)
+    public function setData($data)
     {
         return $this->data = $data;
     }
 
-    public function getData ()
+    public function getData()
     {
         return $this->data;
     }
 
-    public function setTarget ($target)
+    public function setTarget($target)
     {
         return $this->target = $target;
     }
 
-    public function getTarget ()
+    public function getTarget()
     {
         return $this->target;
     }
@@ -61,7 +61,7 @@ class Event
         }
     }
 
-    public function StopPropagation()
+    public function stopPropagation()
     {
         if ($this->cancelable) {
             $this->bubbles = false;

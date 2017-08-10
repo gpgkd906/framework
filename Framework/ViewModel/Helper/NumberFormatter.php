@@ -39,7 +39,7 @@ class NumberFormatter implements SingletonInterface
      * @return mixed $locale
      * @link
      */
-    public function setLocale ($locale)
+    public function setLocale($locale)
     {
         return $this->locale = $locale;
     }
@@ -50,7 +50,7 @@ class NumberFormatter implements SingletonInterface
      * @return mixed $locale
      * @link
      */
-    public function getLocale ()
+    public function getLocale()
     {
         if ($this->locale === null) {
             $this->locale = setlocale(LC_ALL, 0);
@@ -58,7 +58,7 @@ class NumberFormatter implements SingletonInterface
         return $this->locale;
     }
 
-    public function ToWord($number, $locale = null)
+    public function toWord($number, $locale = null)
     {
         if (empty($locale)) {
             $locale = $this->getLocale();

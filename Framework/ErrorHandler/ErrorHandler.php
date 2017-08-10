@@ -25,6 +25,11 @@ namespace Framework\ErrorHandler;
 */
 final class ErrorHandler
 {
+    const DEFAULT_EXCEPTION_HANDLER = "defaultExceptionHandler";
+    const DEFAULT_ERROR_HANDLER = "defaultErrorHandler";
+    const DEFAUT_FATAL_ERROR_HANDLER = "defaultFatalErrorHandler";
+    const DEFAULT_FILTER_HANDLER = "defaultFilter";
+
     /**
     *各種エラー処理用ハンドラー
     *
@@ -75,36 +80,10 @@ final class ErrorHandler
     * @link
     */
     private static $debugMode = true;
-    /**
-    * 例外(Exception)ハンドラー
-    *
-    * @var string
-    * @link
-    */
-    const DEFAULT_EXCEPTION_HANDLER = "defaultExceptionHandler";
     private static $exceptionHandler = null;
-
-    /**
-    * エラーハンドラー
-    *
-    * @var string
-    * @link
-    */
-    const DEFAULT_ERROR_HANDLER = "defaultErrorHandler";
     private static $ErrorHandler = null;
-    /**
-    * 致命エラーハンドラー
-    *
-    * 致命エラーは殆どphpコードの解析段階で起こる
-    *
-    * @var string
-    * @link
-    */
-    const DEFAUT_FATAL_ERROR_HANDLER = "defaultFatalErrorHandler";
     private static $fatalErrorHandler = null;
 
-    //
-    const DEFAULT_FILTER_HANDLER = "defaultFilter";
     private static $filterHandler = null;
 
     private static $htmlFormatFlag = true;

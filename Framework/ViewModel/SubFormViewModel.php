@@ -25,7 +25,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
      * @return mixed $fieldset
      * @link
      */
-    public function setFieldset ($fieldset)
+    public function setFieldset($fieldset)
     {
         return $this->fieldset = $fieldset;
     }
@@ -36,7 +36,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
      * @return mixed $fieldset
      * @link
      */
-    public function getFieldset ()
+    public function getFieldset()
     {
         return $this->fieldset;
     }
@@ -48,7 +48,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
      * @return mixed $form
      * @link
      */
-    public function setForm ($form)
+    public function setForm($form)
     {
         foreach ($this->getFieldset() as $fieldsetName => $fieldset) {
             if (is_array($fieldset)) {
@@ -68,7 +68,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
      * @return mixed $form
      * @link
      */
-    public function getForm ()
+    public function getForm()
     {
         return $this->form;
     }
@@ -76,7 +76,7 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     public function setExportView($exportView)
     {
         if ($exportView instanceof FormViewModelInterface) {
-            $exportView->addEventListener(FormViewModel::TRIGGER_FORMINIT, function($event) {
+            $exportView->addEventListener(FormViewModel::TRIGGER_FORMINIT, function ($event) {
                 $exportView = $event->getTarget();
                 $this->setForm($exportView->getForm());
                 $this->triggerEvent(FormViewModel::TRIGGER_FORMINIT);

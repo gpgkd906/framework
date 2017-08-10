@@ -1,10 +1,13 @@
 <?php
 declare(strict_types=1);
+
 namespace Framework\FormManager;
+
 /**
 *　フォーム自動生成ライブラリ
 */
-class FormManager {
+class FormManager
+{
 
     /**
     * フォームインスタンスキャッシュプール
@@ -39,19 +42,20 @@ class FormManager {
     * @param mix
     * @return
     */
-    public static function escape($data) {
-        if(is_array($data)){
-            foreach($data as $key => $value){
+    public static function escape($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
                 $data[$key]=self::escape($value);
             }
             return $data;
-        }elseif(is_string($data)){
+        } elseif (is_string($data)) {
             //如何なる状況でもscriptタグを許しない
-            if(strpos($data, "<script") !== false) {
+            if (strpos($data, "<script") !== false) {
                 $data = preg_replace("/<script[\s\S]+?<\/script>/", "", $data);
             }
-            return htmlspecialchars($data,ENT_QUOTES);
-        }else{
+            return htmlspecialchars($data, ENT_QUOTES);
+        } else {
             return $data;
         }
     }
@@ -61,15 +65,16 @@ class FormManager {
     * @param mix
     * @return
     */
-    public static function unescape($data) {
-        if(is_array($data)){
-            foreach($data as $key => $value){
+    public static function unescape($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
                 $data[$key]=self::unescape($value);
             }
             return $data;
-        }elseif(is_string($data)){
-            return htmlspecialchars_decode($data,ENT_QUOTES);
-        }else{
+        } elseif (is_string($data)) {
+            return htmlspecialchars_decode($data, ENT_QUOTES);
+        } else {
             return $data;
         }
     }
@@ -79,7 +84,8 @@ class FormManager {
     * @param string
     * @return
     */
-    public static function quote($val){
+    public static function quote($val)
+    {
         return "'" . self::escape($val) . "'";
     }
 
@@ -88,9 +94,10 @@ class FormManager {
     * @param array
     * @return
     */
-    public static function attrFormat($attrs) {
+    public static function attrFormat($attrs)
+    {
         $attr = array();
-        foreach($attrs as $name => $attr_value) {
+        foreach ($attrs as $name => $attr_value) {
             $name = self::escape($name);
             $attr_value = self::quote($attr_value);
             $attr[] = "{$name}={$attr_value}";
@@ -103,11 +110,12 @@ class FormManager {
     * @param string
     * @return
     */
-    public function create($id = null){
-        if(empty($id)){
+    public function create($id = null)
+    {
+        if (empty($id)) {
             $id = $this->id . "_" . (++$this->count);
         }
-        if(!empty($this->storage[$id])) {
+        if (!empty($this->storage[$id])) {
             trigger_error("FormHelper:requested form_id was used,old form should be overwrite", E_USER_NOTICE);
         }
         $this->last_id=$id;
@@ -120,15 +128,15 @@ class FormManager {
     * @param string
     * @return
     */
-    public function find($id=null){
-        if(empty($id)){
+    public function find($id = null)
+    {
+        if (empty($id)) {
             $id = $this->last_id;
         }
-        if(empty($this->storage[$id])){
+        if (empty($this->storage[$id])) {
             trigger_error("FormHelper:undefined Form", E_USER_NOTICE);
             return null;
         }
         return $this->storage[$id];
     }
-
 }

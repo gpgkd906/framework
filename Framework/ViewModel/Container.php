@@ -42,7 +42,7 @@ class Container implements ContainerInterface, ArrayAccess
      * @return mixed $items
      * @link
      */
-    public function setItems ($items)
+    public function setItems($items)
     {
         return $this->items = $items;
     }
@@ -53,7 +53,7 @@ class Container implements ContainerInterface, ArrayAccess
      * @return mixed $items
      * @link
      */
-    public function getItems ()
+    public function getItems()
     {
         foreach ($this->items as $key => $item) {
             if (!$item instanceof ViewModelInterface) {
@@ -71,7 +71,7 @@ class Container implements ContainerInterface, ArrayAccess
      * @return
      * @link
      */
-    public function addItem ($item, $forceView = false)
+    public function addItem($item, $forceView = false)
     {
         if ($forceView) {
             $item = $this->getViewModel($item);
@@ -99,7 +99,7 @@ class Container implements ContainerInterface, ArrayAccess
                 $htmls[] = call_user_func([$item, $render]);
             }
             return join('', $htmls);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
     }
@@ -110,7 +110,7 @@ class Container implements ContainerInterface, ArrayAccess
      * @return mixed $exportView
      * @link
      */
-    public function setExportView ($exportView)
+    public function setExportView($exportView)
     {
         return $this->exportView = $exportView;
     }
@@ -121,12 +121,13 @@ class Container implements ContainerInterface, ArrayAccess
      * @return mixed $exportView
      * @link
      */
-    public function getExportView ()
+    public function getExportView()
     {
         return $this->exportView;
     }
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->items[] = $value;
         } else {
@@ -134,15 +135,18 @@ class Container implements ContainerInterface, ArrayAccess
         }
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->items[$offset]);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->items[$offset]);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         if (isset($this->items[$offset])) {
             $item = $this->items[$offset];
             if (!$item instanceof ViewModelInterface) {

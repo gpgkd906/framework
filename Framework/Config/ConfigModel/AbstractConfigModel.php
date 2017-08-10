@@ -58,7 +58,7 @@ abstract class AbstractConfigModel implements ConfigModelInterface
         return self::$instances[$configName];
     }
 
-    static public function loadConfig($metaConfig, $type)
+    public static function loadConfig($metaConfig, $type)
     {
         if (!isset($metaConfig['scope']) && !isset($metaConfig['file'])) {
             throw new Exception(self::INVALID_SCOPE_OR_FILEPATH);

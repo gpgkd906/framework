@@ -4,12 +4,14 @@ namespace Framework\FormManager;
 
 use Framework\ValidatorManager\ValidatorManagerAwareInterface;
 use Exception;
+
 /**
 *　フォーム自動生成ライブラリ
 */
 class Form implements ValidatorManagerAwareInterface
 {
     use \Framework\ValidatorManager\ValidatorManagerAwareTrait;
+    
     /**
     * 要素インスタンスキャッシュプール
     * @var array
@@ -133,7 +135,7 @@ class Form implements ValidatorManagerAwareInterface
     * @return mixed $message
     * @link
     */
-    public function setMessage ($message)
+    public function setMessage($message)
     {
         return $this->message = $message;
     }
@@ -144,12 +146,12 @@ class Form implements ValidatorManagerAwareInterface
     * @return mixed $message
     * @link
     */
-    public function getMessage ()
+    public function getMessage()
     {
         return $this->message;
     }
 
-    public function addMessage ($name, $message)
+    public function addMessage($name, $message)
     {
         return $this->message[$name] = $message;
     }
@@ -158,7 +160,8 @@ class Form implements ValidatorManagerAwareInterface
     * @param string
     * @return
     */
-    public function __construct($id){
+    public function __construct($id)
+    {
         $this->id = $id;
         $this->append("hidden", "form_id", $id);
         $this->append("hidden", "form_mode", "confirm");
@@ -172,7 +175,8 @@ class Form implements ValidatorManagerAwareInterface
     * フォームの開始タグ出力
     * @return
     */
-    public function start() {
+    public function start()
+    {
         $attr = FormManager::attrFormat($this->attrs);
         $html = [
             "<form {$attr}>",
@@ -186,7 +190,8 @@ class Form implements ValidatorManagerAwareInterface
     * フォームの閉じタグ出力
     * @return
     */
-    public function end() {
+    public function end()
+    {
         echo "</form>";
     }
 
@@ -196,7 +201,8 @@ class Form implements ValidatorManagerAwareInterface
     * @param mix $val 属性値
     * @return
     */
-    public function set($attr, $val) {
+    public function set($attr, $val)
+    {
         $this->attrs[$attr] = $val;
     }
 
@@ -208,11 +214,12 @@ class Form implements ValidatorManagerAwareInterface
     * @param resource 要素の初期値
     * @return object
     */
-    public function append($type = "text", $name, $val = null, $default = null, $elementClass = null) {
+    public function append($type, $name, $val = null, $default = null, $elementClass = null)
+    {
         $element = $this->isolate($type, $name, $val, $default, $elementClass);
         $this->elements[$name] = $element;
         $element->setForm($this);
-        if($type == "file") {
+        if ($type == "file") {
             $this->set("enctype", 'multipart/form-data');
         }
         return $this->elements[$name];
@@ -223,8 +230,9 @@ class Form implements ValidatorManagerAwareInterface
     * @param integer $name 要素ネーム
     * @return element 取り外した要素
     */
-    public function detach($name) {
-        if(isset($this->elements[$name])) {
+    public function detach($name)
+    {
+        if (isset($this->elements[$name])) {
             $element = $this->elements[$name];
             unset($this->elements[$name]);
             return $element;
@@ -240,18 +248,19 @@ class Form implements ValidatorManagerAwareInterface
     * @param resource 要素の初期値
     * @return object
     */
-    public function isolate($type = "text", $name, $val = null, $default = null, $elementClass = null) {
-        if($elementClass === null) {
+    public function isolate($type, $name, $val = null, $default = null, $elementClass = null)
+    {
+        if ($elementClass === null) {
             $elementClass = __NAMESPACE__ . '\Element\\' . ucfirst($type);
-            if(!class_exists($elementClass)) {
-                if(class_exists($type)) {
+            if (!class_exists($elementClass)) {
+                if (class_exists($type)) {
                     $elementClass = $type;
                 } else {
                     $elementClass = __NAMESPACE__ . '\Element\\FormElement';
                 }
             }
         }
-        If(!class_exists($elementClass)) {
+        if (!class_exists($elementClass)) {
             throw new Exception(sprintf('不明なFormElement: %s', $elementClass));
         }
         return new $elementClass($name, $type, $val, $default);
@@ -261,11 +270,16 @@ class Form implements ValidatorManagerAwareInterface
     * ライブラリ用データも含む、全ての入力データを返す
     * @return
     */
-    private function allData() {
-        if($this->allData == null) {
-            switch(strtolower($this->attrs["method"])) {
-                case "post": $data = $_POST; break;
-                case "get" : $data = $_GET; break;
+    private function allData()
+    {
+        if ($this->allData == null) {
+            switch (strtolower($this->attrs["method"])) {
+                case "post":
+                    $data = $_POST;
+                    break;
+                case "get":
+                    $data = $_GET;
+                    break;
             }
             $this->allData = empty($data) ? $this->preprocess_data : array_merge($this->preprocess_data, $data);
         }
@@ -277,22 +291,23 @@ class Form implements ValidatorManagerAwareInterface
     * @param string $name データキー
     * @return
     */
-    public function getData($scope = null, $name = null, $defaultNull = false) {
-        if($this->request_data == null) {
+    public function getData($scope = null, $name = null, $defaultNull = false)
+    {
+        if ($this->request_data == null) {
             $data = $this->allData();
-            foreach($this->except as $key => $except) {
+            foreach ($this->except as $key => $except) {
                 unset($data[$key]);
             }
             $this->request_data = $data;
         }
         $data = $this->request_data;
-        if($scope !== null && isset($data[$scope])) {
+        if ($scope !== null && isset($data[$scope])) {
             $data = $data[$scope];
         }
-        if($name !== null && isset($data[$name])) {
+        if ($name !== null && isset($data[$name])) {
             $data = $data[$name];
         } else {
-            if($defaultNull) {
+            if ($defaultNull) {
                 $data = null;
             }
         }
@@ -305,16 +320,17 @@ class Form implements ValidatorManagerAwareInterface
     * @param mix $val 上書きしたいデータの値
     * @return
     */
-    public function setData($data) {
+    public function setData($data)
+    {
         $elements = array_diff_key($this->elements, $this->except);
-        foreach($elements as $name => $element) {
+        foreach ($elements as $name => $element) {
             $scope = $element->getScope();
-            if($scope && isset($data[$scope])) {
+            if ($scope && isset($data[$scope])) {
                 $_data = $data[$scope];
             } else {
                 $_data = $data;
             }
-            if(isset($_data[$name])) {
+            if (isset($_data[$name])) {
                 $element->value($_data[$name]);
             }
         }
@@ -325,14 +341,19 @@ class Form implements ValidatorManagerAwareInterface
     * @param array $data 上書きするデータ
     * @return
     */
-    public function clear() {
-        switch(strtolower($this->attrs["method"])) {
-            case "post": $_POST = array_diff_key($_POST, $this->elements); break;
-            case "get" : $_GET = array_diff_key($_GET, $this->elements); break;
+    public function clear()
+    {
+        switch (strtolower($this->attrs["method"])) {
+            case "post":
+                $_POST = array_diff_key($_POST, $this->elements);
+                break;
+            case "get":
+                $_GET = array_diff_key($_GET, $this->elements);
+                break;
         }
         $this->allData = null;
         $this->request_data = null;
-        $this->each(function($name, $element) {
+        $this->each(function ($name, $element) {
             $element->clear();
         });
     }
@@ -342,9 +363,10 @@ class Form implements ValidatorManagerAwareInterface
     * @param array $call 要素に対する処理
     * @return
     */
-    public function each($call) {
+    public function each($call)
+    {
         $elements = array_diff_key($this->elements, $this->except);
-        foreach($elements as $name => $element) {
+        foreach ($elements as $name => $element) {
             call_user_func($call, $name, $element);
         }
     }
@@ -353,32 +375,33 @@ class Form implements ValidatorManagerAwareInterface
     * バリデーション処理、リセットデータの検知
     * @return
     */
-    public function isValid() {
-        if($this->validated) {
+    public function isValid()
+    {
+        if ($this->validated) {
             return $this->no_error;
         }
         $data = $this->allData();
-        if(isset($data["reset"])) {
+        if (isset($data["reset"])) {
             return $this->forceError();
         }
         $elements = array_diff_key($this->elements, $this->except);
-        if(isset($this->elements['csrf'])) {
-            if($data['csrf'] !== $this->getCsrfValue()) {
+        if (isset($this->elements['csrf'])) {
+            if ($data['csrf'] !== $this->getCsrfValue()) {
                 $this->elements['csrf']->forceError('CSRF認証失敗');
                 return $this->forceError();
             }
         }
-        foreach($elements as $name => $element) {
+        foreach ($elements as $name => $element) {
             $scope = $element->getScope();
-            if($scope && isset($data[$scope])) {
+            if ($scope && isset($data[$scope])) {
                 $_data = $data[$scope];
             } else {
                 $_data = $data;
             }
-            if(isset($_data[$name])) {
+            if (isset($_data[$name])) {
                 $element->value($_data[$name]);
             }
-            if($element->isValid() === false) {
+            if ($element->isValid() === false) {
                 $this->addMessage($name, $element->error);
                 $this->no_error = false;
             }
@@ -391,7 +414,8 @@ class Form implements ValidatorManagerAwareInterface
     * 強制エラー
     * @return
     */
-    public function forceError() {
+    public function forceError()
+    {
         return $this->no_error = false;
     }
 
@@ -399,10 +423,11 @@ class Form implements ValidatorManagerAwareInterface
     * サブミットされたかどかのチェック
     * @return
     */
-    public function submitted() {
-        if(!$this->submitted) {
+    public function submitted()
+    {
+        if (!$this->submitted) {
             $data = $this->allData();
-            if(isset($data["form_id"]) && $data["form_id"] == $this->id) {
+            if (isset($data["form_id"]) && $data["form_id"] == $this->id) {
                 $this->submitted = true;
             }
         }
@@ -413,10 +438,14 @@ class Form implements ValidatorManagerAwareInterface
     * 確認ページ処理されるかどかのチェック
     * @return
     */
-    public function confirmed() {
-        if(!$this->confirmed && empty($this->error)) {
+    public function confirmed()
+    {
+        if (!$this->confirmed && empty($this->error)) {
             $data = $this->allData();
-            if(isset($data["form_id"]) && $data["form_id"] == $this->id && $data["form_mode"] == "confirm" && !isset($data["reset"])) {
+            if (isset($data["form_id"])
+                && $data["form_id"] == $this->id
+                && $data["form_mode"] == "confirm"
+                && !isset($data["reset"])) {
                 $this->confirmed = true;
             }
         }
@@ -427,10 +456,14 @@ class Form implements ValidatorManagerAwareInterface
     * 完了処理をされるかどかのチェック
     * @return
     */
-    public function completed() {
-        if(!$this->completed && empty($this->error)) {
+    public function completed()
+    {
+        if (!$this->completed && empty($this->error)) {
             $data = $this->allData();
-            if(isset($data["form_id"]) && $data["form_id"] == $this->id && $data["form_mode"] == "complete" && !isset($data["reset"])) {
+            if (isset($data["form_id"])
+                && $data["form_id"] == $this->id
+                && $data["form_mode"] == "complete"
+                && !isset($data["reset"])) {
                 $this->completed = true;
             }
         }
@@ -442,18 +475,19 @@ class Form implements ValidatorManagerAwareInterface
     * @param closure $callback コールバック
     * @return
     */
-    public function submit($callback = null) {
-        if($this->submitted()) {
-            if(!$this->isValid()) {
+    public function submit($callback = null)
+    {
+        if ($this->submitted()) {
+            if (!$this->isValid()) {
                 return false;
             }
             $data = $this->getData();
             if ($this->getFieldsets()) {
-                foreach($this->getFieldsets() as $fieldset) {
+                foreach ($this->getFieldsets() as $fieldset) {
                     $fieldset->onSubmit();
                 }
             }
-            if(is_callable($callback)) {
+            if (is_callable($callback)) {
                 return call_user_func($callback, $data, $this);
             }
         }
@@ -465,23 +499,24 @@ class Form implements ValidatorManagerAwareInterface
     * @param closure コールバック
     * @return
     */
-    public function confirm($confirm = null, $complete = null) {
-        if($this->submitted()) {
-            if(!$this->isValid()) {
+    public function confirm($confirm = null, $complete = null)
+    {
+        if ($this->submitted()) {
+            if (!$this->isValid()) {
                 return false;
             }
             $data = $this->getData();
             //完了処理かどか?
-            if(is_callable($complete) && ($this->completed() || $confirm === false)) {
+            if (is_callable($complete) && ($this->completed() || $confirm === false)) {
                 $this->completed = true;
                 $this->clearCsrfValue();
                 return call_user_func($complete, $data, $this);
             }
             //確認処理かどか?
             //$confirm : false =>　確認ページ生成しない, null => 確認ページ生成するが、callbackは実行しない
-            if($confirm !== false && $this->confirmed()) {
-                $this->confirm_config();
-                if(is_callable($confirm)) {
+            if ($confirm !== false && $this->confirmed()) {
+                $this->confirmConfig();
+                if (is_callable($confirm)) {
                     call_user_func($confirm, $data, $this);
                 }
                 return $this;
@@ -493,9 +528,10 @@ class Form implements ValidatorManagerAwareInterface
     * 確認ページ生成時必要の処理
     * @return
     */
-    private function confirm_config() {
-        $this->each(function($name, $element) {
-            $element->confirm_mode();
+    private function confirmConfig()
+    {
+        $this->each(function ($name, $element) {
+            $element->confirmMode();
         });
         $this->elements["form_mode"]->value("complete");
         $this->elements["submit"]->value("送信する");
@@ -507,18 +543,19 @@ class Form implements ValidatorManagerAwareInterface
     * @param string $name 要素名
     * @return
     */
-    public function __get($name) {
-        if(isset($this->fieldsets[$name])) {
+    public function __get($name)
+    {
+        if (isset($this->fieldsets[$name])) {
             return $this->fieldsets[$name];
         }
-        if(isset($this->elements[$name])) {
+        if (isset($this->elements[$name])) {
             return $this->elements[$name];
         }
     }
 
     private function initCsrf()
     {
-        if($this->getCsrfValue()) {
+        if ($this->getCsrfValue()) {
             $csrf = $this->getCsrfValue();
         } else {
             $csrf = hash('sha256', $this->getCsrfKey() . uniqid((string) mt_rand()));
@@ -534,7 +571,7 @@ class Form implements ValidatorManagerAwareInterface
 
     private function getCsrfValue()
     {
-        if(!isset($_SESSION)) {
+        if (!isset($_SESSION)) {
             session_start();
             $session = $_SESSION;
             session_write_close();
@@ -542,12 +579,12 @@ class Form implements ValidatorManagerAwareInterface
         } else {
             $session = $_SESSION;
         }
-        if(isset($session[$this->getCsrfkey()])) {
+        if (isset($session[$this->getCsrfkey()])) {
             $csrfItem = $session[$this->getCsrfkey()];
-            if(!isset($csrfItem['expire'])) {
+            if (!isset($csrfItem['expire'])) {
                 return null;
             }
-            if($csrfItem['expire'] < $_SERVER['REQUEST_TIME']) {
+            if ($csrfItem['expire'] < $_SERVER['REQUEST_TIME']) {
                 return null;
             }
             return isset($csrfItem['value']) ? $csrfItem['value'] : null;
@@ -558,14 +595,14 @@ class Form implements ValidatorManagerAwareInterface
 
     private function setCsrfValue($csrf)
     {
-        if($this->getCsrfValue()) {
+        if ($this->getCsrfValue()) {
             return null;
         }
         $expire = $_SERVER['REQUEST_TIME'] + $this->csrfExpire;
         $csrfKey = $this->getCsrfKey();
-        if(!isset($_SESSION)) {
+        if (!isset($_SESSION)) {
             session_start();
-            if(isset($expire)) {
+            if (isset($expire)) {
                 $_SESSION[$csrfKey]['expire'] = $expire;
             }
             $_SESSION[$csrfKey]['value'] = $csrf;
@@ -579,7 +616,7 @@ class Form implements ValidatorManagerAwareInterface
     private function clearCsrfValue()
     {
         $csrfKey = $this->getCsrfKey();
-        if(!isset($_SESSION)) {
+        if (!isset($_SESSION)) {
             session_start();
             unset($_SESSION[$csrfKey]);
             session_write_close();
@@ -590,20 +627,20 @@ class Form implements ValidatorManagerAwareInterface
 
     public function addFieldset($fieldset)
     {
-        if(!$fieldset instanceof Fieldset) {
+        if (!$fieldset instanceof Fieldset) {
             //パラメタがconfigのであれば
-            if(is_array($fieldset)) {
+            if (is_array($fieldset)) {
                 $class = null;
-                if(isset($fieldset['class'])) {
+                if (isset($fieldset['class'])) {
                     $class = $fieldset['class'];
                 }
-                if($class === null || !class_exists($class)){
+                if ($class === null || !class_exists($class)) {
                     $class = __NAMESPACE__ . '\Fieldset';
                 }
                 $fieldset = new $class($this, $fieldset);
             } else {
                 //パラメタはクラスのであれば
-                if(class_exists($fieldset)) {
+                if (class_exists($fieldset)) {
                     $fieldset = new $fieldset($this);
                 }
             }
@@ -620,7 +657,7 @@ class Form implements ValidatorManagerAwareInterface
     * @return mixed $fieldset
     * @link
     */
-    public function setFieldsets ($fieldsets)
+    public function setFieldsets($fieldsets)
     {
         return $this->fieldsets = $fieldsets;
     }
@@ -631,14 +668,14 @@ class Form implements ValidatorManagerAwareInterface
     * @return mixed $fieldset
     * @link
     */
-    public function getFieldsets ()
+    public function getFieldsets()
     {
         return $this->fieldsets;
     }
 
     public function getFieldset($name)
     {
-        if(isset($this->fieldsets[$name])) {
+        if (isset($this->fieldsets[$name])) {
             return $this->fieldsets[$name];
         }
     }

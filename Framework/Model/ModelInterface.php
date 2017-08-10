@@ -7,4 +7,3 @@ interface ModelInterface
 {
     public function getEntities();
 }
-

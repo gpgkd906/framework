@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Framework\Fieldset\Admin;
 
 use Framework\Fieldset\AbstractFieldset;
-use Framework\FormManager\Validator;
 
 class PageFieldset extends AbstractFieldset
 {
@@ -40,7 +39,7 @@ class PageFieldset extends AbstractFieldset
         'model' => [
             'type' => 'select',
             'value' => [
-                
+
             ],
             'validator' => [
                 [Validator::Exists, "※必須入力"],
@@ -60,7 +59,7 @@ class PageFieldset extends AbstractFieldset
             'type' => 'inLineRadio',
             'value' => ['非公開' => '0', '公開' => 1],
             'attrs' => [
-                
+
             ],
         ],
         'authorizeType' => [

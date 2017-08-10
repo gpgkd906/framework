@@ -4,10 +4,12 @@ namespace Framework\FormManager;
 
 use Framework\FormManager\Element\FormElementInterface;
 use Exception;
+
 /**
 *　フォーム自動生成ライブラリ
 */
-class Fieldset {
+class Fieldset
+{
 
     /**
     *
@@ -56,7 +58,7 @@ class Fieldset {
 
     public function __construct($form, $fieldset = [])
     {
-        if(isset($fieldset['name'])) {
+        if (isset($fieldset['name'])) {
             $this->setName($fieldset['name']);
             unset($fieldset['name']);
         }
@@ -64,7 +66,7 @@ class Fieldset {
             $fieldset = $fieldset['fieldset'];
         }
         $this->setForm($form);
-        if(!empty($fieldset)) {
+        if (!empty($fieldset)) {
             $this->setFieldset($fieldset);
         }
         //データ配置
@@ -80,7 +82,7 @@ class Fieldset {
     * @return mixed $fieldset
     * @link
     */
-    public function setFieldset ($fieldset)
+    public function setFieldset($fieldset)
     {
         return $this->fieldset = $fieldset;
     }
@@ -91,7 +93,7 @@ class Fieldset {
     * @return mixed $fieldset
     * @link
     */
-    public function getFieldset ()
+    public function getFieldset()
     {
         return $this->fieldset;
     }
@@ -103,7 +105,7 @@ class Fieldset {
     * @return mixed $form
     * @link
     */
-    public function setForm ($form)
+    public function setForm($form)
     {
         return $this->form = $form;
     }
@@ -114,7 +116,7 @@ class Fieldset {
     * @return mixed $form
     * @link
     */
-    public function getForm ()
+    public function getForm()
     {
         return $this->form;
     }
@@ -126,7 +128,7 @@ class Fieldset {
     * @return mixed $elements
     * @link
     */
-    public function setElements ($elements)
+    public function setElements($elements)
     {
         return $this->elements = $elements;
     }
@@ -137,7 +139,7 @@ class Fieldset {
     * @return mixed $elements
     * @link
     */
-    public function getElements ()
+    public function getElements()
     {
         return $this->elements;
     }
@@ -150,10 +152,10 @@ class Fieldset {
     * @return
     * @link
     */
-    public function addElement (FormElementInterface $element, $name = null)
+    public function addElement(FormElementInterface $element, $name = null)
     {
         $element->setScope($this->getName());
-        if($name === null) {
+        if ($name === null) {
             $name = $element->name;
         }
         $this->elements[$name] = $element;
@@ -164,8 +166,9 @@ class Fieldset {
     * @param string $name 要素名
     * @return
     */
-    public function __get($name) {
-        if(isset($this->elements[$name])) {
+    public function __get($name)
+    {
+        if (isset($this->elements[$name])) {
             return $this->elements[$name];
         }
     }
@@ -177,7 +180,7 @@ class Fieldset {
     * @return mixed $data
     * @link
     */
-    public function setData ($data)
+    public function setData($data)
     {
         return $this->data = $data;
     }
@@ -188,7 +191,7 @@ class Fieldset {
     * @return mixed $data
     * @link
     */
-    public function getData ()
+    public function getData()
     {
         return $this->data;
     }
@@ -200,7 +203,7 @@ class Fieldset {
     * @return
     * @link
     */
-    public function setName ($name)
+    public function setName($name)
     {
         return $this->name = $name;
     }
@@ -211,13 +214,13 @@ class Fieldset {
     * @return mixed $name
     * @link
     */
-    public function getName ()
+    public function getName()
     {
-        if($this->name === null) {
+        if ($this->name === null) {
             $className = explode('\\', static::class);
             $className = array_pop($className);
             $name = str_replace('Fieldset', '', $className);
-            if(empty($name)) {
+            if (empty($name)) {
                 $name = 'default';
             }
             $this->name = $name;
@@ -228,16 +231,16 @@ class Fieldset {
     public function initialization()
     {
         $form = $this->getForm();
-        foreach($this->getFieldset() as $name => $field) {
+        foreach ($this->getFieldset() as $name => $field) {
             $value = isset($field['value']) ? $field['value'] : null;
             $element = $form->append($field['type'], $name, $value);
             $element->set('name', $name);
-            if(isset($field['inputSpecification']) && !empty($field['inputSpecification'])) {
+            if (isset($field['inputSpecification']) && !empty($field['inputSpecification'])) {
                 $field['inputSpecification']['name'] = $name;
                 $element->addValidator($form->getValidatorManager()->createInputFilter($field['inputSpecification']));
             }
-            if(isset($field['attrs'])) {
-                foreach($field['attrs'] as $key => $val) {
+            if (isset($field['attrs'])) {
+                foreach ($field['attrs'] as $key => $val) {
                     $element->set($key, $val);
                 }
             }
@@ -246,7 +249,11 @@ class Fieldset {
         $this->onInit();
     }
 
-    public function onInit() {}
+    public function onInit()
+    {
+    }
 
-    public function onSubmit() {}
+    public function onSubmit()
+    {
+    }
 }
