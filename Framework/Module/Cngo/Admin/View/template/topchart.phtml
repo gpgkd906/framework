@@ -63,7 +63,7 @@
 					  <?php $header = $barChart['header']; ?>
                                           <tr>
 					    <?php foreach ($header as $column) { ?>
-                                            <th><?php echo $column ?></th>
+                                            <th><?= $column ?></th>
 					    <?php } ?>
 					  </tr>
                                         </thead>
@@ -72,7 +72,7 @@
 					  <?php foreach ($datas as $row) { ?>
                                           <tr>
 					    <?php foreach ($row as $value) { ?>
-                                            <td><?php echo $value ?></td>
+                                            <td><?= $value ?></td>
 					    <?php } ?>
                                           </tr>
 					  <?php } ?>
@@ -92,7 +92,7 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
-		    <?php echo $this->getContainer('Sub'); ?>
+		    <?= $this->getContainer('Sub'); ?>
                 </div>
                 <!-- /.col-lg-8 -->
                 <div class="col-lg-4">

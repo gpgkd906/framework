@@ -8,8 +8,10 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php $form = $this->getForm(); ?>
-                    <?php $form->start(); ?>
+                    <?php
+declare(strict_types=1); $form = $this->getForm(); ?>
+                    <?php
+declare(strict_types=1); $form->start(); ?>
                     <fieldset>
                         <div class="row">
                             <div class="col-md-4">
@@ -26,7 +28,8 @@
                             </div>
                         </div>
                     </fieldset>
-                    <?php $form->end(); ?>
+                    <?php
+declare(strict_types=1); $form->end(); ?>
                 </div>
             </div>
         </div>

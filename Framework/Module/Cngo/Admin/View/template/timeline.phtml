@@ -7,16 +7,16 @@
                             <ul class="timeline">
 				<?php foreach ($timeline as $index => $row) { ?>
                                 <li<?php if ($index % 2) { ?> class="timeline-inverted"<?php } ?>>
-                                    <?php if (!empty($row['icon'])) { ?><div class="timeline-badge info"><i class="fa <?php echo $row['icon'] ?>"></i></div><?php } ?>                                    
+                                    <?php if (!empty($row['icon'])) { ?><div class="timeline-badge info"><i class="fa <?= $row['icon'] ?>"></i></div><?php } ?>                                    
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
-                                          <h4 class="timeline-title"><?php echo $row['title'] ?></h4>
+                                          <h4 class="timeline-title"><?= $row['title'] ?></h4>
 					  <?php if (isset($row['datetime'])) { ?>
-					  <p><small class="text-muted"><i class="fa fa-clock-o"></i><?php echo $row['datetime'] ?></small></p>
+					  <p><small class="text-muted"><i class="fa fa-clock-o"></i><?= $row['datetime'] ?></small></p>
 					  <?php } ?>
                                         </div>
                                         <div class="timeline-body">
-					  <?php echo $row['body']; ?>
+					  <?= $row['body']; ?>
 					  <?php if (isset($row['action'])) { ?>
                                             <hr>
                                             <div class="btn-group">
@@ -27,7 +27,7 @@
 						  <?php foreach ($row['action'] as $index => $actionGroup) { ?>
 						  <?php if ($index > 0) { ?><li class="divider"></li><?php } ?>
 						  <?php foreach ($actionGroup as $act) { ?>
-                                                  <li><a href="<?php echo $act['href'] ?>"><?php echo $act['title'] ?></a></li>
+                                                  <li><a href="<?= $act['href'] ?>"><?= $act['title'] ?></a></li>
 						  <?php } ?>
 						  <?php } ?>
                                                 </ul>

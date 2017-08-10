@@ -6,16 +6,19 @@
                     <h3 class="panel-title">Template</h3>
                 </div>
                 <div class="panel-body">
-                    <?php $form = $this->getForm(); ?>
-                    <?php $form->start(); ?>
+                    <?php
+declare(strict_types=1); $form = $this->getForm(); ?>
+                    <?php
+declare(strict_types=1); $form->start(); ?>
                     <fieldset>
                         <div class="form-group">
                             <label>Field</label>
-                            <?php echo $form->form->field, $form->form->field->error; ?>
+                            <?= $form->form->field, $form->form->field->error; ?>
                         </div>
-                        <?php echo $form->submit; ?>
+                        <?= $form->submit; ?>
                     </fieldset>
-                    <?php $form->end(); ?>
+                    <?php
+declare(strict_types=1); $form->end(); ?>
                 </div>
             </div>
         </div>

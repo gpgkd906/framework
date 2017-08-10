@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 use Framework\Module\{Module}\Controller{Namespace}\RegisterController;
 use Framework\Module\{Module}\Controller{Namespace}\EditController;
 use Framework\Module\{Module}\Controller{Namespace}\DeleteController;
@@ -26,7 +27,8 @@ use Framework\Module\{Module}\Controller{Namespace}\DeleteController;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($this->getData('{entity}') as $index => ${entity}) : ?>
+                        <?php
+declare(strict_types=1); foreach ($this->getData('{entity}') as $index => ${entity}) : ?>
                             <tr class="<?= $index % 2 ? 'even' : 'odd' ?>">
                                 <td><?=${entity}['{entity}Id']; ?></td>
                                 <td class="center">
@@ -34,7 +36,8 @@ use Framework\Module\{Module}\Controller{Namespace}\DeleteController;
                                     <a href="<?=$this->getRouter()->linkto(DeleteController::class, ${entity}['{entity}Id']); ?>" class="btn btn-danger">削除</a>
                                 </td>
                             </tr>
-                        <?php endforeach;?>
+                        <?php
+declare(strict_types=1); endforeach;?>
                     </tbody>
                 </table>
             </div>
@@ -45,6 +48,7 @@ use Framework\Module\{Module}\Controller{Namespace}\DeleteController;
     <!-- /.col-lg-12 -->
 </div>
 <?php
+declare(strict_types=1);
     $this->getLayout()->registerScript('/../js/dataTables/jquery.dataTables.min.js');
     $this->getLayout()->registerScript('/../js/dataTables/dataTables.bootstrap.min.js');
     $this->getLayout()->registerScript('/../js/dataTables/dataTables.responsive.js');

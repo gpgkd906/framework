@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Framework\Service\CodeService;
 
@@ -95,7 +96,8 @@ class CodeService extends AbstractService
     public function createCode($namespace = null, $class = null)
     {
         $codeBase = [
-            '<?php', PHP_EOL, PHP_EOL
+            '<?php
+declare(strict_types=1);', PHP_EOL, PHP_EOL
         ];
         if ($namespace) {
             $codeBase[] = 'namespace ';

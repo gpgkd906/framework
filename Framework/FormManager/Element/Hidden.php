@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Framework\FormManager\Element;
 
 class Hidden extends FormElement {

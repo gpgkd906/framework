@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 ${entity} = $this->getData()['{entity}'];
 ?>
 <div class="row">
@@ -19,15 +20,18 @@ ${entity} = $this->getData()['{entity}'];
                         </div>
                     </div>
                 </div>
-                <?php $form = $this->getForm(); ?>
-                <?php $form->start(); ?>
+                <?php
+declare(strict_types=1); $form = $this->getForm(); ?>
+                <?php
+declare(strict_types=1); $form->start(); ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <?php echo $form->submit; ?>
+                            <?= $form->submit; ?>
                         </div>
                     </div>
                 </fieldset>
-                <?php $form->end(); ?>
+                <?php
+declare(strict_types=1); $form->end(); ?>
             </div>
         </div>
     </div>

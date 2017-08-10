@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Framework\FormManager;
 
 use Framework\ValidatorManager\ValidatorManagerAwareInterface;
@@ -520,7 +521,7 @@ class Form implements ValidatorManagerAwareInterface
         if($this->getCsrfValue()) {
             $csrf = $this->getCsrfValue();
         } else {
-            $csrf = hash('sha256', $this->getCsrfKey() . uniqid(mt_rand()));
+            $csrf = hash('sha256', $this->getCsrfKey() . uniqid((string) mt_rand()));
         }
         $this->append('hidden', 'csrf', $csrf);
         $this->setCsrfValue($csrf);
@@ -596,7 +597,7 @@ class Form implements ValidatorManagerAwareInterface
                 if(isset($fieldset['class'])) {
                     $class = $fieldset['class'];
                 }
-                if($class === null && !class_exists($class)){
+                if($class === null || !class_exists($class)){
                     $class = __NAMESPACE__ . '\Fieldset';
                 }
                 $fieldset = new $class($this, $fieldset);
