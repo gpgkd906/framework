@@ -31,6 +31,7 @@ class Generator implements
         'namespace' => null,
         'type' => null,
         'entity' => '',
+        'useAwareInterface' => false,
     ];
 
     public function setTestMode($testMode)
@@ -179,6 +180,38 @@ class Generator implements
         $generator->setGenerateStubMethods(true);
         $generator->setGenerateAnnotations(true);
         $generator->generate($metadata, ROOT_DIR);
+        return $this;
+    }
+
+    public function generateModule()
+    {
+        $moduleInfo = $this->getModuleInfo();
+        $useAwareInterface = $moduleInfo['useAwareInterface'];
+        $type = $moduleInfo['type'];
+        $Namespace = $moduleInfo['namespace'];
+        $ModulePathfix = $Namespace;
+        $module = $moduleInfo['module'];
+        if ($Namespace) {
+            $namespace = '/' . lcfirst($Namespace);
+            $Namespace = '/' . $Namespace;
+        }
+        $path = str_replace([DIRECTORY_SEPARATOR, '\\'], '/', $moduleInfo['path']);
+        // common module
+        $Module = $this->getCodeTemplate("Module/Module.php");
+        $ModulePath = $path . "$ModulePathfix/$module.php";
+        $this->addBuffer($ModulePath, $Module);
+        // common interface
+        $interface = $this->getCodeTemplate("Module/ModuleInterface.php");
+        $interfacePath = $path . "$ModulePathfix/{$module}Interface.php";
+        $this->addBuffer($interfacePath, $interface);
+        if ($useAwareInterface) {
+            $interface = $this->getCodeTemplate("Module/AwareInterface.php");
+            $interfacePath = $path . "$ModulePathfix/{$module}AwareInterface.php";
+            $this->addBuffer($interfacePath, $interface);
+            $trait = $this->getCodeTemplate("Module/AwareTrait.php");
+            $traitPath = $path . "$ModulePathfix/{$module}AwareTrait.php";
+            $this->addBuffer($traitPath, $trait);
+        }
         return $this;
     }
 

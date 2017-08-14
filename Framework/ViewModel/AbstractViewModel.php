@@ -4,7 +4,6 @@ namespace Framework\ViewModel;
 
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\EventManager\EventTargetInterface;
-use Framework\Model\ModelInterface;
 use Framework\ViewModel\Helper\ViewHelper;
 use Framework\ViewModel\Helper\NumberFormatter;
 use Framework\Router\RouterAwareInterface;
@@ -123,10 +122,6 @@ abstract class AbstractViewModel implements
         //data:template
         if (isset($config["data"])) {
             $this->setData($config["data"]);
-        }
-        //Model
-        if (isset($config['model'])) {
-            $this->setModel($config['model']);
         }
         //layout;
         if (isset($config['layout'])) {
@@ -354,37 +349,6 @@ abstract class AbstractViewModel implements
             return $this->containers[$name];
         }
         return null;
-    }
-
-    /**
-    *
-    * @api
-    * @param mixed $model
-    * @return mixed $model
-    * @link
-    */
-    public function setModel($model)
-    {
-        if (!$model instanceof ModelInterface) {
-            if (class_exists($model)) {
-                $model = $this->getObjectManager()->get($model);
-            }
-        }
-        return $this->model = $model;
-    }
-
-    /**
-    *
-    * @api
-    * @return mixed $model
-    * @link
-    */
-    private function getModel()
-    {
-        if (!isset($this->model)) {
-            return null;
-        }
-        return $this->model;
     }
 
     /**

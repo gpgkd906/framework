@@ -1,5 +1,5 @@
 <?php
-$adminUser = $this->getData();
+$adminUser = $this->getModel();
 ?>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
@@ -9,10 +9,10 @@ $adminUser = $this->getData();
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i><?= $adminUser['name']?> <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i><?=$adminUser->getName(); ?> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="<?=$adminUser['ProfileEditUrl'] ?>"><i class="fa fa-gear fa-fw"></i> Edit Profile</a>
+                <li><a href="<?=$adminUser->getProfileEditUrl(); ?>"><i class="fa fa-gear fa-fw"></i> Edit Profile</a>
                 </li>
                 <li class="divider"></li>
                 <li><a href="/admin/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>

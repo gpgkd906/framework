@@ -25,7 +25,7 @@ class ConsoleHelper implements ConsoleHelperInterface
                 break;
             }
         } while ($input === null);
-        readline_add_history($input);
+        // readline_add_history($input);
         return $input;
     }
 

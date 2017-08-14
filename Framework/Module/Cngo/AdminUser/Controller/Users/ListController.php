@@ -20,8 +20,7 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
             'data' => [
                 'adminUsers' => $this->getEntityManager()->getRepository(AdminUsers::class)->findBy([
                     'deleteFlag' => 0
-                ], ['adminUsersId' => 'ASC'], 50),
-                'test' => '<script>alert(123);</script>'
+                ], ['adminUsersId' => 'ASC'], 50)
             ]
         ]);
     }

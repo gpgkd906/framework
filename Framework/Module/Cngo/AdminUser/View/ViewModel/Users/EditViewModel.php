@@ -24,6 +24,10 @@ class EditViewModel extends RegisterViewModel
         $data = $this->getData();
         $data['adminUser'] = $data['adminUser']->toArray();
         unset($data['adminUser']['password']);
+        $formData = $this->getForm()->getData();
+        if (isset($formData['adminUser'])) {
+            $data['adminUser'] = array_merge($data['adminUser'], $formData['adminUser']);
+        }
         $this->getForm()->setData($data);
     }
 }

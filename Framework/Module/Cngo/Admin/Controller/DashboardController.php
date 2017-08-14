@@ -25,7 +25,7 @@ class DashboardController extends AbstractAdminController implements
     public static function getPageInfo()
     {
         return [
-            "description" => "ダッシュボード",
+            "description" => "Dashboard",
             "priority" => 0,
             "menu" => true
         ];
