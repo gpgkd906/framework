@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File ObjectManager.php
+ * 
+ * @category Interface
+ * @package  Framework\ObjectManager
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\ObjectManager;
@@ -8,35 +18,59 @@ use Framework\ObjectManager\FactoryInterface;
 use Framework\ObjectManager\SingletonInterface;
 use Exception;
 
+/**
+ * Interface ObjectManager
+ * 
+ * @category Interface
+ * @package  Framework\ObjectManager
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class ObjectManager implements ObjectManagerInterface, SingletonInterface
 {
     use SingletonTrait;
 
-    /**
-    *
-    * @api
-    * @var mixed $application
-    * @access private
-    * @link
-    */
     private $objectFactory = [];
     private $sharedObject = [];
     private $dependencySetter = [];
     private $injectDependencys = [];
 
+    /**
+     * Constructor
+     */
     private function __construct()
     {
         $this->set(ObjectManagerInterface::class, $this);
     }
 
+    /**
+     * Method init
+     *
+     * @return this
+     */
     public function init()
     {
-        $this->exportGlobalObject();
-        $this->exportModuleObject();
-        $this->initGlobalObject();
-        $this->initModuleObject();
+        /**
+         * Method exportGlobalObject
+         *
+         * @return void
+         */
+        $this->_exportGlobalObject();
+        $this->_exportModuleObject();
+        $this->_initGlobalObject();
+        $this->_initModuleObject();
+        return $this;
     }
 
+    /**
+     * Method get
+     *
+     * @param string $name    shareObjectName
+     * @param class  $factory ObjectOrFactory
+     * 
+     * @return Object
+     */
     public function get($name, $factory = null)
     {
         if (isset($this->sharedObject[$name])) {
@@ -49,11 +83,28 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         return $Object;
     }
 
+    /**
+     * Method set
+     *
+     * @param string $name   shareObjectName
+     * @param Object $Object Object
+     * 
+     * @return this
+     */
     public function set($name, $Object)
     {
         $this->sharedObject[$name] = $Object;
+        return $this;
     }
 
+    /**
+     * Method create
+     *
+     * @param string $name    shareObjectName
+     * @param class  $factory ObjectOrFactory
+     * 
+     * @return Object
+     */
     public function create($name, $factory = null)
     {
         $Object = null;
@@ -81,12 +132,16 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     }
 
     /**
-    *  AwareInterface-base auto dependency-injection
-    */
+     * AwareInterface-base auto dependency-injection
+     *
+     * @param Object $Object Object
+     * 
+     * @return this
+     */
     public function injectDependency($Object)
     {
         foreach (class_implements($Object) as $interface) {
-            if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->getDependencySetter($interface)) {
+            if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->_getDependencySetter($interface)) {
                 if (isset($this->injectDependencys[$interface])) {
                     list($injectDependency, $injectDependencyInterface) = $this->injectDependencys[$interface];
                 } else {
@@ -113,9 +168,17 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
                 }
             }
         }
+        return $this;
     }
 
-    private function getDependencySetter($interface)
+    /**
+     * Method _getDependencySetter
+     *
+     * @param string $interface AwareInterface
+     * 
+     * @return string setter
+     */
+    private function _getDependencySetter($interface)
     {
         if (isset($this->dependencySetter[$interface])) {
             return $this->dependencySetter[$interface];
@@ -129,34 +192,61 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
         return;
     }
 
-    private function exportGlobalObject()
+    /**
+     * Method exportGlobalObject
+     *
+     * @return void
+     */
+    private function _exportGlobalObject()
     {
         foreach (glob(ROOT_DIR . 'Framework/*/export.php') as $objectExporter) {
-            require $objectExporter;
+            include $objectExporter;
         }
     }
 
-    private function exportModuleObject()
+    /**
+     * Method exportModuleObject
+     *
+     * @return void
+     */
+    private function _exportModuleObject()
     {
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
-            require $moduleExporter;
+            include $moduleExporter;
         }
     }
 
-    private function initGlobalObject()
+    /**
+     * Method initGlobalObject
+     *
+     * @return void
+     */
+    private function _initGlobalObject()
     {
         foreach (glob(ROOT_DIR . 'Framework/*/index.php') as $ObjectEntry) {
-            require $ObjectEntry;
+            include $ObjectEntry;
         }
     }
 
-    private function initModuleObject()
+    /**
+     * Method initModuleObject
+     *
+     * @return void
+     */
+    private function _initModuleObject()
     {
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/index.php') as $moduleEntry) {
-            require $moduleEntry;
+            include $moduleEntry;
         }
     }
 
+    /**
+     * Method export
+     *
+     * @param class $Objectfactories ObjectFactoryClasses
+     * 
+     * @return void
+     */
     public function export($Objectfactories)
     {
         foreach ($Objectfactories as $ObjectName => $factory) {

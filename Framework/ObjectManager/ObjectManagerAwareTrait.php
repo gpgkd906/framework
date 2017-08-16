@@ -1,39 +1,50 @@
 <?php
+/**
+ * PHP version 7
+ * File ObjectManagerAwareTrait.php
+ * 
+ * @category Interface
+ * @package  Framework\ObjectManager
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\ObjectManager;
 
+/**
+ * Trait ObjectManagerAwareTrait
+ * 
+ * @category Trait
+ * @package  Framework\ObjectManager
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 trait ObjectManagerAwareTrait
 {
-    /**
-    *
-    * @api
-    * @var mixed $ObjectManager
-    * @access private
-    * @link
-    */
-    private static $ObjectManager = null;
+    private static $_ObjectManager = null;
 
     /**
-    *
-    * @api
-    * @param mixed $ObjectManager
-    * @return mixed $ObjectManager
-    * @link
-    */
+     * Method setObjectMananger
+     *
+     * @param ObjectManagerInterface $ObjectManager ObjectManager
+     * 
+     * @return void
+     */
     public function setObjectManager(ObjectManagerInterface $ObjectManager)
     {
-        return self::$ObjectManager = $ObjectManager;
+        return self::$_ObjectManager = $ObjectManager;
     }
 
     /**
-    *
-    * @api
-    * @return mixed $ObjectManager
-    * @link
-    */
+     * Method getObjectManager
+     *
+     * @return ObjectManagerInterface $ObjectManager
+     */
     public function getObjectManager()
     {
-        return self::$ObjectManager;
+        return self::$_ObjectManager;
     }
 }

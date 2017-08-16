@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File EntityManagerFactory.php
+ * 
+ * @category Factory
+ * @package  Framework\Repositry
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 namespace Framework\Repository\Doctrine;
 
@@ -14,13 +24,29 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
+/**
+ * Factory EntityManagerFactory
+ * 
+ * @category Factory
+ * @package  Framework\Repositry
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class EntityManagerFactory implements FactoryInterface
 {
-    private $EntityManager = null;
+    private $_EntityManager = null;
 
+    /**
+     * Method create
+     *
+     * @param ObjectManager $ObjectManager ObjectManager
+     * 
+     * @return EntityManager $entityManager
+     */
     public function create($ObjectManager)
     {
-        if ($this->EntityManager === null) {
+        if ($this->_EntityManager === null) {
             $config = ConfigModel::getConfigModel([
                 "scope" => ConfigModel::MODEL,
                 "property" => ConfigModel::READONLY,
@@ -40,17 +66,24 @@ class EntityManagerFactory implements FactoryInterface
                 'host'   => $connection['dsn']['host'],
                 'charset'   => $connection['dsn']['charset'],
             ];
-            $cache = $this->getCache($cache);
+            $cache = $this->_getCache($cache);
             $driver = new AnnotationDriver(new AnnotationReader(), $paths);
             AnnotationRegistry::registerLoader('class_exists');
             $config = Setup::createConfiguration($isDevMode, $proxyDir, $cache);
             $config->setMetadataDriverImpl($driver);
-            $this->EntityManager = EntityManager::create($dbParams, $config);
+            $this->_EntityManager = EntityManager::create($dbParams, $config);
         }
-        return $this->EntityManager;
+        return $this->_EntityManager;
     }
 
-    private function getCache($config)
+    /**
+     * Method _getCache
+     *
+     * @param array $config EntityConfig
+     * 
+     * @return Cache $cache DoctrineCache
+     */
+    private function _getCache($config)
     {
         $Cache = null;
         switch ($config['type']) {
