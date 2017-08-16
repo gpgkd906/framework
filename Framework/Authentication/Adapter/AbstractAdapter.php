@@ -4,7 +4,7 @@
  * File AbstractAdapter.php
  * 
  * @category Authentication
- * @package  Framework\Application
+ * @package  Framework\Authentication
  * @author   chenhan <gpgkd906@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework

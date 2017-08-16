@@ -1,10 +1,29 @@
 <?php
+/**
+ * PHP version 7
+ * File AbstractConfigModel.php
+ * 
+ * @category Config
+ * @package  Framework\Config
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Config\ConfigModel;
 
 use Exception;
 
+/**
+ * Abstract Class AbstractConfigModel
+ * 
+ * @category Class
+ * @package  Framework\Config
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 abstract class AbstractConfigModel implements ConfigModelInterface
 {
     //scope
@@ -23,22 +42,36 @@ abstract class AbstractConfigModel implements ConfigModelInterface
     //
     const INVALID_SCOPE_OR_FILEPATH = "error: invalid scope or config-filepath";
 
-    static private $namespace = null;
-    static private $instances = [];
+    static private $_namespace = null;
+    static private $_instances = [];
 
-    private $scope = null;
-    private $config = [];
-    private $property;
-    private $type = null;
+    private $_scope = null;
+    private $_config = [];
+    private $_property;
+    private $_type = null;
 
+    /**
+     * Method registerNamespace
+     *
+     * @param string $namespace Namespace
+     * 
+     * @return void
+     */
     public static function registerNamespace($namespace)
     {
-        return self::$namespace = $namespace;
+        return self::$_namespace = $namespace;
     }
 
+    /**
+     * Method getConfigModel
+     *
+     * @param array $metaConfig metaConfig
+     * 
+     * @return ConfigModelInterface
+     */
     public static function getConfigModel($metaConfig)
     {
-        $namespace = self::$namespace;
+        $namespace = self::$_namespace;
         $scope = $metaConfig["scope"];
         if (isset($metaConfig["property"])) {
             $property = $metaConfig["property"];
@@ -51,13 +84,21 @@ abstract class AbstractConfigModel implements ConfigModelInterface
             $type = self::TYPE_PHP_ARRAY;
         }
         $configName = join(".", [$namespace, $scope, $property]);
-        if (!isset(self::$instances[$configName])) {
+        if (!isset(self::$_instances[$configName])) {
             $config = self::loadConfig($metaConfig, $type);
-            self::$instances[$configName] = new static($scope, $config, $property, $type);
+            self::$_instances[$configName] = new static($scope, $config, $property, $type);
         }
-        return self::$instances[$configName];
+        return self::$_instances[$configName];
     }
 
+    /**
+     * Method loadConfig
+     *
+     * @param array  $metaConfig metaConfig
+     * @param string $type       type
+     * 
+     * @return array $config
+     */
     public static function loadConfig($metaConfig, $type)
     {
         if (!isset($metaConfig['scope']) && !isset($metaConfig['file'])) {
@@ -69,7 +110,7 @@ abstract class AbstractConfigModel implements ConfigModelInterface
             if (isset($metaConfig['namespace'])) {
                 $namespace = $metaConfig['namespace'];
             } else {
-                $namespace = self::$namespace;
+                $namespace = self::$_namespace;
             }
             $configFile = static::getFile($namespace, $metaConfig['scope']);
         }
@@ -91,36 +132,73 @@ abstract class AbstractConfigModel implements ConfigModelInterface
         return $config;
     }
 
+    /**
+     * Method __construct
+     *
+     * @param string $scope    scope
+     * @param array  $config   config
+     * @param string $property property
+     * @param string $type     type
+     */
     protected function __construct($scope, $config, $property, $type)
     {
-        $this->scope = $scope;
-        $this->config = $config;
-        $this->property = $property;
-        $this->type = $type;
+        $this->_scope = $scope;
+        $this->_config = $config;
+        $this->_property = $property;
+        $this->_type = $type;
     }
 
+    /**
+     * Abstract Method getFile
+     *
+     * @param string $namespace  Namespace
+     * @param string $configName ConfigName
+     * 
+     * @return string $configFile
+     */
     abstract protected static function getFile($namespace, $configName);
 
+    /**
+     * Method getScope
+     *
+     * @return string scope
+     */
     public function getScope()
     {
-        return $this->scope;
+        return $this->_scope;
     }
 
+    /**
+     * Method get
+     *
+     * @param string $key     configKey
+     * @param mixed  $default defaultValue
+     * 
+     * @return mixed config
+     */
     public function get($key = null, $default = null)
     {
         if ($key === null) {
-            return $this->config;
+            return $this->_config;
         }
-        if (isset($this->config[$key])) {
-            return $this->config[$key];
+        if (isset($this->_config[$key])) {
+            return $this->_config[$key];
         }
         return $default;
     }
 
+    /**
+     * Method set
+     *
+     * @param string $key   configKey
+     * @param mixed  $value configValue
+     * 
+     * @return mixed $value
+     */
     public function set($key, $value)
     {
-        if (isset($this->config[$key])) {
-            $this->config[$key] = $value;
+        if (isset($this->_config[$key])) {
+            $this->_config[$key] = $value;
         }
         return $value;
     }

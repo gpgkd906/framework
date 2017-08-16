@@ -3,8 +3,8 @@
  * PHP version 7
  * File AuthenticationInterface.php
  * 
- * @category Module
- * @package  Framework\Application
+ * @category Authentication
+ * @package  Framework\Authentication
  * @author   chenhan <gpgkd906@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework

@@ -1,35 +1,50 @@
 <?php
+/**
+ * PHP version 7
+ * File ControllerInterface.php
+ * 
+ * @category Controller
+ * @package  Framework\Controller
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
-/**
- * ControllerInterface
- *
- * [:package description]
- *
- * Copyright 2015 Chen Han
- *
- * Licensed under The MIT License
- *
- * @copyright Copyright 2015 Chen Han
- * @link
- * @since
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
- */
 namespace Framework\Controller;
 
 /**
- * ControllerInterface
- * [:class description]
- *
- * @author 2015 Chen Han
- * @package
- * @link
+ * Interface ControllerInterface
+ * 
+ * @category Interface
+ * @package  Framework\Controller
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
  */
 interface ControllerInterface
 {
-    public function callActionFlow($action, $restAction);
+    /**
+     * Method callActionFlow
+     *
+     * @param string $action action
+     * @param string $param  parameter
+     * 
+     * @return void
+     */
+    public function callActionFlow($action, $param);
 
+    /**
+     * Method response
+     *
+     * @return void
+     */
     public function response();
 
+    /**
+     * Method getDescription
+     *
+     * @return string
+     */
     public static function getDescription();
 }
