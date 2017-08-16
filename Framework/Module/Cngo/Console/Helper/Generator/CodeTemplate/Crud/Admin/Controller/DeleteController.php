@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File DeleteController.php
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\Controller{Namespace};
@@ -9,11 +19,27 @@ use Framework\Module\{Module}\View\ViewModel{Namespace}\DeleteViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\{Module}\Entity\{Entity};
 
+/**
+ * Class DeleteController
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class DeleteController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
     private ${Entity};
 
+    /**
+     * Method index
+     * 
+     * @param integer|str $id EntityId
+     *
+     * @return DeleteViewModel
+     */
     public function index($id)
     {
         $this->{Entity} = $this->getEntityManager()->getRepository({Entity}::class)->find($id);
@@ -31,6 +57,13 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
         ]);
     }
 
+    /**
+     * Method onDeleteComplete
+     *
+     * @param \Framework\EventManager\Event $event 'Event'
+     * 
+     * @return void
+     */
     public function onDeleteComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
@@ -43,6 +76,11 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
         }
     }
 
+    /**
+     * Method getPageInfo
+     *
+     * @return Array
+     */
     public static function getPageInfo()
     {
         return [

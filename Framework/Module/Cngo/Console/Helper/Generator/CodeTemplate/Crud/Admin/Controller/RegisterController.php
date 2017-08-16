@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File RegisterController.php
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\Controller{Namespace};
@@ -9,20 +19,43 @@ use Framework\Module\{Module}\View\ViewModel{Namespace}\RegisterViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\{Module}\Entity\{Entity};
 
+/**
+ * Class RegisterController
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class RegisterController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
 
+    /**
+     * Method index
+     *
+     * @return RegisterViewModel
+     */
     public function index()
     {
-        return ViewModelManager::getViewModel([
-          'viewModel' => RegisterViewModel::class,
-          'listeners' => [
-              RegisterViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onRegisterComplete']
-          ]
-        ]);
+        return ViewModelManager::getViewModel(
+            [
+                'viewModel' => RegisterViewModel::class,
+                'listeners' => [
+                    RegisterViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onRegisterComplete']
+                ]
+            ]
+        );
     }
 
+    /**
+     * Method onRegisterComplete
+     *
+     * @param \Framework\EventManager\Event $event 'Event'
+     * 
+     * @return void
+     */
     public function onRegisterComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
@@ -36,6 +69,11 @@ class RegisterController extends AbstractAdminController implements EntityManage
         }
     }
 
+    /**
+     * Method getPageInfo
+     *
+     * @return Array
+     */
     public static function getPageInfo()
     {
         return [

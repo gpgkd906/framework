@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File {Controller}.php
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\Controller{Namespace};
@@ -7,9 +17,23 @@ use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\{Module}\View\ViewModel{Namespace}\{ViewModel};
 
+/**
+ * Class {Controller}
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class {Controller} extends AbstractAdminController
 {
 
+    /**
+     * Method index
+     *
+     * @return {ViewModel}
+     */
     public function index()
     {
         return ViewModelManager::getViewModel([
@@ -19,7 +43,13 @@ class {Controller} extends AbstractAdminController
             ]
         ]);
     }
-
+    
+    /**
+     * Method onLoginComplete
+     *
+     * @param  \Framework\EventManager\Event $event Event
+     * @return void
+     */
     public function onLoginComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
@@ -29,6 +59,11 @@ class {Controller} extends AbstractAdminController
         }
     }
 
+    /**
+     * Method getPageInfo
+     *
+     * @return Array
+     */
     public static function getPageInfo()
     {
         return [

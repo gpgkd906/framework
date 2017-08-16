@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File RegisterViewModel.php
+ * 
+ * @category ViewModel
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\View\ViewModel{Namespace};
@@ -6,6 +16,15 @@ namespace Framework\Module\{Module}\View\ViewModel{Namespace};
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
+/**
+ * Class RegisterViewModel
+ * 
+ * @category ViewModel
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class RegisterViewModel extends FormViewModel
 {
     protected $template = '/template{namespace}/register.phtml';
@@ -34,6 +53,11 @@ class RegisterViewModel extends FormViewModel
         ]
     ];
 
+    /**
+     * Method GetTemplateDir
+     *
+     * @return string templateDir
+     */
     public function getTemplateDir()
     {
         return __DIR__ . '/..{ns}';

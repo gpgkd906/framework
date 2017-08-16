@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File DeleteViewModel.php
+ * 
+ * @category ViewModel
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\View\ViewModel{Namespace};
@@ -6,6 +16,15 @@ namespace Framework\Module\{Module}\View\ViewModel{Namespace};
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
+/**
+ * Class DeleteViewModel
+ * 
+ * @category ViewModel
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class DeleteViewModel extends FormViewModel
 {
     protected $template = '/template{namespace}/delete.phtml';
@@ -20,11 +39,21 @@ class DeleteViewModel extends FormViewModel
         'Render' => 'onRender',
     ];
 
+    /**
+     * Method GetTemplateDir
+     *
+     * @return string templateDir
+     */
     public function getTemplateDir()
     {
         return __DIR__ . '/..{ns}';
     }
 
+    /**
+     * Method onRender
+     *
+     * @return void
+     */
     public function onRender()
     {
         $data = $this->getData();

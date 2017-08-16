@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File Generator.php
+ * 
+ * @category Module
+ * @package  Framework\Module\Cngo\Console
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\Cngo\Console\Helper\Generator;
@@ -13,6 +23,15 @@ use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 use CodeService\Code\Wrapper\AbstractWrapper;
 use Framework\Repository\EntityManagerAwareInterface;
 
+/**
+ * Class Generator
+ * 
+ * @category Helper
+ * @package  Framework\Module\Cngo\Console
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class Generator implements
     GeneratorInterface,
     CodeServiceAwareInterface,
@@ -21,10 +40,10 @@ class Generator implements
     use \Framework\Service\CodeService\CodeServiceAwareTrait;
     use \Framework\Repository\EntityManagerAwareTrait;
 
-    private $testMode = false;
-    private $buffer = [];
+    private $_testMode = false;
+    private $_buffer = [];
 
-    private $moduleInfo = [
+    private $_moduleInfo = [
         'path' => [
             ROOT_DIR, 'Framework', 'Module',
         ],
@@ -34,27 +53,57 @@ class Generator implements
         'useAwareInterface' => false,
     ];
 
+    /**
+     * Method setTestMode
+     *
+     * @param boolean $testMode testMode
+     * 
+     * @return this
+     */
     public function setTestMode($testMode)
     {
-        $this->testMode = $testMode;
-    }
-
-    public function getModuleInfo()
-    {
-        return $this->moduleInfo;
-    }
-
-    public function setModuleInfo($moduleInfo)
-    {
-        $this->moduleInfo = $moduleInfo;
+        $this->_testMode = $testMode;
         return $this;
     }
 
+    /**
+     * Method getModuleInfo
+     *
+     * @return Array
+     */
+    public function getModuleInfo()
+    {
+        return $this->_moduleInfo;
+    }
+
+    /**
+     * Method setModuleInfo
+     *
+     * @param Array $moduleInfo moduleInfo
+     * 
+     * @return this
+     */
+    public function setModuleInfo($moduleInfo)
+    {
+        $this->_moduleInfo = $moduleInfo;
+        return $this;
+    }
+
+    /**
+     * Method generateConsole
+     *
+     * @return this
+     */
     public function generateConsole()
     {
         return $this;
     }
 
+    /**
+     * Method generateController
+     *
+     * @return this
+     */
     public function generateController()
     {
         $moduleInfo = $this->getModuleInfo();
@@ -79,18 +128,23 @@ class Generator implements
         $ViewModelPathfix = "/View/ViewModel$Namespace";
         $templatePathfix = "/View/template$namespace";
         //
-        $Controller = $this->getCodeTemplate("$ControllerPrefix/Controller.php");
+        $Controller = $this->_getCodeTemplate("$ControllerPrefix/Controller.php");
         $ControllerPath = $path . "$ControllerPathfix/$controller.php";
-        $this->addBuffer($ControllerPath, $Controller);
-        $ViewModel = $this->getCodeTemplate("$ViewModelPrefix/ViewModel.php");
+        $this->_addBuffer($ControllerPath, $Controller);
+        $ViewModel = $this->_getCodeTemplate("$ViewModelPrefix/ViewModel.php");
         $ViewModelPath = $path . "$ViewModelPathfix/$viewModel.php";
-        $this->addBuffer($ViewModelPath, $ViewModel);
-        $Template = $this->getCodeTemplate("$templatePrefix/template.phtml");
+        $this->_addBuffer($ViewModelPath, $ViewModel);
+        $Template = $this->_getCodeTemplate("$templatePrefix/template.phtml");
         $TemplatePath = $path . "$templatePathfix/$template.phtml";
-        $this->addBuffer($TemplatePath, $Template);
+        $this->_addBuffer($TemplatePath, $Template);
         return $this;
     }
 
+    /**
+     * Method generateCrud
+     *
+     * @return this
+     */
     public function generateCrud()
     {
         $moduleInfo = $this->getModuleInfo();
@@ -108,48 +162,53 @@ class Generator implements
         $ViewModelPathfix = "/View/ViewModel$Namespace";
         $templatePathfix = "/View/template$namespace";
         // List
-        $listController = $this->getCodeTemplate("$ControllerPrefix/ListController.php");
+        $listController = $this->_getCodeTemplate("$ControllerPrefix/ListController.php");
         $listControllerPath = $path . "$ControllerPathfix/ListController.php";
-        $this->addBuffer($listControllerPath, $listController);
-        $listViewModel = $this->getCodeTemplate("$ViewModelPrefix/ListViewModel.php");
+        $this->_addBuffer($listControllerPath, $listController);
+        $listViewModel = $this->_getCodeTemplate("$ViewModelPrefix/ListViewModel.php");
         $listViewModelPath = $path . "$ViewModelPathfix/ListViewModel.php";
-        $this->addBuffer($listViewModelPath, $listViewModel);
-        $listTemplate = $this->getCodeTemplate("$templatePrefix/list.phtml");
+        $this->_addBuffer($listViewModelPath, $listViewModel);
+        $listTemplate = $this->_getCodeTemplate("$templatePrefix/list.phtml");
         $listTemplatePath = $path . "$templatePathfix/list.phtml";
-        $this->addBuffer($listTemplatePath, $listTemplate);
+        $this->_addBuffer($listTemplatePath, $listTemplate);
         // Register
-        $registerController = $this->getCodeTemplate("$ControllerPrefix/RegisterController.php");
+        $registerController = $this->_getCodeTemplate("$ControllerPrefix/RegisterController.php");
         $registerControllerPath = $path . "$ControllerPathfix/RegisterController.php";
-        $this->addBuffer($registerControllerPath, $registerController);
-        $registerViewModel = $this->getCodeTemplate("$ViewModelPrefix/RegisterViewModel.php");
+        $this->_addBuffer($registerControllerPath, $registerController);
+        $registerViewModel = $this->_getCodeTemplate("$ViewModelPrefix/RegisterViewModel.php");
         $registerViewModelPath = $path . "$ViewModelPathfix/RegisterViewModel.php";
-        $this->addBuffer($registerViewModelPath, $registerViewModel);
-        $registerTemplate = $this->getCodeTemplate("$templatePrefix/register.phtml");
+        $this->_addBuffer($registerViewModelPath, $registerViewModel);
+        $registerTemplate = $this->_getCodeTemplate("$templatePrefix/register.phtml");
         $registerTemplatePath = $path . "$templatePathfix/register.phtml";
-        $this->addBuffer($registerTemplatePath, $registerTemplate);
+        $this->_addBuffer($registerTemplatePath, $registerTemplate);
         // Edit
-        $editController = $this->getCodeTemplate("$ControllerPrefix/EditController.php");
+        $editController = $this->_getCodeTemplate("$ControllerPrefix/EditController.php");
         $editControllerPath = $path . "$ControllerPathfix/EditController.php";
-        $this->addBuffer($editControllerPath, $editController);
-        $editViewModel = $this->getCodeTemplate("$ViewModelPrefix/EditViewModel.php");
+        $this->_addBuffer($editControllerPath, $editController);
+        $editViewModel = $this->_getCodeTemplate("$ViewModelPrefix/EditViewModel.php");
         $editViewModelPath = $path . "$ViewModelPathfix/EditViewModel.php";
-        $this->addBuffer($editViewModelPath, $editViewModel);
-        $editTemplate = $this->getCodeTemplate("$templatePrefix/edit.phtml");
+        $this->_addBuffer($editViewModelPath, $editViewModel);
+        $editTemplate = $this->_getCodeTemplate("$templatePrefix/edit.phtml");
         $editTemplatePath = $path . "$templatePathfix/edit.phtml";
-        $this->addBuffer($editTemplatePath, $editTemplate);
+        $this->_addBuffer($editTemplatePath, $editTemplate);
         // DELETE
-        $deleteController = $this->getCodeTemplate("$ControllerPrefix/DeleteController.php");
+        $deleteController = $this->_getCodeTemplate("$ControllerPrefix/DeleteController.php");
         $deleteControllerPath = $path . "$ControllerPathfix/DeleteController.php";
-        $this->addBuffer($deleteControllerPath, $deleteController);
-        $deleteViewModel = $this->getCodeTemplate("$ViewModelPrefix/DeleteViewModel.php");
+        $this->_addBuffer($deleteControllerPath, $deleteController);
+        $deleteViewModel = $this->_getCodeTemplate("$ViewModelPrefix/DeleteViewModel.php");
         $deleteViewModelPath = $path . "$ViewModelPathfix/DeleteViewModel.php";
-        $this->addBuffer($deleteViewModelPath, $deleteViewModel);
-        $deleteTemplate = $this->getCodeTemplate("$templatePrefix/delete.phtml");
+        $this->_addBuffer($deleteViewModelPath, $deleteViewModel);
+        $deleteTemplate = $this->_getCodeTemplate("$templatePrefix/delete.phtml");
         $deleteTemplatePath = $path . "$templatePathfix/delete.phtml";
-        $this->addBuffer($deleteTemplatePath, $deleteTemplate);
+        $this->_addBuffer($deleteTemplatePath, $deleteTemplate);
         return $this;
     }
 
+    /**
+     * Method generateEntity
+     *
+     * @return this
+     */
     public function generateEntity()
     {
         $moduleInfo = $this->getModuleInfo();
@@ -168,13 +227,16 @@ class Generator implements
         $cmf->setEntityManager($em);
         $classes = $driver->getAllClassNames();
         $metadata = $cmf->getAllMetadata();
-        $metadata = array_filter($metadata, function ($Meta) use ($tableName, $Namespace) {
-            $ret = $Meta->getTableName() === $tableName;
-            if ($ret) {
-                $Meta->name = $Namespace . '\\' . $Meta->name;
+        $metadata = array_filter(
+            $metadata, 
+            function ($Meta) use ($tableName, $Namespace) {
+                $ret = $Meta->getTableName() === $tableName;
+                if ($ret) {
+                    $Meta->name = $Namespace . '\\' . $Meta->name;
+                }
+                return $ret;
             }
-            return $ret;
-        });
+        );
         $generator = new \Doctrine\ORM\Tools\EntityGenerator();
         $generator->setUpdateEntityIfExists(true);
         $generator->setGenerateStubMethods(true);
@@ -183,6 +245,11 @@ class Generator implements
         return $this;
     }
 
+    /**
+     * Method generateModule
+     *
+     * @return this
+     */
     public function generateModule()
     {
         $moduleInfo = $this->getModuleInfo();
@@ -197,25 +264,33 @@ class Generator implements
         }
         $path = str_replace([DIRECTORY_SEPARATOR, '\\'], '/', $moduleInfo['path']);
         // common module
-        $Module = $this->getCodeTemplate("Module/Module.php");
+        $Module = $this->_getCodeTemplate("Module/Module.php");
         $ModulePath = $path . "$ModulePathfix/$module.php";
-        $this->addBuffer($ModulePath, $Module);
+        $this->_addBuffer($ModulePath, $Module);
         // common interface
-        $interface = $this->getCodeTemplate("Module/ModuleInterface.php");
+        $interface = $this->_getCodeTemplate("Module/ModuleInterface.php");
         $interfacePath = $path . "$ModulePathfix/{$module}Interface.php";
-        $this->addBuffer($interfacePath, $interface);
+        $this->_addBuffer($interfacePath, $interface);
         if ($useAwareInterface) {
-            $interface = $this->getCodeTemplate("Module/AwareInterface.php");
+            $interface = $this->_getCodeTemplate("Module/AwareInterface.php");
             $interfacePath = $path . "$ModulePathfix/{$module}AwareInterface.php";
-            $this->addBuffer($interfacePath, $interface);
-            $trait = $this->getCodeTemplate("Module/AwareTrait.php");
+            $this->_addBuffer($interfacePath, $interface);
+            $trait = $this->_getCodeTemplate("Module/AwareTrait.php");
             $traitPath = $path . "$ModulePathfix/{$module}AwareTrait.php";
-            $this->addBuffer($traitPath, $trait);
+            $this->_addBuffer($traitPath, $trait);
         }
         return $this;
     }
 
-    private function getCodeTemplate($file, $codeFlag = false)
+    /**
+     * Method getCodeTemplate
+     *
+     * @param string  $file     file
+     * @param boolean $codeFlag useCodeSerivce
+     * 
+     * @return string|AbstractWrapper
+     */
+    private function _getCodeTemplate($file, $codeFlag = false)
     {
         $moduleInfo = $this->getModuleInfo();
         $codeTemplate = file_get_contents(__DIR__ . "/CodeTemplate/" . $file);
@@ -230,7 +305,7 @@ class Generator implements
             $Namespace = '\\' . $Namespace;
         }
         $search = [
-            '{Module}', '{Namespace}', '{namespace}',
+            'Generator', '{Namespace}', '{namespace}',
             '{Entity}', '{entity}', '{ns}',
             '{Controller}', '{ViewModel}', '{template}'
         ];
@@ -246,22 +321,45 @@ class Generator implements
         return $codeTemplate;
     }
 
-    private function addBuffer($file, $Contents)
+    /**
+     * Method _addBuffer
+     *
+     * @param string                 $file     file
+     * @param string|AbstractWrapper $Contents Contents
+     * 
+     * @return this
+     */
+    private function _addBuffer($file, $Contents)
     {
-        $this->buffer[] = [$file, $Contents];
+        $this->_buffer[] = [$file, $Contents];
+        return $this;
     }
 
+    /**
+     * Method flush
+     *
+     * @return this
+     */
     public function flush()
     {
-        foreach ($this->buffer as list($file, $contents)) {
+        foreach ($this->_buffer as list($file, $contents)) {
             if ($contents instanceof AbstractWrapper) {
                 $contents = $contents->toCode();
             }
-            $this->write($file, $contents);
+            $this->_write($file, $contents);
         }
+        return $this;
     }
 
-    private function write($file, $Contents)
+    /**
+     * Method _write
+     *
+     * @param string                 $file     file
+     * @param string|AbstractWrapper $Contents Contents
+     * 
+     * @return this
+     */
+    private function _write($file, $Contents)
     {
         $file = str_replace(['\\', DIRECTORY_SEPARATOR], '/', $file);
         if (is_file($file)) {
@@ -271,7 +369,7 @@ class Generator implements
             echo '...skip...', PHP_EOL;
             return false;
         }
-        if ($this->testMode) {
+        if ($this->_testMode) {
             var_dump($file, $Contents);
         } else {
             $dir = dirname($file);
@@ -281,5 +379,6 @@ class Generator implements
             file_put_contents($file, $Contents);
             echo 'file generated: ' . $file, PHP_EOL;
         }
+        return $this;
     }
 }

@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File ListController.php
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\Controller{Namespace};
@@ -9,10 +19,24 @@ use Framework\Module\{Module}\View\ViewModel{Namespace}\ListViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\{Module}\Entity\{Entity};
 
+/**
+ * Class ListController
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class ListController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
 
+    /**
+     * Method index
+     *
+     * @return ListViewModel
+     */
     public function index()
     {
         return ViewModelManager::getViewModel([
@@ -25,6 +49,11 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         ]);
     }
 
+    /**
+     * Method getPageInfo
+     *
+     * @return Array
+     */
     public static function getPageInfo()
     {
         return [

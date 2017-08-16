@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File EditController.php
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Module\{Module}\Controller{Namespace};
@@ -9,11 +19,27 @@ use Framework\Module\{Module}\View\ViewModel{Namespace}\EditViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\{Module}\Entity\{Entity};
 
+/**
+ * Class EditController
+ * 
+ * @category Controller
+ * @package  Framework\Module\{Module}
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class EditController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
     private ${Entity};
 
+    /**
+     * Method index
+     *
+     * @param integer|str $id EntityId
+     * 
+     * @return EditViewModel
+     */
     public function index($id)
     {
         $this->{Entity} = $this->getEntityManager()->getRepository({Entity}::class)->find($id);
@@ -30,7 +56,14 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
             ],
         ]);
     }
-
+    
+    /**
+     * Method onEditComplete
+     *
+     * @param \Framework\EventManager\Event $event 'Event'
+     * 
+     * @return void
+     */
     public function onEditComplete(\Framework\EventManager\Event $event)
     {
         $ViewModel = $event->getTarget();
@@ -44,6 +77,11 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
         }
     }
 
+    /**
+     * Method getPageInfo
+     *
+     * @return Array
+     */
     public static function getPageInfo()
     {
         return [
