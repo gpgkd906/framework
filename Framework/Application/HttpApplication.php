@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File HttpApplication.php
+ * 
+ * @category Module
+ * @package  Framework\Application
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Application;
@@ -10,21 +20,28 @@ use Framework\Router\RouterInterface;
 use Framework\Router\Http\Router;
 use Exception;
 
+/**
+ * Class HttpApplication
+ * 
+ * @category Application
+ * @package  Framework\Application
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class HttpApplication extends AbstractApplication implements EventTargetInterface
 {
 
     use \Framework\EventManager\EventTargetTrait;
     const TRIGGER_ROUTEMISS = 'routemiss';
 
-    /**
-     *
-     * @api
-     * @var mixed $controller
-     * @access private
-     * @link
-     */
-    private $controller = null;
+    private $_controller = null;
 
+    /**
+     * Method run
+     *
+     * @return void
+     */
     public function run()
     {
         $config = $this->getConfig();
@@ -51,16 +68,34 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
         $Controller->callActionFlow($request['action'], $request['param']);
     }
 
+    /**
+     * Method setController
+     *
+     * @param Object $controller Controller
+     * 
+     * @return this
+     */
     public function setController($controller)
     {
-        return $this->controller = $controller;
+        $this->_controller = $controller;
+        return $this;
     }
 
+    /**
+     * Method getController
+     *
+     * @return Object|null
+     */
     public function getController()
     {
-        return $this->controller;
+        return $this->_controller;
     }
 
+    /**
+     * Method sendDummyFavicon
+     *
+     * @return void
+     */
     public function sendDummyFavicon()
     {
         header('Content-Type: image/vnd.microsoft.icon');
@@ -68,6 +103,11 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
         die();
     }
 
+    /**
+     * Method sendNotFound
+     *
+     * @return void
+     */
     public function sendNotFound()
     {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");

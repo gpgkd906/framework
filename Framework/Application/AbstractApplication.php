@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File AbstractApplication.php
+ * 
+ * @category Module
+ * @package  Framework\Application
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Application;
@@ -9,6 +19,15 @@ use Framework\ObjectManager\ObjectManager;
 use Framework\EventManager;
 use Exception;
 
+/**
+ * Class AbstractApplication
+ * 
+ * @category Application
+ * @package  Framework\Application
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 abstract class AbstractApplication implements ApplicationInterface
 {
     const ERROR_NEED_GLOBAL_CONFIG = "error: need global config";
@@ -20,54 +39,42 @@ abstract class AbstractApplication implements ApplicationInterface
     //
     const DEFAULT_TIMEZONE = "Asia/Tokyo";
 
-    private $config = null;
+    private $_config = null;
+
+    private $_objectManager = null;
 
     /**
-     * summary
-     * content
-     * @api
-     * @var mixed $routeModel
-     * @access private
-     * @link
-     */
-    private $routeModel = null;
-
-    /**
+     * Method setObjectManager
      *
-     * @api
-     * @var mixed $objectManager
-     * @access private
-     * @link
+     * @param ObjectManager $objectManager ObjectManager
+     * 
+     * @return this
      */
-    private $objectManager = null;
-
-    /**
-     *
-     * @api
-     * @param mixed $objectManager
-     * @return mixed $objectManager
-     * @link
-     */
-    public function setObjectManager($objectManager)
+    public function setObjectManager(ObjectManager $objectManager)
     {
-        return $this->objectManager = $objectManager;
+        $this->_objectManager = $objectManager;
+        return $this;
     }
 
     /**
+     * Method getObjectManager
      *
-     * @api
-     * @return mixed $objectManager
-     * @link
+     * @return ObjectManager
      */
     public function getObjectManager()
     {
-        if ($this->objectManager === null) {
-            $this->objectManager = ObjectManager::getSingleton();
-            $this->objectManager->set(ApplicationInterface::class, $this);
+        if ($this->_objectManager === null) {
+            $this->_objectManager = ObjectManager::getSingleton();
+            $this->_objectManager->set(ApplicationInterface::class, $this);
         }
-        return $this->objectManager;
+        return $this->_objectManager;
     }
 
+    /**
+     * Method __construct
+     *
+     * @param ConfigModelInterface $config Config
+     */
     public function __construct(ConfigModelInterface $config)
     {
         $this->setConfig($config);
@@ -75,26 +82,51 @@ abstract class AbstractApplication implements ApplicationInterface
         $objectManager->init();
     }
 
+    /**
+     * Method setConfig
+     *
+     * @param ConfigModelInterface $config Config
+     * 
+     * @return this
+     */
     public function setConfig($config)
     {
-        $this->config = $config;
-        if ($this->config->get('timezon')) {
-            date_default_timezone_set($this->config->get('timezon'));
+        $this->_config = $config;
+        if ($this->_config->get('timezon')) {
+            date_default_timezone_set($this->_config->get('timezon'));
         } else {
             date_default_timezone_set(static::DEFAULT_TIMEZONE);
         }
+        return $this;
     }
 
+    /**
+     * Method getConfig
+     *
+     * @param string|null $key config key
+     * 
+     * @return mixed config
+     */
     public function getConfig($key = null)
     {
         if ($key === null) {
-            return $this->config;
+            return $this->_config;
         } else {
-            return $this->config->get($key);
+            return $this->_config->get($key);
         }
     }
 
+    /**
+     * Abstract Method run
+     *
+     * @return void
+     */
     abstract  public function run();
 
+    /**
+     * Abstract Method getController
+     *
+     * @return Object|null
+     */
     abstract  public function getController();
 }

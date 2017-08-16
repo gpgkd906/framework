@@ -1,34 +1,48 @@
 <?php
-declare(strict_types=1);
 /**
- * AppInterface
- *
- * [:package description]
- *
- * Copyright 2015 Chen Han
- *
- * Licensed under The MIT License
- *
- * @copyright Copyright 2015 Chen Han
- * @link
- * @since
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ * PHP version 7
+ * File ApplicationInterface.php
+ * 
+ * @category Module
+ * @package  Framework\Application
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
  */
+declare(strict_types=1);
 namespace Framework\Application;
 
 /**
- * AppInterface
- * [:class description]
- *
- * @author 2015 Chen Han
- * @package
- * @link
+ * Interface ApplicationInterface
+ * 
+ * @category Application
+ * @package  Framework\Application
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
  */
 interface ApplicationInterface
 {
+    /**
+     * Method getConfig
+     *
+     * @return mixed config
+     */
     public function getConfig();
     
-    public function setConfig($Config);
+    /**
+     * Method setConfig
+     *
+     * @param array $config Config
+     * 
+     * @return this
+     */
+    public function setConfig($config);
 
+    /**
+     * Method run
+     *
+     * @return void
+     */
     public function run();
 }
