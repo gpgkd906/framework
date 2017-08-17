@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File ViewModelManager.php
+ * 
+ * @category Module
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\ViewModel;
@@ -6,6 +16,15 @@ namespace Framework\ViewModel;
 use Framework\EventManager\EventTargetInterface;
 use Exception;
 
+/**
+ * Class ViewModelManager
+ * 
+ * @category Class
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class ViewModelManager implements ViewModelManagerInterface
 {
     const ERROR_INVALID_VIEWMODEL_CONFIG = "error: invalid viewmodel config";
@@ -13,85 +32,86 @@ class ViewModelManager implements ViewModelManagerInterface
     const ERROR_INVALID_TEMPLATE_VIEWMODEL = "error: invalid template viewModel";
     const ERROR_VIEWMODEL_DEFINED_ID = "error: viewId [%s] was defined before, change some new ID";
 
-    private static $viewModelPool = [];
-    //
-    private static $namespace = null;
-    private static $templateDir = null;
+    private static $_viewModelPool = [];
+    private static $_namespace = null;
+    private static $_templateDir = null;
+    private static $_incrementId = 0;
+    private static $_basePath = null;
+    private static $_objectManager = null;
 
     /**
+     * Method setObjectManager
      *
-     * @api
-     * @var mixed $basePath
-     * @access private
-     * @link
-     */
-    private static $basePath = null;
-
-    /**
-     *
-     * @api
-     * @var mixed $objectManager
-     * @access private
-     * @link
-     */
-    private static $objectManager = null;
-
-    /**
-     *
-     * @api
-     * @param mixed $objectManager
-     * @return mixed $objectManager
-     * @link
+     * @param ObjectManager $objectManager ObjectManager
+     * 
+     * @return void
      */
     public static function setObjectManager($objectManager)
     {
-        return self::$objectManager = $objectManager;
+        self::$_objectManager = $objectManager;
     }
 
     /**
+     * Method getObjectManager
      *
-     * @api
-     * @return mixed $objectManager
-     * @link
+     * @return ObjectManager $objectManager
      */
     public static function getObjectManager()
     {
-        return self::$objectManager;
+        return self::$_objectManager;
     }
 
     /**
+     * Method setBasePath
      *
-     * @api
-     * @param mixed $basePath
-     * @return mixed $basePath
-     * @link
+     * @param string $basePath basePath
+     * 
+     * @return void
      */
     public static function setBasePath($basePath)
     {
-        return self::$basePath = $basePath;
+        self::$_basePath = $basePath;
     }
 
     /**
+     * Method getbasePath
      *
-     * @api
-     * @return mixed $basePath
-     * @link
+     * @return string $basePath
      */
     public static function getBasePath()
     {
-        return self::$basePath;
+        return self::$_basePath;
     }
 
+    /**
+     * Method setTemplateDir
+     *
+     * @param string $templateDir templateDir
+     * 
+     * @return void
+     */
     public static function setTemplateDir($templateDir)
     {
-        self::$templateDir = $templateDir;
+        self::$_templateDir = $templateDir;
     }
 
+    /**
+     * Method getTemplateDir
+     *
+     * @return string $templateDir
+     */
     public static function getTemplateDir()
     {
-        return self::$templateDir;
+        return self::$_templateDir;
     }
 
+    /**
+     * Method getViewModel
+     *
+     * @param array $config ViewModelConfig
+     * 
+     * @return ViewModel $viewModel
+     */
     public static function getViewModel($config)
     {
         if ($config instanceof ViewModelInterface) {
@@ -101,11 +121,6 @@ class ViewModelManager implements ViewModelManagerInterface
         if (!isset($config["viewModel"])) {
             throw new Exception(sprintf(self::ERROR_INVALID_VIEWMODEL_CONFIG));
         }
-        return self::getView($config);
-    }
-
-    private static function getView($config)
-    {
         $requestName = $config["viewModel"];
         $viewModelName = $requestName;
 
@@ -118,19 +133,65 @@ class ViewModelManager implements ViewModelManagerInterface
         return $ViewModel;
     }
 
+    /**
+     * Method addView
+     *
+     * @param ViewModelInterface $viewModel ViewModel
+     * 
+     * @return void
+     */
     public static function addView(ViewModelInterface $viewModel)
     {
         $viewId = $viewModel->getId();
-        if (isset(self::$viewModelPool[$viewId])) {
+        if (isset(self::$_viewModelPool[$viewId])) {
             throw new Exception(sprintf(self::ERROR_VIEWMODEL_DEFINED_ID, $viewId));
         }
-        self::$viewModelPool[$viewId] = $viewModel;
+        self::$_viewModelPool[$viewId] = $viewModel;
     }
 
+    /**
+     * Method getViewById
+     *
+     * @param string $viewId ViewModelId
+     * 
+     * @return ViewModel $viewModel
+     */
     public static function getViewById($viewId)
     {
-        if (isset(self::$viewModelPool[$viewId])) {
-            return self::$viewModelPool[$viewId];
+        if (isset(self::$_viewModelPool[$viewId])) {
+            return self::$_viewModelPool[$viewId];
         }
     }
+
+    /**
+     * Method getIncrementId
+     *
+     * @return void
+     */
+    public static function getIncrementId()
+    {
+        self::$_incrementId ++;
+        return "ViewModel_" . self::$_incrementId;
+    }
+
+    /**
+     * Method escapeHtml
+     *
+     * @param array $data Data
+     * 
+     * @return mixed
+     */
+    public static function escapeHtml($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$key] = self::escapeHtml($value);
+            }
+            return $data;
+        } elseif (is_string($data)) {
+            return htmlspecialchars($data, ENT_QUOTES);
+        } else {
+            return $data;
+        }
+    }    
 }

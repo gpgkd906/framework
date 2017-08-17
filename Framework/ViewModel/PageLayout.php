@@ -1,37 +1,56 @@
 <?php
+/**
+ * PHP version 7
+ * File PageLayout.php
+ * 
+ * @category Module
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\ViewModel;
 
 use Framework\ObjectManager\SingletonInterface;
-use \Exception;
+use Exception;
 
-class PageLayout extends AbstractViewModel implements LayoutInterface, SingletonInterface
+/**
+ * Interface PageLayout
+ * 
+ * @category Interface
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
+class PageLayout extends AbstractViewModel implements 
+    LayoutInterface, 
+    SingletonInterface
 {
+    use \Framework\ObjectManager\SingletonTrait;
+
     const ERROR_REGISTER_STYLE_FOR_DIFFERENT_PRIORITY = 'register_style_for_different_priority: %s';
     const ERROR_REGISTER_SCRIPT_FOR_DIFFERENT_PRIORITY = 'register_script_for_different_priority: %s';
 
-    use \Framework\ObjectManager\SingletonTrait;
-
     protected $styles = [];
-
     protected $scripts = [];
-
     protected $config = [
         'container' => [
             'Main' => [],
         ]
     ];
-
-    /**
-     *
-     * @api
-     * @var mixed $asset
-     * @access private
-     * @link
-     */
     protected $asset = null;
 
+    /**
+     * Method registerStyle
+     *
+     * @param string  $style    stylesheet
+     * @param integer $priority Priority
+     * 
+     * @return this
+     */
     public function registerStyle($style, $priority = null)
     {
         if ($priority === null) {
@@ -41,8 +60,17 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
             return false;
         }
         $this->styles = array_merge(array_slice($this->styles, 0, $priority), [$style], array_slice($this->styles, $priority));
+        return $this;
     }
 
+    /**
+     * Method registerScript
+     *
+     * @param string  $script   JavaScript
+     * @param integer $priority Priority
+     * 
+     * @return this
+     */
     public function registerScript($script, $priority = null)
     {
         if ($priority === null) {
@@ -52,8 +80,14 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
             return false;
         }
         $this->scripts = array_merge(array_slice($this->scripts, 0, $priority), [$script], array_slice($this->scripts, $priority));
+        return $this;
     }
 
+    /**
+     * Method getStyle
+     *
+     * @return array styleSheet
+     */
     public function getStyle()
     {
         $asset = $this->getAsset();
@@ -65,6 +99,11 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
         return $styles;
     }
 
+    /**
+     * Method getScript
+     *
+     * @return array JavaScript
+     */
     public function getScript()
     {
         $asset = $this->getAsset();
@@ -77,22 +116,22 @@ class PageLayout extends AbstractViewModel implements LayoutInterface, Singleton
     }
 
     /**
+     * Method setAsset
      *
-     * @api
-     * @param mixed $asset
-     * @return mixed $asset
-     * @link
+     * @param string $asset Asset
+     * 
+     * @return this
      */
     public function setAsset($asset)
     {
-        return $this->asset = $asset;
+        $this->asset = $asset;
+        return $this;
     }
 
     /**
+     * Method getAsset
      *
-     * @api
-     * @return mixed $asset
-     * @link
+     * @return string $asset
      */
     public function getAsset()
     {

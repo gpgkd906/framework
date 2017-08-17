@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File TranslatorManager.php
+ * 
+ * @category Module
+ * @package  Framework\TranslatorManager
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\TranslatorManager;
@@ -9,19 +19,37 @@ use Zend\I18n\Translator\Translator;
 use Framework\Config\ConfigModel;
 use Zend\Cache\StorageFactory;
 
-class TranslatorManager implements TranslatorManagerInterface, SingletonInterface
+/**
+ * Class TranslatorManager
+ * 
+ * @category Class
+ * @package  Framework\TranslatorManager
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
+class TranslatorManager implements
+    TranslatorManagerInterface,
+    SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
 
-    private $Translators;
-    private $config;
+    private $_Translators;
+    private $_config;
 
+    /**
+     * Method getTranslator
+     *
+     * @param string $type Type
+     * 
+     * @return Translator $translator
+     */
     public function getTranslator($type)
     {
-        if (isset($this->Translators[$type])) {
-            return $this->Translators[$type];
+        if (isset($this->_Translators[$type])) {
+            return $this->_Translators[$type];
         }
-        $translator = $this->createTranslator();
+        $translator = $this->_createTranslator();
         if (self::VALIDATOR === $type) {
             $translator->addTranslationFilePattern(
                 'phpArray',
@@ -29,30 +57,40 @@ class TranslatorManager implements TranslatorManagerInterface, SingletonInterfac
                 Resources::getPatternForValidator()
             );
         }
-        $translator->setLocale($this->getConfig()->get('default'));
-        $cacheOption = $this->getConfig()->get('cache');
+        $translator->setLocale($this->_getConfig()->get('default'));
+        $cacheOption = $this->_getConfig()->get('cache');
         if ($cacheOption) {
             $cacheOption['adapter']['options']['namespace'] .= $type;
             $cacheAdapter = StorageFactory::factory($cacheOption);
             $translator->setCache($cacheAdapter);
         }
-        $this->Translators[$type] = $translator;
+        $this->_Translators[$type] = $translator;
         return $translator;
     }
 
-    private function createTranslator()
+    /**
+     * Method createTranslator
+     *
+     * @return Translator $translator
+     */
+    private function _createTranslator()
     {
         return new Translator();
     }
 
-    private function getConfig()
+    /**
+     * Method getConfig
+     *
+     * @return ConfigModel $config
+     */
+    private function _getConfig()
     {
-        if ($this->config === null) {
-            $this->config = ConfigModel::getConfigModel([
+        if ($this->_config === null) {
+            $this->_config = ConfigModel::getConfigModel([
                 "scope" => 'translation',
                 "property" => ConfigModel::READONLY,
             ]);
         }
-        return $this->config;
+        return $this->_config;
     }
 }

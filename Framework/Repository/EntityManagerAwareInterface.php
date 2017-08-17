@@ -30,7 +30,7 @@ interface EntityManagerAwareInterface
      * Method setEntityManager
      *
      * @param EntityManager $EntityManager EntityManager
-     * 
+     *
      * @return mixed
      */
     public function setEntityManager(EntityManager $EntityManager);
