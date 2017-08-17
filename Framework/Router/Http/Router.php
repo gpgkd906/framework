@@ -189,7 +189,11 @@ class Router extends AbstractRouter
             $req = substr($req, 1);
         }
         if (strpos($req, ".")) {
-            return [null, null, null];
+            return [
+                'controller' => null, 
+                'action' => null, 
+                'param' => null
+            ];
         }
         if (strpos($req, "?") !== false) {
             list($req) = explode('?', $req);
