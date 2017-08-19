@@ -1,0 +1,15 @@
+<phpunit bootstrap="../../vendor/autoload.php">
+    <testsuites>
+        <testsuite name="EventManager">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./</directory>
+            <exclude>
+                <file>export.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -27,14 +27,16 @@ use Exception;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class ObjectManager implements ObjectManagerInterface, SingletonInterface
+class ObjectManager implements 
+    ObjectManagerInterface, 
+    SingletonInterface
 {
     use SingletonTrait;
 
-    private $objectFactory = [];
-    private $sharedObject = [];
-    private $dependencySetter = [];
-    private $injectDependencys = [];
+    private $_objectFactory = [];
+    private $_sharedObject = [];
+    private $_dependencySetter = [];
+    private $_injectDependencys = [];
 
     /**
      * Constructor
@@ -73,12 +75,12 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
      */
     public function get($name, $factory = null)
     {
-        if (isset($this->sharedObject[$name])) {
-            return $this->sharedObject[$name];
+        if (isset($this->_sharedObject[$name])) {
+            return $this->_sharedObject[$name];
         }
         $Object = $this->create($name, $factory);
         if ($Object) {
-            $this->sharedObject[$name] = $Object;
+            $this->_sharedObject[$name] = $Object;
         }
         return $Object;
     }
@@ -93,7 +95,7 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
      */
     public function set($name, $Object)
     {
-        $this->sharedObject[$name] = $Object;
+        $this->_sharedObject[$name] = $Object;
         return $this;
     }
 
@@ -109,15 +111,15 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     {
         $Object = null;
         if ($factory === null) {
-            if (isset($this->objectFactory[$name])) {
-                $factory = $this->objectFactory[$name];
+            if (isset($this->_objectFactory[$name])) {
+                $factory = $this->_objectFactory[$name];
             } else {
                 $factory = $name;
             }
         }
         if (is_subclass_of($factory, FactoryInterface::class)) {
-            $ObjectFactory = new $factory;
-            $Object = $ObjectFactory->create($this);
+            $_ObjectFactory = new $factory;
+            $Object = $_ObjectFactory->create($this);
         } elseif (is_subclass_of($factory, SingletonInterface::class)) {
             $Object = $factory::getSingleton();
         } else {
@@ -142,18 +144,18 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     {
         foreach (class_implements($Object) as $interface) {
             if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->_getDependencySetter($interface)) {
-                if (isset($this->injectDependencys[$interface])) {
-                    list($injectDependency, $injectDependencyInterface) = $this->injectDependencys[$interface];
+                if (isset($this->_injectDependencys[$interface])) {
+                    list($injectDependency, $injectDependencyInterface) = $this->_injectDependencys[$interface];
                 } else {
                     $injectDependency = str_replace('AwareInterface', '', $interface);
                     $injectDependencyInterface = $injectDependency . 'Interface';
-                    $this->injectDependencys[$interface] = [$injectDependency, $injectDependencyInterface];
+                    $this->_injectDependencys[$interface] = [$injectDependency, $injectDependencyInterface];
                 }
                 $dependency = null;
-                if (isset($this->sharedObject[$injectDependencyInterface])) {
-                    $dependency = $this->sharedObject[$injectDependencyInterface];
-                } elseif (isset($this->sharedObject[$injectDependency])) {
-                    $dependency = $this->sharedObject[$injectDependency];
+                if (isset($this->_sharedObject[$injectDependencyInterface])) {
+                    $dependency = $this->_sharedObject[$injectDependencyInterface];
+                } elseif (isset($this->_sharedObject[$injectDependency])) {
+                    $dependency = $this->_sharedObject[$injectDependency];
                 } else {
                     if (class_exists($injectDependency)) {
                         $dependency = $this->get($injectDependencyInterface, $injectDependency);
@@ -180,12 +182,12 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
      */
     private function _getDependencySetter($interface)
     {
-        if (isset($this->dependencySetter[$interface])) {
-            return $this->dependencySetter[$interface];
+        if (isset($this->_dependencySetter[$interface])) {
+            return $this->_dependencySetter[$interface];
         }
         foreach (get_class_methods($interface) as $method) {
             if (strpos($method, 'set') === 0) {
-                $this->dependencySetter[$interface] = $method;
+                $this->_dependencySetter[$interface] = $method;
                 return $method;
             }
         }
@@ -243,14 +245,14 @@ class ObjectManager implements ObjectManagerInterface, SingletonInterface
     /**
      * Method export
      *
-     * @param class $Objectfactories ObjectFactoryClasses
+     * @param class $Objectfactories _ObjectFactoryClasses
      * 
      * @return void
      */
     public function export($Objectfactories)
     {
         foreach ($Objectfactories as $ObjectName => $factory) {
-            $this->objectFactory[$ObjectName] = $factory;
+            $this->_objectFactory[$ObjectName] = $factory;
         }
     }
 }

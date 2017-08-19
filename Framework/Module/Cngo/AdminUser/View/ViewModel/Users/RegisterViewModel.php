@@ -70,7 +70,10 @@ class RegisterViewModel extends FormViewModel
                     'require' => true,
                     'validators' => [
                         [
-                            'name' => 'NotEmpty',
+                            'name' => 'Identical',
+                            'options' => [
+                                'token' => 'password',
+                            ],
                         ],
                     ]
                 ],

@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File EventManagerAwareTrait.php
- * 
+ *
  * @category Interface
  * @package  Framework\EventManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -15,7 +15,7 @@ namespace Framework\EventManager;
 
 /**
  * Trait EventManagerAwareTrait
- * 
+ *
  * @category Trait
  * @package  Framework\EventManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -30,7 +30,7 @@ trait EventManagerAwareTrait
      * Method setEventManager
      *
      * @param EventManagerInterface $EventManager EventManager
-     * 
+     *
      * @return this
      */
     public function setEventManager(EventManagerInterface $EventManager)
@@ -47,7 +47,7 @@ trait EventManagerAwareTrait
     public function getEventManager()
     {
         if (self::$_EventManager === null) {
-            self::$_EventManager = EventManager::getSingleton();
+            $this->setEventManager(EventManager::getSingleton());
         }
         return self::$_EventManager;
     }

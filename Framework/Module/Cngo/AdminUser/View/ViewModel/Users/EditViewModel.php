@@ -30,4 +30,11 @@ class EditViewModel extends RegisterViewModel
         }
         $this->getForm()->setData($data);
     }
+
+    public function getFieldset()
+    {
+        $this->fieldset['adminUser']['password']['inputSpecification'] = null;
+        $this->fieldset['adminUser']['passwordConfirm']['inputSpecification'] = null;
+        return $this->fieldset;
+    }
 }

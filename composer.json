@@ -8,6 +8,11 @@
             "email": "gpgkd906@gmail.com"
         }
     ],
+    "scripts": {
+        "test": [
+            "./vendor/bin/phpunit --coverage-html public/codecover/eventManager --configuration Framework/EventManager/phpunit.xml.dist"
+        ]
+    },
     "require": {
         "gpgkd906/code-generator": "0.3.0",
         "doctrine/orm": "*",
@@ -25,5 +30,8 @@
         "psr-0": {
             "Framework": "./"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
     }
 }

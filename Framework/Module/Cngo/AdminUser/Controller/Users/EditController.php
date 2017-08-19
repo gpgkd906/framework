@@ -8,10 +8,12 @@ use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\Users\EditViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\Cngo\AdminUser\Entity\AdminUsers;
+use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
 
 class EditController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
+    use \Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareTrait;
     private $AdminUser;
 
     public function index($id)
@@ -38,6 +40,8 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
             $adminUser = $ViewModel->getForm()->getData()['adminUser'];
             if ($adminUser['password']) {
                 $adminUser['password'] = $this->getAuthentication()->passwordHash($adminUser['password']);
+            } else {
+                unset($adminUser['password']);
             }
             $AdminUser = $this->AdminUser;
             $AdminUser->fromArray($adminUser);

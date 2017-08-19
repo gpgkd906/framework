@@ -8,10 +8,12 @@ use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\Users\RegisterViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
 use Framework\Module\Cngo\AdminUser\Entity\AdminUsers;
+use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
 
 class RegisterController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
+    use \Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareTrait;
 
     public function index()
     {

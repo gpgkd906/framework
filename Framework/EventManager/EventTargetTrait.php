@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File EventTargetTrait.php
- * 
+ *
  * @category Interface
  * @package  Framework\EventManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -15,7 +15,7 @@ namespace Framework\EventManager;
 
 /**
  * Trait EventTargetTrait
- * 
+ *
  * @category Trait
  * @package  Framework\EventManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -32,7 +32,7 @@ trait EventTargetTrait
      *
      * @param string   $event    EventName
      * @param callable $listener Listener
-     *  
+     *
      * @return void
      */
     public function addEventListener($event, callable $listener)
@@ -49,7 +49,7 @@ trait EventTargetTrait
      *
      * @param string   $event    EventName
      * @param callable $listener Listener
-     *  
+     *
      * @return void
      */
     public function removeEventListener($event, callable $listener)
@@ -64,7 +64,6 @@ trait EventTargetTrait
                 break;
             }
         }
-        $this->getEventManager()->removeEventListener($this, $event, $listener);
     }
 
     /**
@@ -72,7 +71,7 @@ trait EventTargetTrait
      *
      * @param string|Event $event   EventOrName
      * @param string|null  $trigger triggerName
-     * 
+     *
      * @return callable Listener
      */
     public function getEventListeners($event, $trigger = null)
@@ -91,7 +90,7 @@ trait EventTargetTrait
      * Method dispatchEvent
      *
      * @param Event $Event Event
-     * 
+     *
      * @return void
      */
     public function dispatchEvent(Event $Event)
@@ -105,7 +104,7 @@ trait EventTargetTrait
      *
      * @param string $event      EventName
      * @param array  $parameters EventData
-     * 
+     *
      * @return this
      */
     public function triggerEvent($event, $parameters = [])
@@ -130,7 +129,7 @@ trait EventTargetTrait
      * Method _getTrigger
      *
      * @param string|Event $event EventOrName
-     * 
+     *
      * @return trigger
      */
     private function _getTrigger($event)
@@ -138,6 +137,5 @@ trait EventTargetTrait
         if ($trigger = $this->getEventManager()->getTrigger(static::class, $event)) {
             return $trigger;
         }
-        throw new \Exception(sprintf(EventManager::ERROR_UNDEFINED_EVENT_TRIGGER, $event, static::class));
     }
 }
