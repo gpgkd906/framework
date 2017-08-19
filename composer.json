@@ -11,6 +11,9 @@
     "scripts": {
         "test": [
             "./vendor/bin/phpunit --coverage-html public/codecover/eventManager --configuration Framework/EventManager/phpunit.xml.dist"
+        ],
+        "build": [
+            "@composer dumpautoload -o"
         ]
     },
     "require": {
@@ -27,8 +30,8 @@
         "zendframework/zend-i18n-resources": "^2.5.2"
     },
     "autoload": {
-        "psr-0": {
-            "Framework": "./"
+        "psr-4": {
+            "Framework\\": "Framework"
         }
     },
     "require-dev": {
