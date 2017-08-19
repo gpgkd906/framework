@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File Container.php
+ * 
+ * @category Module
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 namespace Framework\ViewModel;
 
@@ -7,27 +17,28 @@ use Framework\ViewModel\FormViewModelInterface;
 use ArrayAccess;
 use Exception;
 
-class Container implements ContainerInterface, ArrayAccess
+/**
+ * Class Container
+ * 
+ * @category Class
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
+class Container implements 
+    ContainerInterface, 
+    ArrayAccess
 {
+    private $_items = [];
+    private $_exportView = null;
 
     /**
+     * Constructor
      *
-     * @api
-     * @var mixed $items
-     * @access private
-     * @link
-     */
-    private $items = [];
-
-    /**
-     *
-     * @api
-     * @var mixed $exportView
-     * @access private
-     * @link
-     */
-    private $exportView = null;
-
+     * @param array          $config     ContainerConfig
+     * @param ViewModel|null $exportView ExportViewModel
+     */ 
     public function __construct($config, $exportView = null)
     {
         $this->setExportView($exportView);
@@ -36,55 +47,52 @@ class Container implements ContainerInterface, ArrayAccess
     }
 
     /**
+     * Method setItems
      *
-     * @api
-     * @param mixed $items
-     * @return mixed $items
-     * @link
+     * @param array $items ViewModelItems
+     * 
+     * @return this
      */
     public function setItems($items)
     {
-        return $this->items = $items;
+        $this->_items = $items;
+        return $this;
     }
 
     /**
+     * Method getItems
      *
-     * @api
-     * @return mixed $items
-     * @link
+     * @return array $items
      */
     public function getItems()
     {
-        foreach ($this->items as $key => $item) {
+        foreach ($this->_items as $key => $item) {
             if (!$item instanceof ViewModelInterface) {
-                $this->items[$key] = $this->getViewModel($item);
+                $this->_items[$key] = $this->getViewModel($item);
             }
         }
-        return $this->items;
+        return $this->_items;
     }
 
     /**
+     * Method item
      *
-     * @api
-     * @param
-     * @param
-     * @return
-     * @link
+     * @param array|ViewModel $item ViewModelOrViewModelConfig
+     * 
+     * @return this
      */
-    public function addItem($item, $forceView = false)
+    public function addItem($item)
     {
-        if ($forceView) {
-            $item = $this->getViewModel($item);
-        }
-        $this->items[] = $item;
+        $this->_items[] = $item;
+        return $this;
     }
 
+    /**
+     * Method toString
+     *
+     * @return string $containerContent
+     */
     public function __toString()
-    {
-        return $this->toHtml();
-    }
-
-    private function toHtml()
     {
         $exportView = $this->getExportView();
         $render = 'render';
@@ -103,60 +111,97 @@ class Container implements ContainerInterface, ArrayAccess
             echo $e->getMessage();
         }
     }
+
     /**
+     * Method setExportView
      *
-     * @api
-     * @param mixed $exportView
-     * @return mixed $exportView
-     * @link
+     * @param ViewModel $exportView ExportViewModel
+     * 
+     * @return this
      */
     public function setExportView($exportView)
     {
-        return $this->exportView = $exportView;
+        $this->_exportView = $exportView;
+        return $this;
     }
 
     /**
+     * Method getExportView
      *
-     * @api
-     * @return mixed $exportView
-     * @link
+     * @return ViewModel $exportView
      */
     public function getExportView()
     {
-        return $this->exportView;
+        return $this->_exportView;
     }
 
+    /**
+     * Method offsetSet
+     *
+     * @param integer $offset Offset
+     * @param mixed   $value  ViewModelOrViewModelConfig
+     * 
+     * @return this
+     */
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            $this->items[] = $value;
+            $this->_items[] = $value;
         } else {
-            $this->items[$offset] = $value;
+            $this->_items[$offset] = $value;
         }
+        return $this;
     }
 
+    /**
+     * Method offsetExists
+     *
+     * @param integer $offset Offset
+     * 
+     * @return bool
+     */
     public function offsetExists($offset)
     {
-        return isset($this->items[$offset]);
+        return isset($this->_items[$offset]);
     }
 
+    /**
+     * method OffsetUnset
+     *
+     * @param integer $offset
+     * @return void
+     */
     public function offsetUnset($offset)
     {
-        unset($this->items[$offset]);
+        unset($this->_items[$offset]);
     }
 
+    /**
+     * Method offsetGet
+     *
+     * @param integer $offset Offset
+     * 
+     * @return ViewModel|null $item
+     */
     public function offsetGet($offset)
     {
-        if (isset($this->items[$offset])) {
-            $item = $this->items[$offset];
+        if (isset($this->_items[$offset])) {
+            $item = $this->_items[$offset];
             if (!$item instanceof ViewModelInterface) {
-                $this->items[$offset] = $this->getViewModel($item);
+                $this->_items[$offset] = $this->getViewModel($item);
             }
-            return $this->items[$offset];
+            return $this->_items[$offset];
         }
         return null;
     }
 
+    /**
+     * Method getViewModel
+     *
+     * @param array|ViewModel $item ViewModelOrViewModelConfig
+     * 
+     * @return ViewModel $item
+     */
     private function getViewModel($item)
     {
         $exportView = $this->getExportView();

@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File Router.php
+ * 
+ * @category Router
+ * @package  Framework\Router
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\Router\Http;
@@ -7,6 +17,15 @@ use Framework\Router\AbstractRouter;
 use Framework\Config\ConfigModel;
 use Exception;
 
+/**
+ * Interface Router
+ * 
+ * @category Interface
+ * @package  Framework\Router
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class Router extends AbstractRouter
 {
     const ERROR_INVALID_LINKTO = "invalid_linkto: %s";
@@ -16,18 +35,28 @@ class Router extends AbstractRouter
     const PUT = "put";
     const DELETE = "delete";
 
-    private $request_method = null;
-    private $request_param = [];
+    private $_request_method = null;
+    private $_request_param = [];
 
+    /**
+     * Method getMethod
+     *
+     * @return string $request_method
+     */
     private function getMethod()
     {
-        if ($this->request_method === null) {
+        if ($this->_request_method === null) {
             $request_method = isset($_REQUEST["REQUEST_METHOD"]) ? $_REQUEST["REQUEST_METHOD"] : (isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : self::GET);
-            $this->request_method = strtolower($request_method);
+            $this->_request_method = strtolower($request_method);
         }
-        return $this->request_method;
+        return $this->_request_method;
     }
 
+    /**
+     * Method getAction
+     *
+     * @return string $action
+     */
     public function getAction()
     {
         $request = $this->dispatch();
@@ -35,48 +64,76 @@ class Router extends AbstractRouter
         return $action;
     }
 
+    /**
+     * Method getController
+     *
+     * @return string $controller
+     */
     public function getController()
     {
         $request = $this->dispatch();
         return $request['controller'];
     }
 
+    /**
+     * Method getParam
+     *
+     * @return array $request_param
+     */
     public function getParam()
     {
         switch ($this->getMethod()) {
             case self::GET:
-                $this->request_param = $_GET;
+                $this->_request_param = $_GET;
                 break;
             case self::POST:
-                $this->request_param = $_POST;
+                $this->_request_param = $_POST;
                 if (!empty($_GET)) {
-                    $this->request_param = array_merge($_GET, $this->request_param);
+                    $this->_request_param = array_merge($_GET, $this->_request_param);
                 }
                 break;
             case self::PUT:
             case self::DELETE:
             default:
-                parse_str(file_get_contents('php://input'), $this->request_param);
+                parse_str(file_get_contents('php://input'), $this->_request_param);
                 if (!empty($_GET)) {
-                    $this->request_param = array_merge($_GET, $this->request_param);
+                    $this->_request_param = array_merge($_GET, $this->_request_param);
                 }
                 break;
         }
-        return $this->request_param;
+        return $this->_request_param;
     }
 
+    /**
+     * Method getReq
+     *
+     * @return string $request_uri
+     */
     public function getReq()
     {
         return $_SERVER['REQUEST_URI'];
     }
 
+    /**
+     * Method loadRouter
+     *
+     * @return void
+     */
     protected function loadRouter()
     {
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/Route.php') as $routeInjection) {
-            require $routeInjection;
+            include $routeInjection;
         }
     }
 
+    /**
+     * Method linkto
+     *
+     * @param string $controller ControllerClass
+     * @param mixed  $param      Param
+     * 
+     * @return string url
+     */
     public function linkto($controller, $param = null)
     {
         $routerList = $this->getRouterList();
@@ -94,18 +151,36 @@ class Router extends AbstractRouter
         }
     }
 
+    /**
+     * Method redirect
+     *
+     * @param string $controller ControllerClass
+     * @param mixed  $param      Param
+     * 
+     * @return void
+     */
     public function redirect($controller, $param = null)
     {
         $uri = $this->linkto($controller, $param);
         header('Location: ' . $uri, true, 301);
     }
 
+    /**
+     * Method reload
+     *
+     * @return void
+     */
     public function reload()
     {
         $request = $this->dispatch();
         $this->redirect($request['controller'], $request['param']);
     }
 
+    /**
+     * Method parseRequest
+     *
+     * @return array $request
+     */
     public function parseRequest()
     {
         $controller = $action = $param = null;
@@ -114,7 +189,11 @@ class Router extends AbstractRouter
             $req = substr($req, 1);
         }
         if (strpos($req, ".")) {
-            return [null, null, null];
+            return [
+                'controller' => null, 
+                'action' => null, 
+                'param' => null
+            ];
         }
         if (strpos($req, "?") !== false) {
             list($req) = explode('?', $req);
@@ -146,11 +225,21 @@ class Router extends AbstractRouter
         return $request;
     }
 
+    /**
+     * Method isFaviconRequest
+     *
+     * @return boolean
+     */
     public function isFaviconRequest()
     {
         return $_SERVER["REQUEST_URI"] === "/favicon.ico";
     }
 
+    /**
+     * Method getRequestUri
+     *
+     * @return string $request_uri
+     */
     public function getRequestUri()
     {
         return $_SERVER['REQUEST_URI'];

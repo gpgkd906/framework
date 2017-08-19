@@ -1,4 +1,14 @@
 <?php
+/**
+ * PHP version 7
+ * File AbstractViewModel.php
+ * 
+ * @category Module
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 namespace Framework\ViewModel;
 
@@ -9,6 +19,15 @@ use Framework\ViewModel\Helper\NumberFormatter;
 use Framework\Router\RouterAwareInterface;
 use Exception;
 
+/**
+ * Class AbstractViewModel
+ * 
+ * @category Class
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 abstract class AbstractViewModel implements
     ViewModelInterface,
     EventTargetInterface,
@@ -26,87 +45,42 @@ abstract class AbstractViewModel implements
     protected $data = [];
     protected $templateDir = null;
     protected $Model = null;
-    private $childs = [];
-    private $id = null;
-    private $exportView = null;
-    private $entities = null;
-    private static $incrementId = 0;
-    public $listeners = [];
-
-    /**
-    *
-    * @api
-    * @var mixed $config
-    * @access private
-    * @link
-    */
     protected $config = [];
-
+    protected $listeners = [];
+    private $_id = null;
+    private $_exportView = null;
+    private $_layout = null;
+    private $_containers = [];
+    
     /**
-    *
-    * @api
-    * @var mixed $layout
-    * @access private
-    * @link
-    */
-    private $layout = null;
-
-    /**
-    *
-    * @api
-    * @var mixed $container
-    * @access private
-    * @link
-    */
-    private $containers = [];
-
-    /**
-    *
-    * @api
-    * @var mixed $viewHelper
-    * @access private
-    * @link
-    */
-    private $viewHelper = null;
-
-    /**
-    *
-    * @api
-    * @var mixed $numberFormatter
-    * @access private
-    * @link
-    */
-    private $numberFormatter = null;
-
-    /**
-    *
-    * @api
-    * @param mixed $config
-    * @return mixed $config
-    * @link
-    */
+     * Method setConfig
+     *
+     * @param array $config Config
+     * 
+     * @return this
+     */
     public function setConfig($config)
     {
-        return $this->config = $config;
+        $this->config = $config;
+        return $this;
     }
 
     /**
-    *
-    * @api
-    * @return mixed $config
-    * @link
-    */
+     * Method getConfig
+     *
+     * @return array $config
+     */
     public function getConfig()
     {
         return $this->config;
     }
 
-    private static function getIncrementId()
-    {
-        self::$incrementId ++;
-        return "ViewModel_" . self::$incrementId;
-    }
-
+    /**
+     * Constructor
+     *
+     * @param array              $config        viewModelConfig
+     * @param ObjectManager|null $ObjectManager ObjectManager
+     */
     public function __construct($config = [], $ObjectManager = null)
     {
         $config = array_merge_recursive($this->getConfig(), $config);
@@ -115,9 +89,9 @@ abstract class AbstractViewModel implements
             $this->setObjectManager($ObjectManager);
         }
         if (isset($config["id"])) {
-            $this->id = $config["id"];
+            $this->_id = $config["id"];
         } else {
-            $this->id = self::getIncrementId();
+            $this->_id = ViewModelManager::getIncrementId();
         }
         //data:template
         if (isset($config["data"])) {
@@ -150,31 +124,67 @@ abstract class AbstractViewModel implements
         }
     }
 
+    /**
+     * Method getId
+     *
+     * @return string ViewModelId
+     */
     public function getId()
     {
-        return $this->id;
+        return $this->_id;
     }
-
+    
+    /**
+     * Method setTemplate
+     *
+     * @param string $template Template
+     * 
+     * @return this
+     */
     public function setTemplate($template)
     {
         $this->template = $template;
+        return $this;
     }
 
+    /**
+     * Method getTemplate
+     *
+     * @return string $template
+     */
     public function getTemplate()
     {
         return $this->template;
     }
 
+    /**
+     * Method setTemplateDir
+     *
+     * @param string $templateDir TemplateDir
+     * 
+     * @return this
+     */
     public function setTemplateDir($templateDir)
     {
         $this->templateDir = $templateDir;
+        return $this;
     }
 
+    /**
+     * Method getTemplateDir
+     *
+     * @return string $templateDir
+     */
     public function getTemplateDir()
     {
         return $this->templateDir;
     }
 
+    /**
+     * Method getTemplateForRender
+     *
+     * @return string realTemplateFile
+     */
     public function getTemplateForRender()
     {
         $template = $this->getTemplate();
@@ -191,11 +201,26 @@ abstract class AbstractViewModel implements
         throw new Exception(sprintf(self::ERROR_INVALID_RENDER_TEMPLATE, $template, static::class));
     }
 
+    /**
+     * Method setData
+     *
+     * @param array $data Data
+     * 
+     * @return this
+     */
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
     }
 
+    /**
+     * Method
+     *
+     * @param null|string $key DataKey
+     * 
+     * @return mixed
+     */
     public function getData($key = null)
     {
         if ($key !== null) {
@@ -209,50 +234,39 @@ abstract class AbstractViewModel implements
         return $this->data;
     }
 
-    public function getChild($id)
-    {
-        $childs = $this->getChilds();
-        $targetView = ViewModelManager::getViewById($id);
-        if (in_array($targetView, $childs)) {
-            return $targetView;
-        } else {
-            return null;
-        }
-    }
-
-    public function getChilds()
-    {
-        if (empty($this->childs)) {
-            foreach ($this->getContainers() as $container) {
-                $this->childs += $container->getItems();
-            }
-        }
-        return $this->childs;
-    }
-
+    /**
+     * Method render
+     *
+     * @return string responseContent
+     */
     public function render()
     {
         if (!$this->getExportView() && $this->getLayout()) {
             $Layout = $this->getLayout();
             $Layout->getContainer('Main')->addItem($this);
             $Layout->setData($this->getData());
-            $display = $Layout->renderHtml();
+            $responseContent = $Layout->renderHtml();
         } else {
-            $display = $this->renderHtml();
+            $responseContent = $this->renderHtml();
         }
-        return $display;
+        return $responseContent;
     }
 
+    /**
+     * Method renderHtml
+     *
+     * @return string contents
+     */
     public function renderHtml()
     {
         $this->triggerEvent(self::TRIGGER_RENDER);
         $htmls = [];
         $template = $this->getTemplateForRender();
         ob_start();
-        $data = $this->escapeHtml($this->getData());
+        $data = ViewModelManager::escapeHtml($this->getData());
         extract($data);
         echo '<!-- ' . static::class . ' start render-->', PHP_EOL;
-        require $template;
+        include $template;
         echo '<!-- ' . static::class . ' end render-->';
         $htmls[] = ob_get_contents();
         ob_end_clean();
@@ -260,32 +274,14 @@ abstract class AbstractViewModel implements
         return join("", $htmls);
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
-
-    public static function escapeHtml($data)
-    {
-        if (is_array($data)) {
-            foreach ($data as $key => $value) {
-                $data[$key] = self::escapeHtml($value);
-            }
-            return $data;
-        } elseif (is_string($data)) {
-            return htmlspecialchars($data, ENT_QUOTES);
-        } else {
-            return $data;
-        }
-    }
-
     /**
-    *
-    * @api
-    * @param mixed $layout
-    * @return mixed $layout
-    * @link
-    */
+     * Meythod setLayout
+     *
+     * @param LayoutInterface $layout Layout
+     * @param array|null      $config config
+     * 
+     * @return this
+     */
     public function setLayout(LayoutInterface $layout, $config = null)
     {
         if ($config === null) {
@@ -301,27 +297,26 @@ abstract class AbstractViewModel implements
                 $layout->registerStyle($style);
             }
         }
-        return $this->layout = $layout;
+        $this->_layout = $layout;
+        return $this;
     }
 
     /**
-    *
-    * @api
-    * @return mixed $layout
-    * @link
-    */
+     * Method getLayout
+     *
+     * @return LayoutInterface $layout
+     */
     public function getLayout()
     {
-        return $this->layout;
+        return $this->_layout;
     }
 
     /**
-    *
-    * @api
-    * @param mixed $container
-    * @return mixed $container
-    * @link
-    */
+     * Method setContainers
+     *
+     * @param array $containers ContainerArray
+     * @return this
+     */
     public function setContainers($containers)
     {
         foreach ($containers as $index => $container) {
@@ -329,53 +324,55 @@ abstract class AbstractViewModel implements
                 $containers[$index] = new Container($container, $this);
             }
         }
-        return $this->containers = $containers;
+        $this->_containers = $containers;        
+        return $this;
     }
 
     /**
-    *
-    * @api
-    * @return mixed $container
-    * @link
-    */
+     * Method getContainers
+     *
+     * @return arrays $containers
+     */
     public function getContainers()
     {
-        return $this->containers;
+        return $this->_containers;
     }
 
+    /**
+     * Method getContainer
+     *
+     * @param string $name ContainerName
+     * 
+     * @return Container|null $container
+     */
     public function getContainer($name)
     {
-        if (isset($this->containers[$name])) {
-            return $this->containers[$name];
+        if (isset($this->_containers[$name])) {
+            return $this->_containers[$name];
         }
         return null;
     }
 
     /**
-    *
-    * @api
-    * @param mixed $exportView
-    * @return mixed $exportView
-    * @link
-    */
+     * Method setExportView
+     *
+     * @param ViewModel $exportView ExportViewModel
+     * 
+     * @return this
+     */
     public function setExportView($exportView)
     {
-        return $this->exportView = $exportView;
+        $this->_exportView = $exportView;
+        return $this;
     }
 
     /**
-    *
-    * @api
-    * @return mixed $exportView
-    * @link
-    */
+     * Method getExportView
+     *
+     * @return ViewModel $exportView
+     */
     public function getExportView()
     {
-        return $this->exportView;
-    }
-
-    public function getViewHelper()
-    {
-        return ViewHelper::getSingleton();
+        return $this->_exportView;
     }
 }

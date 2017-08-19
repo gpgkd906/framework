@@ -1,21 +1,40 @@
 <?php
+/**
+ * PHP version 7
+ * File JsonViewModel.php
+ * 
+ * @category Module
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 namespace Framework\ViewModel;
 
+/**
+ * Class JsonViewModel
+ * 
+ * @category Class
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class JsonViewModel extends AbstractViewModel
 {
+    /**
+     * Method render
+     *
+     * @return string $jsonString
+     */
     public function render()
     {
-        $data = [
-            "data" => $this->getData(),
-            "childrens" => []
-        ];
-        foreach ($this->getChilds() as $child) {
-            $subData = $child->getData();
-            if (!empty($subData)) {
-                $data["childrens"][] = $subData;
-            }
-        }
-        return json_encode($data);
+        return json_encode(
+            [
+                "success" => true,
+                "data" => $this->getData(),
+            ]
+        );
     }
 }

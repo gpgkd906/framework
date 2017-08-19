@@ -1,29 +1,40 @@
 <?php
+/**
+ * PHP version 7
+ * File SubFormViewModel.php
+ * 
+ * @category Module
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 declare(strict_types=1);
 
 namespace Framework\ViewModel;
 
 use Framework\ViewModel\FormViewModel;
 
+/**
+ * Class SubFormViewModel
+ * 
+ * @category Class
+ * @package  Framework\ViewModel
+ * @author   chenhan <gpgkd906@gmail.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php MIT
+ * @link     https://github.com/gpgkd906/framework
+ */
 class SubFormViewModel extends AbstractViewModel implements FormViewModelInterface
 {
-    /**
-     *
-     * @api
-     * @var mixed $form
-     * @access private
-     * @link
-     */
-    private $form = null;
-
     protected $fieldset = [];
+    private $_form = null;
 
     /**
+     * Method setFieldset
      *
-     * @api
-     * @param mixed $fieldset
-     * @return mixed $fieldset
-     * @link
+     * @param array|string $fieldset FieldsetConfigOrFieldsetClass
+     * 
+     * @return mixed
      */
     public function setFieldset($fieldset)
     {
@@ -31,10 +42,9 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     }
 
     /**
+     * Method getFieldset
      *
-     * @api
-     * @return mixed $fieldset
-     * @link
+     * @return Fieldset $fieldset
      */
     public function getFieldset()
     {
@@ -42,11 +52,11 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     }
 
     /**
+     * Method setForm
      *
-     * @api
-     * @param mixed $form
-     * @return mixed $form
-     * @link
+     * @param Form $form Form
+     * 
+     * @return this
      */
     public function setForm($form)
     {
@@ -63,16 +73,21 @@ class SubFormViewModel extends AbstractViewModel implements FormViewModelInterfa
     }
 
     /**
+     * Method getForm
      *
-     * @api
-     * @return mixed $form
-     * @link
+     * @return Form $form
      */
     public function getForm()
     {
         return $this->form;
     }
 
+    /**
+     * Method setExportView
+     *
+     * @param ViewModel $exportView ExportViewModel
+     * @return void
+     */
     public function setExportView($exportView)
     {
         if ($exportView instanceof FormViewModelInterface) {
