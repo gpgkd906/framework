@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File AbstractRouter.php
- * 
+ *
  * @category Interface
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -15,52 +15,49 @@ namespace Framework\Router;
 
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ObjectManager\SingletonInterface;
+use Framework\Service\CacheService\CacheServiceAwareInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
 /**
  * Class AbstractRouter
- * 
+ *
  * @category Class
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-abstract class AbstractRouter implements 
-    RouterInterface, 
+abstract class AbstractRouter implements
+    RouterInterface,
     ObjectManagerAwareInterface,
-    SingletonInterface
+    SingletonInterface,
+    CacheServiceAwareInterface
 {
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\ObjectManager\SingletonTrait;
-
+    use \Framework\Service\CacheService\CacheServiceAwareTrait;
+    
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
     const INDEX = 'index';
 
-    private $_config = null;
     private $_request = null;
-    private $_routerList = [];
-
+    private $_routerList = null;
+    protected $request_param = null;
+    
     /**
      * Abstract Method loadRouter
      *
      * @return void
      */
-    abstract protected function loadRouter();
+    abstract public function loadRouter();
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->_config = ConfigModel::getConfigModel(
-            [
-                "scope" => static::class,
-                "property" => ConfigModel::READONLY
-            ]
-        );
         $this->index = self::INDEX;
     }
 
@@ -72,15 +69,38 @@ abstract class AbstractRouter implements
     public function dispatch()
     {
         if ($this->_request === null) {
-            $this->loadRouter();
+            $routerList = $this->getRouterList();
             if (empty($this->_request)) {
                 $this->_request = $this->parseRequest();
             }
             $controller = $this->_request['controller'];
-            if (isset($this->_routerList[$controller])) {
-                $this->_request['controller'] = $this->_routerList[$controller];
+            if (isset($routerList[$controller])) {
+                $this->_request['controller'] = $routerList[$controller];
             }
         }
+        return $this->_request;
+    }
+
+    /**
+     * Method setRequest
+     *
+     * @param array $request requestData
+     *
+     * @return this
+     */
+    public function setRequest($request)
+    {
+        $this->_request = $request;
+        return $this;
+    }
+
+    /**
+     * Method getRequest
+     *
+     * @return array $request requestData
+     */
+    public function getRequest()
+    {
         return $this->_request;
     }
 
@@ -92,29 +112,23 @@ abstract class AbstractRouter implements
     abstract public function getParam();
 
     /**
+     * Method setParam
+     *
+     * @param array $param requestParam
+     *
+     * @return this
+     */
+    public function setParam($param)
+    {
+        $this->request_param = $param;
+        return $this;
+    }
+    /**
      * Abstract Method parseRequest
      *
      * @return mixed
      */
     abstract public function parseRequest();
-
-    /**
-     * Method getReq
-     *
-     * @return string $req
-     */
-    public function getReq()
-    {
-        $param = $this->getParam();
-        if (isset($param["req"])) {
-            return $param["req"];
-        } else {
-            if (isset($_GET['req'])) {
-                return $_GET['req'];
-            }
-            return $this->index;
-        }
-    }
 
     /**
      * Method getIndex
@@ -127,31 +141,10 @@ abstract class AbstractRouter implements
     }
 
     /**
-     * Method setConfig
-     *
-     * @param ConfirModel $config ConfigModel
-     * @return this
-     */
-    public function setConfig($config)
-    {
-        $this->_config = $config;
-        return $this;
-    }
-
-    /**
-     * Method getConfig
-     *
-     * @return ConfigModel $config
-     */
-    public function getConfig()
-    {
-        return $this->_config;
-    }
-
-    /**
      * Method register
      *
-     * @param array $route
+     * @param array $route routeInfo
+     *
      * @return this
      */
     public function register($route)
@@ -169,6 +162,28 @@ abstract class AbstractRouter implements
      */
     public function getRouterList()
     {
+        if (!$this->_routerList) {
+            $cache = $this->getCacheService()->getCache('route');
+            if ($routerList = $cache->getItem(static::class)) {
+                $this->setRouterList($routerList);
+            } else {
+                $this->loadRouter();
+                $cache->setItem(static::class, $this->_routerList);
+            }
+        }
         return $this->_routerList;
+    }
+
+    /**
+     * Method setRouterList
+     *
+     * @param array $routerList routerList
+     *
+     * @return this
+     */
+    public function setRouterList($routerList)
+    {
+        $this->_routerList = $routerList;
+        return $this;
     }
 }

@@ -1,11 +1,8 @@
 <?php
-
-define("ROOT_DIR", __DIR__ . "/../");
-
+// @codingStandardsIgnoreFile
+require __DIR__ . '/../globalConstant.php';
 require ROOT_DIR . 'Benchmark.php';
 $bm = new Benchmark;
-
-define("ENVIRONMENT", "Development");
 require ROOT_DIR . "vendor/autoload.php";
 
 use Framework\Application\HttpApplication;

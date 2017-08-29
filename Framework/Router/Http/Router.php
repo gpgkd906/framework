@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File Router.php
- * 
+ *
  * @category Router
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -19,7 +19,7 @@ use Exception;
 
 /**
  * Interface Router
- * 
+ *
  * @category Interface
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -36,14 +36,14 @@ class Router extends AbstractRouter
     const DELETE = "delete";
 
     private $_request_method = null;
-    private $_request_param = [];
+    private $_request_uri = null;
 
     /**
      * Method getMethod
      *
      * @return string $request_method
      */
-    private function getMethod()
+    public function getMethod()
     {
         if ($this->_request_method === null) {
             $request_method = isset($_REQUEST["REQUEST_METHOD"]) ? $_REQUEST["REQUEST_METHOD"] : (isset($_SERVER["REQUEST_METHOD"]) ? $_SERVER["REQUEST_METHOD"] : self::GET);
@@ -59,7 +59,7 @@ class Router extends AbstractRouter
      */
     public function getAction()
     {
-        $request = $this->dispatch();
+        $request = $this->getRequest();
         $action = $request["action"];
         return $action;
     }
@@ -71,7 +71,7 @@ class Router extends AbstractRouter
      */
     public function getController()
     {
-        $request = $this->dispatch();
+        $request = $this->getRequest();
         return $request['controller'];
     }
 
@@ -82,36 +82,30 @@ class Router extends AbstractRouter
      */
     public function getParam()
     {
-        switch ($this->getMethod()) {
-            case self::GET:
-                $this->_request_param = $_GET;
-                break;
-            case self::POST:
-                $this->_request_param = $_POST;
-                if (!empty($_GET)) {
-                    $this->_request_param = array_merge($_GET, $this->_request_param);
-                }
-                break;
-            case self::PUT:
-            case self::DELETE:
-            default:
-                parse_str(file_get_contents('php://input'), $this->_request_param);
-                if (!empty($_GET)) {
-                    $this->_request_param = array_merge($_GET, $this->_request_param);
-                }
-                break;
+        if ($this->request_param === null) {
+            $request_param = null;
+            switch ($this->getMethod()) {
+                case self::GET:
+                    $request_param = $_GET;
+                    break;
+                case self::POST:
+                    $request_param = $_POST;
+                    if (!empty($_GET)) {
+                        $request_param = array_merge($_GET, $request_param);
+                    }
+                    break;
+                case self::PUT:
+                case self::DELETE:
+                default:
+                    parse_str(file_get_contents('php://input'), $request_param);
+                    if (!empty($_GET)) {
+                        $request_param = array_merge($_GET, $request_param);
+                    }
+                    break;
+            }
+            $this->setParam($request_param);
         }
-        return $this->_request_param;
-    }
-
-    /**
-     * Method getReq
-     *
-     * @return string $request_uri
-     */
-    public function getReq()
-    {
-        return $_SERVER['REQUEST_URI'];
+        return $this->request_param;
     }
 
     /**
@@ -119,7 +113,7 @@ class Router extends AbstractRouter
      *
      * @return void
      */
-    protected function loadRouter()
+    public function loadRouter()
     {
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/Route.php') as $routeInjection) {
             include $routeInjection;
@@ -131,7 +125,7 @@ class Router extends AbstractRouter
      *
      * @param string $controller ControllerClass
      * @param mixed  $param      Param
-     * 
+     *
      * @return string url
      */
     public function linkto($controller, $param = null)
@@ -147,7 +141,7 @@ class Router extends AbstractRouter
             $uri = '/' . $uri;
             return $uri;
         } else {
-            throw new \Excpetion (sprintf(self::ERROR_INVALID_LINKTO, $controller));
+            throw new Exception (sprintf(self::ERROR_INVALID_LINKTO, $controller));
         }
     }
 
@@ -156,7 +150,7 @@ class Router extends AbstractRouter
      *
      * @param string $controller ControllerClass
      * @param mixed  $param      Param
-     * 
+     *
      * @return void
      */
     public function redirect($controller, $param = null)
@@ -172,7 +166,7 @@ class Router extends AbstractRouter
      */
     public function reload()
     {
-        $request = $this->dispatch();
+        $request = $this->getRequest();
         $this->redirect($request['controller'], $request['param']);
     }
 
@@ -184,25 +178,25 @@ class Router extends AbstractRouter
     public function parseRequest()
     {
         $controller = $action = $param = null;
-        $req = $this->getReq();
+        $req = $this->getRequestUri();
+        if (strpos($req, ".")) {
+            return [
+                'controller' => null,
+                'action' => null,
+                'param' => null
+            ];
+        }
         if ($req[0] === '/') {
             $req = substr($req, 1);
         }
-        if (strpos($req, ".")) {
-            return [
-                'controller' => null, 
-                'action' => null, 
-                'param' => null
-            ];
+        if (substr($req, -1, 1) === "/") {
+            $req = substr($req, 0, -1);
         }
         if (strpos($req, "?") !== false) {
             list($req) = explode('?', $req);
         }
         if ($req === '') {
             $req = $this->getIndex();
-        }
-        if (substr($req, -1, 1) === "/") {
-            $req = substr($req, 0, -1);
         }
         $reqs = explode("/", $req);
         $parts = [];
@@ -232,7 +226,7 @@ class Router extends AbstractRouter
      */
     public function isFaviconRequest()
     {
-        return $_SERVER["REQUEST_URI"] === "/favicon.ico";
+        return $this->getRequestUri() === "/favicon.ico";
     }
 
     /**
@@ -242,6 +236,22 @@ class Router extends AbstractRouter
      */
     public function getRequestUri()
     {
-        return $_SERVER['REQUEST_URI'];
+        if ($this->_request_uri === null) {
+            $this->setRequestUri($_SERVER['REQUEST_URI']);
+        }
+        return $this->_request_uri;
+    }
+
+    /**
+     * Method setRequestUri
+     *
+     * @param string $requestUri requestUri
+     *
+     * @return this
+     */
+    public function setRequestUri($requestUri)
+    {
+        $this->_request_uri = $requestUri;
+        return $this;
     }
 }

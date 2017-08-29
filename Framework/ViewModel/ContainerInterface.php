@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ContainerInterface.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -14,7 +14,7 @@ namespace Framework\ViewModel;
 
 /**
  * Interface ContainerInterface
- * 
+ *
  * @category Interface
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -27,7 +27,7 @@ interface ContainerInterface
      * Method setItems
      *
      * @param array $items ViewModelItems
-     * 
+     *
      * @return mixed
      */
     public function setItems($items);
@@ -43,7 +43,7 @@ interface ContainerInterface
      * Method setExportView
      *
      * @param ViewModel $exportView ExportViewModel
-     * 
+     *
      * @return this
      */
     public function setExportView($exportView);

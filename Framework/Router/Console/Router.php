@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File Router.php
- * 
+ *
  * @category Router
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -19,7 +19,7 @@ use Exception;
 
 /**
  * Class Router
- * 
+ *
  * @category Class
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -28,14 +28,12 @@ use Exception;
  */
 class Router extends AbstractRouter
 {
-    private $_request_param = [];
-
     /**
      * Method loadRouter
      *
      * @return void
      */
-    protected function loadRouter()
+    public function loadRouter()
     {
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/Command.php') as $routeInjection) {
             include $routeInjection;
@@ -49,9 +47,12 @@ class Router extends AbstractRouter
      */
     public function getParam()
     {
-        global $argv;
-        array_shift($argv);
-        return $this->_request_param = $argv;
+        if ($this->request_param === null) {
+            global $argv;
+            array_shift($argv);
+            $this->setParam($argv);
+        }
+        return $this->request_param;
     }
 
     /**
@@ -74,17 +75,11 @@ class Router extends AbstractRouter
                 $argTmp = explode("=", $arg);
                 $name = array_shift($argTmp);
                 $val = join("=", $argTmp);
-                if ($name == 'controller') {
-                    $request['controller'] = $val;
-                } else {
-                    $request['param'][$name] = $val;
-                }
+                $request['param'][$name] = $val;
                 unset($tmp[$index]);
             }
         }
-        if (!$request['controller']) {
-            $request['controller'] = array_shift($tmp);
-        }
+        $request['controller'] = array_shift($tmp);
         if (!empty($tmp)) {
             $request['param'] = array_merge($request['param'], $tmp);
         }
@@ -97,9 +92,9 @@ class Router extends AbstractRouter
      * @param string      $controller ControllerClass
      * @param string|null $action     Action
      * @param mixed       $param      Param
-     * 
+     *
      * @return void
-     */ 
+     */
     public function redirect($controller, $action = null, $param = null)
     {
         throw new Exception("can not redirct in console mode");

@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 namespace Framework\Module\Cngo\Admin;
 
 use Framework\Router\RouterInterface;

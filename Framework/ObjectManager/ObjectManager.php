@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ObjectManager.php
- * 
+ *
  * @category Interface
  * @package  Framework\ObjectManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -20,7 +20,7 @@ use Exception;
 
 /**
  * Interface ObjectManager
- * 
+ *
  * @category Interface
  * @package  Framework\ObjectManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -28,7 +28,7 @@ use Exception;
  * @link     https://github.com/gpgkd906/framework
  */
 class ObjectManager implements 
-    ObjectManagerInterface, 
+    ObjectManagerInterface,
     SingletonInterface
 {
     use SingletonTrait;
@@ -70,7 +70,7 @@ class ObjectManager implements
      *
      * @param string $name    shareObjectName
      * @param class  $factory ObjectOrFactory
-     * 
+     *
      * @return Object
      */
     public function get($name, $factory = null)
@@ -90,7 +90,7 @@ class ObjectManager implements
      *
      * @param string $name   shareObjectName
      * @param Object $Object Object
-     * 
+     *
      * @return this
      */
     public function set($name, $Object)
@@ -104,7 +104,7 @@ class ObjectManager implements
      *
      * @param string $name    shareObjectName
      * @param class  $factory ObjectOrFactory
-     * 
+     *
      * @return Object
      */
     public function create($name, $factory = null)
@@ -137,7 +137,7 @@ class ObjectManager implements
      * AwareInterface-base auto dependency-injection
      *
      * @param Object $Object Object
-     * 
+     *
      * @return this
      */
     public function injectDependency($Object)
@@ -177,7 +177,7 @@ class ObjectManager implements
      * Method _getDependencySetter
      *
      * @param string $interface AwareInterface
-     * 
+     *
      * @return string setter
      */
     private function _getDependencySetter($interface)
@@ -246,7 +246,7 @@ class ObjectManager implements
      * Method export
      *
      * @param class $Objectfactories _ObjectFactoryClasses
-     * 
+     *
      * @return void
      */
     public function export($Objectfactories)
