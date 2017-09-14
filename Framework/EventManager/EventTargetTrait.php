@@ -72,9 +72,9 @@ trait EventTargetTrait
      * @param string|Event $event   EventOrName
      * @param string|null  $trigger triggerName
      *
-     * @return callable Listener
+     * @return array Listeners
      */
-    public function getEventListeners($event, $trigger = null)
+    public function getEventListeners($event, $trigger = null): array
     {
         $trigger = $trigger ? $trigger : $this->_getTrigger($event);
         if (empty($trigger)) {
@@ -120,7 +120,7 @@ trait EventTargetTrait
      *
      * @return Event $event;
      */
-    public function getCurrentEvent()
+    public function getCurrentEvent(): Event
     {
         return $this->getEventManager()->getCurrentEvent();
     }
@@ -130,9 +130,9 @@ trait EventTargetTrait
      *
      * @param string|Event $event EventOrName
      *
-     * @return trigger
+     * @return string
      */
-    private function _getTrigger($event)
+    private function _getTrigger($event): ?string
     {
         if ($trigger = $this->getEventManager()->getTrigger(static::class, $event)) {
             return $trigger;

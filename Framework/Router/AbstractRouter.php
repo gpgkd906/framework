@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Framework\Router;
 
+use Zend\Diactoros\ServerRequestFactory;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\ObjectManager\SingletonInterface;
 use Framework\Service\CacheService\CacheServiceAwareInterface;
+use Framework\EventManager\EventTargetInterface;
 use Framework\Config\ConfigModel;
 use Exception;
 
@@ -31,21 +33,25 @@ use Exception;
 abstract class AbstractRouter implements
     RouterInterface,
     ObjectManagerAwareInterface,
+    EventTargetInterface,
     SingletonInterface,
     CacheServiceAwareInterface
 {
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
+    use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\SingletonTrait;
     use \Framework\Service\CacheService\CacheServiceAwareTrait;
-    
+
     const ERROR_INVALID_JOINSTEP = "error: invalid join-step";
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
     const INDEX = 'index';
 
+    const TRIGGER_ROUTERLIST_LOADED = 'router list loaded';
+
     private $_request = null;
     private $_routerList = null;
     protected $request_param = null;
-    
+
     /**
      * Abstract Method loadRouter
      *
@@ -58,6 +64,14 @@ abstract class AbstractRouter implements
      */
     public function __construct()
     {
+        // $request = ServerRequestFactory::fromGlobals(
+        //     $_SERVER,
+        //     $_GET,
+        //     $_POST,
+        //     $_COOKIE,
+        //     $_FILES
+        // );
+        // var_dump($request);
         $this->index = self::INDEX;
     }
 
@@ -170,6 +184,7 @@ abstract class AbstractRouter implements
                 $this->loadRouter();
                 $cache->setItem(static::class, $this->_routerList);
             }
+            $this->triggerEvent(static::TRIGGER_ROUTERLIST_LOADED);
         }
         return $this->_routerList;
     }

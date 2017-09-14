@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File HttpApplication.php
- * 
+ *
  * @category Module
  * @package  Framework\Application
  * @author   chenhan <gpgkd906@gmail.com>
@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Framework\Application;
 
-use Framework\ViewModel\ViewModelManager;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Controller\ControllerInterface;
 use Framework\Router\RouterInterface;
@@ -22,7 +21,7 @@ use Exception;
 
 /**
  * Class HttpApplication
- * 
+ *
  * @category Application
  * @package  Framework\Application
  * @author   chenhan <gpgkd906@gmail.com>
@@ -50,8 +49,6 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
             $this->sendDummyFavicon();
         }
 
-        ViewModelManager::setBasePath($config->get('ApplicationHost'));
-        ViewModelManager::setObjectManager($this->getObjectManager());
         $request = $routeModel->dispatch();
         $Controller = null;
         if ($request['controller']) {
@@ -72,7 +69,7 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
      * Method setController
      *
      * @param Object $controller Controller
-     * 
+     *
      * @return this
      */
     public function setController($controller)

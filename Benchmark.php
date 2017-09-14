@@ -25,9 +25,9 @@ class Benchmark
             $this->point[$key]["showtime"] = sprintf('%0.5f', ($this->point[$key]["time"] - $this->point[$key-1]["time"]) * 1000);
             $this->point[$key]["totaltime"] = sprintf('%0.5f', ($this->point[$key]["time"] - $this->point[1]["time"]) * 1000);
         }
-        $this->point[$key]["usage"] = sprintf('%01.2f Byte', memory_get_usage() );
+        $this->point[$key]["usage"] = sprintf('%01.2f Byte', memory_get_usage());
         $this->point[$key]["usage_human"] = sprintf('%01.2f MB', memory_get_usage() / 1048576);
-        $this->point[$key]["usage_peak"] = sprintf('%01.2f Byte', memory_get_peak_usage() );
+        $this->point[$key]["usage_peak"] = sprintf('%01.2f Byte', memory_get_peak_usage());
         $this->point[$key]["usage_peak_human"] = sprintf('%01.2f MB', memory_get_peak_usage() / 1048576);
     }
 

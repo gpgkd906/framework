@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File AbstractController.php
- * 
+ *
  * @category Controller
  * @package  Framework\Controller
  * @author   chenhan <gpgkd906@gmail.com>
@@ -25,7 +25,7 @@ use Exception;
 
 /**
  * Abstract Class AbstractController
- * 
+ *
  * @category Class
  * @package  Framework\Controller
  * @author   chenhan <gpgkd906@gmail.com>
@@ -84,7 +84,7 @@ abstract class AbstractController implements
      *
      * @param string $action action
      * @param string $param  parameter
-     * 
+     *
      * @return void
      */
     public function callActionFlow($action, $param)
@@ -116,7 +116,7 @@ abstract class AbstractController implements
      *
      * @param string $action action
      * @param string $param  parameter
-     * 
+     *
      * @return ViewModel|null
      */
     protected function callAction($action, $param = [])
@@ -143,7 +143,7 @@ abstract class AbstractController implements
      * Method setName
      *
      * @param string $controllerName controllerName
-     * 
+     *
      * @return this
      */
     public function setName($controllerName)
@@ -166,7 +166,7 @@ abstract class AbstractController implements
      * Method setViewModel
      *
      * @param ViewModel $ViewModel ViewModel
-     * 
+     *
      * @return this
      */
     public function setViewModel($ViewModel)

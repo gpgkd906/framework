@@ -30,7 +30,7 @@ interface ControllerInterface
      * @param string $action action
      * @param string $param  parameter
      * 
-     * @return void
+     * @return viewModel
      */
     public function callActionFlow($action, $param);
 
