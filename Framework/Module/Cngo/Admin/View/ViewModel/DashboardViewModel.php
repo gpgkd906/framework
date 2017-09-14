@@ -20,7 +20,6 @@ class DashboardViewModel extends AbstractViewModel
             ],
         ],
         'script' => [
-            '/sbadmin2/js/morris-data.js'
         ]
     ];
 

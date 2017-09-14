@@ -1,0 +1,33 @@
+<ul class="nav" id="side-menu">
+  <?php foreach ($this->getData() as $data) : ?>
+  <li>
+    <a href="<?= $data['link'] ?? '#' ?>">
+      <i class="fa <?= $data['icon'] ?? '' ?> fa-fw"></i> <?= $data['title'] ?>
+      <?php if (!empty($data['child'])): ?><span class="fa arrow"></span><?php endif; ?>
+    </a>
+    <?php if (!empty($data['child'])) : ?>
+    <ul class="nav nav-second-level">
+      <?php foreach ($data['child'] as $item) : ?>
+      <li>
+        <a href="<?= $item['link'] ?? '#' ?>">
+	  <i class="fa <?= $item['icon'] ?? '' ?> fa-fw"></i> <?= $item['title'] ?>
+	  <?php if (!empty($item['child'])): ?><span class="fa arrow"></span><?php endif; ?>
+	</a>
+	<?php if (!empty($item['child'])) : ?>
+	<ul class="nav nav-third-level">
+	  <?php foreach ($item['child'] as $row) : ?>
+	  <li>
+	    <a href="<?= $row['link'] ?? '#' ?>">
+	      <i class="fa <?= $row['icon'] ?? '' ?> fa-fw"></i> <?= $row['title'] ?>
+	    </a>
+	  </li>
+	  <?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+  </li>
+  <?php endforeach; ?>
+</ul>

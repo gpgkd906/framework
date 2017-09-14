@@ -18,20 +18,20 @@ class AdminLoginPageLayout extends PageLayout
     protected $asset = '/asset';
 
     protected $styles = [
-        "/sbadmin2/bower_components/bootstrap/dist/css/bootstrap.min.css",
-        "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.css",
-        "/sbadmin2/dist/css/timeline.css",
-        "/sbadmin2/dist/css/sb-admin-2.css",
-        "/sbadmin2/bower_components/morrisjs/morris.css",
-        "/sbadmin2/bower_components/font-awesome/css/font-awesome.min.css",
+        "/material/bootstrap/dist/css/bootstrap.min.css",
+        "/material/css/animate.css",
+        "/material/css/style.css",
+        "/material/css/colors/default.css"
     ];
 
     protected $scripts = [
-        "/sbadmin2/bower_components/bootstrap/dist/js/bootstrap.min.js",
-        "/sbadmin2/bower_components/metisMenu/dist/metisMenu.min.js",
-        "/sbadmin2/bower_components/raphael/raphael-min.js",
-        "/sbadmin2/bower_components/morrisjs/morris.min.js",
-        "/sbadmin2/dist/js/admin.js",
+        "/material/plugins/bower_components/jquery/dist/jquery.min.js",
+        "/material/bootstrap/dist/js/bootstrap.min.js",
+        "/material/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js",
+        "/material/js/jquery.slimscroll.js",
+        "/material/js/waves.js",
+        "/material/js/custom.min.js",
+        "/material/plugins/bower_components/styleswitcher/jQuery.style.switcher.js",
     ];
 
     public function getTemplateDir()
