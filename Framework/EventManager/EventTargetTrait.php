@@ -137,5 +137,6 @@ trait EventTargetTrait
         if ($trigger = $this->getEventManager()->getTrigger(static::class, $event)) {
             return $trigger;
         }
+        return null;
     }
 }
