@@ -9,11 +9,12 @@ use Framework\Module\Cngo\AdminUser\View\ViewModel\LoginViewModel;
 use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
 use Framework\Module\Cngo\Admin\Controller\DashboardController;
 
-class LoginController extends AbstractController implements AuthenticationAwareInterface
+class LoginController extends AbstractController implements
+    AuthenticationAwareInterface
 {
     use \Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareTrait;
 
-    public function index()
+    public function index(): LoginViewModel
     {
         if ($this->getAuthentication()->hasIdentity()) {
             $this->getRouter()->redirect(DashboardController::class);
@@ -26,7 +27,7 @@ class LoginController extends AbstractController implements AuthenticationAwareI
         ]);
     }
 
-    public function onLoginComplete(\Framework\EventManager\Event $event)
+    public function onLoginComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -40,7 +41,7 @@ class LoginController extends AbstractController implements AuthenticationAwareI
         }
     }
 
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             "description" => "ログイン",

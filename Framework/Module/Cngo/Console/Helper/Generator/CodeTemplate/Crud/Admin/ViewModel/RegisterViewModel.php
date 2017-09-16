@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File RegisterViewModel.php
- * 
+ *
  * @category ViewModel
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -18,7 +18,7 @@ use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 /**
  * Class RegisterViewModel
- * 
+ *
  * @category ViewModel
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -58,7 +58,7 @@ class RegisterViewModel extends FormViewModel
      *
      * @return string templateDir
      */
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return __DIR__ . '/..{ns}';
     }

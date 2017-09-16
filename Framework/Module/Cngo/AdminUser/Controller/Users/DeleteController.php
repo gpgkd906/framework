@@ -14,7 +14,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
     use \Framework\Repository\EntityManagerAwareTrait;
     private $AdminUser;
 
-    public function index($id)
+    public function index($id): DeleteViewModel
     {
         $this->AdminUser = $this->getEntityManager()->getRepository(AdminUsers::class)->find($id);
         if (!$this->AdminUser) {
@@ -31,7 +31,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
         ]);
     }
 
-    public function onDeleteComplete(\Framework\EventManager\Event $event)
+    public function onDeleteComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -43,7 +43,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
         }
     }
 
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             "description" => "管理者削除",

@@ -37,6 +37,7 @@ class SidemenuViewModel extends AbstractViewModel
                 'title' => $pageInfo['description'],
                 'link' => '/' . $url,
                 'priority' => $pageInfo['priority'],
+                'icon' => $pageInfo['icon'] ?? substr($pageInfo['description'], 0, 1),
             ];
             if (isset($pageInfo['group'])) {
                 $group = $pageInfo['group'];
@@ -46,6 +47,7 @@ class SidemenuViewModel extends AbstractViewModel
                         'link' => 'javascript::void(0)',
                         'child' => [],
                         'priority' => 1,
+                        'icon' => $pageInfo['groupIcon'] ?? substr($pageInfo['description'], 0, 1),
                     ];
                 }
                 $data[$group]['child'][$controller] = $controllerData;

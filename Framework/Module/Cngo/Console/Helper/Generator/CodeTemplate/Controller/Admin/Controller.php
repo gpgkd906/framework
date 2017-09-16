@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File {Controller}.php
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -19,7 +19,7 @@ use Framework\Module\{Module}\View\ViewModel{Namespace}\{ViewModel};
 
 /**
  * Class {Controller}
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -34,7 +34,7 @@ class {Controller} extends AbstractAdminController
      *
      * @return {ViewModel}
      */
-    public function index()
+    public function index(): {ViewModel}
     {
         return ViewModelManager::getViewModel([
             'viewModel' => {ViewModel}::class,
@@ -43,19 +43,18 @@ class {Controller} extends AbstractAdminController
             ]
         ]);
     }
-    
+
     /**
      * Method onLoginComplete
      *
      * @param  \Framework\EventManager\Event $event Event
      * @return void
      */
-    public function onLoginComplete(\Framework\EventManager\Event $event)
+    public function onLoginComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
             $data = $ViewModel->getForm()->getData();
-
         }
     }
 
@@ -64,12 +63,13 @@ class {Controller} extends AbstractAdminController
      *
      * @return Array
      */
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             "description" => "コントローラ",
             "priority" => 0,
-            "menu" => false
+            "menu" => false,
+            "icon" => '<i class="mdi mdi-av-timer fa-fw" data-icon="v"></i>'
         ];
     }
 }

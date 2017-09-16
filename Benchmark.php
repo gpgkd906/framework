@@ -43,26 +43,26 @@ class Benchmark
 
     public function displayHtml()
     {
-        echo "<br/><br/><div>ベンチ統計情報生成しました<br/>";
+        echo "<br/><br/><div style='position: fixed; bottom: 0px;'>ベンチ統計情報生成しました<br/>";
         echo "<table border='1' class='table table-bordered'>";
         echo "<tr>";
-        echo "<th>ブレークポイント</th>";
-        echo "<th>総時間(ミニ秒)</th>";
-        echo "<th>単位時間(ミニ秒)</th>";
-        echo "<th>メモリ消費(バイト)</th>";
-        echo "<th>メモリ消費(メガバイト)</th>";
-        echo "<th>ピークメモリ消費(バイト)</th>";
-        echo "<th>ピークメモリ消費(メガバイト)</th>";
+        echo "<th style='color: black;'>ブレークポイント</th>";
+        echo "<th style='color: black;'>総時間(ミニ秒)</th>";
+        echo "<th style='color: black;'>単位時間(ミニ秒)</th>";
+        echo "<th style='color: black;'>メモリ消費(バイト)</th>";
+        echo "<th style='color: black;'>メモリ消費(メガバイト)</th>";
+        echo "<th style='color: black;'>ピークメモリ消費(バイト)</th>";
+        echo "<th style='color: black;'>ピークメモリ消費(メガバイト)</th>";
         echo "</tr>";
         foreach ($this->point as $key => $value) {
             echo "<tr>";
-            echo "<td>" . $value["key"] . "</td>";
-            echo "<td>" . $value["totaltime"] . "</td>";
-            echo "<td>" . $value["showtime"] . "</td>";
-            echo "<td>" . $value["usage"] . "</td>";
-            echo "<td>" . $value["usage_human"] . "</td>";
-            echo "<td>" . $value["usage_peak"] . "</td>";
-            echo "<td>" . $value["usage_peak_human"] . "</td>";
+            echo "<td style='color: black;'>" . $value["key"] . "</td>";
+            echo "<td style='color: black;'>" . $value["totaltime"] . "</td>";
+            echo "<td style='color: black;'>" . $value["showtime"] . "</td>";
+            echo "<td style='color: black;'>" . $value["usage"] . "</td>";
+            echo "<td style='color: black;'>" . $value["usage_human"] . "</td>";
+            echo "<td style='color: black;'>" . $value["usage_peak"] . "</td>";
+            echo "<td style='color: black;'>" . $value["usage_peak_human"] . "</td>";
             echo "</tr>";
         }
         echo "</table></div>";

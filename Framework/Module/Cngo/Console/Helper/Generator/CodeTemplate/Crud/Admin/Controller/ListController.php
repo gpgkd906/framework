@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ListController.php
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -21,7 +21,7 @@ use Framework\Module\{Module}\Entity\{Entity};
 
 /**
  * Class ListController
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -37,7 +37,7 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
      *
      * @return ListViewModel
      */
-    public function index()
+    public function index(): ListViewModel
     {
         return ViewModelManager::getViewModel([
             'viewModel' => ListViewModel::class,
@@ -54,13 +54,15 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
      *
      * @return Array
      */
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             'description' => '一覧',
             'priority' => 1,
             'menu' => true,
+            'icon' => '<i class="mdi mdi-av-timer fa-fw" data-icon="v"></i>',
             'group' => '管理',
+            'groupIcon' => '<i class="mdi mdi-av-timer fa-fw" data-icon="v"></i>',
         ];
     }
 }

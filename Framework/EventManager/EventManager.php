@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Framework\EventManager;
 
 use Framework\ObjectManager\SingletonInterface;
+use Framework\Service\CacheService\CacheServiceAwareInterface;
 
 /**
  * Class EventManager
@@ -26,9 +27,11 @@ use Framework\ObjectManager\SingletonInterface;
  */
 class EventManager implements
     EventManagerInterface,
+    CacheServiceAwareInterface,
     SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
+    use \Framework\Service\CacheService\CacheServiceAwareTrait;
 
     const ERROR_EVENT_STACK_EXISTS = "error: event [%s] is loop-triggered in class [%s]'s eventStack;";
     const ERROR_UNDEFINED_EVENT_TRIGGER = "error: undefiend event trigger [%s] in class [%s]";
@@ -39,12 +42,21 @@ class EventManager implements
     private $_triggerScope = [];
     private $_triggerPool = [];
     private $_propagationChainPool = [];
-
+    private $_cache = null;
     /**
      * Contrustor
      */
     public function __construct()
     {
+
+    }
+
+    public function getCache()
+    {
+        if ($this->_cache === null) {
+            $this->_cache = $this->getCacheService()->delegate(__CLASS__, 'memory');
+        }
+        return $this->_cache;
     }
 
     /**
@@ -210,16 +222,25 @@ class EventManager implements
     public function initTrigger($class)
     {
         if (!isset($this->_triggerPool[$class])) {
-            $reflection = new \ReflectionClass($class);
-            $eventTrigger = [];
-            foreach ($reflection->getConstants() as $constantName => $val) {
-                //TRIGGER_が始まるトリッガを拾う
-                if (strpos($constantName, 'TRIGGER_') === 0) {
-                    //クラス情報をトリッガにセットする
-                    $eventTrigger[$val] = $class . "::" . $val;
-                }
+            $triggerPool = $this->getCache()->getItem('triggerPool');
+            if (!$triggerPool) {
+                $triggerPool = [];
             }
-            $this->_triggerPool[$class] = $eventTrigger;
+            if (isset($triggerPool[$class])) {
+                $this->_triggerPool[$class] = $triggerPool[$class];
+            } else {
+                $reflection = new \ReflectionClass($class);
+                $eventTrigger = [];
+                foreach ($reflection->getConstants() as $constantName => $val) {
+                    //TRIGGER_が始まるトリッガを拾う
+                    if (strpos($constantName, 'TRIGGER_') === 0) {
+                        //クラス情報をトリッガにセットする
+                        $eventTrigger[$val] = $class . "::" . $val;
+                    }
+                }
+                $this->_triggerPool[$class] = $eventTrigger;
+                $this->getCache()->setItem('triggerPool', $this->_triggerPool);
+            }
         }
         return $this->_triggerPool[$class];
     }

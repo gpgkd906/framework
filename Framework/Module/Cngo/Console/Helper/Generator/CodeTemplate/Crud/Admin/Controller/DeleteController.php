@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File DeleteController.php
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -21,7 +21,7 @@ use Framework\Module\{Module}\Entity\{Entity};
 
 /**
  * Class DeleteController
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -35,12 +35,12 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
 
     /**
      * Method index
-     * 
+     *
      * @param integer|str $id EntityId
      *
      * @return DeleteViewModel
      */
-    public function index($id)
+    public function index($id): DeleteViewModel
     {
         $this->{Entity} = $this->getEntityManager()->getRepository({Entity}::class)->find($id);
         if (!$this->{Entity}) {
@@ -61,10 +61,10 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
      * Method onDeleteComplete
      *
      * @param \Framework\EventManager\Event $event 'Event'
-     * 
+     *
      * @return void
      */
-    public function onDeleteComplete(\Framework\EventManager\Event $event)
+    public function onDeleteComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -81,12 +81,12 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
      *
      * @return Array
      */
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
-            "description" => "削除",
-            "priority" => 0,
-            "menu" => false
+            'description' => '削除',
+            'priority' => 0,
+            'menu' => false,
         ];
     }
 }

@@ -15,7 +15,7 @@ class RegisterController extends AbstractAdminController implements EntityManage
     use \Framework\Repository\EntityManagerAwareTrait;
     use \Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareTrait;
 
-    public function index()
+    public function index(): RegisterViewModel
     {
         return ViewModelManager::getViewModel([
           'viewModel' => RegisterViewModel::class,
@@ -25,7 +25,7 @@ class RegisterController extends AbstractAdminController implements EntityManage
         ]);
     }
 
-    public function onRegisterComplete(\Framework\EventManager\Event $event)
+    public function onRegisterComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -39,13 +39,15 @@ class RegisterController extends AbstractAdminController implements EntityManage
         }
     }
 
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             'description' => '管理者登録',
             'priority' => 2,
             'menu' => true,
+            'icon' => '<i class="mdi mdi-account-edit fa-fw" data-icon="v"></i>',
             'group' => '管理者管理',
+            'groupIcon' => '<i class="icon-people"></i>',
         ];
     }
 }

@@ -31,6 +31,7 @@ class CacheService implements SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
 
+    private $_config = null;
     private $_cachePool = [];
     private $_default = null;
 
@@ -40,16 +41,24 @@ class CacheService implements SingletonInterface
      */
     private function __construct()
     {
-        $config = ConfigModel::getConfigModel(
-            [
-                "scope" => 'cache',
-                "property" => ConfigModel::READONLY,
-            ]
-        );
+        $config = $this->getConfig();
         $this->_default = $config->get('default');
         foreach ($config->get('storage') as $section => $options) {
-            $this->setCache($section, StorageFactory::factory($options));
+            $this->registerCache($section, $options);
         }
+    }
+
+    private function getConfig()
+    {
+        if ($this->_config === null) {
+            $this->_config = ConfigModel::getConfigModel(
+                [
+                    "scope" => 'cache',
+                    "property" => ConfigModel::READONLY,
+                ]
+            );
+        }
+        return $this->_config;
     }
 
     /**
@@ -96,6 +105,35 @@ class CacheService implements SingletonInterface
     {
         $this->setCache($section, StorageFactory::factory($options));
         return $this;
+    }
+
+    /**
+     * 委托cacheService自动分配一个缓存器。
+     * 逻辑侧可以指定缓存类型，但不制定具体的缓存设定。
+     * 逻辑侧也可以省略缓存类型，这种情况下，由cacheService自动选择默认缓存类型
+     * 逻辑侧委托已经存在的缓存器会产生错误。
+     *
+     * @param [type] $section
+     * @param [type] $options
+     * @return void
+     */
+    public function delegate($section, $options = null)
+    {
+        if ($this->getCache($section)) {
+            throw new \Exception('section has used!');
+        }
+        $config = $this->getConfig();
+        $delegate = $config->get('delegate');
+        if (!is_array($options)) {
+            if ($options === null || !isset($delegate[$options])) {
+                $options = $delegate['default'];
+            }
+            $delegateOptions = $delegate['adapter'][$options];
+            $delegateOptions['adapter']['options']['namespace'] = $section;
+            $options = $delegateOptions;
+        }
+        $this->registerCache($section, $options);
+        return $this->getCache($section);
     }
 
     /**

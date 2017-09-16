@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ListViewModel.php
- * 
+ *
  * @category ViewModel
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -18,7 +18,7 @@ use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 /**
  * Class ListViewModel
- * 
+ *
  * @category ViewModel
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -42,7 +42,7 @@ class ListViewModel extends AbstractViewModel
      *
      * @return string templateDir
      */
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return __DIR__ . '/..{ns}';
     }
@@ -52,7 +52,7 @@ class ListViewModel extends AbstractViewModel
      *
      * @return void
      */
-    public function onRender()
+    public function onRender(): void
     {
         $data = $this->getData();
         $data['{entity}'] = array_map(function (${Entity}) {

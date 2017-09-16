@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File RegisterController.php
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -21,7 +21,7 @@ use Framework\Module\{Module}\Entity\{Entity};
 
 /**
  * Class RegisterController
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -37,7 +37,7 @@ class RegisterController extends AbstractAdminController implements EntityManage
      *
      * @return RegisterViewModel
      */
-    public function index()
+    public function index(): RegisterViewModel
     {
         return ViewModelManager::getViewModel(
             [
@@ -53,10 +53,10 @@ class RegisterController extends AbstractAdminController implements EntityManage
      * Method onRegisterComplete
      *
      * @param \Framework\EventManager\Event $event 'Event'
-     * 
+     *
      * @return void
      */
-    public function onRegisterComplete(\Framework\EventManager\Event $event)
+    public function onRegisterComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -74,13 +74,15 @@ class RegisterController extends AbstractAdminController implements EntityManage
      *
      * @return Array
      */
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             'description' => '登録',
             'priority' => 2,
             'menu' => true,
+            'icon' => '<i class="mdi mdi-av-timer fa-fw" data-icon="v"></i>',
             'group' => '管理',
+            'groupIcon' => '<i class="mdi mdi-av-timer fa-fw" data-icon="v"></i>',
         ];
     }
 }

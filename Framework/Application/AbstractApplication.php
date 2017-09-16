@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File AbstractApplication.php
- * 
+ *
  * @category Module
  * @package  Framework\Application
  * @author   chenhan <gpgkd906@gmail.com>
@@ -21,7 +21,7 @@ use Exception;
 
 /**
  * Class AbstractApplication
- * 
+ *
  * @category Application
  * @package  Framework\Application
  * @author   chenhan <gpgkd906@gmail.com>
@@ -47,7 +47,7 @@ abstract class AbstractApplication implements ApplicationInterface
      * Method setObjectManager
      *
      * @param ObjectManager $objectManager ObjectManager
-     * 
+     *
      * @return this
      */
     public function setObjectManager(ObjectManager $objectManager)
@@ -86,7 +86,7 @@ abstract class AbstractApplication implements ApplicationInterface
      * Method setConfig
      *
      * @param ConfigModelInterface $config Config
-     * 
+     *
      * @return this
      */
     public function setConfig($config)
@@ -104,7 +104,7 @@ abstract class AbstractApplication implements ApplicationInterface
      * Method getConfig
      *
      * @param string|null $key config key
-     * 
+     *
      * @return mixed config
      */
     public function getConfig($key = null)
@@ -122,11 +122,4 @@ abstract class AbstractApplication implements ApplicationInterface
      * @return void
      */
     abstract  public function run();
-
-    /**
-     * Abstract Method getController
-     *
-     * @return Object|null
-     */
-    abstract  public function getController();
 }

@@ -32,8 +32,6 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
 {
 
     use \Framework\EventManager\EventTargetTrait;
-    const TRIGGER_ROUTEMISS = 'routemiss';
-
     private $_controller = null;
 
     /**
@@ -43,49 +41,17 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
      */
     public function run()
     {
-        $config = $this->getConfig();
         $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);
         if ($routeModel->isFaviconRequest()) {
             $this->sendDummyFavicon();
         }
 
         $request = $routeModel->dispatch();
-        $Controller = null;
-        if ($request['controller']) {
-            $Controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
-            $action = $request['action'];
-            if (!$Controller) {
-                $this->triggerEvent(self::TRIGGER_ROUTEMISS, $request);
-                $Controller = $this->getController();
-            }
-        }
+        $Controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
         if (!$Controller instanceof ControllerInterface) {
             return $this->sendNotFound();
         }
         $Controller->callActionFlow($request['action'], $request['param']);
-    }
-
-    /**
-     * Method setController
-     *
-     * @param Object $controller Controller
-     *
-     * @return this
-     */
-    public function setController($controller)
-    {
-        $this->_controller = $controller;
-        return $this;
-    }
-
-    /**
-     * Method getController
-     *
-     * @return Object|null
-     */
-    public function getController()
-    {
-        return $this->_controller;
     }
 
     /**

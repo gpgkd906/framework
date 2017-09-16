@@ -43,4 +43,30 @@ return [
         ],
     ],
     'default' => 'admin',
+    'delegate' => [
+        'default' => 'memcached',
+        'adapter' => [
+            'memory' => [
+                'adapter' => [
+                    'name' => 'memory',
+                    'options' => [
+                        'ttl' => 3600,
+                        'namespace' => null,
+                    ],
+                ]
+            ],
+            'memcached' => [
+                'adapter' => [
+                    'name' => 'memcached',
+                    'options' => [
+                        'servers' => [
+                            ['cache_server2', 11211]
+                        ],
+                        'ttl' => 3600,
+                        'namespace' => null,
+                    ],
+                ]
+            ]
+        ]
+    ],
 ];

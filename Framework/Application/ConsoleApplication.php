@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ConsoleApplication.php
- * 
+ *
  * @category Module
  * @package  Framework\Application
  * @author   chenhan <gpgkd906@gmail.com>
@@ -20,7 +20,7 @@ use Exception;
 
 /**
  * Class ConsoleApplication
- * 
+ *
  * @category Application
  * @package  Framework\Application
  * @author   chenhan <gpgkd906@gmail.com>
@@ -38,8 +38,6 @@ class ConsoleApplication extends AbstractApplication
      */
     public function run()
     {
-        $config = $this->getConfig();
-        //route
         $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);
 
         $request = $routeModel->dispatch();
@@ -50,28 +48,5 @@ class ConsoleApplication extends AbstractApplication
         } else {
             throw new Exception("invalid console application");
         }
-    }
-
-    /**
-     * Method setController
-     *
-     * @param Object $Controller Controller
-     * 
-     * @return void
-     */
-    public function setController($Controller)
-    {
-        $this->controller = $Controller;
-        return $this;
-    }
-
-    /**
-     * Method getController
-     *
-     * @return Object|null
-     */
-    public function getController()
-    {
-        return $this->controller;
     }
 }

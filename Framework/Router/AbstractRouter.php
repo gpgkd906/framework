@@ -88,6 +88,7 @@ abstract class AbstractRouter implements
                 $this->_request = $this->parseRequest();
             }
             $controller = $this->_request['controller'];
+            $this->_request['controller'] = null;
             if (isset($routerList[$controller])) {
                 $this->_request['controller'] = $routerList[$controller];
             }

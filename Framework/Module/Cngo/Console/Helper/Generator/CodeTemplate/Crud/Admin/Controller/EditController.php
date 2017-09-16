@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File EditController.php
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -21,7 +21,7 @@ use Framework\Module\{Module}\Entity\{Entity};
 
 /**
  * Class EditController
- * 
+ *
  * @category Controller
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -37,10 +37,10 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
      * Method index
      *
      * @param integer|str $id EntityId
-     * 
+     *
      * @return EditViewModel
      */
-    public function index($id)
+    public function index($id): EditViewModel
     {
         $this->{Entity} = $this->getEntityManager()->getRepository({Entity}::class)->find($id);
         if (!$this->{Entity}) {
@@ -56,15 +56,15 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
             ],
         ]);
     }
-    
+
     /**
      * Method onEditComplete
      *
      * @param \Framework\EventManager\Event $event 'Event'
-     * 
+     *
      * @return void
      */
-    public function onEditComplete(\Framework\EventManager\Event $event)
+    public function onEditComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -82,12 +82,12 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
      *
      * @return Array
      */
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
-            "description" => "編集",
-            "priority" => 0,
-            "menu" => false
+            'description' => '編集',
+            'priority' => 0,
+            'menu' => false,
         ];
     }
 }

@@ -38,6 +38,13 @@ class AdminUsers extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="avatar", type="string", length=64, nullable=true)
+     */
+    private $avatar;
+
+        /**
+     * @var string
+     *
      * @ORM\Column(name="email", type="string", length=64, nullable=true)
      */
     private $email;
@@ -128,6 +135,30 @@ class AdminUsers extends AbstractEntity
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param string $avatar
+     *
+     * @return AdminUsers
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
     }
 
     /**

@@ -16,7 +16,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
     use \Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareTrait;
     private $AdminUser;
 
-    public function index($id)
+    public function index($id): EditViewModel
     {
         $this->AdminUser = $this->getEntityManager()->getRepository(AdminUsers::class)->find($id);
         if (!$this->AdminUser) {
@@ -33,7 +33,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
         ]);
     }
 
-    public function onEditComplete(\Framework\EventManager\Event $event)
+    public function onEditComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
@@ -51,7 +51,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
         }
     }
 
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             "description" => "管理者編集",

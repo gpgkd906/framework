@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File DeleteViewModel.php
- * 
+ *
  * @category ViewModel
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -18,7 +18,7 @@ use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
 
 /**
  * Class DeleteViewModel
- * 
+ *
  * @category ViewModel
  * @package  Framework\Module\{Module}
  * @author   chenhan <gpgkd906@gmail.com>
@@ -44,7 +44,7 @@ class DeleteViewModel extends FormViewModel
      *
      * @return string templateDir
      */
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return __DIR__ . '/..{ns}';
     }
@@ -54,7 +54,7 @@ class DeleteViewModel extends FormViewModel
      *
      * @return void
      */
-    public function onRender()
+    public function onRender(): void
     {
         $data = $this->getData();
         $data['{entity}'] = $data['{entity}']->toArray();

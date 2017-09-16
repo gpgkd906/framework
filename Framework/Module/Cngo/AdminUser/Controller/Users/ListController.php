@@ -13,7 +13,7 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
 {
     use \Framework\Repository\EntityManagerAwareTrait;
 
-    public function index()
+    public function index(): ListViewModel
     {
         return ViewModelManager::getViewModel([
             'viewModel' => ListViewModel::class,
@@ -25,13 +25,15 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         ]);
     }
 
-    public static function getPageInfo()
+    public static function getPageInfo(): array
     {
         return [
             'description' => '管理者一覧',
             'priority' => 1,
             'menu' => true,
+            'icon' => '<i class="mdi mdi-account-multiple fa-fw" data-icon="v"></i>',
             'group' => '管理者管理',
+            'groupIcon' => '<i class="mdi mdi-account"></i>',
         ];
     }
 }

@@ -27,7 +27,8 @@ class DashboardController extends AbstractAdminController implements
         return [
             "description" => "Dashboard",
             "priority" => 0,
-            "menu" => true
+            "menu" => true,
+            "icon" => '<i class="mdi mdi-av-timer fa-fw" data-icon="v"></i>'
         ];
     }
 }
