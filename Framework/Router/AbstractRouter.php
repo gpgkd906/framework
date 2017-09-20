@@ -47,6 +47,7 @@ abstract class AbstractRouter implements
     const INDEX = 'index';
 
     const TRIGGER_ROUTERLIST_LOADED = 'router list loaded';
+    const TRIGGER_ROUTEMISS = 'route miss';
 
     private $_request = null;
     private $_routerList = null;
@@ -91,6 +92,8 @@ abstract class AbstractRouter implements
             $this->_request['controller'] = null;
             if (isset($routerList[$controller])) {
                 $this->_request['controller'] = $routerList[$controller];
+            } else {
+                $this->triggerEvent(static::TRIGGER_ROUTEMISS);
             }
         }
         return $this->_request;
@@ -201,5 +204,28 @@ abstract class AbstractRouter implements
     {
         $this->_routerList = $routerList;
         return $this;
+    }
+
+    /**
+     * Method getAction
+     *
+     * @return string $action
+     */
+    public function getAction()
+    {
+        $request = $this->getRequest();
+        $action = $request["action"];
+        return $action;
+    }
+
+    /**
+     * Method getController
+     *
+     * @return string $controller
+     */
+    public function getController()
+    {
+        $request = $this->getRequest();
+        return $request['controller'];
     }
 }

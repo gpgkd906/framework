@@ -7,7 +7,7 @@ use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\Users\DeleteViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cngo\AdminUser\Entity\AdminUsers;
+use Framework\Module\Cngo\AdminUser\Entity\Users;
 
 class DeleteController extends AbstractAdminController implements EntityManagerAwareInterface
 {
@@ -16,7 +16,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
 
     public function index($id): DeleteViewModel
     {
-        $this->AdminUser = $this->getEntityManager()->getRepository(AdminUsers::class)->find($id);
+        $this->AdminUser = $this->getEntityManager()->getRepository(Users::class)->find($id);
         if (!$this->AdminUser) {
             $this->getRouter()->redirect(ListController::class);
         }

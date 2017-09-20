@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File AbstractConsole.php
- * 
+ *
  * @category Controller
  * @package  Framework\Controller
  * @author   chenhan <gpgkd906@gmail.com>
@@ -17,21 +17,22 @@ use Exception;
 
 /**
  * Class AbstractConsole
- * 
+ *
  * @category Class
  * @package  Framework\Controller
  * @author   chenhan <gpgkd906@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-abstract class AbstractConsole extends AbstractController
+abstract class AbstractConsole extends AbstractController implements
+    ConsoleInterface
 {
     /**
      * Method callActionFlow
      *
      * @param string $action action
      * @param string $param  parameter
-     * 
+     *
      * @return void
      */
     public function callActionFlow($action, $param)

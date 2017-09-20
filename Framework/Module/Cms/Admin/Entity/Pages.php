@@ -3,38 +3,37 @@
 namespace Framework\Module\Cms\Admin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Framework\Repository\Doctrine\AbstractEntity;
 
 /**
- * Blogs
+ * Pages
  *
- * @ORM\Table(name="blogs")
+ * @ORM\Table(name="pages", indexes={@ORM\Index(name="url", columns={"url"}), @ORM\Index(name="active_from_to", columns={"active_from", "active_to", "status"})})
  * @ORM\Entity
  */
-class Blog extends AbstractEntity
+class Pages
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="blog_id", type="integer", nullable=false)
+     * @ORM\Column(name="page_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $blogId;
+    private $pageId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=256, nullable=true)
+     * @ORM\Column(name="url", type="string", length=64, nullable=true)
      */
-    private $title;
+    private $url;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="body", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="section", type="string", length=32, nullable=true)
      */
-    private $body;
+    private $section;
 
     /**
      * @var boolean
@@ -46,9 +45,23 @@ class Blog extends AbstractEntity
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="active_from", type="datetime", nullable=true)
+     */
+    private $activeFrom = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="active_to", type="datetime", nullable=true)
+     */
+    private $activeTo = '9999-12-31 00:00:00';
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="create_datetime", type="datetime", nullable=true)
      */
-    private $createDatetime;
+    private $createDatetime = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \DateTime
@@ -66,61 +79,61 @@ class Blog extends AbstractEntity
 
 
     /**
-     * Get blogId
+     * Get pageId
      *
      * @return integer
      */
-    public function getBlogId()
+    public function getPageId()
     {
-        return $this->blogId;
+        return $this->pageId;
     }
 
     /**
-     * Set title
+     * Set url
      *
-     * @param string $title
+     * @param string $url
      *
-     * @return Blogs
+     * @return Pages
      */
-    public function setTitle($title)
+    public function setUrl($url)
     {
-        $this->title = $title;
+        $this->url = $url;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get url
      *
      * @return string
      */
-    public function getTitle()
+    public function getUrl()
     {
-        return $this->title;
+        return $this->url;
     }
 
     /**
-     * Set body
+     * Set section
      *
-     * @param string $body
+     * @param string $section
      *
-     * @return Blogs
+     * @return Pages
      */
-    public function setBody($body)
+    public function setSection($section)
     {
-        $this->body = $body;
+        $this->section = $section;
 
         return $this;
     }
 
     /**
-     * Get body
+     * Get section
      *
      * @return string
      */
-    public function getBody()
+    public function getSection()
     {
-        return $this->body;
+        return $this->section;
     }
 
     /**
@@ -128,7 +141,7 @@ class Blog extends AbstractEntity
      *
      * @param boolean $status
      *
-     * @return Blogs
+     * @return Pages
      */
     public function setStatus($status)
     {
@@ -148,11 +161,59 @@ class Blog extends AbstractEntity
     }
 
     /**
+     * Set activeFrom
+     *
+     * @param \DateTime $activeFrom
+     *
+     * @return Pages
+     */
+    public function setActiveFrom($activeFrom)
+    {
+        $this->activeFrom = $activeFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get activeFrom
+     *
+     * @return \DateTime
+     */
+    public function getActiveFrom()
+    {
+        return $this->activeFrom;
+    }
+
+    /**
+     * Set activeTo
+     *
+     * @param \DateTime $activeTo
+     *
+     * @return Pages
+     */
+    public function setActiveTo($activeTo)
+    {
+        $this->activeTo = $activeTo;
+
+        return $this;
+    }
+
+    /**
+     * Get activeTo
+     *
+     * @return \DateTime
+     */
+    public function getActiveTo()
+    {
+        return $this->activeTo;
+    }
+
+    /**
      * Set createDatetime
      *
      * @param \DateTime $createDatetime
      *
-     * @return Blogs
+     * @return Pages
      */
     public function setCreateDatetime($createDatetime)
     {
@@ -176,7 +237,7 @@ class Blog extends AbstractEntity
      *
      * @param \DateTime $updateDatetime
      *
-     * @return Blogs
+     * @return Pages
      */
     public function setUpdateDatetime($updateDatetime)
     {
@@ -200,7 +261,7 @@ class Blog extends AbstractEntity
      *
      * @param boolean $deleteFlag
      *
-     * @return Blogs
+     * @return Pages
      */
     public function setDeleteFlag($deleteFlag)
     {
@@ -219,3 +280,4 @@ class Blog extends AbstractEntity
         return $this->deleteFlag;
     }
 }
+

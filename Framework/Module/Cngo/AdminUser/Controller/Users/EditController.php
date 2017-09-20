@@ -7,8 +7,10 @@ use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\Users\EditViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cngo\AdminUser\Entity\AdminUsers;
+use Framework\Module\Cngo\AdminUser\Entity\Users;
 use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
+
+use Framework\Router\Http\Router;
 
 class EditController extends AbstractAdminController implements EntityManagerAwareInterface
 {
@@ -18,7 +20,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
 
     public function index($id): EditViewModel
     {
-        $this->AdminUser = $this->getEntityManager()->getRepository(AdminUsers::class)->find($id);
+        $this->AdminUser = $this->getEntityManager()->getRepository(Users::class)->find($id);
         if (!$this->AdminUser) {
             $this->getRouter()->redirect(ListController::class);
         }

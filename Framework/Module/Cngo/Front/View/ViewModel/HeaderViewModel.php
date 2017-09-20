@@ -10,7 +10,7 @@ class HeaderViewModel extends AbstractViewModel
 
     protected $template = "/template/header.phtml";
 
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return __DIR__ . '/..';
     }

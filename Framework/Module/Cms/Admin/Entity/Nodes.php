@@ -3,52 +3,44 @@
 namespace Framework\Module\Cms\Admin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Framework\Repository\Doctrine\AbstractEntity;
 
 /**
- * ControllerGroups
+ * Nodes
  *
- * @ORM\Table(name="controller_groups", indexes={@ORM\Index(name="k_name_cg", columns={"name", "delete_flag"})})
+ * @ORM\Table(name="nodes")
  * @ORM\Entity
  */
-class ControllerGroup extends AbstractEntity
+class Nodes
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="controller_group_id", type="integer", nullable=false)
+     * @ORM\Column(name="node_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $controllerGroupId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=256, nullable=true)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
-    private $description;
+    private $nodeId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="priority", type="integer", nullable=false)
+     * @ORM\Column(name="title", type="integer", nullable=false)
      */
-    private $priority = '0';
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=32, nullable=true)
+     */
+    private $content;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="create_datetime", type="datetime", nullable=true)
      */
-    private $createDatetime = null;
+    private $createDatetime = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \DateTime
@@ -66,85 +58,61 @@ class ControllerGroup extends AbstractEntity
 
 
     /**
-     * Get controllerGroupId
+     * Get nodeId
      *
      * @return integer
      */
-    public function getControllerGroupId()
+    public function getNodeId()
     {
-        return $this->controllerGroupId;
+        return $this->nodeId;
     }
 
     /**
-     * Set name
+     * Set title
      *
-     * @param string $name
+     * @param integer $title
      *
-     * @return ControllerGroups
+     * @return Nodes
      */
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return ControllerGroups
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set priority
-     *
-     * @param integer $priority
-     *
-     * @return ControllerGroups
-     */
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
-
-        return $this;
-    }
-
-    /**
-     * Get priority
+     * Get title
      *
      * @return integer
      */
-    public function getPriority()
+    public function getTitle()
     {
-        return $this->priority;
+        return $this->title;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return Nodes
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 
     /**
@@ -152,7 +120,7 @@ class ControllerGroup extends AbstractEntity
      *
      * @param \DateTime $createDatetime
      *
-     * @return ControllerGroups
+     * @return Nodes
      */
     public function setCreateDatetime($createDatetime)
     {
@@ -176,7 +144,7 @@ class ControllerGroup extends AbstractEntity
      *
      * @param \DateTime $updateDatetime
      *
-     * @return ControllerGroups
+     * @return Nodes
      */
     public function setUpdateDatetime($updateDatetime)
     {
@@ -200,7 +168,7 @@ class ControllerGroup extends AbstractEntity
      *
      * @param boolean $deleteFlag
      *
-     * @return ControllerGroups
+     * @return Nodes
      */
     public function setDeleteFlag($deleteFlag)
     {
@@ -219,3 +187,4 @@ class ControllerGroup extends AbstractEntity
         return $this->deleteFlag;
     }
 }
+

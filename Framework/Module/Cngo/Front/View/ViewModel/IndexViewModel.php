@@ -21,7 +21,7 @@ class IndexViewModel extends AbstractViewModel
         ],
     ];
 
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return __DIR__ . '/..';
     }

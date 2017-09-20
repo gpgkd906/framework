@@ -3,9 +3,9 @@ namespace Framework\Module\Cngo\Admin\Model;
 
 use Framework\ModelManager\AbstractModel;
 
-class AdminUser extends AbstractModel
+class User extends AbstractModel
 {
-    private $adminUsersId;
+    private $usersId;
     private $login;
     private $name;
     private $email;
@@ -14,14 +14,14 @@ class AdminUser extends AbstractModel
     private $profileEditUrl;
     private $avatar;
 
-    public function getAdminUsersId()
+    public function getUsersId()
     {
-        return $this->adminUsersId;
+        return $this->usersId;
     }
 
-    public function setAdminUsersId($adminUsersId)
+    public function setUsersId($usersId)
     {
-        $this->adminUsersId = $adminUsersId;
+        $this->usersId = $usersId;
         return $this;
     }
 

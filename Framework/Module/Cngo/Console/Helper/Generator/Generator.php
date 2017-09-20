@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File Generator.php
- * 
+ *
  * @category Module
  * @package  Framework\Module\Cngo\Console
  * @author   chenhan <gpgkd906@gmail.com>
@@ -25,7 +25,7 @@ use Framework\Repository\EntityManagerAwareInterface;
 
 /**
  * Class Generator
- * 
+ *
  * @category Helper
  * @package  Framework\Module\Cngo\Console
  * @author   chenhan <gpgkd906@gmail.com>
@@ -57,7 +57,7 @@ class Generator implements
      * Method setTestMode
      *
      * @param boolean $testMode testMode
-     * 
+     *
      * @return this
      */
     public function setTestMode($testMode)
@@ -80,7 +80,7 @@ class Generator implements
      * Method setModuleInfo
      *
      * @param Array $moduleInfo moduleInfo
-     * 
+     *
      * @return this
      */
     public function setModuleInfo($moduleInfo)
@@ -228,7 +228,7 @@ class Generator implements
         $classes = $driver->getAllClassNames();
         $metadata = $cmf->getAllMetadata();
         $metadata = array_filter(
-            $metadata, 
+            $metadata,
             function ($Meta) use ($tableName, $Namespace) {
                 $ret = $Meta->getTableName() === $tableName;
                 if ($ret) {
@@ -287,7 +287,7 @@ class Generator implements
      *
      * @param string  $file     file
      * @param boolean $codeFlag useCodeSerivce
-     * 
+     *
      * @return string|AbstractWrapper
      */
     private function _getCodeTemplate($file, $codeFlag = false)
@@ -326,7 +326,7 @@ class Generator implements
      *
      * @param string                 $file     file
      * @param string|AbstractWrapper $Contents Contents
-     * 
+     *
      * @return this
      */
     private function _addBuffer($file, $Contents)
@@ -356,7 +356,7 @@ class Generator implements
      *
      * @param string                 $file     file
      * @param string|AbstractWrapper $Contents Contents
-     * 
+     *
      * @return this
      */
     private function _write($file, $Contents)

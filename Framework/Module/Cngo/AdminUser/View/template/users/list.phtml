@@ -30,15 +30,15 @@ use Framework\Module\Cngo\AdminUser\Controller\Users\DeleteController;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($this->getData('adminUsers') as $index => $adminUser) : ?>
+                        <?php foreach ($this->getData('users') as $index => $adminUser) : ?>
                             <tr class="<?= $index % 2 ? 'even' : 'odd' ?>">
-                                <td><?=$adminUser['adminUsersId']; ?></td>
+                                <td><?=$adminUser['usersId']; ?></td>
                                 <td><?=$adminUser['login']; ?></td>
                                 <td><?=$adminUser['name']; ?></td>
                                 <td><?=$adminUser['email']; ?></td>
                                 <td class="center">
-                                    <a href="<?=$this->getRouter()->linkto(EditController::class, $adminUser['adminUsersId']); ?>" class="btn btn-primary">編集</a>
-                                    <a href="<?=$this->getRouter()->linkto(DeleteController::class, $adminUser['adminUsersId']); ?>" class="btn btn-danger">削除</a>
+                                    <a href="<?=$this->getRouter()->linkto(EditController::class, $adminUser['usersId']); ?>" class="btn btn-primary">編集</a>
+                                    <a href="<?=$this->getRouter()->linkto(DeleteController::class, $adminUser['usersId']); ?>" class="btn btn-danger">削除</a>
                                 </td>
                             </tr>
                         <?php endforeach;?>

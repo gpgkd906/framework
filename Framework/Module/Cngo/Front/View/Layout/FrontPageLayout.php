@@ -16,9 +16,12 @@ class FrontPageLayout extends PageLayout
 
     protected $template = '/template/layout/front.phtml';
 
-    protected $asset = '/asset';
+    protected $asset = '/asset/material';
 
     protected $styles = [
+        '/bootstrap/dist/css/bootstrap.min.css',
+        '/css/animate.css',
+        '/css/colors/default.css'
     ];
 
     protected $scripts = [

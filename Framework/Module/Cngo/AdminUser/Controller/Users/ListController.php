@@ -7,7 +7,7 @@ use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\Users\ListViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cngo\AdminUser\Entity\AdminUsers;
+use Framework\Module\Cngo\AdminUser\Entity\Users;
 
 class ListController extends AbstractAdminController implements EntityManagerAwareInterface
 {
@@ -18,9 +18,9 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         return ViewModelManager::getViewModel([
             'viewModel' => ListViewModel::class,
             'data' => [
-                'adminUsers' => $this->getEntityManager()->getRepository(AdminUsers::class)->findBy([
+                'users' => $this->getEntityManager()->getRepository(Users::class)->findBy([
                     'deleteFlag' => 0
-                ], ['adminUsersId' => 'ASC'], 50)
+                ], ['usersId' => 'ASC'], 50)
             ]
         ]);
     }

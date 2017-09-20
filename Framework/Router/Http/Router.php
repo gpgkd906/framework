@@ -53,29 +53,6 @@ class Router extends AbstractRouter
     }
 
     /**
-     * Method getAction
-     *
-     * @return string $action
-     */
-    public function getAction()
-    {
-        $request = $this->getRequest();
-        $action = $request["action"];
-        return $action;
-    }
-
-    /**
-     * Method getController
-     *
-     * @return string $controller
-     */
-    public function getController()
-    {
-        $request = $this->getRequest();
-        return $request['controller'];
-    }
-
-    /**
      * Method getParam
      *
      * @return array $request_param

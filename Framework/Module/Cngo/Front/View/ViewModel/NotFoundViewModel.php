@@ -14,7 +14,7 @@ class NotFoundViewModel extends AbstractViewModel
         'layout' => FrontPageLayout::class,
     ];
 
-    public function getTemplateDir()
+    public function getTemplateDir(): string
     {
         return __DIR__ . '/..';
     }

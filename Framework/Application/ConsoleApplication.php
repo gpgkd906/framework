@@ -15,7 +15,7 @@ namespace Framework\Application;
 
 use Framework\Router\RouterInterface;
 use Framework\Router\Console\Router;
-use Framework\Controller\ControllerInterface;
+use Framework\Controller\ConsoleInterface;
 use Exception;
 
 /**
@@ -41,7 +41,7 @@ class ConsoleApplication extends AbstractApplication
         $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);
 
         $request = $routeModel->dispatch();
-        $Controller = $this->getObjectManager()->get(ControllerInterface::class, $request['controller']);
+        $Controller = $this->getObjectManager()->get(ConsoleInterface::class, $request['controller']);
         if ($Controller) {
             $action = $request['action'];
             $Controller->callActionFlow($request['action'], $request['param']);

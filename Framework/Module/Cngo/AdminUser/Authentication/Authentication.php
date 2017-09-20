@@ -61,7 +61,7 @@ class Authentication extends AbstractAuthentication
     public function getAdminProfile($event)
     {
         $data = $this->getIdentity();
-        $data['profileEditUrl'] = $this->getRouter()->linkto(EditController::class, $data['adminUsersId']);
+        $data['profileEditUrl'] = $this->getRouter()->linkto(EditController::class, $data['usersId']);
         $event->getTarget()->getModel()->fromArray($data);
     }
 }

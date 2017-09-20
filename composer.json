@@ -27,16 +27,17 @@
         "gpgkd906/code-generator": "0.3.0",
         "doctrine/orm": "*",
         "psr/container": "1.0.0",
-        "zendframework/zend-authentication": "^2.5.3",
-        "zendframework/zend-session": "^2.6.2",
-        "zendframework/zend-crypt": "^2.6",
-        "zendframework/zend-http": "^2.5.4",
-        "zendframework/zend-cache": "^2.7.2",
-        "zendframework/zend-validator": "^2.9.2",
-        "zendframework/zend-inputfilter": "^2.7.4",
-        "zendframework/zend-i18n": "^2.7.4",
-        "zendframework/zend-i18n-resources": "^2.5.2",
-        "zendframework/zend-diactoros": "^1.5.0"
+        "zendframework/zend-authentication": "*",
+        "zendframework/zend-session": "*",
+        "zendframework/zend-crypt": "*",
+        "zendframework/zend-http": "*",
+        "zendframework/zend-cache": "*",
+        "zendframework/zend-validator": "*",
+        "zendframework/zend-inputfilter": "*",
+        "zendframework/zend-i18n": "*",
+        "zendframework/zend-i18n-resources": "*",
+        "zendframework/zend-diactoros": "*",
+        "zendframework/zend-permissions-acl": "*"
     },
     "autoload": {
         "psr-4": {

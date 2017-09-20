@@ -7,7 +7,7 @@ use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\Users\RegisterViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\Cngo\AdminUser\Entity\AdminUsers;
+use Framework\Module\Cngo\AdminUser\Entity\Users;
 use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
 
 class RegisterController extends AbstractAdminController implements EntityManagerAwareInterface
@@ -31,7 +31,7 @@ class RegisterController extends AbstractAdminController implements EntityManage
         if ($ViewModel->getForm()->isValid()) {
             $adminUser = $ViewModel->getForm()->getData()['adminUser'];
             $adminUser['password'] = $this->getAuthentication()->passwordHash($adminUser['password']);
-            $AdminUser = new AdminUsers();
+            $AdminUser = new Users();
             $AdminUser->fromArray($adminUser);
             $this->getEntityManager()->persist($AdminUser);
             $this->getEntityManager()->flush();
