@@ -5,6 +5,7 @@ namespace Framework\Module\Cngo\AdminUser\View\ViewModel\Users;
 
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
+use Framework\Module\Cngo\AdminUser\Fieldset\AdminUserFieldset;
 
 class RegisterViewModel extends FormViewModel
 {
@@ -15,74 +16,7 @@ class RegisterViewModel extends FormViewModel
     ];
 
     protected $fieldset = [
-        'adminUser' => [
-            'login' => [
-                'type' => 'text',
-                'inputSpecification' => [
-                    'require' => true,
-                    'validators' => [
-                        [
-                            'name' => 'NotEmpty',
-                        ],
-                    ]
-                ],
-                'attrs' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'ログインID',
-                ],
-            ],
-            'name' => [
-                'type' => 'text',
-                'inputSpecification' => [
-                ],
-                'attrs' => [
-                    'class' => 'form-control',
-                    'placeholder' => '管理者名',
-                ],
-            ],
-            'email' => [
-                'type' => 'text',
-                'inputSpecification' => [
-                ],
-                'attrs' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'メールアドレス',
-                ],
-            ],
-            'password' => [
-                'type' => 'password',
-                'inputSpecification' => [
-                    'require' => true,
-                    'validators' => [
-                        [
-                            'name' => 'NotEmpty',
-                        ],
-                    ]
-                ],
-                'attrs' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'パスワード',
-                ]
-            ],
-            'passwordConfirm' => [
-                'type' => 'password',
-                'inputSpecification' => [
-                    'require' => true,
-                    'validators' => [
-                        [
-                            'name' => 'Identical',
-                            'options' => [
-                                'token' => 'password',
-                            ],
-                        ],
-                    ]
-                ],
-                'attrs' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'パスワード確認',
-                ]
-            ],
-        ]
+        AdminUserFieldset::class
     ];
 
     public function getTemplateDir()

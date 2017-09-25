@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File FormViewModel.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -18,7 +18,7 @@ use Framework\FormManager\FormManager;
 
 /**
  * Class FormViewModel
- * 
+ *
  * @category Class
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -38,7 +38,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method setFieldset
      *
      * @param array|string $fieldset FieldsetConfigOrFieldsetClass
-     * 
+     *
      * @return mixed
      */
     public function setFieldset($fieldset)
@@ -76,7 +76,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     {
         parent::__construct($config, $objectManager);
         $this->addEventListener(
-            self::TRIGGER_INIT, 
+            self::TRIGGER_INIT,
             function () {
                 $form = $this->getFormManager()->create($this->getId());
                 $this->setForm($form);
@@ -106,7 +106,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method setForm
      *
      * @param Form $form Form
-     * 
+     *
      * @return this
      */
     public function setForm($form)
@@ -129,7 +129,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method setFormManager
      *
      * @param FormManager $formManager FormManager
-     * 
+     *
      * @return this
      */
     public function setFormManager($formManager)
@@ -155,7 +155,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method triggerForSubmit
      *
      * @param array $data EventData
-     * 
+     *
      * @return void
      */
     public function triggerForSubmit($data)
@@ -167,7 +167,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method triggerForConfirm
      *
      * @param array $data EventData
-     * 
+     *
      * @return void
      */
     public function triggerForConfirm($data)
@@ -179,7 +179,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method triggerForComplete
      *
      * @param array $data EventData
-     * 
+     *
      * @return void
      */
     public function triggerForComplete($data)
@@ -191,7 +191,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * Method setMethod
      *
      * @param string $method request_method
-     * 
+     *
      * @return this
      */
     public function setMethod($method)

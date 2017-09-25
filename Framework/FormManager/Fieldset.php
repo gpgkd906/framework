@@ -3,13 +3,17 @@ declare(strict_types=1);
 namespace Framework\FormManager;
 
 use Framework\FormManager\Element\FormElementInterface;
+use Framework\Repository\Repository\EntityInterface;
+use Framework\EventManager\EventTargetInterface;
 use Exception;
 
 /**
 *　フォーム自動生成ライブラリ
 */
-class Fieldset
+class Fieldset implements EventTargetInterface
 {
+    use \Framework\EventManager\EventTargetTrait;
+    const TRIGGER_SUBMIT = 'submit';
 
     /**
     *
@@ -95,7 +99,20 @@ class Fieldset
     */
     public function getFieldset()
     {
+        if ($this->fieldset === null) {
+            $this->fieldset = $this->getDefaultFieldset();
+        }
         return $this->fieldset;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getDefaultFieldset()
+    {
+        return [];
     }
 
     /**
@@ -228,6 +245,11 @@ class Fieldset
         return $this->name;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function initialization()
     {
         $form = $this->getForm();
@@ -246,14 +268,16 @@ class Fieldset
             }
             $this->addElement($element, $name);
         }
-        $this->onInit();
+        $this->triggerEvent(self::TRIGGER_INIT);
     }
 
-    public function onInit()
-    {
-    }
-
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function onSubmit()
     {
+        $this->triggerEvent(self::TRIGGER_SUBMIT);
     }
 }

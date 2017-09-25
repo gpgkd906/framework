@@ -27,7 +27,7 @@ use Exception;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class ObjectManager implements 
+class ObjectManager implements
     ObjectManagerInterface,
     SingletonInterface
 {
@@ -117,7 +117,9 @@ class ObjectManager implements
                 $factory = $name;
             }
         }
-        if (is_subclass_of($factory, FactoryInterface::class)) {
+        if ($factory instanceof \Closure) {
+            $Object = call_user_func($factory);
+        } else if (is_subclass_of($factory, FactoryInterface::class)) {
             $_ObjectFactory = new $factory;
             $Object = $_ObjectFactory->create($this);
         } elseif (is_subclass_of($factory, SingletonInterface::class)) {

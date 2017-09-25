@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace Framework\FormManager;
+use Framework\ObjectManager\ObjectManager;
 
 /**
 *　フォーム自動生成ライブラリ
@@ -119,7 +120,14 @@ class FormManager
             trigger_error("FormHelper:requested form_id was used,old form should be overwrite", E_USER_NOTICE);
         }
         $this->last_id=$id;
-        $this->storage[$id] = new Form($id);
+        $this->storage[$id] = ObjectManager::getSingleton()->create(
+            Form::class,
+            \Closure::fromCallable(
+                function () use ($id) {
+                    return new Form($id);
+                }
+            )
+        );
         return $this->storage[$id];
     }
 

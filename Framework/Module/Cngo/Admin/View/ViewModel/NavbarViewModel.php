@@ -6,7 +6,7 @@ namespace Framework\Module\Cngo\Admin\View\ViewModel;
 use Framework\ViewModel\AbstractViewModel;
 use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
 use Framework\ModelManager\ModelManagerAwareInterface;
-use Framework\Module\Cngo\Admin\Model\User;
+use Framework\Module\Cngo\Admin\Model\AdminUser;
 
 class NavbarViewModel extends AbstractViewModel implements
     AuthenticationAwareInterface,
@@ -35,7 +35,7 @@ class NavbarViewModel extends AbstractViewModel implements
     public function getModel()
     {
         if ($this->model === null) {
-            $this->model = $this->getModelManager()->getModel(User::class);
+            $this->model = $this->getModelManager()->getModel(AdminUser::class);
         }
         return $this->model;
     }

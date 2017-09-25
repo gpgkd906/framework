@@ -3,15 +3,20 @@ declare(strict_types=1);
 namespace Framework\FormManager;
 
 use Framework\ValidatorManager\ValidatorManagerAwareInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Exception;
+use Closure;
 
 /**
 *　フォーム自動生成ライブラリ
 */
-class Form implements ValidatorManagerAwareInterface
+class Form implements
+    ObjectManagerAwareInterface,
+    ValidatorManagerAwareInterface
 {
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\ValidatorManager\ValidatorManagerAwareTrait;
-    
+
     /**
     * 要素インスタンスキャッシュプール
     * @var array
@@ -637,11 +642,25 @@ class Form implements ValidatorManagerAwareInterface
                 if ($class === null || !class_exists($class)) {
                     $class = __NAMESPACE__ . '\Fieldset';
                 }
-                $fieldset = new $class($this, $fieldset);
+                $fieldset = $this->getObjectManager()->create(
+                    Fieldset::class,
+                    Closure::fromCallable(
+                        function () use ($class, $fieldset) {
+                            return new $class($this, $fieldset);
+                        }
+                    )
+                );
             } else {
                 //パラメタはクラスのであれば
                 if (class_exists($fieldset)) {
-                    $fieldset = new $fieldset($this);
+                    $fieldset = $this->getObjectManager()->create(
+                        Fieldset::class,
+                        Closure::fromCallable(
+                            function () use ($fieldset) {
+                                return new $fieldset($this);
+                            }
+                        )
+                    );
                 }
             }
         }

@@ -5,6 +5,7 @@ namespace Framework\Module\Cngo\AdminUser\View\ViewModel\Users;
 
 use Framework\ViewModel\AbstractViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
+use Framework\Module\Cngo\AdminUser\Fieldset\AdminUserForEditFieldset;
 
 class EditViewModel extends RegisterViewModel
 {
@@ -14,10 +15,9 @@ class EditViewModel extends RegisterViewModel
         'Render' => 'onRender',
     ];
 
-    public function getTemplateDir()
-    {
-        return __DIR__ . '/../..';
-    }
+    protected $fieldset = [
+        AdminUserForEditFieldset::class
+    ];
 
     public function onRender()
     {
@@ -33,8 +33,6 @@ class EditViewModel extends RegisterViewModel
 
     public function getFieldset()
     {
-        $this->fieldset['adminUser']['password']['inputSpecification'] = null;
-        $this->fieldset['adminUser']['passwordConfirm']['inputSpecification'] = null;
         return $this->fieldset;
     }
 }

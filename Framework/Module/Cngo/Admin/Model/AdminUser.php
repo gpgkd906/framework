@@ -3,7 +3,7 @@ namespace Framework\Module\Cngo\Admin\Model;
 
 use Framework\ModelManager\AbstractModel;
 
-class User extends AbstractModel
+class AdminUser extends AbstractModel
 {
     private $usersId;
     private $login;

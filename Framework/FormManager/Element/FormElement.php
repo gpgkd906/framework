@@ -245,11 +245,11 @@ class FormElement implements FormElementInterface
     * @param string/integer $default 要素の初期値
     * @return
     */
-    public function __construct($name, $type, $val = null, $default = null)
+    public function __construct($name, $type = null, $val = null, $default = null)
     {
         $this->name = $name;
-        $this->type = $type;
-        $this->val = $val;
+        $this->type = $type ?? $this->type;
+        $this->val = $val ?? $this->val;
         if ($default !== null) {
             $this->value = $default;
         }
@@ -259,7 +259,7 @@ class FormElement implements FormElementInterface
     * バリデーションルール設定
     * @param integer $rule バリデーションチェッカールール値
     * @param string $message エラーメッセージ
-    * @return
+    * @return this
     */
     public function addValidator(InputFilter $InputFilter)
     {
@@ -270,11 +270,22 @@ class FormElement implements FormElementInterface
     /**
     * バリデーションルールを解除する
     * @param integer $rule バリデーションチェッカールール値
-    * @return
+    * @return this
     */
     public function removeValidator($name)
     {
         $this->InputFilter->remove($name);
+        return $this;
+    }
+
+    /**
+     * 全てのバリデーションルールを解除する
+     *
+     * @return this
+     */
+    public function clearValidator()
+    {
+        $this->InputFilter = null;
         return $this;
     }
 

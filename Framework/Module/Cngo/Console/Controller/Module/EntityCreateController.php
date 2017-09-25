@@ -15,13 +15,6 @@ class EntityCreateController extends AbstractConsole implements GeneratorAwareIn
 
     public function index($args = null)
     {
-        if ($args === null) {
-            $args = ['test' => 1];
-        }
-        if (isset($args['test'])) {
-            echo PHP_EOL, '---- Test Mode ----', PHP_EOL, PHP_EOL;
-            $this->getGenerator()->setTestMode((bool) $args['test']);
-        }
         $moduleInfo = $this->getGenerator()->getModuleInfo();
         $moduleName = $this->getConsoleHelper()->ask('Input Module');
         $moduleInfo['module'] = $moduleName;
