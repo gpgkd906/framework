@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Framework\Router\Http;
 
+use Zend\Diactoros\Request;
 use Framework\Router\AbstractRouter;
 use Framework\Config\ConfigModel;
 use Exception;
@@ -118,7 +119,7 @@ class Router extends AbstractRouter
             $uri = '/' . $uri;
             return $uri;
         } else {
-            throw new Exception (sprintf(self::ERROR_INVALID_LINKTO, $controller));
+            return null;
         }
     }
 

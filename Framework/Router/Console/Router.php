@@ -35,6 +35,14 @@ class Router extends AbstractRouter
      */
     public function loadRouter()
     {
+        $request = \Zend\Diactoros\ServerRequestFactory::fromGlobals(
+            $_SERVER,
+            $_GET,
+            $_POST,
+            $_COOKIE,
+            $_FILES
+        );
+        var_Dump($request);die;
         foreach (glob(ROOT_DIR . 'Framework/Module/*/*/Command.php') as $routeInjection) {
             include $routeInjection;
         }

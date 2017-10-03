@@ -23,11 +23,6 @@ abstract class AbstractModel implements ModelInterface
                 if (is_callable($setter)) {
                     call_user_func($setter, $data[$key]);
                 }
-            } else {
-                foreach (array_keys($data) as $testKey) {
-                    strtolower($testKey) === strtolower($key)
-                        && trigger_error("Model " . static::class . " apply Notice: find " . $testKey . ", expecte " . $key);
-                }
             }
         }
     }

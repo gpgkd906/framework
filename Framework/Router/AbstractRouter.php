@@ -65,14 +65,6 @@ abstract class AbstractRouter implements
      */
     public function __construct()
     {
-        // $request = ServerRequestFactory::fromGlobals(
-        //     $_SERVER,
-        //     $_GET,
-        //     $_POST,
-        //     $_COOKIE,
-        //     $_FILES
-        // );
-        // var_dump($request);
         $this->index = self::INDEX;
     }
 
