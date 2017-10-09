@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File RouterAwareTrait.php
- * 
+ *
  * @category Router
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -17,7 +17,7 @@ use Framework\ObjectManager\ObjectManager;
 
 /**
  * Trait RouterAwareTrait
- * 
+ *
  * @category Trait
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>

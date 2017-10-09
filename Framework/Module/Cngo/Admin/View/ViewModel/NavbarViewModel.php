@@ -4,15 +4,12 @@ declare(strict_types=1);
 namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\AbstractViewModel;
-use Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareInterface;
 use Framework\ModelManager\ModelManagerAwareInterface;
 use Framework\Module\Cngo\Admin\Model\AdminUser;
 
 class NavbarViewModel extends AbstractViewModel implements
-    AuthenticationAwareInterface,
     ModelManagerAwareInterface
 {
-    use \Framework\Module\Cngo\AdminUser\Authentication\AuthenticationAwareTrait;
     use \Framework\ModelManager\ModelManagerAwareTrait;
 
     protected $template = '/template/navbar.phtml';

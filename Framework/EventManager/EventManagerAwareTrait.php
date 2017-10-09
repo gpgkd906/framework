@@ -12,7 +12,7 @@
 declare(strict_types=1);
 
 namespace Framework\EventManager;
-
+use Framework\ObjectManager\ObjectManager;
 /**
  * Trait EventManagerAwareTrait
  *
@@ -47,7 +47,8 @@ trait EventManagerAwareTrait
     public function getEventManager()
     {
         if (self::$_EventManager === null) {
-            $this->setEventManager(EventManager::getSingleton());
+            $ObjectManager = ObjectManager::getSingleton();
+            $this->setEventManager($ObjectManager->get(EventManagerInterface::class, EventManager::class));
         }
         return self::$_EventManager;
     }

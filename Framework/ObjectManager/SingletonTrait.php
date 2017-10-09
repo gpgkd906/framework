@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File SingletonTrait.php
- * 
+ *
  * @category Trait
  * @package  Framework\ObjectManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -14,7 +14,7 @@ namespace Framework\ObjectManager;
 
 /**
  * Trait SingletonTrait
- * 
+ *
  * @category Trait
  * @package  Framework\ObjectManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -24,7 +24,7 @@ namespace Framework\ObjectManager;
 trait SingletonTrait
 {
 
-    private static $_instance = [];
+    private static $_instance = null;
 
     /**
      * Method getSingleton
@@ -34,9 +34,9 @@ trait SingletonTrait
     public static function getSingleton()
     {
         $className = static::class;
-        if (!isset(self::$_instance[$className])) {
-            self::$_instance[$className] = new $className();
+        if (!isset(self::$_instance)) {
+            self::$_instance = new $className();
         }
-        return self::$_instance[$className];
+        return self::$_instance;
     }
 }

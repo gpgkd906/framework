@@ -257,4 +257,9 @@ class ObjectManager implements
             $this->_objectFactory[$ObjectName] = $factory;
         }
     }
+
+    public function getNamedObjectManager($namespace)
+    {
+
+    }
 }
