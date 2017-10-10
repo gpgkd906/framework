@@ -11,7 +11,7 @@
  */
 declare(strict_types=1);
 namespace Framework\EventManager\Tests;
- 
+
 use PHPUnit\Framework\TestCase;
 use Framework\EventManager\Tests\Stub\EventTarget;
 use Framework\EventManager\Event;
@@ -64,14 +64,14 @@ class EventManagerTest extends TestCase
     {
         $target = new EventTarget;
         $count = 0;
-        $eventListenr = function ($event) use (&$count) {
+        $eventListener = function ($event) use (&$count) {
             $count++;
             $this->assertEquals(EventTarget::TRIGGER_TEST, $event->getName());
             $this->assertEquals($event, $event->getTarget()->getCurrentEvent());
         };
         $target->addEventListener(
             EventTarget::TRIGGER_TEST,
-            $eventListenr
+            $eventListener
         );
         $target->triggerEvent(EventTarget::TRIGGER_TEST);
         $this->assertEquals(1, $count);
@@ -81,14 +81,14 @@ class EventManagerTest extends TestCase
         // 事件监听是可以删除的
         $target->removeEventListener(
             EventTarget::TRIGGER_TEST,
-            $eventListenr
+            $eventListener
         );
         $target->triggerEvent(EventTarget::TRIGGER_TEST);
         $target->triggerEvent(EventTarget::TRIGGER_TEST);
         $this->assertEquals(3, $count);
         $target->removeEventListener(
             EventTarget::TRIGGER_INIT,
-            $eventListenr
+            $eventListener
         );
         $this->assertEquals(3, $count);
         // test setData/getData
@@ -111,7 +111,7 @@ class EventManagerTest extends TestCase
     {
         $target = new EventTarget;
         $count = 0;
-        $eventListenr = function ($event) use (&$count) {
+        $eventListener = function ($event) use (&$count) {
             $count++;
             $this->assertEquals(EventTarget::TRIGGER_TEST, $event->getName());
             $this->assertEquals($event, $event->getTarget()->getCurrentEvent());
@@ -120,7 +120,7 @@ class EventManagerTest extends TestCase
         $event = 'Invalid Event';
         $target->addEventListener(
             $event,
-            $eventListenr
+            $eventListener
         );
         $target->triggerEvent($event);
         $this->assertEquals(0, $count);
@@ -159,9 +159,10 @@ class EventManagerTest extends TestCase
     public function testEventManager()
     {
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__, 'memory'));
         $event = $eventManager->createEvent(EventTarget::TRIGGER_INITED);
         $count = 0;
-        $eventListenr = function ($event) use (&$count) {
+        $eventListener = function ($event) use (&$count) {
             $count++;
             $this->assertEquals(EventTarget::TRIGGER_INITED, $event->getName());
         };
@@ -169,7 +170,7 @@ class EventManagerTest extends TestCase
         $eventManager->addEventListener(
             EventTargetInterface::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         $eventManager->dispatchEvent(EventTarget::class, $event);
         $this->assertEquals(1, $count);
@@ -177,17 +178,24 @@ class EventManagerTest extends TestCase
         $eventManager->removeEventListener(
             EventTargetInterface::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         $eventManager->dispatchEvent(EventTarget::class, $event);
         $this->assertEquals(1, $count);
+        // 删除没有被监听的事件不会发生错误
+        // eventManage上的事件监听，也是可以删除的
+        $eventManager->removeEventListener(
+            EventTargetInterface::class,
+            EventTarget::TRIGGER_DEINIT,
+            $eventListener
+        );
         // EventTargetInterface里并未定义TRIGGER_TEST, 无法进行监听
         $event = $eventManager->createEvent(EventTarget::TRIGGER_TEST);
         // addEventListener不会出错，但也不会产生任何效果
         $eventManager->addEventListener(
             EventTargetInterface::class,
             EventTarget::TRIGGER_TEST,
-            $eventListenr
+            $eventListener
         );
         $eventManager->dispatchEvent(EventTarget::class, $event);
         $this->assertEquals(1, $count);
@@ -212,8 +220,9 @@ class EventManagerTest extends TestCase
     public function testEventManagerFailture()
     {
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__, 'memory'));
         $count = 0;
-        $eventListenr = function ($event) use (&$count) {
+        $eventListener = function ($event) use (&$count) {
             $count++;
             $this->assertEquals(EventTarget::TRIGGER_TEST, $event->getName());
             $this->assertEquals($event, $event->getTarget()->getCurrentEvent());
@@ -223,7 +232,7 @@ class EventManagerTest extends TestCase
         $eventManager->addEventListener(
             EventTarget::class,
             $event,
-            $eventListenr
+            $eventListener
         );
         $eventManager->dispatchEvent(EventTarget::class, $eventManager->createEvent($event));
         $this->assertEquals(0, $count);
@@ -238,6 +247,7 @@ class EventManagerTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__, 'memory'));
         // 在Event的内部，不允许激发同类型的Event，将会产生Exception
         $eventManager->addEventListener(
             EventTarget::class,
@@ -274,15 +284,16 @@ class EventManagerTest extends TestCase
         $this->assertFalse($event->isBubbles());
         $target = new EventTarget;
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 1, 'memory'));
         $target->setEventManager($eventManager);
         $count = 0;
-        $eventListenr = function ($event) use (&$count) {
+        $eventListener = function ($event) use (&$count) {
             $count++;
         };
         $eventManager->addEventListener(
             EventTargetInterface::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         // Event设置为非冒泡, 因此类事件并不会会冒泡至接口定义
         $target->dispatchEvent($event);
@@ -297,18 +308,19 @@ class EventManagerTest extends TestCase
         $eventManager->addEventListener(
             EventTarget::class,
             EventTarget::TRIGGER_TEST,
-            $eventListenr
+            $eventListener
         );
         $target->dispatchEvent($event);
         $this->assertEquals(1, $count);
         // 或者在冒泡途中，取消冒泡
         $count = 0;
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 2, 'memory'));
         $target->setEventManager($eventManager);
         $eventManager->addEventListener(
             EventTargetInterface::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         $eventManager->addEventListener(
             EventTarget::class,
@@ -322,6 +334,7 @@ class EventManagerTest extends TestCase
         // 也可以追加复数的事件监听，但于某一个监听中，中止同层级的事件监听，来实现一些比较复杂的处理
         $count = 0;
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 3, 'memory'));
         $target->setEventManager($eventManager);
         $eventManager->addEventListener(
             EventTarget::class,
@@ -333,18 +346,19 @@ class EventManagerTest extends TestCase
         $eventManager->addEventListener(
             EventTarget::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         $target->triggerEvent(EventTarget::TRIGGER_INITED);
         $this->assertEquals(0, $count);
         // 也可以同时取消同层级事件监听以及事件冒泡
         $count = 0;
         $eventManager = new EventManager;
+        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 4, 'memory'));
         $target->setEventManager($eventManager);
         $eventManager->addEventListener(
             EventTargetInterface::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         $eventManager->addEventListener(
             EventTarget::class,
@@ -356,9 +370,11 @@ class EventManagerTest extends TestCase
         $eventManager->addEventListener(
             EventTarget::class,
             EventTarget::TRIGGER_INITED,
-            $eventListenr
+            $eventListener
         );
         $target->triggerEvent(EventTarget::TRIGGER_INITED);
         $this->assertEquals(0, $count);
+        // 最后，我们可以直接获取イベント对象里面绑定的事件
+        $eventListeners = $eventManager->getEventListeners($target, EventTarget::TRIGGER_INITED);
     }
 }

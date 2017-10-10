@@ -51,12 +51,28 @@ class EventManager implements
 
     }
 
+    /**
+     * getCache
+     *
+     * @return void
+     */
     public function getCache()
     {
         if ($this->_cache === null) {
             $this->_cache = $this->getCacheService()->delegate(__CLASS__, 'memory');
         }
         return $this->_cache;
+    }
+
+    /**
+     * setCache
+     *
+     * @param [type] $cache
+     * @return void
+     */
+    public function setCache($cache)
+    {
+        $this->_cache = $cache;
     }
 
     /**

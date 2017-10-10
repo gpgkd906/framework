@@ -11,7 +11,7 @@
  */
 declare(strict_types=1);
 namespace Framework\Router\Tests;
- 
+
 use PHPUnit\Framework\TestCase;
 use Framework\Router\Http\Router as HttpRouter;
 use Framework\Router\Console\Router as ConsoleRouter;
@@ -71,8 +71,8 @@ class RouterTest extends TestCase
         $Router->setRouterList($routeList);
         $Router->setRequestUri('test/index');
         $request = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);        
-        $this->assertArrayHasKey('action', $request);        
+        $this->assertArrayHasKey('controller', $request);
+        $this->assertArrayHasKey('action', $request);
         $this->assertEquals($request['controller'], MockController::class);
         // 第二个路由，实际场景下，每次页面访问只需要路由一次URL，因此路由结果会缓存在路由器内部
         // 我们需要测试不同的URL，就需要生成不同的路由器。
@@ -80,8 +80,8 @@ class RouterTest extends TestCase
         $Router->setRouterList($routeList);
         $Router->setRequestUri('test');
         $request = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);        
-        $this->assertArrayHasKey('action', $request);        
+        $this->assertArrayHasKey('controller', $request);
+        $this->assertArrayHasKey('action', $request);
         $this->assertEquals($request['controller'], MockController::class);
         // 在标准路由场景中，除了全站维护时的维护界面之外，更多的情况是，不同的模块分别注册各自的路由。
         $Router = new HttpRouter;
@@ -98,8 +98,8 @@ class RouterTest extends TestCase
         $this->assertEquals($routeList, $Router->getRouterList());
         $Router->setRequestUri('test');
         $request = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);        
-        $this->assertArrayHasKey('action', $request);        
+        $this->assertArrayHasKey('controller', $request);
+        $this->assertArrayHasKey('action', $request);
         $this->assertEquals($request['controller'], MockController::class);
         // 默认路由为index
         $routeList = [
@@ -110,8 +110,8 @@ class RouterTest extends TestCase
         // 当requestUri为空文字时，路由器会发送至默认路由
         $Router->setRequestUri('');
         $request = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);        
-        $this->assertArrayHasKey('action', $request);        
+        $this->assertArrayHasKey('controller', $request);
+        $this->assertArrayHasKey('action', $request);
         $this->assertEquals($request['controller'], MockController::class);
         // 此外，当favicon不存在的时候，服务器也会把请求发送到Router里面，Router需要在最小的处理时间下返回分发
         $Router = new HttpRouter;
@@ -138,7 +138,7 @@ class RouterTest extends TestCase
             1, 2, 3
         ];
         $this->assertEquals($Router->getParam(), array_merge($_GET, $_POST));
-    }    
+    }
 
 
     /**
@@ -169,7 +169,6 @@ class RouterTest extends TestCase
      */
     public function testHttpRouterRedirectException()
     {
-        $this->expectException(\Exception::class);
         $routeList = [
             'index' => MockController::class,
         ];
@@ -178,10 +177,10 @@ class RouterTest extends TestCase
         $requestUri = 'index/1';
         $Router->setRequestUri($requestUri);
         $Router->dispatch();
-        // 当找不到对应的控制器时，会返回错误，这里的处理需要考虑是否必要
-        $Router->linkto(InValidMockController::class);
+        // 当找不到对应的控制器时，会返回null
+        $this->assertNull($Router->linkto(InValidMockController::class));
     }
-    
+
     /**
      * Test testHttpRouterForApplication
      * 这里测试实际应用中，各个模块注册路由的处理
@@ -197,7 +196,7 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_URI'] = '//';
         // $Router->setRequestUri('//');
         $request = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);     
+        $this->assertArrayHasKey('controller', $request);
         $this->assertArrayHasKey('action', $request);
         // 实际的应用中，已经分发过的请求，会被缓存，可以直接取得
         $request2 = $Router->getRequest();
@@ -207,7 +206,7 @@ class RouterTest extends TestCase
         ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
         $Router->setRequestUri('?test=2');
         $request2 = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);     
+        $this->assertArrayHasKey('controller', $request);
         $this->assertArrayHasKey('action', $request);
         $this->assertEquals($request, $request2);
         // 实际的应用中，已经分发过的请求，会被缓存，可以直接取得
@@ -224,7 +223,7 @@ class RouterTest extends TestCase
         ];
         $Router->setRequest($param);
         $request = $Router->getRequest();
-        $this->assertArrayHasKey('controller', $request);     
+        $this->assertArrayHasKey('controller', $request);
         $this->assertArrayHasKey('action', $request);
         $this->assertEquals($param, $request);
         // 此外，我们也可以通过路由器直接取得各个项目的内容
@@ -242,13 +241,13 @@ class RouterTest extends TestCase
     public function testHttpRouterFailture()
     {
         $Router = new HttpRouter;
-        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);        
+        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
         $Router->setRequestUri('index.php');
         $request = $Router->dispatch();
-        $this->assertArrayHasKey('controller', $request);     
+        $this->assertArrayHasKey('controller', $request);
         $this->assertArrayHasKey('action', $request);
-        $this->assertEmpty($request['controller']);        
-        $this->assertEmpty($request['action']);        
+        $this->assertEmpty($request['controller']);
+        $this->assertEmpty($request['action']);
     }
     /**
      * Test testConsoleRouterForApplication
@@ -265,9 +264,8 @@ class RouterTest extends TestCase
         global $argv;
         $argv = ['action', 'param=123'];
         $request = $Router->dispatch();
-        var_dump($request);
-        $this->assertArrayHasKey('controller', $request);     
-        $this->assertArrayHasKey('action', $request);        
+        $this->assertArrayHasKey('controller', $request);
+        $this->assertArrayHasKey('action', $request);
     }
 
     /**
