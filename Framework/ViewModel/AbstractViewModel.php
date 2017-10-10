@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File AbstractViewModel.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -21,7 +21,7 @@ use Exception;
 
 /**
  * Class AbstractViewModel
- * 
+ *
  * @category Class
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -51,12 +51,12 @@ abstract class AbstractViewModel implements
     private $_exportView = null;
     private $_layout = null;
     private $_containers = [];
-    
+
     /**
      * Method setConfig
      *
      * @param array $config Config
-     * 
+     *
      * @return this
      */
     public function setConfig($config)
@@ -133,12 +133,12 @@ abstract class AbstractViewModel implements
     {
         return $this->_id;
     }
-    
+
     /**
      * Method setTemplate
      *
      * @param string $template Template
-     * 
+     *
      * @return this
      */
     public function setTemplate($template)
@@ -161,7 +161,7 @@ abstract class AbstractViewModel implements
      * Method setTemplateDir
      *
      * @param string $templateDir TemplateDir
-     * 
+     *
      * @return this
      */
     public function setTemplateDir($templateDir)
@@ -205,7 +205,7 @@ abstract class AbstractViewModel implements
      * Method setData
      *
      * @param array $data Data
-     * 
+     *
      * @return this
      */
     public function setData($data)
@@ -218,7 +218,7 @@ abstract class AbstractViewModel implements
      * Method
      *
      * @param null|string $key DataKey
-     * 
+     *
      * @return mixed
      */
     public function getData($key = null)
@@ -264,7 +264,8 @@ abstract class AbstractViewModel implements
         $template = $this->getTemplateForRender();
         ob_start();
         $data = ViewModelManager::escapeHtml($this->getData());
-        extract($data);
+        $this->setData($data);
+        is_array($data) && extract($data);
         echo '<!-- ' . static::class . ' start render-->', PHP_EOL;
         include $template;
         echo '<!-- ' . static::class . ' end render-->';
@@ -279,7 +280,7 @@ abstract class AbstractViewModel implements
      *
      * @param LayoutInterface $layout Layout
      * @param array|null      $config config
-     * 
+     *
      * @return this
      */
     public function setLayout(LayoutInterface $layout, $config = null)
@@ -324,7 +325,7 @@ abstract class AbstractViewModel implements
                 $containers[$index] = new Container($container, $this);
             }
         }
-        $this->_containers = $containers;        
+        $this->_containers = $containers;
         return $this;
     }
 
@@ -342,7 +343,7 @@ abstract class AbstractViewModel implements
      * Method getContainer
      *
      * @param string $name ContainerName
-     * 
+     *
      * @return Container|null $container
      */
     public function getContainer($name)
@@ -357,7 +358,7 @@ abstract class AbstractViewModel implements
      * Method setExportView
      *
      * @param ViewModel $exportView ExportViewModel
-     * 
+     *
      * @return this
      */
     public function setExportView($exportView)

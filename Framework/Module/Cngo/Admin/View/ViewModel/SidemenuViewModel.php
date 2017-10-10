@@ -58,6 +58,7 @@ class SidemenuViewModel extends AbstractViewModel
         usort($data, function ($item1, $item2) {
             return $item1['priority'] > $item2['priority'] ? 1 : -1;
         });
+        $data = new \ArrayIterator($data);
         $this->setData($data);
         $this->triggerEvent(self::TRIGGER_MENUCREATED);
     }
