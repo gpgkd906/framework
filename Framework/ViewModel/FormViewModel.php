@@ -72,9 +72,9 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @param array         $config        ViewModelConfig
      * @param ObjectManager $objectManager ObjectManager
      */
-    public function __construct($config, $objectManager)
+    public function __construct($config)
     {
-        parent::__construct($config, $objectManager);
+        parent::__construct($config);
         $this->addEventListener(
             self::TRIGGER_INIT,
             function () {

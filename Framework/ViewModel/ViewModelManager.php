@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ViewModelManager.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -18,7 +18,7 @@ use Exception;
 
 /**
  * Class ViewModelManager
- * 
+ *
  * @category Class
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -43,7 +43,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method setObjectManager
      *
      * @param ObjectManager $objectManager ObjectManager
-     * 
+     *
      * @return void
      */
     public static function setObjectManager($objectManager)
@@ -65,7 +65,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method setBasePath
      *
      * @param string $basePath basePath
-     * 
+     *
      * @return void
      */
     public static function setBasePath($basePath)
@@ -87,7 +87,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method setTemplateDir
      *
      * @param string $templateDir templateDir
-     * 
+     *
      * @return void
      */
     public static function setTemplateDir($templateDir)
@@ -109,7 +109,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method getViewModel
      *
      * @param array $config ViewModelConfig
-     * 
+     *
      * @return ViewModel $viewModel
      */
     public static function getViewModel($config)
@@ -124,7 +124,9 @@ class ViewModelManager implements ViewModelManagerInterface
         $requestName = $config["viewModel"];
         $viewModelName = $requestName;
 
-        $ViewModel = new $viewModelName($config, self::getObjectManager());
+        $ViewModel = self::getObjectManager()->create(null, function () use ($viewModelName, $config) {
+            return new $viewModelName($config);
+        });
         if ($ViewModel->getTemplateDir() === null) {
             $ViewModel->setTemplateDir(self::getTemplateDir());
         }
@@ -137,7 +139,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method addView
      *
      * @param ViewModelInterface $viewModel ViewModel
-     * 
+     *
      * @return void
      */
     public static function addView(ViewModelInterface $viewModel)
@@ -153,7 +155,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method getViewById
      *
      * @param string $viewId ViewModelId
-     * 
+     *
      * @return ViewModel $viewModel
      */
     public static function getViewById($viewId)
@@ -178,7 +180,7 @@ class ViewModelManager implements ViewModelManagerInterface
      * Method escapeHtml
      *
      * @param array $data Data
-     * 
+     *
      * @return mixed
      */
     public static function escapeHtml($data)
@@ -193,5 +195,5 @@ class ViewModelManager implements ViewModelManagerInterface
         } else {
             return $data;
         }
-    }    
+    }
 }

@@ -79,15 +79,11 @@ abstract class AbstractViewModel implements
      * Constructor
      *
      * @param array              $config        viewModelConfig
-     * @param ObjectManager|null $ObjectManager ObjectManager
      */
-    public function __construct($config = [], $ObjectManager = null)
+    public function __construct($config = [])
     {
         $config = array_merge_recursive($this->getConfig(), $config);
         $this->setConfig($config);
-        if ($ObjectManager) {
-            $this->setObjectManager($ObjectManager);
-        }
         if (isset($config["id"])) {
             $this->_id = $config["id"];
         } else {

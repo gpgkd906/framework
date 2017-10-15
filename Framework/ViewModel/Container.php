@@ -15,7 +15,6 @@ namespace Framework\ViewModel;
 use Framework\ViewModel\ViewModelInterface;
 use Framework\ViewModel\FormViewModelInterface;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use ArrayAccess;
 use Exception;
 use Framework\ViewModel\Exception\ContainerNotFoundException;
 
@@ -30,8 +29,7 @@ use Framework\ViewModel\Exception\ContainerNotFoundException;
  */
 class Container implements
     PsrContainerInterface,
-    ContainerInterface,
-    ArrayAccess
+    ContainerInterface
 {
     private $_items = [];
     private $_exportView = null;
@@ -136,66 +134,6 @@ class Container implements
     public function getExportView()
     {
         return $this->_exportView;
-    }
-
-    /**
-     * Method offsetSet
-     *
-     * @param integer $offset Offset
-     * @param mixed   $value  ViewModelOrViewModelConfig
-     *
-     * @return this
-     */
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->_items[] = $value;
-        } else {
-            $this->_items[$offset] = $value;
-        }
-        return $this;
-    }
-
-    /**
-     * Method offsetExists
-     *
-     * @param integer $offset Offset
-     *
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->_items[$offset]);
-    }
-
-    /**
-     * method OffsetUnset
-     *
-     * @param integer $offset
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->_items[$offset]);
-    }
-
-    /**
-     * Method offsetGet
-     *
-     * @param integer $offset Offset
-     *
-     * @return ViewModel|null $item
-     */
-    public function offsetGet($offset)
-    {
-        if (isset($this->_items[$offset])) {
-            $item = $this->_items[$offset];
-            if (!$item instanceof ViewModelInterface) {
-                $this->_items[$offset] = $this->getViewModel($item);
-            }
-            return $this->_items[$offset];
-        }
-        return null;
     }
 
     /**

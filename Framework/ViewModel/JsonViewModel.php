@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File JsonViewModel.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -14,7 +14,7 @@ namespace Framework\ViewModel;
 
 /**
  * Class JsonViewModel
- * 
+ *
  * @category Class
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -30,11 +30,6 @@ class JsonViewModel extends AbstractViewModel
      */
     public function render()
     {
-        return json_encode(
-            [
-                "success" => true,
-                "data" => $this->getData(),
-            ]
-        );
+        return json_encode($this->getData());
     }
 }
