@@ -122,11 +122,9 @@ class FormManager
         $this->last_id=$id;
         $this->storage[$id] = ObjectManager::getSingleton()->create(
             Form::class,
-            \Closure::fromCallable(
-                function () use ($id) {
-                    return new Form($id);
-                }
-            )
+            function () use ($id) {
+                return new Form($id);
+            }
         );
         return $this->storage[$id];
     }

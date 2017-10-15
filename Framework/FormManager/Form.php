@@ -643,23 +643,19 @@ class Form implements
                     $class = __NAMESPACE__ . '\Fieldset';
                 }
                 $fieldset = $this->getObjectManager()->create(
-                    Fieldset::class,
-                    Closure::fromCallable(
-                        function () use ($class, $fieldset) {
-                            return new $class($this, $fieldset);
-                        }
-                    )
+                    null,
+                    function () use ($class, $fieldset) {
+                        return new $class($this, $fieldset);
+                    }
                 );
             } else {
                 //パラメタはクラスのであれば
                 if (class_exists($fieldset)) {
                     $fieldset = $this->getObjectManager()->create(
-                        Fieldset::class,
-                        Closure::fromCallable(
-                            function () use ($fieldset) {
-                                return new $fieldset($this);
-                            }
-                        )
+                        null,
+                        function () use ($fieldset) {
+                            return new $fieldset($this);
+                        }
                     );
                 }
             }
