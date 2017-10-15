@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ObjectManagerAwareTrait.php
- * 
+ *
  * @category Interface
  * @package  Framework\ObjectManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -15,7 +15,7 @@ namespace Framework\ObjectManager;
 
 /**
  * Trait ObjectManagerAwareTrait
- * 
+ *
  * @category Trait
  * @package  Framework\ObjectManager
  * @author   chenhan <gpgkd906@gmail.com>
@@ -30,7 +30,7 @@ trait ObjectManagerAwareTrait
      * Method setObjectMananger
      *
      * @param ObjectManagerInterface $ObjectManager ObjectManager
-     * 
+     *
      * @return void
      */
     public function setObjectManager(ObjectManagerInterface $ObjectManager)
@@ -45,6 +45,9 @@ trait ObjectManagerAwareTrait
      */
     public function getObjectManager()
     {
+        if (self::$_ObjectManager === null) {
+            $this->setObjectManager(ObjectManager::getSingleton());
+        }
         return self::$_ObjectManager;
     }
 }

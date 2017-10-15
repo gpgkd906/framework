@@ -111,7 +111,7 @@ class Container implements
             }
             return join('', $htmls);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            return $e->getTraceAsString();
         }
     }
 

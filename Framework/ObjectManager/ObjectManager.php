@@ -53,11 +53,6 @@ class ObjectManager implements
      */
     public function init()
     {
-        /**
-         * Method exportGlobalObject
-         *
-         * @return void
-         */
         $this->_exportGlobalObject();
         $this->_exportModuleObject();
         $this->_initGlobalObject();
@@ -120,8 +115,7 @@ class ObjectManager implements
         if ($factory instanceof \Closure) {
             $Object = call_user_func($factory);
         } else if (is_subclass_of($factory, FactoryInterface::class)) {
-            $_ObjectFactory = new $factory;
-            $Object = $_ObjectFactory->create($this);
+            $Object = (new $factory)->create($this);
         } elseif (is_subclass_of($factory, SingletonInterface::class)) {
             $Object = $factory::getSingleton();
         } else {
