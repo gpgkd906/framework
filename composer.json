@@ -10,13 +10,17 @@
     ],
     "extra": {
         "testCommands": [
+            "// docker version",
             "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/eventManager --configuration Framework/EventManager/phpunit.xml.dist'",
-            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/router --configuration Framework/Router/phpunit.xml.dist'"
+            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/router --configuration Framework/Router/phpunit.xml.dist'",
+            "// native version",
+            "./vendor/bin/phpunit --coverage-html public/codecover/eventManager --configuration Framework/EventManager/phpunit.xml.dist",
+            "./vendor/bin/phpunit --coverage-html public/codecover/router --configuration Framework/Router/phpunit.xml.dist"
         ]
     },
     "scripts": {
         "test": [
-            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/router --configuration Framework/Router/phpunit.xml.dist'"
+            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/objectManager --configuration Framework/ObjectManager/phpunit.xml.dist'"
         ],
         "build": [
             "@composer dumpautoload -o"

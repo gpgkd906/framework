@@ -1,0 +1,16 @@
+<phpunit bootstrap="../../bin/tests.php">
+    <testsuites>
+        <testsuite name="ObjectManager">
+            <directory>Tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./</directory>
+            <exclude>
+                <directory suffix=".php">Tests</directory>
+                <file>export.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
