@@ -16,7 +16,6 @@ namespace Framework\Application;
 use Framework\EventManager\EventTargetInterface;
 use Framework\Controller\ControllerInterface;
 use Framework\Router\RouterInterface;
-use Framework\Router\Http\Router;
 use Exception;
 
 /**
@@ -28,12 +27,8 @@ use Exception;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class HttpApplication extends AbstractApplication implements EventTargetInterface
+class HttpApplication extends AbstractApplication
 {
-
-    use \Framework\EventManager\EventTargetTrait;
-    private $_controller = null;
-
     /**
      * Method run
      *
@@ -41,7 +36,7 @@ class HttpApplication extends AbstractApplication implements EventTargetInterfac
      */
     public function run()
     {
-        $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);
+        $routeModel = $this->getObjectManager()->get(RouterInterface::class);
         if ($routeModel->isFaviconRequest()) {
             $this->sendDummyFavicon();
         }

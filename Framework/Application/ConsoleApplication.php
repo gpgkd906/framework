@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Framework\Application;
 
 use Framework\Router\RouterInterface;
-use Framework\Router\Console\Router;
 use Framework\Controller\ConsoleInterface;
 use Exception;
 
@@ -29,8 +28,6 @@ use Exception;
  */
 class ConsoleApplication extends AbstractApplication
 {
-    const DEFAULT_CONTROLLER_NAMESPACE = "Framework\Console";
-
     /**
      * Method run
      *
@@ -38,7 +35,7 @@ class ConsoleApplication extends AbstractApplication
      */
     public function run()
     {
-        $routeModel = $this->getObjectManager()->get(RouterInterface::class, Router::class);
+        $routeModel = $this->getObjectManager()->get(RouterInterface::class);
 
         $request = $routeModel->dispatch();
         $Controller = $this->getObjectManager()->get(ConsoleInterface::class, $request['controller']);

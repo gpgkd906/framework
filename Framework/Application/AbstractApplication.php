@@ -17,6 +17,7 @@ use Framework\Config\ConfigModel\ConfigModelInterface;
 use Framework\Plugin\PluginManager\PluginManager;
 use Framework\ObjectManager\ObjectManager;
 use Framework\EventManager;
+use Framework\EventManager\EventTargetInterface;
 use Exception;
 
 /**
@@ -28,14 +29,12 @@ use Exception;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-abstract class AbstractApplication implements ApplicationInterface
+abstract class AbstractApplication implements
+    ApplicationInterface,
+    EventTargetInterface
 {
-    const ERROR_NEED_GLOBAL_CONFIG = "error: need global config";
-    const ERROR_INVALID_CONTROLLER_LABEL = "error: invalid_controller_label: %s";
-    //
-    const DEFAULT_PLUGINMANAGER = "Framework\Plugin\Plugin\PluginManager";
-    const DEFAULT_MODEL_NAMESPACE = "Framework\Model";
-    const DEFAULT_SERVICE_NAMESPACE = "Framework\Service";
+    use \Framework\EventManager\EventTargetTrait;
+
     //
     const DEFAULT_TIMEZONE = "Asia/Tokyo";
 
@@ -80,6 +79,7 @@ abstract class AbstractApplication implements ApplicationInterface
         $this->setConfig($config);
         $objectManager = $this->getObjectManager();
         $objectManager->init();
+        $this->triggerEvent(self::TRIGGER_INITED);
     }
 
     /**
