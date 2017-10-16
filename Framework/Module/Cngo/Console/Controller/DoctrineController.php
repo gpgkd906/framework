@@ -23,7 +23,7 @@ class DoctrineController extends AbstractConsole implements EntityManagerAwareIn
         ConsoleRunner::run(ConsoleRunner::createHelperSet($EntityManager));
     }
 
-    public static function getDescription()
+    public function getDescription()
     {
         return 'doctrine-command Alias';
     }

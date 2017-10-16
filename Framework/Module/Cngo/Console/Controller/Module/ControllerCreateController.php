@@ -35,7 +35,7 @@ class ControllerCreateController extends AbstractConsole implements GeneratorAwa
         $this->getGenerator()->generateController()->flush();
     }
 
-    public static function getDescription()
+    public function getDescription()
     {
         return 'module controller generator';
     }

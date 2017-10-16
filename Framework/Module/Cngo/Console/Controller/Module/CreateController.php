@@ -34,7 +34,7 @@ class CreateController extends AbstractConsole implements GeneratorAwareInterfac
         $this->getGenerator()->generateModule()->flush();
     }
 
-    public static function getDescription()
+    public function getDescription()
     {
         return 'module crud generator';
     }

@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ControllerInterface.php
- * 
+ *
  * @category Controller
  * @package  Framework\Controller
  * @author   chenhan <gpgkd906@gmail.com>
@@ -15,7 +15,7 @@ namespace Framework\Controller;
 
 /**
  * Interface ControllerInterface
- * 
+ *
  * @category Interface
  * @package  Framework\Controller
  * @author   chenhan <gpgkd906@gmail.com>
@@ -29,7 +29,7 @@ interface ControllerInterface
      *
      * @param string $action action
      * @param string $param  parameter
-     * 
+     *
      * @return viewModel
      */
     public function callActionFlow($action, $param);
@@ -46,5 +46,5 @@ interface ControllerInterface
      *
      * @return string
      */
-    public static function getDescription();
+    public function getDescription();
 }

@@ -27,7 +27,7 @@ class EntityCreateController extends AbstractConsole implements GeneratorAwareIn
         $this->getGenerator()->generateEntity()->flush();
     }
 
-    public static function getDescription()
+    public function getDescription()
     {
         return 'module entity generator';
     }

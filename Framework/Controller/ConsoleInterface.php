@@ -29,7 +29,7 @@ interface ConsoleInterface extends ControllerInterface
      *
      * @return string $descript PageDescription
      */
-    public static function getDescription();
+    public function getDescription();
 
     /**
      * Abstract Method getHelp

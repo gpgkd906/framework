@@ -35,7 +35,7 @@ class CrudCreateController extends AbstractConsole implements GeneratorAwareInte
         $this->getGenerator()->generateCrud()->flush();
     }
 
-    public static function getDescription()
+    public function getDescription()
     {
         return 'module crud generator';
     }

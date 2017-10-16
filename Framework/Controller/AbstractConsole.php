@@ -51,7 +51,7 @@ abstract class AbstractConsole extends AbstractController implements
      *
      * @return string $descript PageDescription
      */
-    public static function getDescription()
+    public function getDescription()
     {
         return 'input Class Description';
     }
