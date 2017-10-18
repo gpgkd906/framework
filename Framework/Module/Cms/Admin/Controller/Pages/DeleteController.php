@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP version 7
- * File EditController.php
+ * File DeleteController.php
  *
  * @category Controller
  * @package  Framework\Module\{Module}
@@ -11,16 +11,16 @@
  */
 declare(strict_types=1);
 
-namespace Framework\Module\{Module}\Controller{Namespace};
+namespace Framework\Module\{Module}\Controller\Pages;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\{Module}\View\ViewModel{Namespace}\EditViewModel;
+use Framework\Module\{Module}\View\ViewModel\Pages\DeleteViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\{Module}\Entity\{Entity};
+use Framework\Module\{Module}\Entity\Pages;
 
 /**
- * Class EditController
+ * Class DeleteController
  *
  * @category Controller
  * @package  Framework\Module\{Module}
@@ -28,50 +28,49 @@ use Framework\Module\{Module}\Entity\{Entity};
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class EditController extends AbstractAdminController implements EntityManagerAwareInterface
+class DeleteController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
-    private ${Entity};
+    private $Pages;
 
     /**
      * Method index
      *
      * @param integer|str $id EntityId
      *
-     * @return EditViewModel
+     * @return DeleteViewModel
      */
-    public function index($id): EditViewModel
+    public function index($id): DeleteViewModel
     {
-        $this->{Entity} = $this->getEntityManager()->getRepository({Entity}::class)->find($id);
-        if (!$this->{Entity}) {
+        $this->Pages = $this->getEntityManager()->getRepository(Pages::class)->find($id);
+        if (!$this->Pages) {
             $this->getRouter()->redirect(ListController::class);
         }
         return $this->getViewModelManager()->getViewModel([
-            'viewModel' => EditViewModel::class,
+            'viewModel' => DeleteViewModel::class,
             'data' => [
-                '{entity}' => $this->{Entity},
+                'pages' => $this->Pages,
             ],
             'listeners' => [
-                EditViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onEditComplete']
+                DeleteViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onDeleteComplete']
             ],
         ]);
     }
 
     /**
-     * Method onEditComplete
+     * Method onDeleteComplete
      *
      * @param \Framework\EventManager\Event $event 'Event'
      *
      * @return void
      */
-    public function onEditComplete(\Framework\EventManager\Event $event): void
+    public function onDeleteComplete(\Framework\EventManager\Event $event): void
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            ${entity} = $ViewModel->getForm()->getData()['{entity}'];
-            ${Entity} = $this->{Entity};
-            ${Entity}->fromArray(${entity});
-            $this->getEntityManager()->merge(${Entity});
+            $Pages = $this->Pages;
+            $Pages->setDeleteFlag(true);
+            $this->getEntityManager()->merge($Pages);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);
         }
@@ -85,7 +84,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
     public static function getPageInfo(): array
     {
         return [
-            'description' => '編集',
+            'description' => '削除',
             'priority' => 0,
             'menu' => false,
         ];

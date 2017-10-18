@@ -15,7 +15,8 @@ namespace Framework\Application;
 
 use Framework\EventManager\EventTargetInterface;
 use Framework\Controller\ControllerInterface;
-use Framework\Router\RouterInterface;
+use Framework\ViewModel\ViewModelManagerInterface;
+use Framework\Router\RouterManagerInterface;
 use Exception;
 
 /**
@@ -36,7 +37,7 @@ class HttpApplication extends AbstractApplication
      */
     public function run()
     {
-        $routeModel = $this->getObjectManager()->get(RouterInterface::class);
+        $routeModel = $this->getObjectManager()->get(RouterManagerInterface::class)->getMatchedOrDefault();
         if ($routeModel->isFaviconRequest()) {
             $this->sendDummyFavicon();
         }
@@ -46,7 +47,8 @@ class HttpApplication extends AbstractApplication
         if (!$Controller instanceof ControllerInterface) {
             return $this->sendNotFound();
         }
-        $Controller->callActionFlow($request['action'], $request['param']);
+        $ViewModel = $Controller->callActionFlow($request['action'], $request['param']);
+        $this->getObjectManager()->get(ViewModelManagerInterface::class)->render($ViewModel);
     }
 
     /**

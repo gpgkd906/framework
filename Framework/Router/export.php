@@ -7,22 +7,28 @@ use Framework\EventManager\EventManagerInterface;
 use Framework\Application\HttpApplication;
 use Framework\Application\ConsoleApplication;
 
+ObjectManager::getSingleton()->export([
+    RouterManagerInterface::class => RouterManager::class,
+]);
+
 ObjectManager::getSingleton()->get(EventManagerInterface::class)
     ->addEventListener(
         HttpApplication::class,
         HttpApplication::TRIGGER_INITED,
         function () {
-            ObjectManager::getSingleton()->export([
-                RouterInterface::class => Http\Router::class,
-            ]);
+            ObjectManager::getSingleton()->get(RouterManagerInterface::class)
+                ->register(
+                    Router::class, ObjectManager::getSingleton()->create(null, Http\Router::class)
+                );
         }
     )
     ->addEventListener(
         ConsoleApplication::class,
         ConsoleApplication::TRIGGER_INITED,
         function () {
-            ObjectManager::getSingleton()->export([
-                RouterInterface::class => Console\Router::class,
-            ]);
+            ObjectManager::getSingleton()->get(RouterManagerInterface::class)
+                ->register(
+                    Router::class, ObjectManager::getSingleton()->create(null, Console\Router::class)
+                );
         }
     );

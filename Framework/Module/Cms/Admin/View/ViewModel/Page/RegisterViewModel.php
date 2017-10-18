@@ -5,7 +5,7 @@ namespace Framework\Module\Cms\Admin\View\ViewModel\Page;
 
 use Framework\ViewModel\FormViewModel;
 use Framework\Module\Cngo\Admin\View\Layout\AdminPageLayout;
-use Framework\Router\RouterInterface;
+use Framework\Router\RouterManagerInterface;
 use Framework\ObjectManager\ObjectManager;
 
 class RegisterViewModel extends FormViewModel
@@ -74,7 +74,7 @@ class RegisterViewModel extends FormViewModel
 
     public function getControllerClasses()
     {
-        $Router = ObjectManager::getSingleton()->get(RouterInterface::class);
+        $Router = ObjectManager::getSingleton()->get(RouterManagerInterface::class)->getMatched();
         $routerList = $Router->getRouterList();
         $ControllerClass = [];
         foreach ($routerList as $url => $controller) {

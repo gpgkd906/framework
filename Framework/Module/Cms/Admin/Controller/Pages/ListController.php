@@ -11,13 +11,13 @@
  */
 declare(strict_types=1);
 
-namespace Framework\Module\{Module}\Controller{Namespace};
+namespace Framework\Module\{Module}\Controller\Pages;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\{Module}\View\ViewModel{Namespace}\ListViewModel;
+use Framework\Module\{Module}\View\ViewModel\Pages\ListViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\{Module}\Entity\{Entity};
+use Framework\Module\{Module}\Entity\Pages;
 
 /**
  * Class ListController
@@ -42,9 +42,9 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
         return $this->getViewModelManager()->getViewModel([
             'viewModel' => ListViewModel::class,
             'data' => [
-                '{entity}' => $this->getEntityManager()->getRepository({Entity}::class)->findBy([
+                'pages' => $this->getEntityManager()->getRepository(Pages::class)->findBy([
                     'deleteFlag' => 0
-                ], ['{entity}Id' => 'ASC'], 50),
+                ], ['pagesId' => 'ASC'], 50),
             ]
         ]);
     }

@@ -19,7 +19,7 @@ class LoginController extends AbstractController implements
         if ($this->getAuthentication()->hasIdentity()) {
             $this->getRouter()->redirect(DashboardController::class);
         }
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             'viewModel' => LoginViewModel::class,
             'listeners' => [
                 LoginViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onLoginComplete']

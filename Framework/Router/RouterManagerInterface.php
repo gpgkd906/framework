@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP version 7
- * File RouterInterface.php
+ * File RouterManagerInterface.php
  *
  * @category Router
  * @package  Framework\Router
@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Framework\Router;
 
 /**
- * Interface RouterInterface
+ * Interface RouterManagerInterface
  *
  * @category Interface
  * @package  Framework\Router
@@ -22,29 +22,29 @@ namespace Framework\Router;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-interface RouterInterface
+interface RouterManagerInterface
 {
-    const TRIGGER_ROUTERLIST_LOADED = 'router list loaded';
-    const TRIGGER_ROUTEMISS = 'route miss';
+    /**
+     * register ルータを登録する
+     *
+     * @param string $namespace
+     * @param RouterInterface $router
+     * @return void
+     */
+    public function register(string $namespace, RouterInterface $router);
 
     /**
-     * Method isMatched
+     * get 指定名前空間のルータを取得する
      *
-     * @return mixed
+     * @param string $namespace
+     * @return void
      */
-    public function isMatched();
+    public function get($namespace);
 
     /**
-     * Method dispatch
+     * getMatched isMatchedのルータを取得する
      *
-     * @return mixed
+     * @return void
      */
-    public function dispatch();
-
-    /**
-     * Method getRouterList
-     *
-     * @return array RouterList
-     */
-    public function getRouterList();
+    public function getMatched();
 }

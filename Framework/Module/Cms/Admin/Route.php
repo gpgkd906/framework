@@ -1,10 +1,10 @@
 <?php
 namespace Framework\Module\Cms\Admin;
 
-use Framework\Router\RouterInterface;
+use Framework\Router\RouterManagerInterface;
 use Framework\ObjectManager\ObjectManager;
 
-ObjectManager::getSingleton()->get(RouterInterface::class)
+ObjectManager::getSingleton()->get(RouterManagerInterface::class)->get()
     ->register([
         'admin/blog/list' => Controller\Blog\ListController::class,
         'admin/blog/register' => Controller\Blog\RegisterController::class,

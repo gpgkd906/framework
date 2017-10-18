@@ -11,13 +11,13 @@
  */
 declare(strict_types=1);
 
-namespace Framework\Module\{Module}\Controller{Namespace};
+namespace Framework\Module\{Module}\Controller\Pages;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\{Module}\View\ViewModel{Namespace}\EditViewModel;
+use Framework\Module\{Module}\View\ViewModel\Pages\EditViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\{Module}\Entity\{Entity};
+use Framework\Module\{Module}\Entity\Pages;
 
 /**
  * Class EditController
@@ -31,7 +31,7 @@ use Framework\Module\{Module}\Entity\{Entity};
 class EditController extends AbstractAdminController implements EntityManagerAwareInterface
 {
     use \Framework\Repository\EntityManagerAwareTrait;
-    private ${Entity};
+    private $Pages;
 
     /**
      * Method index
@@ -42,14 +42,14 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
      */
     public function index($id): EditViewModel
     {
-        $this->{Entity} = $this->getEntityManager()->getRepository({Entity}::class)->find($id);
-        if (!$this->{Entity}) {
+        $this->Pages = $this->getEntityManager()->getRepository(Pages::class)->find($id);
+        if (!$this->Pages) {
             $this->getRouter()->redirect(ListController::class);
         }
         return $this->getViewModelManager()->getViewModel([
             'viewModel' => EditViewModel::class,
             'data' => [
-                '{entity}' => $this->{Entity},
+                'pages' => $this->Pages,
             ],
             'listeners' => [
                 EditViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onEditComplete']
@@ -68,10 +68,10 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            ${entity} = $ViewModel->getForm()->getData()['{entity}'];
-            ${Entity} = $this->{Entity};
-            ${Entity}->fromArray(${entity});
-            $this->getEntityManager()->merge(${Entity});
+            $pages = $ViewModel->getForm()->getData()['pages'];
+            $Pages = $this->Pages;
+            $Pages->fromArray($pages);
+            $this->getEntityManager()->merge($Pages);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);
         }

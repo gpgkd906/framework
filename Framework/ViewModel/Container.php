@@ -17,6 +17,7 @@ use Framework\ViewModel\FormViewModelInterface;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Exception;
 use Framework\ViewModel\Exception\ContainerNotFoundException;
+use Framework\ObjectManager\ObjectManager;
 
 /**
  * Class Container
@@ -29,8 +30,11 @@ use Framework\ViewModel\Exception\ContainerNotFoundException;
  */
 class Container implements
     PsrContainerInterface,
+    ViewModelManagerAwareInterface,
     ContainerInterface
 {
+    use ViewModelManagerAwareTrait;
+
     private $_items = [];
     private $_exportView = null;
 
@@ -44,7 +48,6 @@ class Container implements
     {
         $this->setExportView($exportView);
         $this->setItems($config);
-        $this->getItems();
     }
 
     /**
@@ -148,7 +151,7 @@ class Container implements
         $exportView = $this->getExportView();
         $item['layout'] = $exportView->getLayout();
         $item['exportView'] = $exportView;
-        $item = ViewModelManager::getViewModel($item);
+        $item = $this->getViewModelManager()->getViewModel($item);
         return $item;
     }
 

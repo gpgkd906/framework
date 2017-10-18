@@ -16,10 +16,10 @@ namespace Framework\Controller;
 use Framework\Application\HttpApplication;
 use Framework\ObjectManager\SingletonInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
-use Framework\ViewModel\ViewModelInterface;
+use Framework\ViewModel\ViewModelManagerAwareInterface;
 use Framework\ViewModel\AbstractViewModel;
 use Framework\EventManager\EventTargetInterface;
-use Framework\Router\RouterAwareInterface;
+use Framework\Router\RouterManagerAwareInterface;
 use Framework\Service\SessionService\SessionServiceAwareInterface;
 use Exception;
 
@@ -37,13 +37,14 @@ abstract class AbstractController implements
     EventTargetInterface,
     SingletonInterface,
     ObjectManagerAwareInterface,
-    RouterAwareInterface
+    ViewModelManagerAwareInterface,
+    RouterManagerAwareInterface
 {
     use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
-    use \Framework\Router\RouterAwareTrait;
-
-    private static $_instance = [];
+    use \Framework\ObjectManager\SingletonTrait;
+    use \Framework\ViewModel\ViewModelManagerAwareTrait;
+    use \Framework\Router\RouterManagerAwareTrait;
 
     //error
     const ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL = "error: return-value is not valid view model from action %s ";
@@ -51,32 +52,16 @@ abstract class AbstractController implements
     //EVENT
     const TRIGGER_BEFORE_ACTION = 'beforeAction';
     const TRIGGER_AFTER_ACTION = 'afterAction';
-    const TRIGGER_BEFORE_RESPONSE = 'beforeResponse';
-    const TRIGGER_AFTER_RESPONSE = 'afterResponse';
 
     private $_controllerName = null;
     private $_ViewModel = null;
 
     /**
-     * Method getSingleton
-     *
-     * @return ControllerInterface
-     */
-    public static function getSingleton()
-    {
-        $controllerName = static::class;
-        if (!isset(self::$_instance[$controllerName])) {
-            self::$_instance[$controllerName] = new $controllerName();
-            self::$_instance[$controllerName]->setName($controllerName);
-        }
-        return self::$_instance[$controllerName];
-    }
-
-    /**
      * Protected Method __construct
      */
-    protected function __construct()
+    private function __construct()
     {
+        $this->_controllerName = static::class;
     }
 
     /**
@@ -89,7 +74,7 @@ abstract class AbstractController implements
      */
     public function callActionFlow($action, $param)
     {
-        $routeModel = $this->getRouter();
+        $routeModel = $this->getRouterManager()->getMatched();
         $actionMethod = $routeModel->getAction();
         $this->triggerEvent(self::TRIGGER_BEFORE_ACTION);
         if (is_callable([$this, $actionMethod])) {
@@ -98,17 +83,7 @@ abstract class AbstractController implements
             }
         }
         $this->triggerEvent(self::TRIGGER_AFTER_ACTION);
-        $viewModel = $this->getViewModel();
-        if (isset($viewModel)) {
-            if ($viewModel instanceof ViewModelInterface) {
-                $this->triggerEvent(self::TRIGGER_BEFORE_RESPONSE);
-                $this->callAction("response");
-                $this->triggerEvent(self::TRIGGER_AFTER_RESPONSE);
-            } else {
-                $message = sprintf(self::ERROR_ACTION_RETURN_IS_NOT_VIEWMODEL, $this->getName() . "::" . $actionMethod);
-                throw new Exception($message);
-            }
-        }
+        return $this->getViewModel();
     }
 
     /**
@@ -127,16 +102,6 @@ abstract class AbstractController implements
             }
             return call_user_func_array([$this, $action], $param);
         }
-    }
-
-    /**
-     * Method response
-     *
-     * @return void
-     */
-    public function response()
-    {
-        echo $this->getViewModel()->render();
     }
 
     /**
@@ -197,7 +162,7 @@ abstract class AbstractController implements
      */
     public function getParam()
     {
-        $param = $this->getRouter()->getParam();
+        $param = $this->getRouterManager()->getMatched()->getParam();
         unset($param['req']);
         return $param;
     }

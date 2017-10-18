@@ -15,7 +15,7 @@ namespace Framework\Application;
 
 use Framework\Config\ConfigModel\ConfigModelInterface;
 use Framework\Plugin\PluginManager\PluginManager;
-use Framework\ObjectManager\ObjectManager;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\EventManager;
 use Framework\EventManager\EventTargetInterface;
 use Exception;
@@ -30,44 +30,17 @@ use Exception;
  * @link     https://github.com/gpgkd906/framework
  */
 abstract class AbstractApplication implements
-    ApplicationInterface,
-    EventTargetInterface
+    ObjectManagerAwareInterface,
+    EventTargetInterface,
+    ApplicationInterface
 {
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
     use \Framework\EventManager\EventTargetTrait;
 
     //
     const DEFAULT_TIMEZONE = "Asia/Tokyo";
 
     private $_config = null;
-
-    private $_objectManager = null;
-
-    /**
-     * Method setObjectManager
-     *
-     * @param ObjectManager $objectManager ObjectManager
-     *
-     * @return this
-     */
-    public function setObjectManager(ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
-        return $this;
-    }
-
-    /**
-     * Method getObjectManager
-     *
-     * @return ObjectManager
-     */
-    public function getObjectManager()
-    {
-        if ($this->_objectManager === null) {
-            $this->_objectManager = ObjectManager::getSingleton();
-            $this->_objectManager->set(ApplicationInterface::class, $this);
-        }
-        return $this->_objectManager;
-    }
 
     /**
      * Method __construct
@@ -78,6 +51,7 @@ abstract class AbstractApplication implements
     {
         $this->setConfig($config);
         $objectManager = $this->getObjectManager();
+        $objectManager->set(ApplicationInterface::class, $this);
         $objectManager->init();
         $this->triggerEvent(self::TRIGGER_INITED);
     }

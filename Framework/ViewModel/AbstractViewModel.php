@@ -16,7 +16,7 @@ use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\EventManager\EventTargetInterface;
 use Framework\ViewModel\Helper\ViewHelper;
 use Framework\ViewModel\Helper\NumberFormatter;
-use Framework\Router\RouterAwareInterface;
+use Framework\Router\RouterManagerAwareInterface;
 use Exception;
 
 /**
@@ -30,12 +30,15 @@ use Exception;
  */
 abstract class AbstractViewModel implements
     ViewModelInterface,
+    ViewModelManagerAwareInterface,
     EventTargetInterface,
+    RouterManagerAwareInterface,
     ObjectManagerAwareInterface
 {
     use \Framework\EventManager\EventTargetTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
-    use \Framework\Router\RouterAwareTrait;
+    use \Framework\Router\RouterManagerAwareTrait;
+    use ViewModelManagerAwareTrait;
 
     //trigger
     const TRIGGER_RENDER = "Render";
@@ -80,14 +83,14 @@ abstract class AbstractViewModel implements
      *
      * @param array              $config        viewModelConfig
      */
-    public function __construct($config = [])
+    public function init($config = [])
     {
         $config = array_merge_recursive($this->getConfig(), $config);
         $this->setConfig($config);
         if (isset($config["id"])) {
             $this->_id = $config["id"];
         } else {
-            $this->_id = ViewModelManager::getIncrementId();
+            $this->_id = $this->getViewModelManager()->getIncrementId();
         }
         //data:template
         if (isset($config["data"])) {
@@ -99,7 +102,12 @@ abstract class AbstractViewModel implements
             if ($layout instanceof LayoutInterface) {
                 $this->setLayout($layout, $config);
             } else {
-                $this->setLayout($layout::getSingleton(), $config);
+                $this->setLayout(
+                    $this->getViewModelManager()->getViewModel([
+                        'viewModel' => $layout
+                    ]),
+                    $config
+                );
             }
         }
         if (isset($config['exportView']) && $config['exportView'] instanceof ViewModelInterface) {
@@ -259,7 +267,7 @@ abstract class AbstractViewModel implements
         $htmls = [];
         $template = $this->getTemplateForRender();
         ob_start();
-        $data = ViewModelManager::escapeHtml($this->getData());
+        $data = $this->getViewModelManager()->escapeHtml($this->getData());
         $this->setData($data);
         is_array($data) && extract($data);
         echo '<!-- ' . static::class . ' start render-->', PHP_EOL;
@@ -318,7 +326,12 @@ abstract class AbstractViewModel implements
     {
         foreach ($containers as $index => $container) {
             if (!($container instanceof ContainerInterface)) {
-                $containers[$index] = new Container($container, $this);
+                $containers[$index] = $this->getObjectManager()->create(
+                    null,
+                    function () use ($container) {
+                        return new Container($container, $this);
+                    }
+                );
             }
         }
         $this->_containers = $containers;

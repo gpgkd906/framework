@@ -24,7 +24,7 @@ class EditController extends AbstractAdminController implements EntityManagerAwa
         if (!$this->AdminUser) {
             $this->getRouter()->redirect(ListController::class);
         }
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             'viewModel' => EditViewModel::class,
             'data' => [
                 'adminUser' => $this->AdminUser,

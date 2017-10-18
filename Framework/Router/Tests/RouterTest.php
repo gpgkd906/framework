@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Framework\Router\Http\Router as HttpRouter;
 use Framework\Router\Console\Router as ConsoleRouter;
 use Framework\Router\RouterInterface;
+use Framework\Router\RouterManager;
 use Framework\ObjectManager\ObjectManager;
 
 /**
@@ -189,6 +190,8 @@ class RouterTest extends TestCase
      */
     public function testHttpRouterForApplication()
     {
+        $ObjectManager = ObjectManager::getSingleton();
+
         $Router = new HttpRouter;
         ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
         // 当空路由被请求分发URL的时候，空路由的路由器会自动搜索各模块的路由，并进行注册
@@ -235,13 +238,15 @@ class RouterTest extends TestCase
 
     /**
      * Test testHttpRouterFailture
+     * キャッシュキーが重複登録するとエラーになるため、別プロセスでテストを実行。
      *
+     * @runInSeparateProcess
      * @return void
      */
     public function testHttpRouterFailture()
     {
         $Router = new HttpRouter;
-        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
+        // ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
         $Router->setRequestUri('index.php');
         $request = $Router->dispatch();
         $this->assertArrayHasKey('controller', $request);
@@ -253,6 +258,8 @@ class RouterTest extends TestCase
      * Test testConsoleRouterForApplication
      * 这里测试实际应用中，各个模块注册路由的处理
      * 框架本身各模块依赖于ObjectManager, 因此我们需要把Router注册到ObjectManager上
+     *
+     * @runInSeparateProcess
      * @return void
      */
     public function testConsoleRouterForApplication()
@@ -271,6 +278,7 @@ class RouterTest extends TestCase
     /**
      * Test testConsoleRouterException
      *
+     * @runInSeparateProcess
      * @return void
      */
     public function testConsoleRouterException()

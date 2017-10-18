@@ -25,7 +25,8 @@ use Framework\FormManager\FormManager;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class FormViewModel extends AbstractViewModel implements FormViewModelInterface
+class FormViewModel extends AbstractViewModel implements
+    FormViewModelInterface
 {
     protected $method = "post";
     protected $action = null;
@@ -63,7 +64,9 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      */
     public function getAction()
     {
-        return $this->getObjectManager()->get(RouterInterface::class)->getRequestUri();
+        return $this->getRouterManager()
+                    ->getMatched()
+                    ->getRequestUri();
     }
 
     /**
@@ -72,9 +75,9 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
      * @param array         $config        ViewModelConfig
      * @param ObjectManager $objectManager ObjectManager
      */
-    public function __construct($config)
+    public function init($config = [])
     {
-        parent::__construct($config);
+        parent::init($config);
         $this->addEventListener(
             self::TRIGGER_INIT,
             function () {
@@ -146,7 +149,7 @@ class FormViewModel extends AbstractViewModel implements FormViewModelInterface
     public function getFormManager()
     {
         if ($this->_formManager === null) {
-            $this->_formManager = new FormManager;
+            $this->_formManager = $this->getObjectManager()->create(null, FormManager::class);
         }
         return $this->_formManager;
     }

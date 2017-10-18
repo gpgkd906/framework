@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Framework\ViewModel;
 
 use Framework\EventManager\EventTargetInterface;
+use Framework\ObjectManager\SingletonInterface;
+use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Exception;
 
 /**
@@ -25,41 +27,28 @@ use Exception;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class ViewModelManager implements ViewModelManagerInterface
+class ViewModelManager implements
+    SingletonInterface,
+    EventTargetInterface,
+    ObjectManagerAwareInterface,
+    ViewModelManagerInterface
 {
+    use \Framework\ObjectManager\SingletonTrait;
+    use \Framework\EventManager\EventTargetTrait;
+    use \Framework\ObjectManager\ObjectManagerAwareTrait;
+
+    //ERROR
     const ERROR_INVALID_VIEWMODEL_CONFIG = "error: invalid viewmodel config";
     const ERROR_INVALID_VIEWMODEL = "error: invalid viewmodelname: %s";
-    const ERROR_INVALID_TEMPLATE_VIEWMODEL = "error: invalid template viewModel";
     const ERROR_VIEWMODEL_DEFINED_ID = "error: viewId [%s] was defined before, change some new ID";
+    //EVENT
+    const TRIGGER_BEFORE_BUILD = 'beforeBuild';
+    const TRIGGER_AFTER_BUILD = 'afterBuild';
 
-    private static $_viewModelPool = [];
-    private static $_namespace = null;
-    private static $_templateDir = null;
-    private static $_incrementId = 0;
-    private static $_basePath = null;
-    private static $_objectManager = null;
-
-    /**
-     * Method setObjectManager
-     *
-     * @param ObjectManager $objectManager ObjectManager
-     *
-     * @return void
-     */
-    public static function setObjectManager($objectManager)
-    {
-        self::$_objectManager = $objectManager;
-    }
-
-    /**
-     * Method getObjectManager
-     *
-     * @return ObjectManager $objectManager
-     */
-    public static function getObjectManager()
-    {
-        return self::$_objectManager;
-    }
+    private $_viewModelPool = [];
+    private $_templateDir = null;
+    private $_incrementId = 0;
+    private $_basePath = null;
 
     /**
      * Method setBasePath
@@ -68,9 +57,9 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return void
      */
-    public static function setBasePath($basePath)
+    public function setBasePath($basePath)
     {
-        self::$_basePath = $basePath;
+        $this->_basePath = $basePath;
     }
 
     /**
@@ -78,9 +67,9 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return string $basePath
      */
-    public static function getBasePath()
+    public function getBasePath()
     {
-        return self::$_basePath;
+        return $this->_basePath;
     }
 
     /**
@@ -90,9 +79,9 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return void
      */
-    public static function setTemplateDir($templateDir)
+    public function setTemplateDir(string $templateDir)
     {
-        self::$_templateDir = $templateDir;
+        $this->_templateDir = $templateDir;
     }
 
     /**
@@ -100,9 +89,9 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return string $templateDir
      */
-    public static function getTemplateDir()
+    public function getTemplateDir()
     {
-        return self::$_templateDir;
+        return $this->_templateDir;
     }
 
     /**
@@ -112,7 +101,7 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return ViewModel $viewModel
      */
-    public static function getViewModel($config)
+    public function getViewModel(array $config)
     {
         if ($config instanceof ViewModelInterface) {
             return $config;
@@ -124,13 +113,12 @@ class ViewModelManager implements ViewModelManagerInterface
         $requestName = $config["viewModel"];
         $viewModelName = $requestName;
 
-        $ViewModel = self::getObjectManager()->create(null, function () use ($viewModelName, $config) {
-            return new $viewModelName($config);
-        });
+        $ViewModel = $this->getObjectManager()->create(null, $viewModelName);
+        $ViewModel->init($config);
         if ($ViewModel->getTemplateDir() === null) {
-            $ViewModel->setTemplateDir(self::getTemplateDir());
+            $ViewModel->setTemplateDir($this->getTemplateDir());
         }
-        self::addView($ViewModel);
+        $this->addView($ViewModel);
         $ViewModel->triggerEvent(EventTargetInterface::TRIGGER_INIT);
         return $ViewModel;
     }
@@ -142,13 +130,13 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return void
      */
-    public static function addView(ViewModelInterface $viewModel)
+    public function addView(ViewModelInterface $viewModel)
     {
         $viewId = $viewModel->getId();
-        if (isset(self::$_viewModelPool[$viewId])) {
+        if (isset($this->_viewModelPool[$viewId])) {
             throw new Exception(sprintf(self::ERROR_VIEWMODEL_DEFINED_ID, $viewId));
         }
-        self::$_viewModelPool[$viewId] = $viewModel;
+        $this->_viewModelPool[$viewId] = $viewModel;
     }
 
     /**
@@ -158,10 +146,10 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return ViewModel $viewModel
      */
-    public static function getViewById($viewId)
+    public function getViewById($viewId)
     {
-        if (isset(self::$_viewModelPool[$viewId])) {
-            return self::$_viewModelPool[$viewId];
+        if (isset($this->_viewModelPool[$viewId])) {
+            return $this->_viewModelPool[$viewId];
         }
     }
 
@@ -170,10 +158,10 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return void
      */
-    public static function getIncrementId()
+    public function getIncrementId()
     {
-        self::$_incrementId ++;
-        return "ViewModel_" . self::$_incrementId;
+        $this->_incrementId ++;
+        return "ViewModel_" . $this->_incrementId;
     }
 
     /**
@@ -183,11 +171,11 @@ class ViewModelManager implements ViewModelManagerInterface
      *
      * @return mixed
      */
-    public static function escapeHtml($data)
+    public function escapeHtml($data)
     {
         if (is_array($data)) {
             foreach ($data as $key => $value) {
-                $data[$key] = self::escapeHtml($value);
+                $data[$key] = $this->escapeHtml($value);
             }
             return $data;
         } elseif (is_string($data)) {
@@ -195,5 +183,13 @@ class ViewModelManager implements ViewModelManagerInterface
         } else {
             return $data;
         }
+    }
+
+    public function render(ViewModelInterface $viewModel)
+    {
+        $this->triggerEvent(self::TRIGGER_BEFORE_BUILD);
+        $response = $viewModel->render();
+        $this->triggerEvent(self::TRIGGER_AFTER_BUILD);
+        echo $response;
     }
 }

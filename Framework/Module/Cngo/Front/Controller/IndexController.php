@@ -11,7 +11,7 @@ class IndexController extends AbstractController
 {
     public function index()
     {
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             "viewModel" => IndexViewModel::class,
         ]);
     }

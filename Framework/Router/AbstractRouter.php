@@ -46,9 +46,6 @@ abstract class AbstractRouter implements
     const ERROR_OVER_MAX_DEPTHS = "error: over max_depths";
     const INDEX = 'index';
 
-    const TRIGGER_ROUTERLIST_LOADED = 'router list loaded';
-    const TRIGGER_ROUTEMISS = 'route miss';
-
     private $_request = null;
     private $_routerList = null;
     protected $request_param = null;
@@ -173,12 +170,13 @@ abstract class AbstractRouter implements
     public function getRouterList()
     {
         if (!$this->_routerList) {
-            $cache = $this->getCacheService()->getCache('route');
-            if ($routerList = $cache->getItem(static::class)) {
+            $cache = $this->getCacheService()->delegate(static::class);
+            $cacheKey = 'routerList';
+            if ($routerList = $cache->getItem($cacheKey)) {
                 $this->setRouterList($routerList);
             } else {
                 $this->loadRouter();
-                $cache->setItem(static::class, $this->_routerList);
+                $cache->setItem($cacheKey, $this->_routerList);
             }
             $this->triggerEvent(static::TRIGGER_ROUTERLIST_LOADED);
         }
@@ -219,5 +217,10 @@ abstract class AbstractRouter implements
     {
         $request = $this->getRequest();
         return $request['controller'];
+    }
+
+    public function isMatched()
+    {
+        return true;
     }
 }

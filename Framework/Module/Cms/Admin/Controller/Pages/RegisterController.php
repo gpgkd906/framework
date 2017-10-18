@@ -11,13 +11,13 @@
  */
 declare(strict_types=1);
 
-namespace Framework\Module\{Module}\Controller{Namespace};
+namespace Framework\Module\{Module}\Controller\Pages;
 
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\ViewModel\ViewModelManager;
-use Framework\Module\{Module}\View\ViewModel{Namespace}\RegisterViewModel;
+use Framework\Module\{Module}\View\ViewModel\Pages\RegisterViewModel;
 use Framework\Repository\EntityManagerAwareInterface;
-use Framework\Module\{Module}\Entity\{Entity};
+use Framework\Module\{Module}\Entity\Pages;
 
 /**
  * Class RegisterController
@@ -60,9 +60,9 @@ class RegisterController extends AbstractAdminController implements EntityManage
     {
         $ViewModel = $event->getTarget();
         if ($ViewModel->getForm()->isValid()) {
-            ${entity} = $ViewModel->getForm()->getData()['{entity}'];
-            $AdminUser = new {Entity}();
-            $AdminUser->fromArray(${entity});
+            $pages = $ViewModel->getForm()->getData()['pages'];
+            $AdminUser = new Pages();
+            $AdminUser->fromArray($pages);
             $this->getEntityManager()->persist($AdminUser);
             $this->getEntityManager()->flush();
             $this->getRouter()->redirect(ListController::class);

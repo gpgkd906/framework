@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File PageLayout.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -18,15 +18,15 @@ use Exception;
 
 /**
  * Interface PageLayout
- * 
+ *
  * @category Interface
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-class PageLayout extends AbstractViewModel implements 
-    LayoutInterface, 
+class PageLayout extends AbstractViewModel implements
+    LayoutInterface,
     SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
@@ -48,7 +48,7 @@ class PageLayout extends AbstractViewModel implements
      *
      * @param string  $style    stylesheet
      * @param integer $priority Priority
-     * 
+     *
      * @return this
      */
     public function registerStyle($style, $priority = null)
@@ -68,7 +68,7 @@ class PageLayout extends AbstractViewModel implements
      *
      * @param string  $script   JavaScript
      * @param integer $priority Priority
-     * 
+     *
      * @return this
      */
     public function registerScript($script, $priority = null)
@@ -91,10 +91,13 @@ class PageLayout extends AbstractViewModel implements
     public function getStyle()
     {
         $asset = $this->getAsset();
-        $basePath = ViewModelManager::getBasePath();
+        $basePath = $this->getViewModelManager()->getBasePath();
+        if ($basePath) {
+            $basePath = '//' . $basePath;
+        }
         $styles = [];
         foreach ($this->styles as $style) {
-            $styles[] = '//' . $basePath . $asset . $style;
+            $styles[] = $basePath . $asset . $style;
         }
         return $styles;
     }
@@ -107,10 +110,13 @@ class PageLayout extends AbstractViewModel implements
     public function getScript()
     {
         $asset = $this->getAsset();
-        $basePath = ViewModelManager::getBasePath();
+        $basePath = $this->getViewModelManager()->getBasePath();
+        if ($basePath) {
+            $basePath = '//' . $basePath;
+        }
         $scripts = [];
         foreach ($this->scripts as $script) {
-            $scripts[] = '//' . $basePath . $asset . $script;
+            $scripts[] = $basePath . $asset . $script;
         }
         return $scripts;
     }
@@ -119,7 +125,7 @@ class PageLayout extends AbstractViewModel implements
      * Method setAsset
      *
      * @param string $asset Asset
-     * 
+     *
      * @return this
      */
     public function setAsset($asset)

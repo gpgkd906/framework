@@ -35,13 +35,6 @@ interface ControllerInterface
     public function callActionFlow($action, $param);
 
     /**
-     * Method response
-     *
-     * @return void
-     */
-    public function response();
-
-    /**
      * Method getDescription
      *
      * @return string

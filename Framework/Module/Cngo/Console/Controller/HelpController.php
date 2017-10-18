@@ -5,12 +5,13 @@ namespace Framework\Module\Cngo\Console\Controller;
 
 use Framework\Controller\AbstractConsole;
 use Zend\EventManager\EventManagerAwareInterface;
-use Framework\Router\RouterAwareInterface;
+use Framework\Router\RouterManagerAwareInterface;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 
-class HelpController extends AbstractConsole implements RouterAwareInterface
+class HelpController extends AbstractConsole implements
+    RouterManagerAwareInterface
 {
-    use \Framework\Router\RouterAwareTrait;
+    use \Framework\Router\RouterManagerAwareTrait;
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
 
     public function index()
@@ -21,7 +22,7 @@ class HelpController extends AbstractConsole implements RouterAwareInterface
         }
         $consoles = array_unique($consoles);
 
-        $routerList = $this->getRouter()->getRouterList();
+        $routerList = $this->getRouterManager()->getMatched()->getRouterList();
         $ObjectManager = $this->getObjectManager();
         foreach ($consoles as $index => $console) {
             if ($index) {

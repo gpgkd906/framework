@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File RouterAwareInterface.php
- * 
+ *
  * @category Router
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
@@ -14,28 +14,28 @@ declare(strict_types=1);
 namespace Framework\Router;
 
 /**
- * Interface RouterAwareInterface
- * 
+ * Interface RouterManagerAwareInterface
+ *
  * @category Interface
  * @package  Framework\Router
  * @author   chenhan <gpgkd906@gmail.com>
  * @license  http://www.opensource.org/licenses/mit-license.php MIT
  * @link     https://github.com/gpgkd906/framework
  */
-interface RouterAwareInterface
+interface RouterManagerAwareInterface
 {
     /**
-     * Method setRouter
+     * Method setRouterManager
      *
-     * @param RouterInterface $Router Router
+     * @param RouterManagerInterface $RouterManager RouterManager
      * @return mixed
      */
-    public function setRouter(RouterInterface $Router);
+    public function setRouterManager(RouterManagerInterface $RouterManager);
 
     /**
-     * Method getRouter
+     * Method getRouterManager
      *
-     * @return RouterInterface $Router
+     * @return RouterManagerInterface $RouterManager
      */
-    public function getRouter();
+    public function getRouterManager();
 }

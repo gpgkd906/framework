@@ -14,10 +14,12 @@ use Framework\Module\Cngo\AdminUser\Controller\Users\EditController;
 use Framework\EventManager\EventManagerInterface;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 use Framework\Module\Cngo\Admin\View\ViewModel\NavbarViewModel;
+use Framework\Router\RouterManagerAwareInterface;
 
-class Authentication extends AbstractAuthentication
+class Authentication extends AbstractAuthentication implements
+    RouterManagerAwareInterface
 {
-    use \Framework\Router\RouterAwareTrait;
+    use \Framework\Router\RouterManagerAwareTrait;
 
     public function __construct(Storage\StorageInterface $Storage = null, Adapter\AdapterInterface $Adapter = null)
     {
@@ -54,14 +56,14 @@ class Authentication extends AbstractAuthentication
     public function adminAuthentication($event)
     {
         if (!$this->hasIdentity()) {
-            $this->getRouter()->redirect(LoginController::class);
+            $this->getRouterManager()->getMatched()->redirect(LoginController::class);
         }
     }
 
     public function getAdminProfile($event)
     {
         $data = $this->getIdentity();
-        $data['profileEditUrl'] = $this->getRouter()->linkto(EditController::class, $data['usersId']);
+        $data['profileEditUrl'] = $this->getRouterManager()->getMatched()->linkto(EditController::class, $data['usersId']);
         $event->getTarget()->getModel()->fromArray($data);
     }
 }

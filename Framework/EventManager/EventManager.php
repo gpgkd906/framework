@@ -59,7 +59,7 @@ class EventManager implements
     public function getCache()
     {
         if ($this->_cache === null) {
-            $this->_cache = $this->getCacheService()->delegate(__CLASS__, 'memory');
+            $this->_cache = $this->getCacheService()->delegate(__CLASS__);
         }
         return $this->_cache;
     }

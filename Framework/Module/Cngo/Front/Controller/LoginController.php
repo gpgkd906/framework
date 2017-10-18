@@ -8,10 +8,10 @@ use Framework\ViewModel\ViewModelManager;
 
 class LoginController extends AbstractController
 {
-    
+
     public function index()
     {
-        $viewModel = ViewModelManager::getViewModel([
+        $viewModel = $this->getViewModelManager()->getViewModel([
             "viewModel" => "Login",
             "Model" => "Users"
         ]);

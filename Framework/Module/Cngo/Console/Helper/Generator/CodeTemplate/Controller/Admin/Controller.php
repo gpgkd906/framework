@@ -36,7 +36,7 @@ class {Controller} extends AbstractAdminController
      */
     public function index(): {ViewModel}
     {
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             'viewModel' => {ViewModel}::class,
             'listeners' => [
                 {ViewModel}::TRIGGER_FORMCOMPLETE => [$this, 'onLoginComplete']

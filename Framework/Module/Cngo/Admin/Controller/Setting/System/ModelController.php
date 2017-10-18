@@ -13,7 +13,7 @@ class ModelController extends AbstractAdminController
 {
     public function index()
     {
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             'viewModel' => ModelViewModel::class
         ]);
     }

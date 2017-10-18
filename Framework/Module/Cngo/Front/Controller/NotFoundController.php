@@ -11,7 +11,7 @@ class NotFoundController extends AbstractController
 {
     public function index()
     {
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             "viewModel" => NotFoundViewModel::class,
         ]);
     }

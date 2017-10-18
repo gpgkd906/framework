@@ -46,7 +46,7 @@ class DeleteController extends AbstractAdminController implements EntityManagerA
         if (!$this->{Entity}) {
             $this->getRouter()->redirect(ListController::class);
         }
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             'viewModel' => DeleteViewModel::class,
             'data' => [
                 '{entity}' => $this->{Entity},

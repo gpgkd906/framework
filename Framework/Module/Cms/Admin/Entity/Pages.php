@@ -3,6 +3,7 @@
 namespace Framework\Module\Cms\Admin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Framework\Repository\Doctrine\AbstractEntity;
 
 /**
  * Pages
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="pages", indexes={@ORM\Index(name="url", columns={"url"}), @ORM\Index(name="active_from_to", columns={"active_from", "active_to", "status"})})
  * @ORM\Entity
  */
-class Pages
+class Pages extends AbstractEntity
 {
     /**
      * @var integer

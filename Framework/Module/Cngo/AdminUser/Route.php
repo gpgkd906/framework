@@ -1,10 +1,10 @@
 <?php
 namespace Framework\Module\Cngo\AdminUser;
 
-use Framework\Router\RouterInterface;
+use Framework\Router\RouterManagerInterface;
 use Framework\ObjectManager\ObjectManager;
 
-ObjectManager::getSingleton()->get(RouterInterface::class)
+ObjectManager::getSingleton()->get(RouterManagerInterface::class)->get()
     ->register([
         'admin/login' => Controller\LoginController::class,
         'admin/logout' => Controller\LogoutController::class,

@@ -5,7 +5,7 @@ namespace Framework\Module\Cngo\Admin\View\ViewModel;
 
 use Framework\ViewModel\AbstractViewModel;
 use Framework\ObjectManager\ObjectManager;
-use Framework\Router\RouterInterface;
+use Framework\Router\RouterManagerInterface;
 use NumberFormatter;
 use Framework\Module\Cngo\Admin\Controller\AbstractAdminController;
 
@@ -23,7 +23,7 @@ class SidemenuViewModel extends AbstractViewModel
     public function onInit()
     {
         $this->triggerEvent(self::TRIGGER_MENUINIT);
-        $Router = ObjectManager::getSingleton()->get(RouterInterface::class);
+        $Router = ObjectManager::getSingleton()->get(RouterManagerInterface::class)->getMatched();
         $routerList = $Router->getRouterList();
         foreach ($routerList as $url => $controller) {
             if (!is_subclass_of($controller, AbstractAdminController::class)) {

@@ -17,7 +17,7 @@ class RegisterController extends AbstractAdminController implements EntityManage
 
     public function index(): RegisterViewModel
     {
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
           'viewModel' => RegisterViewModel::class,
           'listeners' => [
               RegisterViewModel::TRIGGER_FORMCOMPLETE => [$this, 'onRegisterComplete']

@@ -15,7 +15,7 @@ class ListController extends AbstractAdminController implements EntityManagerAwa
 
     public function index(): ListViewModel
     {
-        return ViewModelManager::getViewModel([
+        return $this->getViewModelManager()->getViewModel([
             'viewModel' => ListViewModel::class,
             'data' => [
                 'users' => $this->getEntityManager()->getRepository(Users::class)->findBy([

@@ -35,15 +35,13 @@ class ConsoleApplication extends AbstractApplication
      */
     public function run()
     {
-        $routeModel = $this->getObjectManager()->get(RouterInterface::class);
+        $routeModel = $this->getObjectManager()->get(RouterManagerInterface::class)->getMatchedOrDefault();
 
         $request = $routeModel->dispatch();
         $Controller = $this->getObjectManager()->get(ConsoleInterface::class, $request['controller']);
-        if ($Controller) {
-            $action = $request['action'];
-            $Controller->callActionFlow($request['action'], $request['param']);
-        } else {
+        if (!$Controller instanceof ConsoleInterface) {
             throw new Exception("invalid console application");
         }
+        $Controller->callActionFlow($request['action'], $request['param']);
     }
 }
