@@ -18,7 +18,7 @@ ObjectManager::getSingleton()->get(EventManagerInterface::class)
         function () {
             ObjectManager::getSingleton()->get(RouterManagerInterface::class)
                 ->register(
-                    Router::class, ObjectManager::getSingleton()->create(null, Http\Router::class)
+                    __NAMESPACE__, ObjectManager::getSingleton()->create(null, Http\Router::class)
                 );
         }
     )
@@ -28,7 +28,7 @@ ObjectManager::getSingleton()->get(EventManagerInterface::class)
         function () {
             ObjectManager::getSingleton()->get(RouterManagerInterface::class)
                 ->register(
-                    Router::class, ObjectManager::getSingleton()->create(null, Console\Router::class)
+                    __NAMESPACE__, ObjectManager::getSingleton()->create(null, Console\Router::class)
                 );
         }
     );

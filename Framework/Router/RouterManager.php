@@ -50,7 +50,7 @@ class RouterManager implements RouterManagerInterface
     public function get($namespace = null)
     {
         if ($namespace === null) {
-            $namespace = Router::class;
+            $namespace = __NAMESPACE__;
         }
         if (isset($this->_routerPool[$namespace])) {
             return $this->_routerPool[$namespace];

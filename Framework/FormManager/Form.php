@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Framework\FormManager;
 
 use Framework\ValidatorManager\ValidatorManagerAwareInterface;
+use Framework\ValidatorManager\ValidatorManagerAwareTrait;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Exception;
 use Closure;
@@ -15,7 +16,7 @@ class Form implements
     ValidatorManagerAwareInterface
 {
     use \Framework\ObjectManager\ObjectManagerAwareTrait;
-    use \Framework\ValidatorManager\ValidatorManagerAwareTrait;
+    use ValidatorManagerAwareTrait;
 
     /**
     * 要素インスタンスキャッシュプール

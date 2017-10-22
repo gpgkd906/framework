@@ -33,20 +33,6 @@ class CacheService implements SingletonInterface
 
     private $_config = null;
     private $_cachePool = [];
-    private $_default = null;
-
-    /**
-     * Constructor
-     * 对已经设定的cache进行初始化处理
-     */
-    private function __construct()
-    {
-        $config = $this->getConfig();
-        $this->_default = $config->get('default');
-        foreach ($config->get('storage') as $section => $options) {
-            $this->registerCache($section, $options);
-        }
-    }
 
     private function getConfig()
     {
@@ -68,11 +54,8 @@ class CacheService implements SingletonInterface
      *
      * @return array|null
      */
-    public function getCache($section = null)
+    public function getCache(string $section)
     {
-        if ($section === null) {
-            $section = $this->_default;
-        }
         if (isset($this->_cachePool[$section])) {
             return $this->_cachePool[$section];
         }
@@ -119,8 +102,8 @@ class CacheService implements SingletonInterface
      */
     public function delegate($section, $options = null)
     {
-        if ($this->getCache($section)) {
-            throw new \Exception('section has used!');
+        if ($cache = $this->getCache($section)) {
+            return $cache;
         }
         $config = $this->getConfig();
         $delegate = $config->get('delegate');
@@ -129,7 +112,7 @@ class CacheService implements SingletonInterface
                 $options = $delegate['default'];
             }
             $delegateOptions = $delegate['adapter'][$options];
-            $delegateOptions['adapter']['options']['namespace'] = $section;
+            $delegateOptions['adapter']['options']['namespace'] .= $section;
             $options = $delegateOptions;
         }
         $this->registerCache($section, $options);

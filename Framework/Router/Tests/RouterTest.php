@@ -13,10 +13,9 @@ declare(strict_types=1);
 namespace Framework\Router\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Framework\Router;
 use Framework\Router\Http\Router as HttpRouter;
 use Framework\Router\Console\Router as ConsoleRouter;
-use Framework\Router\RouterInterface;
-use Framework\Router\RouterManager;
 use Framework\ObjectManager\ObjectManager;
 
 /**
@@ -125,6 +124,7 @@ class RouterTest extends TestCase
      * Test testHttpRouterWithMethod
      * 这里测试实际应用中，各个模块注册路由的处理
      * 框架本身各模块依赖于ObjectManager, 因此我们需要把Router注册到ObjectManager上
+     *
      * @return void
      */
     public function testHttpRouterWithMethod()
@@ -165,9 +165,6 @@ class RouterTest extends TestCase
         );
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testHttpRouterRedirectException()
     {
         $routeList = [
@@ -186,14 +183,16 @@ class RouterTest extends TestCase
      * Test testHttpRouterForApplication
      * 这里测试实际应用中，各个模块注册路由的处理
      * 框架本身各模块依赖于ObjectManager, 因此我们需要把Router注册到ObjectManager上
+     *
      * @return void
      */
     public function testHttpRouterForApplication()
     {
         $ObjectManager = ObjectManager::getSingleton();
-
+        $RouterManager = new Router\RouterManager;
+        $ObjectManager->set(Router\RouterManagerInterface::class, $RouterManager);
         $Router = new HttpRouter;
-        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
+        $RouterManager->register(Router::class, $Router);
         // 当空路由被请求分发URL的时候，空路由的路由器会自动搜索各模块的路由，并进行注册
         // 在实际的应用中，Router应当从$_SERVER['REQUEST_URI']访问
         $_SERVER['REQUEST_URI'] = '//';
@@ -206,7 +205,7 @@ class RouterTest extends TestCase
         $this->assertEquals($request, $request2);
         // URL中包含?的时候，我们需要把?进行特别处理
         $Router = new HttpRouter;
-        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
+        ObjectManager::getSingleton()->set(Router\RouterInterface::class, $Router);
         $Router->setRequestUri('?test=2');
         $request2 = $Router->dispatch();
         $this->assertArrayHasKey('controller', $request);
@@ -218,7 +217,7 @@ class RouterTest extends TestCase
         // 另一方面，我们可以在分发请求之前设置分发内容，来实现一些全局功能
         // 例如全站维护之类
         $Router = new HttpRouter;
-        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
+        ObjectManager::getSingleton()->set(Router\RouterInterface::class, $Router);
         $param = [
             'controller' => MockController::class,
             'action' => 'index',
@@ -240,13 +239,12 @@ class RouterTest extends TestCase
      * Test testHttpRouterFailture
      * キャッシュキーが重複登録するとエラーになるため、別プロセスでテストを実行。
      *
-     * @runInSeparateProcess
      * @return void
      */
     public function testHttpRouterFailture()
     {
         $Router = new HttpRouter;
-        // ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
+        // ObjectManager::getSingleton()->set(Router\RouterInterface::class, $Router);
         $Router->setRequestUri('index.php');
         $request = $Router->dispatch();
         $this->assertArrayHasKey('controller', $request);
@@ -259,14 +257,16 @@ class RouterTest extends TestCase
      * 这里测试实际应用中，各个模块注册路由的处理
      * 框架本身各模块依赖于ObjectManager, 因此我们需要把Router注册到ObjectManager上
      *
-     * @runInSeparateProcess
      * @return void
      */
     public function testConsoleRouterForApplication()
     {
         // 接下来测试Console路由
+        $ObjectManager = ObjectManager::getSingleton();
+        $RouterManager = new Router\RouterManager;
+        $ObjectManager->set(Router\RouterManagerInterface::class, $RouterManager);
         $Router = new ConsoleRouter;
-        ObjectManager::getSingleton()->set(RouterInterface::class, $Router);
+        $RouterManager->register(Router::class, $Router);
         // Console路由访问Console参数
         global $argv;
         $argv = ['action', 'param=123'];
@@ -278,7 +278,6 @@ class RouterTest extends TestCase
     /**
      * Test testConsoleRouterException
      *
-     * @runInSeparateProcess
      * @return void
      */
     public function testConsoleRouterException()
@@ -293,20 +292,5 @@ class RouterTest extends TestCase
         $Router->setParam([]);
         $Router->dispatch();
         $Router->redirect(ConsoleMockController::class);
-    }
-
-    /**
-     * Method createRouter for Test
-     *
-     * @param string $routerClass routerClass
-     *
-     * @return RouterInterface $Router
-     */
-    private function _createRouter($routerClass)
-    {
-        return ObjectManager::getSingleton()->create(
-            RouterInterface::class,
-            $routerClass
-        );
     }
 }
