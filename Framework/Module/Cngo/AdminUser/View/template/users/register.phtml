@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php $form = $this->getForm(); ?>
+                    <?php $form = $self->getForm(); ?>
                     <?php $form->start(); ?>
                     <fieldset>
                         <div class="row">
@@ -34,7 +34,7 @@
                                     <?= $form->adminUser->passwordConfirm, $form->adminUser->passwordConfirm->error; ?>
                                 </div>
                             </div>
-                            <?=$this->getContainer('Form'); ?>
+                            <?=$self->getContainer('Form'); ?>
                         </div>
                         <div class="row">
                             <div class="col-md-12">

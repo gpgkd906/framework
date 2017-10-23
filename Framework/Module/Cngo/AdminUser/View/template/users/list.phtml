@@ -12,7 +12,7 @@ use Framework\Module\Cngo\AdminUser\Controller\Users\DeleteController;
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
-        <a href="<?=$this->getRouter()->linkto(RegisterController::class); ?>" class="btn btn-danger">新しい管理者を追加</a>
+        <a href="<?=$self->getRouter()->linkto(RegisterController::class); ?>" class="btn btn-danger">新しい管理者を追加</a>
         <p></p>
     </div>
     <div class="col-lg-12">
@@ -30,15 +30,15 @@ use Framework\Module\Cngo\AdminUser\Controller\Users\DeleteController;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($this->getData('users') as $index => $adminUser) : ?>
+                        <?php foreach ($self->getData('users') as $index => $adminUser) : ?>
                             <tr class="<?= $index % 2 ? 'even' : 'odd' ?>">
                                 <td><?=$adminUser['usersId']; ?></td>
                                 <td><?=$adminUser['login']; ?></td>
                                 <td><?=$adminUser['name']; ?></td>
                                 <td><?=$adminUser['email']; ?></td>
                                 <td class="center">
-                                    <a href="<?=$this->getRouter()->linkto(EditController::class, $adminUser['usersId']); ?>" class="btn btn-primary">編集</a>
-                                    <a href="<?=$this->getRouter()->linkto(DeleteController::class, $adminUser['usersId']); ?>" class="btn btn-danger">削除</a>
+                                    <a href="<?=$self->getRouter()->linkto(EditController::class, $adminUser['usersId']); ?>" class="btn btn-primary">編集</a>
+                                    <a href="<?=$self->getRouter()->linkto(DeleteController::class, $adminUser['usersId']); ?>" class="btn btn-danger">削除</a>
                                 </td>
                             </tr>
                         <?php endforeach;?>
@@ -52,9 +52,9 @@ use Framework\Module\Cngo\AdminUser\Controller\Users\DeleteController;
     <!-- /.col-lg-12 -->
 </div>
 <?php
-    $this->getLayout()->registerScript('/../js/dataTables/jquery.dataTables.min.js');
-    $this->getLayout()->registerScript('/../js/dataTables/dataTables.bootstrap.min.js');
-    $this->getLayout()->registerScript('/../js/dataTables/dataTables.responsive.js');
+    $self->getLayout()->registerScript('/../js/dataTables/jquery.dataTables.min.js');
+    $self->getLayout()->registerScript('/../js/dataTables/dataTables.bootstrap.min.js');
+    $self->getLayout()->registerScript('/../js/dataTables/dataTables.responsive.js');
  ?>
 <script>
 $(function() {

@@ -8,7 +8,7 @@
 <meta name="author" content="">
 <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
 <title><?= $title ?></title>
-<?php $css = $this->getStyle(); ?>
+<?php $css = $self->getStyle(); ?>
 <?php foreach ($css as $link) { ?>
   <link href="<?= $link; ?>" rel="stylesheet">
 <?php } ?>
@@ -19,10 +19,10 @@
   <div class="cssload-speeding-wheel"></div>
 </div>
 <section id="wrapper" class="new-login-register">
-    <?= $this->getContainer('Main'); ?>
+    <?= $self->getContainer('Main'); ?>
 </section>
 <!-- jQuery -->
-<?php $scripts = $this->getScript(); ?>
+<?php $scripts = $self->getScript(); ?>
 <?php foreach ($scripts as $link) { ?>
   <script src="<?= $link ?>"></script>
 <?php } ?>

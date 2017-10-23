@@ -104,16 +104,11 @@ class Container implements
             $render = 'renderHtml';
         }
         //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
-        //Production環境まで作らないと思うが、もし作るのであれば、環境チェックも必要です
-        try {
-            $htmls = [];
-            foreach ($this->getItems() as $item) {
-                $htmls[] = call_user_func([$item, $render]);
-            }
-            return join('', $htmls);
-        } catch (\Exception $e) {
-            return $e->getTraceAsString();
+        $htmls = [];
+        foreach ($this->getItems() as $item) {
+            $htmls[] = call_user_func([$item, $render]);
         }
+        return join('', $htmls);
     }
 
     /**

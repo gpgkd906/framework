@@ -80,7 +80,7 @@ class RouterManager implements RouterManagerInterface
         if ($this->getMatched()) {
             return $this->getMatched();
         }
-        return $this->get(Router::class);
+        return $this->get(__NAMESPACE__);
     }
 
     public function getRouters()

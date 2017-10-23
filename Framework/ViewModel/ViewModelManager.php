@@ -49,6 +49,7 @@ class ViewModelManager implements
     private $_templateDir = null;
     private $_incrementId = 0;
     private $_basePath = null;
+    private $_renderer = null;
 
     /**
      * Method setBasePath
@@ -191,5 +192,15 @@ class ViewModelManager implements
         $response = $viewModel->render();
         $this->triggerEvent(self::TRIGGER_AFTER_BUILD);
         echo $response;
+    }
+
+    public function getRenderer()
+    {
+        return $this->_renderer;
+    }
+
+    public function setRenderer(RendererInterface $Renderer)
+    {
+        $this->_renderer = $Renderer;
     }
 }

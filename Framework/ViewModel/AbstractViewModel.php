@@ -196,11 +196,11 @@ abstract class AbstractViewModel implements
             return null;
         }
         if (is_file($template)) {
-            return $template;
+            return realpath($template);
         }
         $template = $this->getTemplateDir() . $this->getTemplate();
         if (is_file($template)) {
-            return $template;
+            return realpath($template);
         }
         throw new Exception(sprintf(self::ERROR_INVALID_RENDER_TEMPLATE, $template, static::class));
     }
@@ -264,20 +264,26 @@ abstract class AbstractViewModel implements
     public function renderHtml()
     {
         $this->triggerEvent(self::TRIGGER_RENDER);
-        $htmls = [];
-        $template = $this->getTemplateForRender();
-        ob_start();
-        $data = $this->getViewModelManager()->escapeHtml($this->getData());
-        $this->setData($data);
-        is_array($data) && extract($data);
-        echo '<!-- ' . static::class . ' start render-->', PHP_EOL;
-        include $template;
-        echo '<!-- ' . static::class . ' end render-->';
-        $htmls[] = ob_get_contents();
-        ob_end_clean();
+        $contents = $this->getViewModelManager()
+            ->getRenderer()
+            ->render($this);
         $this->triggerEvent(self::TRIGGER_DISPLAY);
-        return join("", $htmls);
+        return $contents;
     }
+
+    // public function renderHtml()
+    // {
+    //     $this->triggerEvent(self::TRIGGER_RENDER);
+    //     $htmls = [];
+    //     $renderer = $this->getViewModelManager()->getRenderer();
+    //     $tpl = str_replace(ROOT_DIR, '', realpath($this->getTemplateForRender()));
+    //     $template = $renderer->load($tpl);
+    //     $data = $this->getData();
+    //     $data['self'] = $this;
+    //     $content = $template->render($data);
+    //     $this->triggerEvent(self::TRIGGER_DISPLAY);
+    //     return $content;
+    // }
 
     /**
      * Meythod setLayout

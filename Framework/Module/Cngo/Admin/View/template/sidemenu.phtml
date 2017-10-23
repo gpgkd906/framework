@@ -3,7 +3,7 @@
     <div class="sidebar-head">
         <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Navigation</span></h3> </div>
     <ul class="nav" id="side-menu">
-        <?php foreach ($this->getData() as $data) : ?>
+        <?php foreach ($self->getData() as $data) : ?>
         <li>
             <a href="<?= $data['link'] ?? '#' ?>">
             <?= $data['icon'] ?? '' ?> <span class="hide-menu"><?= $data['title'] ?></span>
