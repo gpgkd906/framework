@@ -41,8 +41,8 @@ abstract class AbstractViewModel implements
     use ViewModelManagerAwareTrait;
 
     //trigger
-    const TRIGGER_RENDER = "Render";
-    const TRIGGER_DISPLAY = "Display";
+    const TRIGGER_BEFORE_RENDER = "before Render";
+    const TRIGGER_AFTER_RENDER = "after Render";
 
     protected $template = null;
     protected $data = [];
@@ -54,6 +54,7 @@ abstract class AbstractViewModel implements
     private $_exportView = null;
     private $_layout = null;
     private $_containers = [];
+    private $_content = null;
 
     /**
      * Method setConfig
@@ -263,12 +264,11 @@ abstract class AbstractViewModel implements
      */
     public function renderHtml()
     {
-        $this->triggerEvent(self::TRIGGER_RENDER);
-        $contents = $this->getViewModelManager()
-            ->getRenderer()
-            ->render($this);
-        $this->triggerEvent(self::TRIGGER_DISPLAY);
-        return $contents;
+        $this->triggerEvent(self::TRIGGER_BEFORE_RENDER);
+        $render = $this->getViewModelManager()->getRenderer();
+        $this->setContent($render->render($this));
+        $this->triggerEvent(self::TRIGGER_AFTER_RENDER);
+        return $this->getContent();
     }
 
     /**
@@ -353,6 +353,29 @@ abstract class AbstractViewModel implements
             return $this->_containers[$name];
         }
         return null;
+    }
+
+    /**
+     * Method setcontent
+     *
+     * @param string $content content
+     *
+     * @return this
+     */
+    public function setContent($content)
+    {
+        $this->_content = $content;
+        return $this;
+    }
+
+    /**
+     * Method getcontent
+     *
+     * @return string $content
+     */
+    public function getContent()
+    {
+        return $this->_content;
     }
 
     /**

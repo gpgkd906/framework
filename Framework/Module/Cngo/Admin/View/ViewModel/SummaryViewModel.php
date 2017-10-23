@@ -10,7 +10,7 @@ class SummaryViewModel extends AbstractViewModel
     protected $template = '/template/summary.phtml';
 
     public $listeners = [
-        'Render' => 'checkDashboardStatus',
+        self::TRIGGER_BEFORE_RENDER => 'checkDashboardStatus',
     ];
 
     public function getTemplateDir()

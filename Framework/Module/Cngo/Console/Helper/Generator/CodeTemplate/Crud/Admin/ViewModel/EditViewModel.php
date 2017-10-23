@@ -30,7 +30,7 @@ class EditViewModel extends RegisterViewModel
     protected $template = '/template{namespace}/edit.phtml';
 
     public $listeners = [
-        'Render' => 'onRender',
+        self::TRIGGER_BEFORE_RENDER => 'onRender',
     ];
 
     /**

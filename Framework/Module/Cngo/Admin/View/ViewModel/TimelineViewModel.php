@@ -10,7 +10,7 @@ class TimelineViewModel extends AbstractViewModel
     protected $template = '/template/timeline.phtml';
 
     public $listeners = [
-        'Render' => 'onRender',
+        self::TRIGGER_BEFORE_RENDER => 'onRender',
     ];
 
     public function getTemplateDir()

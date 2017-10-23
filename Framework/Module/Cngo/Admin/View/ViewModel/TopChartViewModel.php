@@ -18,7 +18,7 @@ class TopChartViewModel extends AbstractViewModel
     ];
 
     public $listeners = [
-        'Render' => 'onRender',
+        self::TRIGGER_BEFORE_RENDER => 'onRender',
     ];
 
     public function getTemplateDir()

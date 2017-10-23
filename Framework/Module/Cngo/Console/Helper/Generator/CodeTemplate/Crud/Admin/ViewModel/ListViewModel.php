@@ -34,7 +34,7 @@ class ListViewModel extends AbstractViewModel
     ];
 
     public $listeners = [
-        'Render' => 'onRender',
+        self::TRIGGER_BEFORE_RENDER => 'onRender',
     ];
 
     /**

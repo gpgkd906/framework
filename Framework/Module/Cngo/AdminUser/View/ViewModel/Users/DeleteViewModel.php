@@ -16,7 +16,7 @@ class DeleteViewModel extends FormViewModel
     ];
 
     public $listeners = [
-        'Render' => 'onRender',
+        self::TRIGGER_BEFORE_RENDER => 'onRender',
     ];
 
     public function getTemplateDir()

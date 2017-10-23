@@ -12,7 +12,7 @@ class EditViewModel extends RegisterViewModel
     protected $template = '/template/users/edit.phtml';
 
     public $listeners = [
-        'Render' => 'onRender',
+        self::TRIGGER_BEFORE_RENDER => 'onRender',
     ];
 
     protected $fieldset = [

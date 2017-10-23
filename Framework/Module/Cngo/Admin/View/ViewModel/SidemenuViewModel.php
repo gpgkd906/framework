@@ -17,7 +17,7 @@ class SidemenuViewModel extends AbstractViewModel
     protected $template = '/template/sidemenu.phtml';
     protected $data = null;
     public $listeners = [
-        parent::TRIGGER_INIT => 'onInit',
+        self::TRIGGER_INIT => 'onInit',
     ];
 
     public function onInit()
