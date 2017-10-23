@@ -8,10 +8,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
-    <title>{{ title }}</title>
-    {% for link in self.style %}
-      <link href="{{ link }}" rel="stylesheet">
-    {% endfor %}
+    <title><?= $title ?></title>
+    <?php $css = $self->getStyle(); ?>
+    <?php foreach ($css as $link) { ?>
+        <link href="<?= $link; ?>" rel="stylesheet">
+    <?php } ?>
 </head>
 
 <body class="fix-header">
@@ -22,19 +23,20 @@
     </div>
 
     <div id="wrapper">
-    {{ self.containers.Header | raw }}
-    <div id="page-wrapper">
+        <?= $self->getContainer('Header'); ?>
+        <div id="page-wrapper">
             <div class="container-fluid">
-            {{ self.containers.Main | raw }}
+                <?= $self->getContainer('Main'); ?>
             </div>
 
         </div>
     </div>
 
-    {% for link in self.script %}
-    <script src="{{ link }}"></script>
-    {% endfor %}
-        <script type="text/javascript">
+    <?php $scripts = $self->getScript(); ?>
+    <?php foreach ($scripts as $link) { ?>
+        <script src="<?= $link ?>"></script>
+    <?php } ?>
+    <script type="text/javascript">
         (function () {
                 [].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
                 new CBPFWTabs(el);
