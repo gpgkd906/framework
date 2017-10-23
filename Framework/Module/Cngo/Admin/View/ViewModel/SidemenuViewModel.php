@@ -23,7 +23,7 @@ class SidemenuViewModel extends AbstractViewModel
     public function onInit()
     {
         $this->triggerEvent(self::TRIGGER_MENUINIT);
-        $Router = ObjectManager::getSingleton()->get(RouterManagerInterface::class)->getMatched();
+        $Router = $this->getRouterManager()->getMatched();
         $routerList = $Router->getRouterList();
         foreach ($routerList as $url => $controller) {
             if (!is_subclass_of($controller, AbstractAdminController::class)) {
