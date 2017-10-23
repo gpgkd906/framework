@@ -21,7 +21,9 @@
     },
     "scripts": {
         "test": [
-            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/router --configuration Framework/Router/phpunit.xml.dist'"
+            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/eventManager --configuration Framework/EventManager/phpunit.xml.dist'",
+            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/router --configuration Framework/Router/phpunit.xml.dist'",
+            "docker exec php_server /bin/bash -c 'cd /application; ./vendor/bin/phpunit --coverage-html public/codecover/objectManager --configuration Framework/ObjectManager/phpunit.xml.dist'"
         ],
         "build": [
             "@composer dumpautoload -o"
@@ -41,11 +43,14 @@
         "zendframework/zend-i18n": "*",
         "zendframework/zend-i18n-resources": "*",
         "zendframework/zend-diactoros": "*",
-        "zendframework/zend-permissions-acl": "*"
+        "zendframework/zend-permissions-acl": "*",
+        "twig/twig": "~2.0"
     },
     "autoload": {
         "psr-4": {
-            "Framework\\": "Framework"
+            "Framework\\": "Framework",
+            "Std\\": "Std",
+            "Project\\": "Project"
         }
     },
     "require-dev": {
