@@ -695,4 +695,15 @@ class Form implements
             return $this->fieldsets[$name];
         }
     }
+
+    /**
+    *
+    * @api
+    * @return mixed $element
+    * @link
+    */
+    public function getElements()
+    {
+        return $this->elements;
+    }
 }

@@ -12,6 +12,11 @@ class ListViewModel extends AbstractViewModel
 
     protected $config = [
         'layout' => AdminPageLayout::class,
+        'script' => [
+            '/../js/dataTables/jquery.dataTables.min.js',
+            '/../js/dataTables/dataTables.bootstrap.min.js',
+            '/../js/dataTables/dataTables.responsive.js'
+        ]
     ];
 
     public $listeners = [

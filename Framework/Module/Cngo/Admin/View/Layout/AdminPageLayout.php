@@ -17,9 +17,7 @@ class AdminPageLayout extends PageLayout
                 ],
             ],
             'Main' => [],
-            'Footer' => [
-
-            ]
+            'Footer' => []
         ]
     ];
 

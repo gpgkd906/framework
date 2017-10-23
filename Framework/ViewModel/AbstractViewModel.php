@@ -271,20 +271,6 @@ abstract class AbstractViewModel implements
         return $contents;
     }
 
-    // public function renderHtml()
-    // {
-    //     $this->triggerEvent(self::TRIGGER_RENDER);
-    //     $htmls = [];
-    //     $renderer = $this->getViewModelManager()->getRenderer();
-    //     $tpl = str_replace(ROOT_DIR, '', realpath($this->getTemplateForRender()));
-    //     $template = $renderer->load($tpl);
-    //     $data = $this->getData();
-    //     $data['self'] = $this;
-    //     $content = $template->render($data);
-    //     $this->triggerEvent(self::TRIGGER_DISPLAY);
-    //     return $content;
-    // }
-
     /**
      * Meythod setLayout
      *
