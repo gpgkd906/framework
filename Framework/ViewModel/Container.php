@@ -142,22 +142,11 @@ class Container implements
         if ($exportView instanceof LayoutInterface) {
             $render = 'renderHtml';
         }
-        //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
         $htmls = [];
         foreach ($this->getItems() as $item) {
             $htmls[] = call_user_func([$item, $render]);
         }
         return join('', $htmls);
-    }
-
-    /**
-     * Method toString
-     *
-     * @return string $containerContent
-     */
-    public function __toString()
-    {
-        return $this->getContent();
     }
 
     /**

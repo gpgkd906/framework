@@ -349,10 +349,10 @@ abstract class AbstractViewModel implements
      */
     public function getContainer($name)
     {
-        if (isset($this->_containers[$name])) {
-            return $this->_containers[$name];
+        if (!isset($this->_containers[$name])) {
+            $this->_containers[$name] = new Container([], $this);
         }
-        return null;
+        return $this->_containers[$name];
     }
 
     /**
