@@ -17,10 +17,10 @@
 </head>
 <body>
 <div id="wrapper">
-    <?= $this->getContainer('Header'); ?>
+    <?= $this->getContainer('Header')->getContent(); ?>
 
     <div class="container-fluid">
-        <?= $this->getContainer('Main'); ?>
+        <?= $this->getContainer('Main')->getContent(); ?>
     </div>
 </div>
 <?php $scripts = $this->getScript(); ?>

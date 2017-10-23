@@ -54,4 +54,11 @@ interface ContainerInterface
      * @return ViewModel $exportView
      */
     public function getExportView();
+
+    /**
+     * Method getContent
+     *
+     * @return String $Content
+     */
+    public function getContent();
 }

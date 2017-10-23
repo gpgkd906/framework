@@ -8,10 +8,8 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <?php
-declare(strict_types=1); $form = $this->getForm(); ?>
-                    <?php
-declare(strict_types=1); $form->start(); ?>
+                    <?php $form = $this->getForm(); ?>
+                    <?php $form->start(); ?>
                     <fieldset>
                         <div class="row">
                             <div class="col-md-4">
@@ -20,7 +18,7 @@ declare(strict_types=1); $form->start(); ?>
                                     <?= $form->{entity}->column, $form->{entity}->column->error; ?>
                                 </div>
                             </div>
-                            <?=$this->getContainer('Form'); ?>
+                            <?=$this->getContainer('SubForm')->getContent(); ?>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -28,8 +26,7 @@ declare(strict_types=1); $form->start(); ?>
                             </div>
                         </div>
                     </fieldset>
-                    <?php
-declare(strict_types=1); $form->end(); ?>
+                    <?php $form->end(); ?>
                 </div>
             </div>
         </div>

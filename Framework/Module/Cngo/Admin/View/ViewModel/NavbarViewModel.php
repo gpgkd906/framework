@@ -14,15 +14,7 @@ class NavbarViewModel extends AbstractViewModel implements
 
     protected $template = '/template/navbar.phtml';
 
-    protected $config = [
-        'container' => [
-            'Side' => [
-                [ 'viewModel' => SidemenuViewModel::class ],
-            ],
-        ],
-    ];
-
-    private $model;
+    private $_model;
 
     public function getTemplateDir()
     {
@@ -31,9 +23,9 @@ class NavbarViewModel extends AbstractViewModel implements
 
     public function getModel()
     {
-        if ($this->model === null) {
-            $this->model = $this->getModelManager()->getModel(AdminUser::class);
+        if ($this->_model === null) {
+            $this->_model = $this->getModelManager()->getModel(AdminUser::class);
         }
-        return $this->model;
+        return $this->_model;
     }
 }

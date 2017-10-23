@@ -92,26 +92,6 @@ class Container implements
     }
 
     /**
-     * Method toString
-     *
-     * @return string $containerContent
-     */
-    public function __toString()
-    {
-        $exportView = $this->getExportView();
-        $render = 'render';
-        if ($exportView instanceof LayoutInterface) {
-            $render = 'renderHtml';
-        }
-        //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
-        $htmls = [];
-        foreach ($this->getItems() as $item) {
-            $htmls[] = call_user_func([$item, $render]);
-        }
-        return join('', $htmls);
-    }
-
-    /**
      * Method setExportView
      *
      * @param ViewModel $exportView ExportViewModel
@@ -148,6 +128,36 @@ class Container implements
         $item['exportView'] = $exportView;
         $item = $this->getViewModelManager()->getViewModel($item);
         return $item;
+    }
+
+    /**
+     * Method toString
+     *
+     * @return string $containerContent
+     */
+    public function getContent()
+    {
+        $exportView = $this->getExportView();
+        $render = 'render';
+        if ($exportView instanceof LayoutInterface) {
+            $render = 'renderHtml';
+        }
+        //PHP7.0まで、__toStringにExceptionが発生したらFatalErrorになるのでここではエラー情報出力して自衛すること
+        $htmls = [];
+        foreach ($this->getItems() as $item) {
+            $htmls[] = call_user_func([$item, $render]);
+        }
+        return join('', $htmls);
+    }
+
+    /**
+     * Method toString
+     *
+     * @return string $containerContent
+     */
+    public function __toString()
+    {
+        return $this->getContent();
     }
 
     /**

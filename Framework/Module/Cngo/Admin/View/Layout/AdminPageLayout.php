@@ -4,6 +4,7 @@ namespace Framework\Module\Cngo\Admin\View\Layout;
 
 use Framework\ViewModel\PageLayout;
 use Framework\Module\Cngo\Admin\View\ViewModel\NavbarViewModel;
+use Framework\Module\Cngo\Admin\View\ViewModel\SidemenuViewModel;
 use Framework\ObjectManager\ObjectManager;
 use Framework\Controller\ControllerInterface;
 
@@ -14,6 +15,9 @@ class AdminPageLayout extends PageLayout
             'Header' => [
                 [
                     'viewModel' => NavbarViewModel::class,
+                ],
+                [
+                    'viewModel' => SidemenuViewModel::class
                 ],
             ],
             'Main' => [],
