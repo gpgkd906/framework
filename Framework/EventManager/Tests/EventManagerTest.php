@@ -159,7 +159,7 @@ class EventManagerTest extends TestCase
     public function testEventManager()
     {
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__, 'memory'));
         $event = $eventManager->createEvent(EventTarget::TRIGGER_INITED);
         $count = 0;
         $eventListener = function ($event) use (&$count) {
@@ -220,7 +220,7 @@ class EventManagerTest extends TestCase
     public function testEventManagerFailture()
     {
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__, 'memory'));
         $count = 0;
         $eventListener = function ($event) use (&$count) {
             $count++;
@@ -247,7 +247,7 @@ class EventManagerTest extends TestCase
     {
         $this->expectException(\Exception::class);
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__, 'memory'));
         // 在Event的内部，不允许激发同类型的Event，将会产生Exception
         $eventManager->addEventListener(
             EventTarget::class,
@@ -284,7 +284,7 @@ class EventManagerTest extends TestCase
         $this->assertFalse($event->isBubbles());
         $target = new EventTarget;
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 1, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__ . 1, 'memory'));
         $target->setEventManager($eventManager);
         $count = 0;
         $eventListener = function ($event) use (&$count) {
@@ -315,7 +315,7 @@ class EventManagerTest extends TestCase
         // 或者在冒泡途中，取消冒泡
         $count = 0;
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 2, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__ . 2, 'memory'));
         $target->setEventManager($eventManager);
         $eventManager->addEventListener(
             EventTargetInterface::class,
@@ -334,7 +334,7 @@ class EventManagerTest extends TestCase
         // 也可以追加复数的事件监听，但于某一个监听中，中止同层级的事件监听，来实现一些比较复杂的处理
         $count = 0;
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 3, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__ . 3, 'memory'));
         $target->setEventManager($eventManager);
         $eventManager->addEventListener(
             EventTarget::class,
@@ -353,7 +353,7 @@ class EventManagerTest extends TestCase
         // 也可以同时取消同层级事件监听以及事件冒泡
         $count = 0;
         $eventManager = new EventManager;
-        $eventManager->setCache($eventManager->getCacheService()->delegate(__FUNCTION__ . 4, 'memory'));
+        $eventManager->setCache($eventManager->getCacheManager()->delegate(__FUNCTION__ . 4, 'memory'));
         $target->setEventManager($eventManager);
         $eventManager->addEventListener(
             EventTargetInterface::class,

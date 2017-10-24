@@ -200,6 +200,9 @@ class ObjectManager implements
         foreach (glob(ROOT_DIR . 'Framework/*/export.php') as $objectExporter) {
             include $objectExporter;
         }
+        foreach (glob(ROOT_DIR . 'Std/*/export.php') as $objectExporter) {
+            include $objectExporter;
+        }
     }
 
     /**
@@ -209,7 +212,7 @@ class ObjectManager implements
      */
     private function _exportModuleObject()
     {
-        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/export.php') as $moduleExporter) {
+        foreach (glob(ROOT_DIR . 'Project/*/*/export.php') as $moduleExporter) {
             include $moduleExporter;
         }
     }
@@ -224,6 +227,9 @@ class ObjectManager implements
         foreach (glob(ROOT_DIR . 'Framework/*/index.php') as $ObjectEntry) {
             include $ObjectEntry;
         }
+        foreach (glob(ROOT_DIR . 'Std/*/index.php') as $ObjectEntry) {
+            include $ObjectEntry;
+        }
     }
 
     /**
@@ -233,7 +239,7 @@ class ObjectManager implements
      */
     private function _initModuleObject()
     {
-        foreach (glob(ROOT_DIR . 'Framework/Module/*/*/index.php') as $moduleEntry) {
+        foreach (glob(ROOT_DIR . 'Project/*/*/index.php') as $moduleEntry) {
             include $moduleEntry;
         }
     }

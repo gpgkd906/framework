@@ -6,7 +6,7 @@ $bm = new Benchmark;
 require ROOT_DIR . "vendor/autoload.php";
 
 use Framework\Application\ConsoleApplication;
-use Framework\Config\ConfigModel;
+use Std\Config\ConfigModel;
 
 ConfigModel::registerNamespace(ENVIRONMENT);
 

@@ -3,6 +3,6 @@
 require __DIR__ . '/../globalConstant.php';
 require ROOT_DIR . "vendor/autoload.php";
 
-use Framework\Config\ConfigModel;
+use Std\Config\ConfigModel;
 
 ConfigModel::registerNamespace(ENVIRONMENT);

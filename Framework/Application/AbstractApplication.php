@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Framework\Application;
 
-use Framework\Config\ConfigModel\ConfigModelInterface;
 use Framework\Plugin\PluginManager\PluginManager;
 use Framework\ObjectManager\ObjectManagerAwareInterface;
 use Framework\EventManager;
 use Framework\EventManager\EventTargetInterface;
+use Std\Config\ConfigModel\ConfigModelInterface;
 use Exception;
 
 /**

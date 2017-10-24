@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Framework\Application;
 
-use Framework\Router\RouterInterface;
-use Framework\Controller\ConsoleInterface;
+use Std\Router\RouterInterface;
+use Std\Controller\ConsoleInterface;
 use Exception;
 
 /**

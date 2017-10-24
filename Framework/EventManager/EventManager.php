@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Framework\EventManager;
 
 use Framework\ObjectManager\SingletonInterface;
-use Framework\Service\CacheService\CacheServiceAwareInterface;
+use Std\CacheManager\CacheManagerAwareInterface;
 
 /**
  * Class EventManager
@@ -27,11 +27,11 @@ use Framework\Service\CacheService\CacheServiceAwareInterface;
  */
 class EventManager implements
     EventManagerInterface,
-    CacheServiceAwareInterface,
+    CacheManagerAwareInterface,
     SingletonInterface
 {
     use \Framework\ObjectManager\SingletonTrait;
-    use \Framework\Service\CacheService\CacheServiceAwareTrait;
+    use \Std\CacheManager\CacheManagerAwareTrait;
 
     const ERROR_EVENT_STACK_EXISTS = "error: event [%s] is loop-triggered in class [%s]'s eventStack;";
     const ERROR_UNDEFINED_EVENT_TRIGGER = "error: undefiend event trigger [%s] in class [%s]";
@@ -59,7 +59,7 @@ class EventManager implements
     public function getCache()
     {
         if ($this->_cache === null) {
-            $this->_cache = $this->getCacheService()->delegate(__CLASS__);
+            $this->_cache = $this->getCacheManager()->delegate(__CLASS__);
         }
         return $this->_cache;
     }

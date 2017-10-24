@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Framework\Application;
 
 use Framework\EventManager\EventTargetInterface;
-use Framework\Controller\ControllerInterface;
-use Framework\ViewModel\ViewModelManagerInterface;
-use Framework\Router\RouterManagerInterface;
+use Std\Controller\ControllerInterface;
+use Std\ViewModel\ViewModelManagerInterface;
+use Std\Router\RouterManagerInterface;
 use Exception;
 
 /**
