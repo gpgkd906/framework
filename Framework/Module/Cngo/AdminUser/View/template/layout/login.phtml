@@ -7,11 +7,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png">
-<title><?= $title ?></title>
-<?php $css = $self->getStyle(); ?>
-<?php foreach ($css as $link) { ?>
-  <link href="<?= $link; ?>" rel="stylesheet">
-<?php } ?>
+<title>{{ title }}</title>
+{% for link in self.style %}
+  <link href="{{ link }}" rel="stylesheet">
+{% endfor %}
 </head>
 <body>
 <!-- Preloader -->
@@ -19,12 +18,11 @@
   <div class="cssload-speeding-wheel"></div>
 </div>
 <section id="wrapper" class="new-login-register">
-    <?= $self->getContainer('Main')->getContent(); ?>
+  {{ self.containers.Main.content | raw }}
 </section>
 <!-- jQuery -->
-<?php $scripts = $self->getScript(); ?>
-<?php foreach ($scripts as $link) { ?>
-  <script src="<?= $link ?>"></script>
-<?php } ?>
+{% for link in self.script %}
+<script src="{{ link }}"></script>
+{% endfor %}
 </body>
 </html>

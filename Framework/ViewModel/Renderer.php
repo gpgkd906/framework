@@ -16,6 +16,8 @@ use Closure;
 
 class Renderer implements RendererInterface
 {
+    use \Framework\ObjectManager\SingletonTrait;
+
     /**
      * Undocumented function
      *

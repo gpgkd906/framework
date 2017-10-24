@@ -4,7 +4,7 @@ namespace Framework\Module\Cngo\AdminUser\View\Layout;
 
 use Framework\ViewModel\PageLayout;
 use Framework\Module\Cngo\AdminUser\View\ViewModel\NavbarViewModel;
-
+use Framework\ViewModel\TwigRenderer;
 class AdminLoginPageLayout extends PageLayout
 {
     protected $config = [
@@ -37,5 +37,10 @@ class AdminLoginPageLayout extends PageLayout
     public function getTemplateDir()
     {
         return __DIR__ . '/..';
+    }
+
+    public function getRenderer()
+    {
+        return $this->getObjectManager()->create(null, TwigRenderer::class);
     }
 }

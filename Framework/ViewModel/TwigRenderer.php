@@ -18,6 +18,8 @@ use Twig_Extension_Debug;
 
 class TwigRenderer implements RendererInterface
 {
+    use \Framework\ObjectManager\SingletonTrait;
+
     private $_twig;
 
     public function __construct()

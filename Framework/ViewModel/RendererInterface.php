@@ -12,7 +12,8 @@
 declare(strict_types=1);
 namespace Framework\ViewModel;
 
-interface RendererInterface
+use Framework\ObjectManager\SingletonInterface;
+interface RendererInterface extends SingletonInterface
 {
     public function render(ViewModelInterface $ViewModel);
 }
