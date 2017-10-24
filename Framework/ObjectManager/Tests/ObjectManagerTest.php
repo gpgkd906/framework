@@ -22,6 +22,7 @@ use Framework\ObjectManager\Tests\StubClosure;
 use Framework\ObjectManager\Tests\StubFactory;
 use Framework\ObjectManager\Tests\StubSingleton;
 use Framework\ObjectManager\Tests\StubExport;
+use Framework\ObjectManager\Tests\StubClass;
 use Framework\ObjectManager\Tests\StubInterface;
 use Framework\ObjectManager\Tests\StubVirtualInterface;
 use Closure;
@@ -50,7 +51,6 @@ class ObjectManagerTest extends TestCase implements
     */
     public static function setUpBeforeClass()
     {
-        ObjectManager::getSingleton()->init();
     }
 
     /**
@@ -104,7 +104,7 @@ class ObjectManagerTest extends TestCase implements
     }
 
     /**
-     * Test testObjectManagerInit
+     * Test testInjectDependency
      *
      * @return void
      */
@@ -117,44 +117,96 @@ class ObjectManagerTest extends TestCase implements
                 use Stub\TestAwareTrait;
             };
         });
-        $this->assertInstanceOf(Stub\Test::class, $Test->getTest());
+        $this->assertInstanceOf(Stub\TestInterface::class, $Test->getTest());
         // DIにより、ObjectManagerの内部にも対象Objectを管理するようになる。
-        $Test2 = $ObjectManager->get(Stub\TestInterface::class);
-        $this->assertInstanceOf(Stub\TestInterface::class, $Test2);
+        $this->assertInstanceOf(Stub\TestInterface::class, $ObjectManager->get(Stub\TestInterface::class));
         // InterfaceのみのDI
         $ObjectManager->export([
             StubInterface\TestInterface::class => function () {
                 return new Class implements StubInterface\TestInterface {};
             }
         ]);
-        $Test = $ObjectManager->create(stdClass::class, function () {
+        $Test = $ObjectManager->create(null, function () {
             return new class implements StubInterface\TestAwareInterface {
                 use StubInterface\TestAwareTrait;
             };
         });
         $this->assertInstanceOf(StubInterface\TestInterface::class, $Test->getTest());
+        $Test2 = $ObjectManager->create(null, function () {
+            return new class implements StubInterface\TestAwareInterface {
+                use StubInterface\TestAwareTrait;
+            };
+        });
+        // 別々のObjectが同じInterfaceをInjectできる。
+        $this->assertNotEquals($Test, $Test2);
+        $this->assertInstanceOf(StubInterface\TestInterface::class, $Test2->getTest());
+    }
+
+    /**
+     * Test testInjectClassDependency
+     *
+     * @runInSeparateProcess
+     * @return void
+     */
+    public function testInjectClassDependency()
+    {
+        // classのみによる、DIのテスト
+        $ObjectManager = $this->getObjectManager();
+        // classによる宣言を行う
         $ObjectManager->export([
-            StubInterface\Test::class => function () {
-                return new Class implements StubInterface\TestInterface {};
+            StubClass\Test::class => function () {
+                return new Class extends StubClass\Test {};
             }
         ]);
-        $Test = $ObjectManager->create(stdClass::class, function () {
-            return new class implements StubInterface\TestAwareInterface {
-                use StubInterface\TestAwareTrait;
+        $Test = $ObjectManager->create(null, function () {
+            return new class implements StubClass\TestAwareInterface {
+                use StubClass\TestAwareTrait;
             };
         });
-        $this->assertInstanceOf(StubInterface\TestInterface::class, $Test->getTest());
-        // 仮想インタフェース
+        $this->assertInstanceOf(StubClass\Test::class, $Test->getTest());
+        $Test2 = $ObjectManager->create(null, function () {
+            return new class implements StubClass\TestAwareInterface {
+                use StubClass\TestAwareTrait;
+            };
+        });
+        // 別々のObjectが同じInterfaceをInjectできる。
+        $this->assertNotEquals($Test, $Test2);                
+        $this->assertInstanceOf(StubClass\Test::class, $Test2->getTest());
+    }
+
+    /**
+     * Test testInjectVirtualDependency
+     *
+     * @runInSeparateProcess
+     * @return void
+     */
+    public function testInjectVirtualDependency()
+    {
+        $ObjectManager = $this->getObjectManager();
+        // 仮想class
+        $ObjectManager->export([
+            StubVirtualInterface\Test::class => function () {
+                return new Class implements Stub\TestInterface {};
+            }
+        ]);
+        $Test = $ObjectManager->create(null, function () {
+            return new class implements StubVirtualInterface\TestAwareInterface {
+                use StubVirtualInterface\TestAwareTrait;
+            };
+        });
+        $this->assertInstanceOf(Stub\TestInterface::class, $Test->getTest());        
+        // 仮想Interface
         $ObjectManager->export([
             StubVirtualInterface\TestInterface::class => function () {
                 return new Class implements Stub\TestInterface {};
             }
         ]);
-        $Test = $ObjectManager->create(stdClass::class, function () {
+        $Test2 = $ObjectManager->create(null, function () {
             return new class implements StubVirtualInterface\TestAwareInterface {
                 use StubVirtualInterface\TestAwareTrait;
             };
         });
-        $this->assertInstanceOf(Stub\TestInterface::class, $Test->getTest());
+        $this->assertNotEquals($Test, $Test2);                
+        $this->assertInstanceOf(Stub\TestInterface::class, $Test2->getTest());
     }
 }

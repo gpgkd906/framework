@@ -49,6 +49,7 @@ class ObjectManager implements
     /**
      * Method init
      *
+     * @codeCoverageIgnore
      * @return this
      */
     public function init()
@@ -139,7 +140,9 @@ class ObjectManager implements
     public function injectDependency($Object)
     {
         foreach (class_implements($Object) as $interface) {
+            // AwareInterfaceが存在、且つset{Object}のメソッドが存在していれば
             if (strpos($interface, 'AwareInterface') && $dependencySetter = $this->_getDependencySetter($interface)) {
+                // _injectDependencyの対象classかInterfaceを取得する
                 if (isset($this->_injectDependencys[$interface])) {
                     list($injectDependency, $injectDependencyInterface) = $this->_injectDependencys[$interface];
                 } else {
@@ -148,17 +151,27 @@ class ObjectManager implements
                     $this->_injectDependencys[$interface] = [$injectDependency, $injectDependencyInterface];
                 }
                 $dependency = null;
+                // interface > classの順番で、既にObjectManagerが管理しているObjectがあれば、それを「注入」する
                 if (isset($this->_sharedObject[$injectDependencyInterface])) {
                     $dependency = $this->_sharedObject[$injectDependencyInterface];
                 } elseif (isset($this->_sharedObject[$injectDependency])) {
                     $dependency = $this->_sharedObject[$injectDependency];
                 } else {
-                    if (class_exists($injectDependency)) {
-                        $dependency = $this->get($injectDependencyInterface, $injectDependency);
-                    } elseif (interface_exists($injectDependencyInterface)) {
-                        $dependency = $this->get($injectDependencyInterface);
-                    } else {
+                    // もし、ObjectManagerが管理しているObjectが無ければ
+                    // $injectDependencyInterface, $injectDependencyを使って、Objectの生成をためす。
+                    // Objectの生成順も Interface > class の存在順
+                    if (interface_exists($injectDependencyInterface)) {
+                        if (class_exists($injectDependency)) {
+                            $dependency = $this->get($injectDependencyInterface, $injectDependency);                            
+                        } else {
+                            $dependency = $this->get($injectDependencyInterface);                            
+                        }
+                    } elseif (class_exists($injectDependency)) {
                         $dependency = $this->get($injectDependency);
+                    } else{
+                        // 仮想Interface・classによるInjection
+                        ($dependency = $this->get($injectDependencyInterface))
+                            || ($dependency = $this->get($injectDependency));
                     }
                 }
                 if ($dependency) {
@@ -184,15 +197,16 @@ class ObjectManager implements
         foreach (get_class_methods($interface) as $method) {
             if (strpos($method, 'set') === 0) {
                 $this->_dependencySetter[$interface] = $method;
-                return $method;
+                break;
             }
         }
-        return;
+        return $method;
     }
 
     /**
      * Method exportGlobalObject
      *
+     * @codeCoverageIgnore
      * @return void
      */
     private function _exportGlobalObject()
@@ -208,6 +222,7 @@ class ObjectManager implements
     /**
      * Method exportModuleObject
      *
+     * @codeCoverageIgnore
      * @return void
      */
     private function _exportModuleObject()
@@ -220,6 +235,7 @@ class ObjectManager implements
     /**
      * Method initGlobalObject
      *
+     * @codeCoverageIgnore
      * @return void
      */
     private function _initGlobalObject()
@@ -235,6 +251,7 @@ class ObjectManager implements
     /**
      * Method initModuleObject
      *
+     * @codeCoverageIgnore
      * @return void
      */
     private function _initModuleObject()
