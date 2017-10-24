@@ -2,7 +2,7 @@
 /**
  * PHP version 7
  * File ViewModelInterface.php
- * 
+ *
  * @category Module
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -15,7 +15,7 @@ namespace Framework\ViewModel;
 
 /**
  * Interface ViewModelInterface
- * 
+ *
  * @category Interface
  * @package  Framework\ViewModel
  * @author   chenhan <gpgkd906@gmail.com>
@@ -28,7 +28,7 @@ interface ViewModelInterface
      * Method setTemplate
      *
      * @param string $template Template
-     * 
+     *
      * @return mixed
      */
     public function setTemplate($template);
@@ -44,7 +44,7 @@ interface ViewModelInterface
      * Method setData
      *
      * @param mixed $data Data
-     * 
+     *
      * @return mixed
      */
     public function setData($data);
@@ -69,4 +69,19 @@ interface ViewModelInterface
      * @return string responseContent
      */
     public function render();
+
+    /**
+     * setRenderer
+     *
+     * @param RendererInterface $Render
+     * @return void
+     */
+    public function setRenderer(RendererInterface $Renderer);
+
+    /**
+     * getRenderer
+     *
+     * @return RendererInterface $Render
+     */
+    public function getRenderer();
 }

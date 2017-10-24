@@ -55,6 +55,7 @@ abstract class AbstractViewModel implements
     private $_layout = null;
     private $_containers = [];
     private $_content = null;
+    private $_renderer = null;
 
     /**
      * Method setConfig
@@ -265,7 +266,7 @@ abstract class AbstractViewModel implements
     public function renderHtml()
     {
         $this->triggerEvent(self::TRIGGER_BEFORE_RENDER);
-        $render = $this->getViewModelManager()->getRenderer();
+        $contents = $this->getRenderer()->render($this);
         $this->setContent($render->render($this));
         $this->triggerEvent(self::TRIGGER_AFTER_RENDER);
         return $this->getContent();
@@ -399,5 +400,28 @@ abstract class AbstractViewModel implements
     public function getExportView()
     {
         return $this->_exportView;
+    }
+
+    /**
+     * Method setrenderer
+     *
+     * @param ViewModel $renderer rendererModel
+     *
+     * @return this
+     */
+    public function setRenderer(RendererInterface $Renderer)
+    {
+        $this->_renderer = $Renderer;
+        return $this;
+    }
+
+    /**
+     * Method getRenderer
+     *
+     * @return ViewModel $renderer
+     */
+    public function getRenderer()
+    {
+        return $this->_renderer;
     }
 }

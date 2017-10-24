@@ -119,6 +119,9 @@ class ViewModelManager implements
         if ($ViewModel->getTemplateDir() === null) {
             $ViewModel->setTemplateDir($this->getTemplateDir());
         }
+        if ($ViewModel->getRenderer() === null) {
+            $ViewModel->setRenderer($this->getRenderer());
+        }
         $this->addView($ViewModel);
         $ViewModel->triggerEvent(EventTargetInterface::TRIGGER_INIT);
         return $ViewModel;
