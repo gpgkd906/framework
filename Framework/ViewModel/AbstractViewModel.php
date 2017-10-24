@@ -266,8 +266,7 @@ abstract class AbstractViewModel implements
     public function renderHtml()
     {
         $this->triggerEvent(self::TRIGGER_BEFORE_RENDER);
-        $contents = $this->getRenderer()->render($this);
-        $this->setContent($render->render($this));
+        $this->setContent($this->getRenderer()->render($this));
         $this->triggerEvent(self::TRIGGER_AFTER_RENDER);
         return $this->getContent();
     }
