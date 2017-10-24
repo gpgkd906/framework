@@ -91,7 +91,7 @@ abstract class AbstractViewModel implements
         if (isset($config["id"])) {
             $this->_id = $config["id"];
         } else {
-            $this->_id = $this->getViewModelManager()->getIncrementId();
+            $this->_id =  'View-' . $this->getViewModelManager()->getIncrementId();
         }
         //data:template
         if (isset($config["data"])) {

@@ -81,7 +81,11 @@ class FormViewModel extends AbstractViewModel implements
         $this->addEventListener(
             self::TRIGGER_INIT,
             function () {
-                $form = $this->getFormManager()->create($this->getId());
+                $classNames = explode('\\', static::class);
+                $classname = array_pop($classNames);
+                $localName = str_replace('ViewModel', '', $classname);
+                $formId = $localName . 'Form';
+                $form = $this->getFormManager()->create($formId);
                 $this->setForm($form);
                 $form->set('action', $this->getAction());
                 $form->set('method', $this->getMethod());

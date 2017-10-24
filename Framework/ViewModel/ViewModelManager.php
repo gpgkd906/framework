@@ -162,7 +162,7 @@ class ViewModelManager implements
     public function getIncrementId()
     {
         $this->_incrementId ++;
-        return "ViewModel_" . $this->_incrementId;
+        return $this->_incrementId;
     }
 
     /**
